@@ -1,6 +1,6 @@
 FileName=$(date +%y_%m_%d_%H_%M_%S)
 rm -rf ./build
-npm run build
+PUBLIC_URL="//cdn.zhuwenlong.com" npm run build
 tar -cvzf build_$FileName.tar.gz ./build
 scp build_$FileName.tar.gz root@47.98.142.75:/usr/local/zhuwenlong/www/zhuwenlong.com-frontend
 rm -rf build_$FileName.tar.gz
