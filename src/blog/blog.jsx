@@ -49,6 +49,7 @@ function Blog(props) {
 
     const CancelToken = axios.CancelToken;
 
+    setBlogLists(() => []);
     axios.get(`/api/blog/lists`, {
       cancelToken: new CancelToken(c => {
         blogReqSource = c;
@@ -65,9 +66,6 @@ function Blog(props) {
           return data;
         });
         setBlogLists(() => res.data.list);
-
-
-        // window.scrollTo(0, 0);
       });
   }, [props.match.params.page, props.location.search])
 
@@ -88,6 +86,15 @@ function Blog(props) {
           <span className={CSS.subNavCount}>{t.classcount}</span>
         </Link>
       ))
+    } else {
+      const placeHoler = new Array(2).fill(0);
+      return placeHoler.map((v, index) =>
+        <Link key={index} to="#">
+          <span className={CSS.placeholdIcon}></span>
+          <span className={CSS.placeholdTxt}></span>
+          <span className={CSS.placeholdNumber}></span>
+        </Link>
+      )
     }
   }
 
@@ -158,6 +165,34 @@ function Blog(props) {
           </div>
         </div>
       ));
+    } else {
+      return new Array(3).fill(0).map((v, i) => (
+        <div key={i} className={`${CSS["blog-content-block"]} ${CSS.blogPlaceHolder}`}>
+          <div className={`${CSS["blog-content-text"]} ${CSS["noimg"]}`}>
+            <h2 />
+            <div className={CSS['blog-tag']}>
+              <span className={CSS.tags}></span>
+              <span className={CSS.tagsName}></span>
+              <span className={CSS.tagsType}></span>
+            </div>
+
+            <div >
+              <span className={CSS.reviewBlock}></span>
+              <span className={CSS.reviewBlock}></span>
+              <span className={CSS.reviewBlock}></span>
+            </div>
+
+            <div className={CSS["blog-info"]}>
+              <div className={CSS["blog-time"]}>
+                <span className={CSS.tags}></span>
+              </div>
+              <div className={CSS["blog-read"]}>
+                <span className={CSS.tags}></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
     }
   }
 
@@ -171,12 +206,13 @@ function Blog(props) {
           {getBlogLists()}
         </div>
         <div className={CSS['blog-pages']}>
-          <Page
+          {page.total > 1 ? <Page
             total={page.total}
             current={page.current}
             bacicPath='/blog'
             search={(getSearchObj().tags ? `?tags=${getSearchObj().tags}` : '')}
-          />
+          /> : ''}
+
         </div>
       </div>
     </div>

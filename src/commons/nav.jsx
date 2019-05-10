@@ -28,7 +28,7 @@ function nav(props) {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/blog" activeClassName={CSS.active} onClick={onClickMenu}>
+          <NavLink to="/blog/1" activeClassName={CSS.active} onClick={onClickMenu}>
             <Lan en="Blog" zh="博客" />
           </NavLink>
         </li>
