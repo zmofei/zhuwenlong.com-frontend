@@ -1,3 +1,4 @@
+@import "../commons/placeHolder.module.scss";
 html {
     scroll-behavior: smooth;
 }
@@ -54,6 +55,49 @@ body {
         font-weight: 300;
         &:hover {
             text-decoration: underline;
+        }
+    }
+    &.blogPlaceHolder {
+        h2 {
+            height: 15px;
+            width: 150px;
+            @extend .animated-background;
+        }
+        .blog-tag {
+            margin: 0;
+            padding: 10px 0;
+            padding-bottom: 5px;
+        }
+        .tags,
+        .tagsName,
+        .tagsType,
+        .reviewBlock {
+            margin-right: 5px;
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            @extend .animated-background;
+        }
+        .tagsName {
+            width: 50px;
+        }
+        .tagsType {
+            width: 90px;
+        }
+        .reviewBlock {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+        }
+        .blog-info {
+            padding-top: 5px;
+        }
+        .blog-read,
+        .blog-time {
+            .tags {
+                width: 50px;
+                margin-right: 0;
+            }
         }
     }
 }
@@ -169,7 +213,6 @@ body {
     padding-bottom: 10px;
     overflow: hidden;
     margin-top: 15px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
     .active {
         background: #3d9cfd;
         border-color: #3d9cfd;
@@ -204,6 +247,8 @@ body {
         margin-right: 5px;
     }
     a {
+        box-sizing: border-box;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
         font-family: "icomoon";
         border: 1px solid #efefef;
         color: #333;
@@ -222,5 +267,29 @@ body {
         &:last-child {
             border-radius: 0 4px 4px 0;
         }
+    }
+    .placeholdIcon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        @extend .animated-background;
+    }
+    .placeholdTxt {
+        display: inline-block;
+        width: 60px;
+        height: 16px;
+        vertical-align: middle;
+        margin-left: 5px;
+        @extend .animated-background;
+    }
+    .placeholdNumber {
+        display: inline-block;
+        width: 20px;
+        height: 16px;
+        vertical-align: middle;
+        margin-left: 5px;
+        border-radius: 20px;
+        @extend .animated-background;
     }
 }

@@ -1,3 +1,4 @@
+@import "../commons/placeHolder.module.scss";
 .box {
     background: #f4f4f4;
     .boxContent {
@@ -68,10 +69,17 @@
             padding: 5px 0;
             border-right: 1px solid #eee;
             span {
+                .placeholder {
+                    @extend .animated-background;
+                    display: inline-block;
+                    height: 15px;
+                    width: 40px;
+                }
                 line-height: 1.46em;
                 display: block;
                 text-align: center;
                 &.number {
+                    text-align: center;
                     font-weight: bolder;
                 }
             }

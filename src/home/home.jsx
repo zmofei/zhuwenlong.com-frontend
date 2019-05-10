@@ -119,10 +119,10 @@ function Home() {
     <div className={CSS.homeBody} >
       <div className={CSS.videoBgMobile} style={{ height: `${screenHeight}px` }} ></div>
       {!isMobile && (
-        <video className={CSS.videoBg} id="bgvid" autoPlay loop muted playsinline poster="//static.zhuwenlong.com/image/index/cover-820e030cca.jpg">
-          <source src="//static.zhuwenlong.com/video/bgvideo-0c73e2c57a.mp4" type="video/mp4" />
-          <source src="//static.zhuwenlong.com/video/bgvideo-513397179e.webm" type="video/webm" />
-          <source src="//static.zhuwenlong.com/video/bgvideo-5428b1617d.ogv" type="video/ogg" />
+        <video className={CSS.videoBg} id="bgvid" autoPlay loop muted playsinline poster="//cdn.zhuwenlong.com/image/index/cover-820e030cca.jpg">
+          <source src="//cdn.zhuwenlong.com/video/bgvideo-0c73e2c57a.mp4" type="video/mp4" />
+          <source src="//cdn.zhuwenlong.com/video/bgvideo-513397179e.webm" type="video/webm" />
+          <source src="//cdn.zhuwenlong.com/video/bgvideo-5428b1617d.ogv" type="video/ogg" />
         </video>
       )}
 

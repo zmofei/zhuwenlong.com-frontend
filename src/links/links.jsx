@@ -35,6 +35,26 @@ function Links(props) {
         )
       }
       return html;
+    } else {
+      const placeHoler = new Array(2).fill(0);
+      return (
+        <div className={`${CSS["lab-block-addone"]}`}>
+          {
+            placeHoler.map((v, index) =>
+              <div className={`${CSS["lab-block"]} ${CSS['lab-block-placeholder']}`} key={index}>
+                <div className={`${CSS.placeholder} ${CSS.placeholderImg}`} ></div>
+                <div className={`${CSS["lab-block-content"]}`}>
+                  <div className={`${CSS["lab-block-title"]}`}>
+                  </div>
+                  <div className={`${CSS["lab-block-intro"]}`} />
+                  <div className={`${CSS["lab-block-intro"]}`} />
+                  <div className={`${CSS["lab-block-intro"]}`} />
+                </div>
+              </div>
+            )
+          }
+        </div>
+      )
     }
   }
 

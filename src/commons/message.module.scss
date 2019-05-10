@@ -1,4 +1,5 @@
 @import "../commons/codeStyle.module.scss";
+@import "../commons/placeHolder.module.scss";
 .commend {
     max-width: 1200px;
     margin: 20px auto;
@@ -6,6 +7,29 @@
     color: #666;
     font-size: 14px;
     .commend-pub {
+        &.commendPlaceholder {
+            .commend-avatar-img,
+            .placeHolerName,
+            .placeHolerTxt {
+                @extend .animated-background;
+            }
+            .commend-avatar-img {
+                width: 40px;
+                height: 40px;
+            }
+            .placeHolerName {
+                width: 150px;
+                height: 18px;
+                margin-bottom: 10px;
+            }
+            .placeHolerTxt {
+                height: 15px;
+                margin: 5px 0;
+                &:last-child {
+                    width: 50px;
+                }
+            }
+        }
         transition: all 0.3s ease-in;
         background: white;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
@@ -127,7 +151,8 @@
     .commend-avatar {
         float: left;
         margin-right: 10px;
-        img {
+        img,
+        .commend-avatar-img {
             display: inline-block;
             width: 40px;
             height: 40px;
@@ -152,11 +177,15 @@
         font-size: 12px;
     }
     .commend-text {
-        max-height: 228px;
+        max-height: 600px;
         overflow: auto;
         padding: 5px;
         line-height: 1.6em;
         @extend %code;
+        p img {
+            left: 0;
+            transform: none;
+        }
     }
     .commend-action {
         margin-top: 10px;
