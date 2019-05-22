@@ -141,7 +141,7 @@ function Blog(props) {
             {getBlogClass(blog.classid)}
             <Link
               to={{
-                pathname: `/blog/article/5c36ba26b95a0e17952cffd6`,
+                pathname: `/blog/article/${blog._id}`,
               }}
             >
               <div className={CSS["blog-review"]}>
