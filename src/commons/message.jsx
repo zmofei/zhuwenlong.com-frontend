@@ -39,7 +39,7 @@ function Message(props) {
     const [avatar, setAvatra] = useState(`//avatar.zhuwenlong.com/avatar/${(userinfo && userinfo.email) ? md5.hash(userinfo.email) : ''}`);
 
     //
-    const [messageList, setmessageList] = useState([]);
+    const [messageList, setmessageList] = useState(null);
 
     // replay
     const [activeMessage, setActiveMessage] = useState(null);
@@ -179,7 +179,7 @@ function Message(props) {
     }
 
     function getMessageList() {
-        if (messageList && messageList.length > 0) {
+        if (messageList!==null && messageList.length >= 0 ) {
             return messageList.map(l => {
                 return (
                     <div key={`comment_${l._id}`}
