@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import CSS from './article.module.scss';
 import axios from 'axios';
@@ -8,14 +8,26 @@ import avatra from '../static/img/avatar.jpg';
 import blogMoney from '../static/img/blog/money.png';
 import Message from '../commons/message.jsx';
 import Lan from '../i18n/languageMap.jsx';
+import hljs from 'highlight.js';
 
-
+const oldTitle = document.title;
 function Article(props) {
   const id = props.match.params.id;
   const [blog, setBlog] = useState(null);
   const [like, setLike] = useState(0);
   const [isLike, setIsLike] = useState(false);
+  const titleDom = useRef(null);
+
   useEffect(() => {
+    // Update the document title using the browser API
+    const H1Txt = (titleDom && titleDom.current && titleDom.current.innerText);
+    document.title = H1Txt ? (H1Txt + ' - ' + oldTitle) : oldTitle;
+    return () => {
+      document.title = oldTitle;
+    }
+  });
+  useEffect(() => {
+    hljs.initHighlightingOnLoad();
     axios.get(`/api/blog/article/${id}`)
       .then(res => {
         setBlog(() => {
@@ -47,7 +59,7 @@ function Article(props) {
             <section className={CSS.blog}>
               <section className={CSS.article}>
                 <section className={CSS["article-content"]}>
-                  <h1>
+                  <h1 ref={titleDom}>
                     <Lan en={blog['title-en'] || blog['title']} zh={blog.title} />
                   </h1>
                   <div className={`${CSS["commend-user"]} ${CSS["article-pubinfo"]}`}>
