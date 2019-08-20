@@ -45,7 +45,7 @@ function MessagePage(props) {
                   <a rel="noopener noreferrer" className={`${CSS["follow"]}`} href="https://github.com/zmofei?tab=followers" target="_blank">
                     <span className={`${CSS["number"]}`} id="gitFollower">
                       {
-                        github.followers ? github.followers : <span className={CSS.placeholder}></span>
+                        github && github.followers ? github.followers : <span className={CSS.placeholder}></span>
                       }
                     </span>
                     <span>
@@ -54,13 +54,13 @@ function MessagePage(props) {
                   </a>
                   <a rel="noopener noreferrer" className={`${CSS["follow"]}`} href="https://github.com/zmofei?tab=repositories" target="_blank">
                     <span className={`${CSS["number"]}`} id="gitRepos">
-                      {github.following ? github.following : <span className={CSS.placeholder}></span>}
+                      {github && github.following ? github.following : <span className={CSS.placeholder}></span>}
                     </span>
                     <span><Lan en="Repos" zh="公开项目" /></span>
                   </a>
                   <a rel="noopener noreferrer" className={`${CSS["follow"]}`} href="https://github.com/zmofei?tab=following" target="_blank">
                     <span className={`${CSS["number"]}`} id="gitFollowing">
-                      {github.public_repos ? github.public_repos : <span className={CSS.placeholder}></span>}
+                      {github && github.public_repos ? github.public_repos : <span className={CSS.placeholder}></span>}
                     </span>
                     <span><Lan en="Following" zh="关注" /> </span>
                   </a>
