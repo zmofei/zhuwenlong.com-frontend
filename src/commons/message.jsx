@@ -110,6 +110,7 @@ function Message(props) {
                     });
                     setMessage(() => '');
                     localStorage.removeItem('message');
+                    localStorage.removeItem('repMessage');
                     alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, props.lan));
                 })
                 .catch(e => {
