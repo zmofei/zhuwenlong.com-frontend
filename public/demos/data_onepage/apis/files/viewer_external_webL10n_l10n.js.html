@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>viewer\external\webL10n\l10n.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: viewer\external\webL10n\l10n.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/** Copyright (c) 2011-2012 Fabien Cazenave, Mozilla.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the &quot;Software&quot;), to
+  * deal in the Software without restriction, including without limitation the
+  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  * sell copies of the Software, and to permit persons to whom the Software is
+  * furnished to do so, subject to the following conditions:
+  *
+  * The above copyright notice and this permission notice shall be included in
+  * all copies or substantial portions of the Software.
+  *
+  * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  * IN THE SOFTWARE.
+  */
+/*
+  Additional modifications for PDF.js project:
+    - Disables language initialization on page loading;
+    - Adds fallback argument to the getL10nData;
+    - Removes consoleLog and simplifies consoleWarn;
+    - Removes window._ assignment.
+*/
+/*jshint browser: true, devel: true, es5: true, globalstrict: true */
+&#x27;use strict&#x27;;
+
+document.webL10n = (function(window, document, undefined) {
+  var gL10nData = {};
+  var gTextData = &#x27;&#x27;;
+  var gTextProp = &#x27;textContent&#x27;;
+  var gLanguage = &#x27;&#x27;;
+  var gMacros = {};
+  var gReadyState = &#x27;loading&#x27;;
+
+  // read-only setting -- we recommend to load l10n resources synchronously
+  var gAsyncResourceLoading = true;
+
+  // debug helpers
+  function consoleWarn(message) {
+    console.log(&#x27;[l10n] &#x27; + message);
+  };
+
+  /**
+   * DOM helpers for the so-called &quot;HTML API&quot;.
+   *
+   * These functions are written for modern browsers. For old versions of IE,
+   * they&#x27;re overridden in the &#x27;startup&#x27; section at the end of this file.
+   */
+
+  function getL10nResourceLinks() {
+    return document.querySelectorAll(&#x27;link[type=&quot;application/l10n&quot;]&#x27;);
+  }
+
+  function getTranslatableChildren(element) {
+    return element ? element.querySelectorAll(&#x27;*[data-l10n-id]&#x27;) : [];
+  }
+
+  function getL10nAttributes(element) {
+    if (!element)
+      return {};
+
+    var l10nId = element.getAttribute(&#x27;data-l10n-id&#x27;);
+    var l10nArgs = element.getAttribute(&#x27;data-l10n-args&#x27;);
+    var args = {};
+    if (l10nArgs) {
+      try {
+        args = JSON.parse(l10nArgs);
+      } catch (e) {
+        consoleWarn(&#x27;could not parse arguments for #&#x27; + l10nId);
+      }
+    }
+    return { id: l10nId, args: args };
+  }
+
+  function fireL10nReadyEvent(lang) {
+    var evtObject = document.createEvent(&#x27;Event&#x27;);
+    evtObject.initEvent(&#x27;localized&#x27;, false, false);
+    evtObject.language = lang;
+    window.dispatchEvent(evtObject);
+  }
+
+
+  /**
+   * l10n resource parser:
+   *  - reads (async XHR) the l10n resource matching &#x60;lang&#x27;;
+   *  - imports linked resources (synchronously) when specified;
+   *  - parses the text data (fills &#x60;gL10nData&#x27; and &#x60;gTextData&#x27;);
+   *  - triggers success/failure callbacks when done.
+   *
+   * @param {string} href
+   *    URL of the l10n resource to parse.
+   *
+   * @param {string} lang
+   *    locale (language) to parse.
+   *
+   * @param {Function} successCallback
+   *    triggered when the l10n resource has been successully parsed.
+   *
+   * @param {Function} failureCallback
+   *    triggered when the an error has occured.
+   *
+   * @return {void}
+   *    uses the following global variables: gL10nData, gTextData, gTextProp.
+   */
+
+  function parseResource(href, lang, successCallback, failureCallback) {
+    var baseURL = href.replace(/\/[^\/]*$/, &#x27;/&#x27;);
+
+    // handle escaped characters (backslashes) in a string
+    function evalString(text) {
+      if (text.lastIndexOf(&#x27;\\&#x27;) &lt; 0)
+        return text;
+      return text.replace(/\\\\/g, &#x27;\\&#x27;)
+                 .replace(/\\n/g, &#x27;\n&#x27;)
+                 .replace(/\\r/g, &#x27;\r&#x27;)
+                 .replace(/\\t/g, &#x27;\t&#x27;)
+                 .replace(/\\b/g, &#x27;\b&#x27;)
+                 .replace(/\\f/g, &#x27;\f&#x27;)
+                 .replace(/\\{/g, &#x27;{&#x27;)
+                 .replace(/\\}/g, &#x27;}&#x27;)
+                 .replace(/\\&quot;/g, &#x27;&quot;&#x27;)
+                 .replace(/\\&#x27;/g, &quot;&#x27;&quot;);
+    }
+
+    // parse *.properties text data into an l10n dictionary
+    function parseProperties(text) {
+      var dictionary = [];
+
+      // token expressions
+      var reBlank = /^\s*|\s*$/;
+      var reComment = /^\s*#|^\s*$/;
+      var reSection = /^\s*\[(.*)\]\s*$/;
+      var reImport = /^\s*@import\s+url\((.*)\)\s*$/i;
+      var reSplit = /^([^=\s]*)\s*=\s*(.+)$/; // TODO: escape EOLs with &#x27;\&#x27;
+
+      // parse the *.properties file into an associative array
+      function parseRawLines(rawText, extendedSyntax) {
+        var entries = rawText.replace(reBlank, &#x27;&#x27;).split(/[\r\n]+/);
+        var currentLang = &#x27;*&#x27;;
+        var genericLang = lang.replace(/-[a-z]+$/i, &#x27;&#x27;);
+        var skipLang = false;
+        var match = &#x27;&#x27;;
+
+        for (var i = 0; i &lt; entries.length; i++) {
+          var line = entries[i];
+
+          // comment or blank line?
+          if (reComment.test(line))
+            continue;
+
+          // the extended syntax supports [lang] sections and @import rules
+          if (extendedSyntax) {
+            if (reSection.test(line)) { // section start?
+              match = reSection.exec(line);
+              currentLang = match[1];
+              skipLang = (currentLang !== &#x27;*&#x27;) &amp;&amp;
+                  (currentLang !== lang) &amp;&amp; (currentLang !== genericLang);
+              continue;
+            } else if (skipLang) {
+              continue;
+            }
+            if (reImport.test(line)) { // @import rule?
+              match = reImport.exec(line);
+              loadImport(baseURL + match[1]); // load the resource synchronously
+            }
+          }
+
+          // key-value pair
+          var tmp = line.match(reSplit);
+          if (tmp &amp;&amp; tmp.length == 3)
+            dictionary[tmp[1]] = evalString(tmp[2]);
+        }
+      }
+
+      // import another *.properties file
+      function loadImport(url) {
+        loadResource(url, function(content) {
+          parseRawLines(content, false); // don&#x27;t allow recursive imports
+        }, false, false); // load synchronously
+      }
+
+      // fill the dictionary
+      parseRawLines(text, true);
+      return dictionary;
+    }
+
+    // load the specified resource file
+    function loadResource(url, onSuccess, onFailure, asynchronous) {
+      var xhr = new XMLHttpRequest();
+      xhr.open(&#x27;GET&#x27;, url, asynchronous);
+      if (xhr.overrideMimeType) {
+        xhr.overrideMimeType(&#x27;text/plain; charset=utf-8&#x27;);
+      }
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200 || xhr.status === 0) {
+            if (onSuccess)
+              onSuccess(xhr.responseText);
+          } else {
+            if (onFailure)
+              onFailure();
+          }
+        }
+      };
+      xhr.send(null);
+    }
+
+    // load and parse l10n data (warning: global variables are used here)
+    loadResource(href, function(response) {
+      gTextData += response; // mostly for debug
+
+      // parse *.properties text data into an l10n dictionary
+      var data = parseProperties(response);
+
+      // find attribute descriptions, if any
+      for (var key in data) {
+        var id, prop, index = key.lastIndexOf(&#x27;.&#x27;);
+        if (index &gt; 0) { // an attribute has been specified
+          id = key.substring(0, index);
+          prop = key.substr(index + 1);
+        } else { // no attribute: assuming text content by default
+          id = key;
+          prop = gTextProp;
+        }
+        if (!gL10nData[id]) {
+          gL10nData[id] = {};
+        }
+        gL10nData[id][prop] = data[key];
+      }
+
+      // trigger callback
+      if (successCallback)
+        successCallback();
+    }, failureCallback, gAsyncResourceLoading);
+  };
+
+  // load and parse all resources for the specified locale
+  function loadLocale(lang, callback) {
+    clear();
+    gLanguage = lang;
+
+    // check all &lt;link type=&quot;application/l10n&quot; href=&quot;...&quot; /&gt; nodes
+    // and load the resource files
+    var langLinks = getL10nResourceLinks();
+    var langCount = langLinks.length;
+    if (langCount == 0) {
+      consoleWarn(&#x27;no resource to load, early way out&#x27;);
+      fireL10nReadyEvent(lang);
+      gReadyState = &#x27;complete&#x27;;
+      return;
+    }
+
+    // start the callback when all resources are loaded
+    var onResourceLoaded = null;
+    var gResourceCount = 0;
+    onResourceLoaded = function() {
+      gResourceCount++;
+      if (gResourceCount &gt;= langCount) {
+        if (callback) // execute the [optional] callback
+          callback();
+        fireL10nReadyEvent(lang);
+        gReadyState = &#x27;complete&#x27;;
+      }
+    };
+
+    // load all resource files
+    function l10nResourceLink(link) {
+      var href = link.href;
+      var type = link.type;
+      this.load = function(lang, callback) {
+        var applied = lang;
+        parseResource(href, lang, callback, function() {
+          consoleWarn(href + &#x27; not found.&#x27;);
+          applied = &#x27;&#x27;;
+        });
+        return applied; // return lang if found, an empty string if not found
+      };
+    }
+
+    for (var i = 0; i &lt; langCount; i++) {
+      var resource = new l10nResourceLink(langLinks[i]);
+      var rv = resource.load(lang, onResourceLoaded);
+      if (rv != lang) { // lang not found, used default resource instead
+        consoleWarn(&#x27;&quot;&#x27; + lang + &#x27;&quot; resource not found&#x27;);
+        gLanguage = &#x27;&#x27;;
+      }
+    }
+  }
+
+  // clear all l10n data
+  function clear() {
+    gL10nData = {};
+    gTextData = &#x27;&#x27;;
+    gLanguage = &#x27;&#x27;;
+    // TODO: clear all non predefined macros.
+    // There&#x27;s no such macro /yet/ but we&#x27;re planning to have some...
+  }
+
+
+  /**
+   * Get rules for plural forms (shared with JetPack), see:
+   * http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+   * https://github.com/mozilla/addon-sdk/blob/master/python-lib/plural-rules-generator.p
+   *
+   * @param {string} lang
+   *    locale (language) used.
+   *
+   * @return {Function}
+   *    returns a function that gives the plural form name for a given integer:
+   *       var fun = getPluralRules(&#x27;en&#x27;);
+   *       fun(1)    -&gt; &#x27;one&#x27;
+   *       fun(0)    -&gt; &#x27;other&#x27;
+   *       fun(1000) -&gt; &#x27;other&#x27;.
+   */
+
+  function getPluralRules(lang) {
+    var locales2rules = {
+      &#x27;af&#x27;: 3,
+      &#x27;ak&#x27;: 4,
+      &#x27;am&#x27;: 4,
+      &#x27;ar&#x27;: 1,
+      &#x27;asa&#x27;: 3,
+      &#x27;az&#x27;: 0,
+      &#x27;be&#x27;: 11,
+      &#x27;bem&#x27;: 3,
+      &#x27;bez&#x27;: 3,
+      &#x27;bg&#x27;: 3,
+      &#x27;bh&#x27;: 4,
+      &#x27;bm&#x27;: 0,
+      &#x27;bn&#x27;: 3,
+      &#x27;bo&#x27;: 0,
+      &#x27;br&#x27;: 20,
+      &#x27;brx&#x27;: 3,
+      &#x27;bs&#x27;: 11,
+      &#x27;ca&#x27;: 3,
+      &#x27;cgg&#x27;: 3,
+      &#x27;chr&#x27;: 3,
+      &#x27;cs&#x27;: 12,
+      &#x27;cy&#x27;: 17,
+      &#x27;da&#x27;: 3,
+      &#x27;de&#x27;: 3,
+      &#x27;dv&#x27;: 3,
+      &#x27;dz&#x27;: 0,
+      &#x27;ee&#x27;: 3,
+      &#x27;el&#x27;: 3,
+      &#x27;en&#x27;: 3,
+      &#x27;eo&#x27;: 3,
+      &#x27;es&#x27;: 3,
+      &#x27;et&#x27;: 3,
+      &#x27;eu&#x27;: 3,
+      &#x27;fa&#x27;: 0,
+      &#x27;ff&#x27;: 5,
+      &#x27;fi&#x27;: 3,
+      &#x27;fil&#x27;: 4,
+      &#x27;fo&#x27;: 3,
+      &#x27;fr&#x27;: 5,
+      &#x27;fur&#x27;: 3,
+      &#x27;fy&#x27;: 3,
+      &#x27;ga&#x27;: 8,
+      &#x27;gd&#x27;: 24,
+      &#x27;gl&#x27;: 3,
+      &#x27;gsw&#x27;: 3,
+      &#x27;gu&#x27;: 3,
+      &#x27;guw&#x27;: 4,
+      &#x27;gv&#x27;: 23,
+      &#x27;ha&#x27;: 3,
+      &#x27;haw&#x27;: 3,
+      &#x27;he&#x27;: 2,
+      &#x27;hi&#x27;: 4,
+      &#x27;hr&#x27;: 11,
+      &#x27;hu&#x27;: 0,
+      &#x27;id&#x27;: 0,
+      &#x27;ig&#x27;: 0,
+      &#x27;ii&#x27;: 0,
+      &#x27;is&#x27;: 3,
+      &#x27;it&#x27;: 3,
+      &#x27;iu&#x27;: 7,
+      &#x27;ja&#x27;: 0,
+      &#x27;jmc&#x27;: 3,
+      &#x27;jv&#x27;: 0,
+      &#x27;ka&#x27;: 0,
+      &#x27;kab&#x27;: 5,
+      &#x27;kaj&#x27;: 3,
+      &#x27;kcg&#x27;: 3,
+      &#x27;kde&#x27;: 0,
+      &#x27;kea&#x27;: 0,
+      &#x27;kk&#x27;: 3,
+      &#x27;kl&#x27;: 3,
+      &#x27;km&#x27;: 0,
+      &#x27;kn&#x27;: 0,
+      &#x27;ko&#x27;: 0,
+      &#x27;ksb&#x27;: 3,
+      &#x27;ksh&#x27;: 21,
+      &#x27;ku&#x27;: 3,
+      &#x27;kw&#x27;: 7,
+      &#x27;lag&#x27;: 18,
+      &#x27;lb&#x27;: 3,
+      &#x27;lg&#x27;: 3,
+      &#x27;ln&#x27;: 4,
+      &#x27;lo&#x27;: 0,
+      &#x27;lt&#x27;: 10,
+      &#x27;lv&#x27;: 6,
+      &#x27;mas&#x27;: 3,
+      &#x27;mg&#x27;: 4,
+      &#x27;mk&#x27;: 16,
+      &#x27;ml&#x27;: 3,
+      &#x27;mn&#x27;: 3,
+      &#x27;mo&#x27;: 9,
+      &#x27;mr&#x27;: 3,
+      &#x27;ms&#x27;: 0,
+      &#x27;mt&#x27;: 15,
+      &#x27;my&#x27;: 0,
+      &#x27;nah&#x27;: 3,
+      &#x27;naq&#x27;: 7,
+      &#x27;nb&#x27;: 3,
+      &#x27;nd&#x27;: 3,
+      &#x27;ne&#x27;: 3,
+      &#x27;nl&#x27;: 3,
+      &#x27;nn&#x27;: 3,
+      &#x27;no&#x27;: 3,
+      &#x27;nr&#x27;: 3,
+      &#x27;nso&#x27;: 4,
+      &#x27;ny&#x27;: 3,
+      &#x27;nyn&#x27;: 3,
+      &#x27;om&#x27;: 3,
+      &#x27;or&#x27;: 3,
+      &#x27;pa&#x27;: 3,
+      &#x27;pap&#x27;: 3,
+      &#x27;pl&#x27;: 13,
+      &#x27;ps&#x27;: 3,
+      &#x27;pt&#x27;: 3,
+      &#x27;rm&#x27;: 3,
+      &#x27;ro&#x27;: 9,
+      &#x27;rof&#x27;: 3,
+      &#x27;ru&#x27;: 11,
+      &#x27;rwk&#x27;: 3,
+      &#x27;sah&#x27;: 0,
+      &#x27;saq&#x27;: 3,
+      &#x27;se&#x27;: 7,
+      &#x27;seh&#x27;: 3,
+      &#x27;ses&#x27;: 0,
+      &#x27;sg&#x27;: 0,
+      &#x27;sh&#x27;: 11,
+      &#x27;shi&#x27;: 19,
+      &#x27;sk&#x27;: 12,
+      &#x27;sl&#x27;: 14,
+      &#x27;sma&#x27;: 7,
+      &#x27;smi&#x27;: 7,
+      &#x27;smj&#x27;: 7,
+      &#x27;smn&#x27;: 7,
+      &#x27;sms&#x27;: 7,
+      &#x27;sn&#x27;: 3,
+      &#x27;so&#x27;: 3,
+      &#x27;sq&#x27;: 3,
+      &#x27;sr&#x27;: 11,
+      &#x27;ss&#x27;: 3,
+      &#x27;ssy&#x27;: 3,
+      &#x27;st&#x27;: 3,
+      &#x27;sv&#x27;: 3,
+      &#x27;sw&#x27;: 3,
+      &#x27;syr&#x27;: 3,
+      &#x27;ta&#x27;: 3,
+      &#x27;te&#x27;: 3,
+      &#x27;teo&#x27;: 3,
+      &#x27;th&#x27;: 0,
+      &#x27;ti&#x27;: 4,
+      &#x27;tig&#x27;: 3,
+      &#x27;tk&#x27;: 3,
+      &#x27;tl&#x27;: 4,
+      &#x27;tn&#x27;: 3,
+      &#x27;to&#x27;: 0,
+      &#x27;tr&#x27;: 0,
+      &#x27;ts&#x27;: 3,
+      &#x27;tzm&#x27;: 22,
+      &#x27;uk&#x27;: 11,
+      &#x27;ur&#x27;: 3,
+      &#x27;ve&#x27;: 3,
+      &#x27;vi&#x27;: 0,
+      &#x27;vun&#x27;: 3,
+      &#x27;wa&#x27;: 4,
+      &#x27;wae&#x27;: 3,
+      &#x27;wo&#x27;: 0,
+      &#x27;xh&#x27;: 3,
+      &#x27;xog&#x27;: 3,
+      &#x27;yo&#x27;: 0,
+      &#x27;zh&#x27;: 0,
+      &#x27;zu&#x27;: 3
+    };
+
+    // utility functions for plural rules methods
+    function isIn(n, list) {
+      return list.indexOf(n) !== -1;
+    }
+    function isBetween(n, start, end) {
+      return start &lt;= n &amp;&amp; n &lt;= end;
+    }
+
+    // list of all plural rules methods:
+    // map an integer to the plural form name to use
+    var pluralRules = {
+      &#x27;0&#x27;: function(n) {
+        return &#x27;other&#x27;;
+      },
+      &#x27;1&#x27;: function(n) {
+        if ((isBetween((n % 100), 3, 10)))
+          return &#x27;few&#x27;;
+        if (n === 0)
+          return &#x27;zero&#x27;;
+        if ((isBetween((n % 100), 11, 99)))
+          return &#x27;many&#x27;;
+        if (n == 2)
+          return &#x27;two&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;2&#x27;: function(n) {
+        if (n !== 0 &amp;&amp; (n % 10) === 0)
+          return &#x27;many&#x27;;
+        if (n == 2)
+          return &#x27;two&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;3&#x27;: function(n) {
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;4&#x27;: function(n) {
+        if ((isBetween(n, 0, 1)))
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;5&#x27;: function(n) {
+        if ((isBetween(n, 0, 2)) &amp;&amp; n != 2)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;6&#x27;: function(n) {
+        if (n === 0)
+          return &#x27;zero&#x27;;
+        if ((n % 10) == 1 &amp;&amp; (n % 100) != 11)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;7&#x27;: function(n) {
+        if (n == 2)
+          return &#x27;two&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;8&#x27;: function(n) {
+        if ((isBetween(n, 3, 6)))
+          return &#x27;few&#x27;;
+        if ((isBetween(n, 7, 10)))
+          return &#x27;many&#x27;;
+        if (n == 2)
+          return &#x27;two&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;9&#x27;: function(n) {
+        if (n === 0 || n != 1 &amp;&amp; (isBetween((n % 100), 1, 19)))
+          return &#x27;few&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;10&#x27;: function(n) {
+        if ((isBetween((n % 10), 2, 9)) &amp;&amp; !(isBetween((n % 100), 11, 19)))
+          return &#x27;few&#x27;;
+        if ((n % 10) == 1 &amp;&amp; !(isBetween((n % 100), 11, 19)))
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;11&#x27;: function(n) {
+        if ((isBetween((n % 10), 2, 4)) &amp;&amp; !(isBetween((n % 100), 12, 14)))
+          return &#x27;few&#x27;;
+        if ((n % 10) === 0 ||
+            (isBetween((n % 10), 5, 9)) ||
+            (isBetween((n % 100), 11, 14)))
+          return &#x27;many&#x27;;
+        if ((n % 10) == 1 &amp;&amp; (n % 100) != 11)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;12&#x27;: function(n) {
+        if ((isBetween(n, 2, 4)))
+          return &#x27;few&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;13&#x27;: function(n) {
+        if ((isBetween((n % 10), 2, 4)) &amp;&amp; !(isBetween((n % 100), 12, 14)))
+          return &#x27;few&#x27;;
+        if (n != 1 &amp;&amp; (isBetween((n % 10), 0, 1)) ||
+            (isBetween((n % 10), 5, 9)) ||
+            (isBetween((n % 100), 12, 14)))
+          return &#x27;many&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;14&#x27;: function(n) {
+        if ((isBetween((n % 100), 3, 4)))
+          return &#x27;few&#x27;;
+        if ((n % 100) == 2)
+          return &#x27;two&#x27;;
+        if ((n % 100) == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;15&#x27;: function(n) {
+        if (n === 0 || (isBetween((n % 100), 2, 10)))
+          return &#x27;few&#x27;;
+        if ((isBetween((n % 100), 11, 19)))
+          return &#x27;many&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;16&#x27;: function(n) {
+        if ((n % 10) == 1 &amp;&amp; n != 11)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;17&#x27;: function(n) {
+        if (n == 3)
+          return &#x27;few&#x27;;
+        if (n === 0)
+          return &#x27;zero&#x27;;
+        if (n == 6)
+          return &#x27;many&#x27;;
+        if (n == 2)
+          return &#x27;two&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;18&#x27;: function(n) {
+        if (n === 0)
+          return &#x27;zero&#x27;;
+        if ((isBetween(n, 0, 2)) &amp;&amp; n !== 0 &amp;&amp; n != 2)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;19&#x27;: function(n) {
+        if ((isBetween(n, 2, 10)))
+          return &#x27;few&#x27;;
+        if ((isBetween(n, 0, 1)))
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;20&#x27;: function(n) {
+        if ((isBetween((n % 10), 3, 4) || ((n % 10) == 9)) &amp;&amp; !(
+            isBetween((n % 100), 10, 19) ||
+            isBetween((n % 100), 70, 79) ||
+            isBetween((n % 100), 90, 99)
+            ))
+          return &#x27;few&#x27;;
+        if ((n % 1000000) === 0 &amp;&amp; n !== 0)
+          return &#x27;many&#x27;;
+        if ((n % 10) == 2 &amp;&amp; !isIn((n % 100), [12, 72, 92]))
+          return &#x27;two&#x27;;
+        if ((n % 10) == 1 &amp;&amp; !isIn((n % 100), [11, 71, 91]))
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;21&#x27;: function(n) {
+        if (n === 0)
+          return &#x27;zero&#x27;;
+        if (n == 1)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;22&#x27;: function(n) {
+        if ((isBetween(n, 0, 1)) || (isBetween(n, 11, 99)))
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;23&#x27;: function(n) {
+        if ((isBetween((n % 10), 1, 2)) || (n % 20) === 0)
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      },
+      &#x27;24&#x27;: function(n) {
+        if ((isBetween(n, 3, 10) || isBetween(n, 13, 19)))
+          return &#x27;few&#x27;;
+        if (isIn(n, [2, 12]))
+          return &#x27;two&#x27;;
+        if (isIn(n, [1, 11]))
+          return &#x27;one&#x27;;
+        return &#x27;other&#x27;;
+      }
+    };
+
+    // return a function that gives the plural form name for a given integer
+    var index = locales2rules[lang.replace(/-.*$/, &#x27;&#x27;)];
+    if (!(index in pluralRules)) {
+      consoleWarn(&#x27;plural form unknown for [&#x27; + lang + &#x27;]&#x27;);
+      return function() { return &#x27;other&#x27;; };
+    }
+    return pluralRules[index];
+  }
+
+  // pre-defined &#x27;plural&#x27; macro
+  gMacros.plural = function(str, param, key, prop) {
+    var n = parseFloat(param);
+    if (isNaN(n))
+      return str;
+
+    // TODO: support other properties (l20n still doesn&#x27;t...)
+    if (prop != gTextProp)
+      return str;
+
+    // initialize _pluralRules
+    if (!gMacros._pluralRules)
+      gMacros._pluralRules = getPluralRules(gLanguage);
+    var index = &#x27;[&#x27; + gMacros._pluralRules(n) + &#x27;]&#x27;;
+
+    // try to find a [zero|one|two] key if it&#x27;s defined
+    if (n === 0 &amp;&amp; (key + &#x27;[zero]&#x27;) in gL10nData) {
+      str = gL10nData[key + &#x27;[zero]&#x27;][prop];
+    } else if (n == 1 &amp;&amp; (key + &#x27;[one]&#x27;) in gL10nData) {
+      str = gL10nData[key + &#x27;[one]&#x27;][prop];
+    } else if (n == 2 &amp;&amp; (key + &#x27;[two]&#x27;) in gL10nData) {
+      str = gL10nData[key + &#x27;[two]&#x27;][prop];
+    } else if ((key + index) in gL10nData) {
+      str = gL10nData[key + index][prop];
+    }
+
+    return str;
+  };
+
+
+  /**
+   * l10n dictionary functions
+   */
+
+  // fetch an l10n object, warn if not found, apply &#x60;args&#x27; if possible
+  function getL10nData(key, args, fallback) {
+    var data = gL10nData[key];
+    if (!data) {
+      consoleWarn(&#x27;#&#x27; + key + &#x27; missing for [&#x27; + gLanguage + &#x27;]&#x27;);
+      if (!fallback) {
+        return null;
+      }
+      data = fallback;
+    }
+
+    /** This is where l10n expressions should be processed.
+      * The plan is to support C-style expressions from the l20n project;
+      * until then, only two kinds of simple expressions are supported:
+      *   {[ index ]} and {{ arguments }}.
+      */
+    var rv = {};
+    for (var prop in data) {
+      var str = data[prop];
+      str = substIndexes(str, args, key, prop);
+      str = substArguments(str, args);
+      rv[prop] = str;
+    }
+    return rv;
+  }
+
+  // replace {[macros]} with their values
+  function substIndexes(str, args, key, prop) {
+    var reIndex = /\{\[\s*([a-zA-Z]+)\(([a-zA-Z]+)\)\s*\]\}/;
+    var reMatch = reIndex.exec(str);
+    if (!reMatch || !reMatch.length)
+      return str;
+
+    // an index/macro has been found
+    // Note: at the moment, only one parameter is supported
+    var macroName = reMatch[1];
+    var paramName = reMatch[2];
+    var param;
+    if (args &amp;&amp; paramName in args) {
+      param = args[paramName];
+    } else if (paramName in gL10nData) {
+      param = gL10nData[paramName];
+    }
+
+    // there&#x27;s no macro parser yet: it has to be defined in gMacros
+    if (macroName in gMacros) {
+      var macro = gMacros[macroName];
+      str = macro(str, param, key, prop);
+    }
+    return str;
+  }
+
+  // replace {{arguments}} with their values
+  function substArguments(str, args) {
+    var reArgs = /\{\{\s*([a-zA-Z\.]+)\s*\}\}/;
+    var match = reArgs.exec(str);
+    while (match) {
+      if (!match || match.length &lt; 2)
+        return str; // argument key not found
+
+      var arg = match[1];
+      var sub = &#x27;&#x27;;
+      if (arg in args) {
+        sub = args[arg];
+      } else if (arg in gL10nData) {
+        sub = gL10nData[arg][gTextProp];
+      } else {
+        consoleWarn(&#x27;could not find argument {{&#x27; + arg + &#x27;}}&#x27;);
+        return str;
+      }
+
+      str = str.substring(0, match.index) + sub +
+            str.substr(match.index + match[0].length);
+      match = reArgs.exec(str);
+    }
+    return str;
+  }
+
+  // translate an HTML element
+  function translateElement(element) {
+    var l10n = getL10nAttributes(element);
+    if (!l10n.id)
+      return;
+
+    // get the related l10n object
+    var data = getL10nData(l10n.id, l10n.args);
+    if (!data) {
+      consoleWarn(&#x27;#&#x27; + l10n.id + &#x27; missing for [&#x27; + gLanguage + &#x27;]&#x27;);
+      return;
+    }
+
+    // translate element (TODO: security checks?)
+    // for the node content, replace the content of the first child textNode
+    // and clear other child textNodes
+    if (data[gTextProp]) { // XXX
+      if (element.children.length === 0) {
+        element[gTextProp] = data[gTextProp];
+      } else {
+        var children = element.childNodes,
+            found = false;
+        for (var i = 0, l = children.length; i &lt; l; i++) {
+          if (children[i].nodeType === 3 &amp;&amp;
+              /\S/.test(children[i].textContent)) { // XXX
+            // using nodeValue seems cross-browser
+            if (found) {
+              children[i].nodeValue = &#x27;&#x27;;
+            } else {
+              children[i].nodeValue = data[gTextProp];
+              found = true;
+            }
+          }
+        }
+        if (!found) {
+          consoleWarn(&#x27;unexpected error, could not translate element content&#x27;);
+        }
+      }
+      delete data[gTextProp];
+    }
+
+    for (var k in data) {
+      element[k] = data[k];
+    }
+  }
+
+  // translate an HTML subtree
+  function translateFragment(element) {
+    element = element || document.documentElement;
+
+    // check all translatable children (= w/ a &#x60;data-l10n-id&#x27; attribute)
+    var children = getTranslatableChildren(element);
+    var elementCount = children.length;
+    for (var i = 0; i &lt; elementCount; i++) {
+      translateElement(children[i]);
+    }
+
+    // translate element itself if necessary
+    translateElement(element);
+  }
+
+  // cross-browser API (sorry, oldIE doesn&#x27;t support getters &amp; setters)
+  return {
+    // get a localized string
+    get: function(key, args, fallback) {
+      var data = getL10nData(key, args, {textContent: fallback});
+      if (data) { // XXX double-check this
+        return &#x27;textContent&#x27; in data ? data.textContent : &#x27;&#x27;;
+      }
+      return &#x27;{{&#x27; + key + &#x27;}}&#x27;;
+    },
+
+    // debug
+    getData: function() { return gL10nData; },
+    getText: function() { return gTextData; },
+
+    // get|set the document language
+    getLanguage: function() { return gLanguage; },
+    setLanguage: function(lang) { loadLocale(lang, translateFragment); },
+
+    // get the direction (ltr|rtl) of the current language
+    getDirection: function() {
+      // http://www.w3.org/International/questions/qa-scripts
+      // Arabic, Hebrew, Farsi, Pashto, Urdu
+      var rtlList = [&#x27;ar&#x27;, &#x27;he&#x27;, &#x27;fa&#x27;, &#x27;ps&#x27;, &#x27;ur&#x27;];
+      return (rtlList.indexOf(gLanguage) &gt;= 0) ? &#x27;rtl&#x27; : &#x27;ltr&#x27;;
+    },
+
+    // translate an element or document fragment
+    translate: translateFragment,
+
+    // this can be used to prevent race conditions
+    getReadyState: function() { return gReadyState; }
+  };
+
+}) (window, document);
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

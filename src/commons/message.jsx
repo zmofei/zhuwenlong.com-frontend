@@ -79,7 +79,7 @@ function Message(props) {
 
     function repPbulish() {
         if (!repMessage) {
-            alert(lanSwitch({ en: 'No writing, no reply!!', zh: "没写东西，不许你回复！！" }, props.lan));
+            alert(lanSwitch({ en: 'Hellooooo!! Say something???', zh: "没写东西，不许你回复！！" }, props.lan));
         } else {
             axios
                 .post('/api/blog/message', { message: repMessage, id: props.id, avatar, replyID })
@@ -109,6 +109,8 @@ function Message(props) {
                         setmessageList(() => rst.list);
                     });
                     setMessage(() => '');
+                    localStorage.removeItem('message');
+                    localStorage.removeItem('repMessage');
                     alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, props.lan));
                 })
                 .catch(e => {

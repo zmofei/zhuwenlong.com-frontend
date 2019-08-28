@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <script>
+        function getContent(theEntry) {
+            // 如果是文件夹
+            if (theEntry.isDirectory) {
+                console.log(`你选择了文件夹 ${theEntry.fullPath}`, theEntry);
+
+                // 读取文件夹里面的内容
+                let directoryReader = theEntry.createReader();
+                directoryReader.readEntries(function (entries) {
+                    entries.forEach(function (entry) {
+                        // 递归
+                        getContent(entry)
+                    });
+                });
+            }
+
+            // 如果是文件
+            if (theEntry.isFile) {
+                console.log(`你选择了文件 ${theEntry.fullPath}`);
+            }
+        };
+
+        window.addEventListener('drop', function (e) {
+            e.preventDefault();
+            // 获取drop的对象
+            let items = e.dataTransfer.items;
+
+            // 遍历drop的成员 （取决于你一次拖拽多少个文件/文件夹）
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].kind != 'file') {
+                    continue;
+                }
+                // 拿到文件(夹)实体
+                var entry = items[i].webkitGetAsEntry();
+                getContent(entry);
+            }
+        }, false);
+
+        window.addEventListener('dragover', function (e) {
+            e.preventDefault();
+        })
+    </script>
+</body>
+
+</html>

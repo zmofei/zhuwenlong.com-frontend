@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>view.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: view.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @author bh-lay
+ * 
+ */
+
+window.usepdf = window.usepdf || true;
+
+function db_view(dom,pathname){
+	db_view.init(dom,pathname);
+}
+
+(function(exports){
+	var console = window.console||{&#x27;log&#x27;:function(){}};
+	var app_root = &#x27;/i/&#x27;;
+	
+	var comment_item_tpl = [&#x27;{@each data as it,index}&lt;li&gt;&#x27;,
+		&#x27;&lt;div class=&quot;db_co_avatar&quot;&gt;&#x27;,
+			&#x27;&lt;a target=&quot;_blank&quot; href=&quot;http://www.yiban.cn/profile?userid=${it.user_id}&quot;&gt;&#x27;,
+				&#x27;&lt;img src=&quot;http://www.yiban.cn/weibo/eclassimg/head/u/${it.user_id}/s/&quot; /&gt;&#x27;,
+			&#x27;&lt;/a&gt;&#x27;,
+		&#x27;&lt;/div&gt;&#x27;,
+		&#x27;&lt;div class=&quot;db_co_cnt_info&quot;&gt;&#x27;,
+			&#x27;&lt;div class=&quot;db_co_cnt_in_header&quot;&gt;&#x27;,
+				&#x27;&lt;a target=&quot;_blank&quot; href=&quot;http://www.yiban.cn/profile?userid=${it.user_id}&quot;&gt;${it.nick}&lt;/a&gt;&#x27;,
+				&#x27;${it.create_time}&#x27;,
+			&#x27;&lt;/div&gt;&#x27;,
+			&#x27;&lt;div class=&quot;db_co_cnt_in_content&quot;&gt;${it.content}&lt;/div&gt;&#x27;,
+		&#x27;&lt;/div&gt;&#x27;,
+	&#x27;&lt;/li&gt;{@/each}&#x27;].join(&#x27;&#x27;);
+	
+	var error_tpl = [&#x27;&lt;div style=&quot;text-align:center;padding:20px;  color:#666; line-height:30px; &quot;&gt;&#x27;,
+		&#x27;&lt;p style=&quot;font-size:22px; font-family:Microsoft Yahei;&quot;&gt;看来似乎遇到了些麻烦&lt;/p&gt;&#x27;,
+		&#x27;&lt;p&gt;您可以尝试：&amp;nbsp;&amp;nbsp;&lt;a href=&quot;/login&quot;&gt;重新登陆&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;javascript:location.reload();&quot;&gt;刷新页面&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;mailto:contact@21campus.cn&quot;&gt;联系管理员&lt;/a&gt;&lt;/p&gt;&#x27;,
+	&#x27;&lt;/div&gt;&#x27;].join(&#x27;&#x27;);
+	
+	var page_templates = function(data){
+		var page_tpl = [&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;&#x27; + app_root + &#x27;public/disk/css/view.css&quot; /&gt;&#x27;,
+		&#x27;&lt;div class=&quot;db_view_cnt&quot;&gt;&#x27;,
+			&#x27;&lt;div class=&quot;db_vi_main&quot;&gt;&#x27;,
+				&#x27;&lt;div class=&quot;db_reader db_reader_plug&quot;&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_re_cpt&quot;&gt;&#x27;,
+						&#x27;&lt;span class=&quot;db_vi_ico db_vi_ico_${ext} db_re_cpt_ico &quot;&gt;ico&lt;/span&gt;&#x27;,
+						&#x27;&lt;strong class=&quot;db_re_cpt_title&quot;&gt;${title}&lt;/strong&gt;&#x27;,
+					&#x27;&lt;/div&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_re_cnt&quot;&gt;&#x27;,
+						&#x27;{@if isFile}&#x27;,
+							&#x27;&lt;iframe class=&quot;db_reader_iframe&quot; src=&quot;${view_path}&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;&#x27;,
+						&#x27;{@else if isImg}&#x27;,
+							&#x27;&lt;div class=&quot;db_re_cnt_img&quot;&gt;&lt;/div&gt;&#x27;,
+						&#x27;{@/if}&#x27;,
+					&#x27;&lt;/div&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_re_info&quot;&gt;&#x27;,
+						&#x27;&lt;div class=&quot;db_re_info_l&quot;&gt;&#x27;,
+							&#x27;&lt;a href=&quot;${download_url}&quot; class=&quot;db_vi_btn db_re_in_download&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;下载&lt;/span&gt;&lt;/a&gt;&#x27;,
+							&#x27;&lt;a href=&quot;javascript:void(fc.copydo(${sid},\&#x27;${filename}\&#x27;))&quot; data-sid=&quot;${sid}&quot; data-filename=&quot;${filename}&quot; class=&quot;db_vi_btn db_re_in_resave&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;转存到个人&lt;/span&gt;&lt;/a&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;,
+						&#x27;{@if isFile}&#x27;,
+						&#x27;&lt;div class=&quot;db_re_info_c&quot; style=&quot;display:none;&quot;&gt;&#x27;,
+							&#x27;&lt;div class=&quot;db_re_tool_page&quot;&gt;&#x27;,
+								&#x27;&lt;a class=&quot;db_re_tool_prev&quot; href=&quot;javascript:void(0)&quot;&gt;上一张&lt;/a&gt;&#x27;,
+								&#x27;&lt;input class=&quot;db_re_tool_cur&quot; type=&quot;text&quot; value=&quot;0&quot; /&gt;&#x27;,
+								&#x27;&lt;span class=&quot;db_re_tool_all&quot;&gt;0&lt;/span&gt;&#x27;,
+								&#x27;&lt;a class=&quot;db_re_tool_next&quot; href=&quot;javascript:void(0)&quot;&gt;下一张&lt;/a&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;,
+						&#x27;{@/if}&#x27;,
+						&#x27;&lt;div class=&quot;db_re_info_r&quot; style=&quot;display:none;&quot;&gt;&#x27;,
+							&#x27;&lt;div class=&quot;db_re_tool_zoom&quot;&gt;&#x27;,
+								&#x27;&lt;a class=&quot;db_re_tool_zoomout&quot; href=&quot;javascript:void(0)&quot;&gt;缩小&lt;/a&gt;&#x27;,
+								&#x27;&lt;a class=&quot;db_re_tool_zoomin&quot; href=&quot;javascript:void(0)&quot;&gt;放大&lt;/a&gt;&#x27;,
+						//		&#x27;{@if isFile}&#x27;,
+						//		&#x27;&lt;a class=&quot;db_re_tool_fullscreen&quot; href=&quot;javascript:void(0)&quot;&gt;全屏&lt;/a&gt;&#x27;,
+						//		&#x27;{@/if}&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;,
+					&#x27;&lt;/div&gt;&#x27;,
+				&#x27;&lt;/div&gt;&#x27;,
+				&#x27;&lt;div class=&quot;db_comment&quot;&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_co_cpt&quot;&gt;评论&lt;strong&gt;&lt;/strong&gt;&lt;/div&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_co_cnt&quot;&gt;&lt;ul&gt;&lt;/ul&gt;&lt;/div&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_co_page&quot;&gt;&lt;/div&gt;&#x27;,
+					&#x27;&lt;div class=&quot;db_co_send&quot;&gt;&#x27;,
+						&#x27;&lt;div class=&quot;db_co_se_avatar&quot;&gt;&lt;img src=&quot;http://www.yiban.cn/weibo/eclassimg/head/u/${my_uid}/s/&quot; /&gt;&lt;/div&gt;&#x27;,
+						&#x27;&lt;div class=&quot;db_co_se_cnt&quot;&gt;&#x27;,
+							&#x27;&lt;div class=&quot;db_co_se_cnt_text&quot;&gt;&#x27;,
+								&#x27;&lt;div class=&quot;db_co_se_cnt_text_tip&quot;&gt;◆&lt;/div&gt;&#x27;,
+								&#x27;&lt;div class=&quot;db_co_se_cnt_text_main&quot;&gt;&lt;textarea&gt;&lt;/textarea&gt;&lt;/div&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+							&#x27;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;db_vi_btn db_co_se_cnt_btn&quot;&gt;&lt;span&gt;发表评论&lt;/span&gt;&lt;/a&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;,
+					&#x27;&lt;/div&gt;&#x27;,
+				&#x27;&lt;/div&gt;&#x27;,
+			&#x27;&lt;/div&gt;&#x27;,
+			&#x27;&lt;div class=&quot;db_vi_side&quot;&gt;&#x27;,
+				&#x27;&lt;div class=&quot;db_vi_act_cnt&quot; data-sid=&quot;${sid}&quot;&gt;&#x27;,
+					&#x27;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;db_vi_act db_vi_act_top {@if isup} dark_btn{@/if}&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;顶（${ding}）&lt;/span&gt;&lt;/a&gt;&#x27;,
+					&#x27;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;db_vi_act db_vi_act_step {@if isdown} dark_btn{@/if}&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;踩（${cai}）&lt;/span&gt;&lt;/a&gt;&#x27;,
+					&#x27;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;db_vi_act db_vi_act_report&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;举报&lt;/span&gt;&lt;/a&gt;&#x27;,
+				&#x27;&lt;/div&gt;&#x27;,
+				&#x27;&lt;div class=&quot;db_vi_intro_cnt&quot;&gt;&lt;h3&gt;资料简介&lt;/h3&gt;&lt;p&gt;${content}&lt;/p&gt;&lt;/div&gt;&#x27;,
+	//			&#x27;{@if tags}&#x27;,
+					&#x27;&lt;div class=&quot;db_vi_tags_cnt&quot;&gt;&lt;h3&gt;资料标签&lt;/h3&gt;&lt;div&gt;{@each tags as it,index}&lt;span&gt;${it.tag_name}&lt;/span&gt;{@/each}&lt;/div&gt;&lt;/div&gt;&#x27;,
+	//			&#x27;{@/if}&#x27;,
+			&#x27;&lt;/div&gt;&#x27;,
+		&#x27;&lt;/div&gt;&#x27;].join(&#x27;&#x27;);
+		
+		return juicer(page_tpl,data);
+	};
+	function getCookie(){
+		console.log(&#x27;exam&#x27;,&#x27;get &amp; parse All cookie !&#x27;);
+	
+		var str = document.cookie;
+		var cookieData = {};
+		
+		var list = str.split(&#x27;;&#x27;);
+		
+		for(var i = 0 , total = list.length ; i &lt; total ; i++){
+			var parseList = list[i].split(&#x27;=&#x27;);
+			var nameStr = parseList[0]||&#x27;&#x27;;
+			var name = nameStr.replace(/^\s+|\s+$/g,&#x27;&#x27;);
+			var value = parseList[1]||&#x27;&#x27;;
+			
+			cookieData[name] = value;
+		}
+		return cookieData;
+	}
+	// loading image method
+	var loadimg=function (src,parm){
+		var parm = parm||{};
+		var img = new Image();
+		if(parm.loadFn){
+			img.onload = function(){
+				parm.loadFn(img.width,img.height);
+			}
+		}
+		if(parm.sizeFn){
+			var delay = setInterval(function(){
+				if(img.width&gt;1){
+					clearInterval(delay);
+					parm.sizeFn(img.width,img.height);
+				}
+			},2)
+		}
+		img.src=src;
+	};
+	
+	
+	// file ///////////////////////////////////////////
+	var view_file = function(dom,data,doc_id){
+			
+		if(arguments.length&lt;1){
+			return
+		}
+		
+		console.log(&#x27;db_view:&#x27;,&#x27;This type is file !&#x27;);	
+		
+		var page_tpl = page_templates(data);
+		var this_page = $(page_tpl);
+		dom.html(this_page);
+		
+		
+		comment(this_page.find(&#x27;.db_comment&#x27;),data[&#x27;doc_id&#x27;]);
+		
+		var read_frame = this_page.find(&#x27;.db_reader_iframe&#x27;)[0];
+		var try_num = 0;
+		var read_timer = setInterval(function(){
+			try_num ++;
+			if(read_frame.contentWindow&amp;&amp;read_frame.contentWindow.exports){
+				clearInterval(read_timer);
+				var pdf = read_frame.contentWindow.exports;
+				pdf_tool(this_page,pdf);
+			}
+			if(try_num &gt;100){
+				clearInterval(read_timer);
+			}
+		},400);
+	};
+
+	function pdf_tool(dom,pdf){
+		var pageIpt = $(&#x27;.db_re_tool_cur&#x27;);
+		
+		pageIpt.val(pdf.page.cur()).on(&#x27;change&#x27;,function(){
+			pdf.page.to(pageIpt.val())
+		});
+		
+		pdf.onPagechange(function(n){
+			pageIpt.val(n)
+		});
+		dom.find(&#x27;.db_re_info_c,.db_re_info_r&#x27;).fadeIn(300);
+		dom.find(&#x27;.db_re_tool_all&#x27;).html(&#x27;/&#x27;+pdf.page.all());
+		dom.on(&#x27;click&#x27;,&#x27;.db_re_tool_next&#x27;,function(){
+			pdf.page.next();
+		}).on(&#x27;click&#x27;,&#x27;.db_re_tool_prev&#x27;,function(){
+			pdf.page.prev();
+		}).on(&#x27;click&#x27;,&#x27;.db_re_tool_zoomout&#x27;,function(){
+			pdf.zoom.out();
+		}).on(&#x27;click&#x27;,&#x27;.db_re_tool_zoomin&#x27;,function(){
+			pdf.zoom.In();
+		}).on(&#x27;click&#x27;,&#x27;.db_re_tool_fullscreen&#x27;,function(){
+//			if(window.lantern){
+//				lantern(pathname,{&#x27;from&#x27;:&#x27;public&#x27;});
+//			}else{
+		//		$.get(app_root + /public/disk/js/lantern.js&#x27;,function(){
+		//			lantern(pathname,{&#x27;from&#x27;:&#x27;public&#x27;});
+		//		});
+//			}
+		});
+	}
+	
+	
+	// image //////////////////////////////////////////////////////////////
+	function view_img(dom,data){
+		if(arguments.length&lt;2){
+			return
+		}
+		console.log(&#x27;db_view:&#x27;,&#x27;This type is image !&#x27;);
+		
+		var page_tpl = page_templates(data),
+			 this_page_dom = $(page_tpl),
+			 imgCnt = this_page_dom.find(&#x27;.db_re_cnt_img&#x27;),
+			 src = data[&#x27;img_path&#x27;],
+			 doc_id = data[&#x27;doc_id&#x27;];
+		
+		loadimg(src,{&#x27;loadFn&#x27;:function(w,h){
+			var this_img = new insertImg(imgCnt,src,w,h);
+			
+			check_btn.call(this_img);
+			this_page_dom.on(&#x27;click&#x27;,&#x27;.db_re_tool_zoomout&#x27;,function(){
+				console.log(&#x27;缩小&#x27;);
+				this_img.zoomout();
+				check_btn.call(this_img);
+			}).on(&#x27;click&#x27;,&#x27;.db_re_tool_zoomin&#x27;,function(){
+				this_img.zoomin();
+				check_btn.call(this_img);
+			});
+		}});
+		
+		dom.html(this_page_dom);
+		comment(this_page_dom.find(&#x27;.db_comment&#x27;),doc_id);
+	};
+	function check_btn(){
+		var can_zoom = this.can_zoom;
+		if(can_zoom.zoomin){
+			$(&#x27;.db_re_tool_zoomin&#x27;).fadeTo(1,1);
+		}else{
+			$(&#x27;.db_re_tool_zoomin&#x27;).fadeTo(1,0.3);
+		}
+		if(can_zoom.zoomout){
+			$(&#x27;.db_re_tool_zoomout&#x27;).fadeTo(1,1);
+		}else{
+			$(&#x27;.db_re_tool_zoomout&#x27;).fadeTo(1,0.3);
+		}
+	}
+	function fixSize(){
+		console.log(&#x27;I\&#x27;m a new function&#x27;);
+		var newW,newH;
+		if (this.w &gt; this.cntW){
+			newW = this.cntW;
+			newH = newW*this.h/this.w;
+			this.w = newW;
+			this.h = newH;
+		}
+		if (this.h &gt; this.cntH){
+			newH = this.cntH;
+			newW = newH*this.w/this.h;
+			this.w = newW;
+			this.h = newH;
+		}
+		this.dom.css({
+			&#x27;width&#x27; : this.w,
+			&#x27;height&#x27; : this.h,
+			&#x27;marginLeft&#x27; : -this.w/2,
+			&#x27;marginTop&#x27; : -this.h/2
+		});
+		//check zoom
+		if(Math.max(this.w,this.h) &gt; 200){
+			this.can_zoom.zoomout = true;
+		}else{
+			this.can_zoom.zoomout = false;
+		}
+		if(!(this.w &gt;= this.cntW || this.h &gt;= this.cntH)){
+			this.can_zoom.zoomin = true;
+		}else{
+			this.can_zoom.zoomin = false;
+		}
+	}
+	function insertImg(obj,src,w,h){
+		this.cntW = obj.width() - 20;
+		this.cntH = obj.height() - 20;
+		
+		this.dom = $(&#x27;&lt;img/&gt;&#x27;);
+		this.w = w;
+		this.h = h;
+		this.can_zoom = {
+			&#x27;zoomin&#x27; : false,
+			&#x27;zoomiout&#x27; : false
+		};
+		
+		fixSize.call(this);
+		
+		this.dom.attr({&#x27;src&#x27;:src});
+		
+		obj.html(this.dom);
+	}
+	insertImg.prototype = {
+		&#x27;zoomout&#x27;:function(){
+			if(this.can_zoom.zoomout){
+				this.w = this.w*0.8;
+				this.h = this.h*0.8;
+				fixSize.call(this);
+			}
+		},
+		&#x27;zoomin&#x27;:function(){
+			if(this.can_zoom.zoomin){
+				this.w = this.w*1.3;
+				this.h = this.h*1.3;
+				fixSize.call(this);
+			}
+		}
+	};
+	//public comment handle ///////////////////////////////////////////////////
+	var comment = function(dom,doc){
+		var dom = dom,
+			doc = doc;
+			
+		console.log(&#x27;db_view:&#x27;,&#x27;comments start !&#x27;);
+	
+		var page_tpl = [&#x27;{@each page as it,index}&#x27;,
+			&#x27;{@if it===0}&#x27;,
+				&#x27;&lt;span&gt;${++index}&lt;/span&gt;&#x27;,
+			&#x27;{@else}&#x27;,
+				&#x27;&lt;a data-offset=&quot;${index}0&quot; href=&quot;javascript:void(0)&quot;&gt;${++index}&lt;/a&gt;&#x27;,
+			&#x27;{@/if}&#x27;,
+		&#x27;{@/each}&#x27;].join(&#x27;&#x27;);
+		
+		//bind event
+		function bind_event(dom){
+			console.log(&#x27;db_view:&#x27;,&#x27;comments bind event !&#x27;);
+			dom.on(&#x27;click&#x27;,&#x27;.db_co_se_cnt_btn&#x27;,function(){
+				var content = dom.find(&#x27;.db_co_se_cnt_text textarea&#x27;).val();
+				dom.find(&#x27;.db_co_se_cnt_text textarea&#x27;).val(&#x27;&#x27;);
+				send_comment(content)
+			}).on(&#x27;click&#x27;,&#x27;.db_co_page a&#x27;,function(){
+				renderList({
+					&#x27;dom&#x27; : dom,
+					&#x27;doc&#x27; : doc,
+					&#x27;offset&#x27; : $(this).attr(&#x27;data-offset&#x27;)
+				});
+			});
+		}
+		
+		//get all comment list	
+		function renderList(param){
+			console.log(&#x27;db_view:&#x27;,&#x27;comments render list !&#x27;);
+			var dom = param[&#x27;dom&#x27;],
+				doc = param[&#x27;doc&#x27;],
+				offset = param[&#x27;offset&#x27;]||0,
+				length = param[&#x27;length&#x27;]||10,
+				callback = param[&#x27;callback&#x27;];
+			
+			$.get(app_root + &#x27;ajax/comment/list&#x27;,{
+				&#x27;doc&#x27; : doc,
+				&#x27;offset&#x27; : offset,
+				&#x27;timestamp&#x27; : new Date().getTime()
+			},function(response){
+				var data = response||{};
+				data.count = data.count||0;
+				
+				var comment_html = juicer(comment_item_tpl,data);
+				dom.find(&#x27;.db_co_cpt strong&#x27;).html(&#x27;(&#x27; + data.count + &#x27;)&#x27;);
+				dom.find(&#x27;.db_co_cnt ul&#x27;).html(comment_html);
+				renderPage(dom.find(&#x27;.db_co_page&#x27;),offset,length,data.count);
+				callback&amp;&amp;callback(d);
+			});
+		}
+		
+		function renderPage(dom,start,length,count){
+			console.log(&#x27;db_view:&#x27;,&#x27;comments render page link !&#x27;);
+	
+			var total = Math.ceil(count/length);
+			if(total&gt;1){
+				var cur = Math.floor(start/length);
+				var page = [];
+				for(var i = 0;i&lt;total;i++){
+					var code = 1;
+					if(i==cur){
+						code = 0;
+					}
+					page.push(code);
+				}
+			
+				var this_page = juicer(page_tpl,{&#x27;page&#x27;:page});
+				dom.html(this_page)
+			}
+		}
+		
+		//send comment
+		function send_comment(txt){
+			$.get(app_root + &#x27;ajax/comment/insert&#x27;,{
+				doc : doc,
+				content : txt
+			},function(d){
+				var data = [{
+					&#x27;content&#x27; : txt
+				}];
+				renderList({
+					&#x27;dom&#x27;:dom,
+					&#x27;doc&#x27;:doc
+				});
+				hm.toast({&#x27;text&#x27;:d.data.msg||&#x27;评论成功&#x27;});
+			});
+		}
+		
+		//handle start
+		bind_event(dom);
+		renderList({
+			&#x27;dom&#x27;:dom,
+			&#x27;doc&#x27;:doc
+		});
+	};
+		
+	db_view.bind = function(dom,ev,callback){
+		if (dom.attachEvent){
+			dom.attachEvent(ev, function(){
+				callback&amp;&amp;callback();
+			});
+		} else {
+			dom[ev] = function(){
+				callback&amp;&amp;callback();
+			};
+		}
+	};
+	//////////////////////////////////////////////////////////
+	function do_vote(dom,data){
+		console.log(data);
+		var sid = data[&#x27;sid&#x27;],
+			 isup = data[&#x27;isup&#x27;],
+			 isdown = data[&#x27;isdown&#x27;],
+			 shit_num = data[&#x27;cai&#x27;] || 0,
+			 glod_num = data[&#x27;ding&#x27;] || 0;
+		function vote(id,value){
+			var this_btn = $(this);
+			if(this_btn.hasClass(&#x27;dark_btn&#x27;)){
+				console.log(&#x27;重复操作&#x27;);
+			}else{
+				this_btn.addClass(&#x27;dark_btn&#x27;);
+				$.get(app_root + &#x27;ajax/public/vote&#x27;,{
+					&#x27;id&#x27; : id,
+					&#x27;value&#x27; : value
+				},function(d){
+					console.log(d);
+					if(d.ret == 200){
+						if(value == 1){
+							//赞
+							if(isdown){
+								shit_num--;
+								isdown = false;
+							}
+							glod_num++;
+							isup = true;
+						}else if(value == 0){
+							//踩
+							if(isup){
+								glod_num--;
+								isup = false;
+							}
+							shit_num++;
+							isdown = true;
+						}
+						$(&#x27;.db_vi_act_top,.db_vi_act_step&#x27;).removeClass(&#x27;dark_btn&#x27;);
+						this_btn.addClass(&#x27;dark_btn&#x27;);
+						$(&#x27;.db_vi_act_top  span&#x27;).html(&#x27;赞（&#x27; + glod_num + &#x27;）&#x27;);
+						$(&#x27;.db_vi_act_step span&#x27;).html(&#x27;踩（&#x27; + shit_num + &#x27;）&#x27;);
+					}		
+				});
+			}
+		}		
+		dom.on(&#x27;click&#x27;,&#x27;.db_vi_act_top&#x27;,function(){
+			//赞
+			vote.call(this,sid,1);
+		}).on(&#x27;click&#x27;,&#x27;.db_vi_act_step&#x27;,function(){
+			//踩
+			vote.call(this,sid,0);
+		}).on(&#x27;click&#x27;,&#x27;.db_vi_act_report&#x27;,function(){
+			//举报
+			fc.reportFile(sid);
+		});
+	}
+	//////////////////////////////////////////////////////////
+	function view_start(data,pathname,dom){
+		console.log(&#x27;db_view:&#x27;,&#x27;To distinguish the type of file or image !&#x27;);
+		data[&#x27;nm&#x27;] = data[&#x27;nm&#x27;] || &#x27;&#x27;;
+		data[&#x27;tags&#x27;] = data[&#x27;tags&#x27;] || [];
+		var extension = data[&#x27;nm&#x27;].match(/\.(\w+)$/)?data[&#x27;nm&#x27;].match(/\.(\w+)$/)[1]:&#x27;&#x27;;
+		var sid = pathname.split(/\//).shift().replace(/\s/g,&#x27;&#x27;);
+		var shit_num = data[&#x27;down&#x27;] || 0;
+		var glod_num = data[&#x27;up&#x27;] || 0;
+		
+		var this_data = {
+			&#x27;my_uid&#x27; : getCookie()[&#x27;db_uid&#x27;],
+			&#x27;title&#x27; : data[&#x27;nm&#x27;],
+			&#x27;ext&#x27; : extension,
+			&#x27;ding&#x27; : glod_num,
+			&#x27;isup&#x27; : data[&#x27;isup&#x27;] || false,
+			&#x27;cai&#x27; : shit_num,
+			&#x27;isdown&#x27; : data[&#x27;isdown&#x27;] || false,
+			&#x27;tags&#x27; : [],
+			&#x27;content&#x27; : data[&#x27;describe&#x27;] || &#x27;暂无描述！&#x27;,
+			&#x27;doc_id&#x27; : data[&#x27;doc_id&#x27;],
+			&#x27;sid&#x27; : sid,
+			&#x27;filename&#x27; : pathname.split(/\//).pop()
+		};
+		var total = data[&#x27;tags&#x27;].length;
+		if(total == 0 ){
+			this_data[&#x27;tags&#x27;] = null;
+		}else{
+			for(var i = 0;i&lt;total;i++){
+				this_data[&#x27;tags&#x27;][i] = data[&#x27;tags&#x27;][i];
+			}
+		}
+		
+		
+		var new_dom = $(&#x27;&lt;div&gt;&lt;/div&gt;&#x27;);
+		dom.html(new_dom);
+		do_vote(dom,this_data);
+		
+		this_data[&#x27;download_url&#x27;] = data[&#x27;location&#x27;] + &#x27;?dl&#x27;;
+		if(extension.match(/doc|docx|ppt|pptx|xls|xlsx/i)){
+			this_data[&#x27;isFile&#x27;] = true ;
+			if(window.usepdf){
+				var pdf_path = pathname.replace(/^\//,&#x27;&#x27;);
+					 pdf_path = app_root + &#x27;s/&#x27; + pdf_path + &#x27;/view&#x27;;	
+				this_data[&#x27;view_path&#x27;] = app_root + &#x27;public/disk/js/viewer/index.html?&#x27; + pdf_path
+			}else{
+				var office_path = data[&#x27;location&#x27;];
+				this_data[&#x27;view_path&#x27;] = &#x27;http://view.officeapps.live.com/op/view.aspx?src=&#x27; + office_path;
+			}
+			view_file(new_dom,this_data);
+		}else if(extension.match(/pdf|txt/i)){
+			var pdf_path = pathname.replace(/^\//,&#x27;&#x27;);
+				 pdf_path = app_root + &#x27;s/&#x27; + pdf_path + &#x27;/view&#x27;;
+			this_data[&#x27;isFile&#x27;] = true ;
+			this_data[&#x27;view_path&#x27;] = app_root + &#x27;public/disk/js/viewer/index.html?&#x27; + pdf_path
+			
+			view_file(new_dom,this_data);
+		}else if(extension.match(/jpg|jpeg|gif|png/i)){
+			this_data[&#x27;isImg&#x27;] = true ;
+			this_data[&#x27;img_path&#x27;] = data[&#x27;location&#x27;];
+			view_img(new_dom,this_data);
+		}else{
+			console.log(&#x27;db_view:&#x27;,&#x27;stop not support this type of file : [&#x27; + extension + &#x27;] !&#x27;);
+		}
+	}
+	
+/// exports root ///////////////////////////////////////////////////////////
+	function init(dom,pathname){
+		console.log(&#x27;db_view:&#x27;,&#x27;start now !&#x27;);
+		//return;
+		if(!pathname){
+			pathname = disk.getUrl().url;
+		}
+		$.get(app_root + &#x27;ajax/public/open&#x27;,{uri:pathname},function(d){
+			d = d ||{};
+			if(d.ret == 200){
+				if(d.isDir == true){
+					console.log(&#x27;db_view:&#x27;,&#x27;stop this is a folder !&#x27;);
+				}else{
+					view_start(d.data,pathname,dom);
+				}
+			}else{
+				console.log(&#x27;db_view:&#x27;,&#x27;stop because ajax return false !&#x27;);
+				dom.html(error_tpl);
+				//FIXME 无法预览
+				//hm.alert({text:&#x27;该文件无法预览&#x27;})
+			}
+		});
+	}
+	/////////////
+	exports.init = init;
+})(db_view);
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

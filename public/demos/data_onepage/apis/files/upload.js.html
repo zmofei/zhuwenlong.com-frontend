@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>upload.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: upload.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  disk&#x27;s upload
+ *  @class _fileup
+ */
+var _fileup = function() {
+    return _fileup[&#x27;init&#x27;].apply(_fileup, arguments);
+};
+
+(function(exp) {
+    exp.init = function() {
+        if (!exp.sys.fileD) {
+            return false;
+        }
+
+        if (window.File &amp;&amp; window.FileReader &amp;&amp; window.FileList &amp;&amp; window.Blob) {
+            $(&#x27;#fileUpload&#x27;).show();
+
+            var input = addInput();
+
+            exp.sys.fileD.onmousemove = function(e) {
+                var tar = exp.sys.fileD;
+                var offsetX = tar.offsetWidth - e.pageX + tar.getBoundingClientRect().left - 20;
+                var offsetY = e.pageY - tar.getBoundingClientRect().top - 10;
+                input.style.right = offsetX + &#x27;px&#x27;;
+                input.style.top = offsetY + &#x27;px&#x27;;
+            };
+
+            document.body.addEventListener(&#x27;dragover&#x27;, dragFile, false);
+            document.body.addEventListener(&#x27;drop&#x27;, dropFile, false);
+        } else {
+            $(&#x27;.db_l_upload_old&#x27;).show();
+            exp.oldupload();
+            //fixed the title bug
+            var originalTitle = document.title.split(&quot;#&quot;)[0];
+            document.attachEvent &amp;&amp; document.attachEvent(&#x27;onpropertychange&#x27;, function(evt) {
+                if (evt.propertyName === &#x27;title&#x27; &amp;&amp; document.title !== originalTitle) {
+                    setTimeout(function() {
+                        document.title = originalTitle;
+                    }, 1);
+                }
+            });
+        };
+
+        $(&#x27;body&#x27;).on(&#x27;click&#x27;, &#x27;.nyt-minify&#x27;, function() {
+            var that = $(this);
+            if (that.hasClass(&#x27;nyt-blow-down&#x27;)) {
+                popMinify();
+            } else {
+                popMaximize();
+            }
+            return false;
+        });
+
+        $(&#x27;body&#x27;).on(&#x27;click&#x27;, &#x27;.db_uppop .NY-pop-title&#x27;, function() {
+            var that = $(this).find(&#x27;.nyt-minify&#x27;);
+            if (that.hasClass(&#x27;nyt-blow-down&#x27;)) {
+                popMinify();
+            } else {
+                popMaximize();
+            }
+        });
+        return exp;
+    };
+    //file upload
+    var file = {};
+    exp.modle = {
+        uploadBox : (function() {
+            var dom = $(&#x27;#TEM_upload&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })(),
+        uploadList : (function() {
+            var dom = $(&#x27;#TEM_uploadList&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })(),
+        upPop : (function() {
+            var dom = $(&#x27;#TEM_upPop&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })()
+    };
+
+    exp.sys = {
+        fileD : document.getElementById(&#x27;fileUpload&#x27;),
+        fileInfoD : document.getElementById(&#x27;fileInfo&#x27;),
+        files : [],
+        PRESIZE : 1024 * 256, //file pre size (bit)
+        current : 0,
+        inprocess : false,
+        maxSize : 1024 * 1024 * 1024,
+        total : 0
+    };
+
+    /**
+     * cancle all the files which in the upload list
+     * @method cancle
+     */
+    exp.cancle = function() {
+        //remove
+        $(&#x27;.db_upload&#x27;).on(&#x27;click&#x27;, &#x27;.db_uf_stop&#x27;, function() {
+            var that = $(this);
+            var filename = that.attr(&#x27;filename&#x27;);
+            var files = _fileup.sys.files;
+            var fileL = files.length;
+            for (var i = 0; i &lt; fileL; i++) {
+                var theFile = files[i];
+                if (theFile.name == filename) {
+                    theFile.del = true;
+                }
+            };
+
+            that.parents(&#x27;.db_upl_cont&#x27;).hide();
+
+        });
+        //delete
+        $(&#x27;.db_upload&#x27;).on(&#x27;click&#x27;, &#x27;.db_uf_delete&#x27;, function() {
+            var that = $(this);
+            isComplete = that.attr(&#x27;state&#x27;) == &#x27;ok&#x27;;
+            if (isComplete) {
+                $.ajax({
+                    url : encodeURI(disk.base.dir + &#x27;/ajax/document/delete?uri=&#x27; + that.attr(&#x27;filepath&#x27;) + that.attr(&#x27;filename&#x27;)),
+                    success : function(data) {
+                        disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+                    }
+                });
+            } else {
+                var filename = that.attr(&#x27;filename&#x27;);
+                var files = _fileup.sys.files;
+                var fileL = files.length;
+                for (var i = 0; i &lt; fileL; i++) {
+                    var theFile = files[i];
+                    if (theFile.name == filename) {
+                        theFile.del = true;
+                    }
+                };
+            }
+            that.parents(&#x27;.db_upl_cont&#x27;).hide();
+        });
+        //reupload
+        $(&#x27;.db_upload&#x27;).on(&#x27;click&#x27;, &#x27;.db_uf_refresh&#x27;, function() {
+            var that = $(this);
+            var tar = that.parents(&#x27;.db_upl_cont&#x27;);
+            var icon = tar.find(&#x27;.db_upl_file em&#x27;);
+            icon.removeClass(&#x27;db_uc_fail&#x27;).addClass(icon.attr(&#x27;icon&#x27;));
+
+            tar.find(&#x27;.db_uf_result&#x27;).html(&#x27;&lt;span&gt;等待上传&lt;/span&gt;&#x27;);
+            tar.find(&#x27;.db_upl_file_prec&#x27;).attr(&#x27;style&#x27;, &#x27;width:0%&#x27;);
+            tar.find(&#x27;.db_uf_operating em&#x27;).hide();
+            //tar.find(&#x27;.db_uf_delete&#x27;).show();
+            var files = _fileup.sys.files;
+            var filesLen = files.length;
+            var filename = that.attr(&#x27;filename&#x27;);
+            for (var i = 0; i &lt; filesLen; i++) {
+                if (files[i].name == filename) {
+                    _fileup.sys.files.push(files[i]);
+                    break;
+                }
+            }
+            uploadfiles();
+        });
+    };
+
+    /**
+     * for old browser we use flash to upload
+     * @methoc oldupload
+     */
+    exp.oldupload = function() {
+        var error = &#x27;&#x27;;
+        var totalFilse = 0;
+        $.getScript(disk.base.dir + &#x27;/public/library/swfupload/swfupload.js&#x27;, function() {
+            var files = [];
+            var theSession = disk.getCookie(&#x27;YB_SESSION&#x27;);
+            var inprogress = false;
+            var swfup = new SWFUpload({
+                button_window_mode : &#x27;transparent&#x27;,
+                post_params : {
+                    &quot;cookie&quot; : theSession
+                },
+                // Backend Settings
+                upload_url : disk.base.dir + &quot;/ajax/upload/upload?cookie=&quot; + theSession,
+                // File Upload Settings
+                file_size_limit : &quot;1 GB&quot;, // 1GB
+                file_types : &quot;*.*&quot;,
+                file_types_description : &quot;All Files&quot;,
+                file_upload_limit : &quot;100&quot;,
+                file_queue_limit : &quot;0&quot;,
+                // Button Settings
+                button_image_url : disk.base.dir + &quot;/public/disk/image/upload.png&quot;,
+                button_placeholder_id : &quot;fileUploadSWF&quot;,
+                button_width : 102,
+                button_height : 37,
+                // Flash Settings
+                flash_url : disk.base.dir + &quot;/public/library/swfupload/Flash/swfupload.swf&quot;,
+
+                // Event Handler Settings
+                file_dialog_start_handler : fileDialogStart,
+                file_queued_handler : fileQueued,
+                file_queue_error_handler : fileQueueError,
+                file_dialog_complete_handler : fileDialogComplete,
+                upload_start_handler : uploadStart,
+                upload_progress_handler : uploadProgress,
+                upload_error_handler : uploadError,
+                upload_success_handler : uploadSuccess,
+                upload_complete_handler : uploadComplete
+
+                // // Debug Settings
+                // debug : false
+            });
+
+            function fileDialogStart() {
+                files = [];
+            }
+
+            function fileQueued(fileInfo) {
+                //file object
+                //files
+                var obj = {
+                    id : fileInfo.id,
+                    size : fileInfo.size,
+                    name : fileInfo.name,
+                    type : fileInfo.type,
+                    path : disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;
+                };
+                files.push(obj);
+            };
+            function fileQueueError(file, code, message) {
+                //file object, error code, message
+                //console.log(&#x27;fileQueueError&#x27;, file.name, code, message);
+                if (code == &#x27;-120&#x27;) {
+                    error = &#x27;toosmall&#x27;;
+                }
+                if (code == &#x27;-110&#x27;) {
+                    error = &#x27;toobig&#x27;;
+                }
+            };
+            function fileDialogComplete(selected, queued, totalqueue) {
+                //number of files selected, number of files queued, total number of files in the queued
+                if (queued &gt; 0) {
+                    inprogress = true;
+                    showPopbox(deleteFile, closepop);
+                    formatList(files);
+                    swfup.startUpload();
+                    if (error == &#x27;toobig&#x27;) {
+                        $(&#x27;.db_upl_ts span&#x27;).html(&#x27;温馨提示：网站单文件最大支持1G, &lt;font color=red&gt;所选文件中含有大于 1 G 的文件，不能上传，已被过滤！&lt;/font&gt;&#x27;);
+                    } else if (error == &#x27;toosmall&#x27;) {
+                        $(&#x27;.db_upl_ts span&#x27;).html(&#x27;温馨提示：网站单文件最大支持1G, &lt;font color=red&gt;所选文件中含有大小为0 bytes的文件，不能上传，已被过滤！&lt;/font&gt;&#x27;);
+                    } else {
+                        $(&#x27;.db_upl_ts span&#x27;).html(&#x27;温馨提示：网站单文件最大支持1G&#x27;);
+                    }
+
+                    popMaximize();
+                    totalFilse += queued;
+                } else {
+                    if (error == &#x27;toobig&#x27;) {
+                        hm.toast({
+                            text : &#x27;所选文件中含有大于 &lt;font color=red&gt;1 G&lt;/font&gt; 的文件，不能上传，已被过滤&#x27;,
+                            width : 500
+                        });
+                    } else if (error == &#x27;toosmall&#x27;) {
+                        hm.toast({
+                            text : &#x27;所选文件中含有大小为 &lt;font color=red&gt;0 bytes&lt;/font&gt; 的文件，不能上传，已被过滤&#x27;,
+                            width : 500
+                        });
+                    }
+                }
+            };
+            //
+            function closepop() {
+                $(&#x27;.nyt-close&#x27;).unbind(&#x27;click&#x27;).on(&#x27;click&#x27;, function() {
+                    if (inprogress) {
+                        if (confirm(&#x27;文件正在上传中，是否取消上传?&#x27;)) {
+                            for (var i = 0, len = files.length; i &lt; len; i++) {
+                                swfup.cancelUpload(files[i].id);
+                            };
+                            totalFilse = 0;
+                            files = [];
+                            $(&#x27;.db_uppop&#x27;).animate({
+                                &#x27;bottom&#x27; : &#x27;-500&#x27;
+                            }, 500, function() {
+                                $(&#x27;.db_uppop&#x27;).remove();
+                            });
+                            disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        totalFilse = 0;
+                        files = [];
+                        $(&#x27;.db_uppop&#x27;).animate({
+                            &#x27;bottom&#x27; : &#x27;-500&#x27;
+                        }, 500, function() {
+                            $(&#x27;.db_uppop&#x27;).remove();
+                        });
+                        disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+                    }
+                });
+
+            };
+            //
+            function deleteFile() {
+                //stop
+                $(&#x27;.db_upload&#x27;).on(&#x27;click&#x27;, &#x27;.db_uf_stop&#x27;, function() {
+                    var that = $(this);
+                    that.parents(&#x27;.db_upl_cont&#x27;).hide();
+                    swfup.cancelUpload(that.attr(&#x27;fileid&#x27;));
+                    totalFilse--;
+                });
+                //delete
+                $(&#x27;.db_upload&#x27;).on(&#x27;click&#x27;, &#x27;.db_uf_delete&#x27;, function() {
+                    var that = $(this);
+                    swfup.cancelUpload(that.attr(&#x27;fileid&#x27;));
+                    that.parents(&#x27;.db_upl_cont&#x27;).hide();
+                    totalFilse--;
+                });
+            };
+
+            function uploadStart(file) {
+                var path = &#x27;&#x27;;
+                for (i in files) {
+                    if (files[i][&#x27;name&#x27;] == file.name) {
+                        path = files[i].path;
+                        break;
+                    }
+                };
+                //file object
+                var url = disk.getUrl().url;
+                url = url ? url + &#x27;/&#x27; : &#x27;&#x27;;
+                urlF = encodeURI(( path ? path : url) + arguments[0].name);
+
+                swfup.setPostParams({
+                    &#x27;uri&#x27; : urlF
+                });
+
+                var tar = $(&#x27;.db_upl_cont[filesid=&quot;&#x27; + file.id + &#x27;&quot;]&#x27;);
+                var tarIndex = $(&#x27;.db_upl_cont:visible&#x27;).index(tar);
+                $(&#x27;.db_upload&#x27;).scrollTop((tarIndex + 1) * tar.height() - $(&#x27;.db_upload&#x27;).height());
+                //show the progress
+
+                tar.find(&#x27;.db_uf_operating em&#x27;).hide();
+                tar.find(&#x27;.db_uf_stop&#x27;).show();
+
+                //console.log(&#x27;uploadStart&#x27;, file);
+            };
+
+            function uploadProgress(file, complete, total) {
+                //console.log(&#x27;uploadProgress&#x27;);
+                //file object, bytes complete, total bytes
+                var tar = $(&#x27;.db_upl_cont[filesid=&quot;&#x27; + file.id + &#x27;&quot;]&#x27;);
+                var present = parseInt(complete / total * 100);
+                tar.find(&#x27;.db_upl_file_prec&#x27;).css(&quot;width&quot;, present + &#x27;%&#x27;);
+                tar.find(&#x27;.db_uf_result span&#x27;).html(present + &#x27;%&#x27;);
+                //console.log(&#x27;uploadProgress&#x27;, file, &#x27;!&#x27;, swfup.getStats().files_queued);
+                showProgress(totalFilse - swfup.getStats().files_queued + 1, totalFilse);
+            };
+
+            function uploadError() {
+                //console.log(&#x27;uploadError&#x27;, arguments);
+            };
+            function uploadSuccess(file, server, rec) {
+                //console.log(&#x27;uploadSuccess:&#x27;, server);
+                //file object, server data, received response
+                var tar = $(&#x27;.db_upl_cont[filesid=&quot;&#x27; + file.id + &#x27;&quot;]&#x27;);
+                tar.find(&#x27;.db_upl_file_prec&#x27;).css(&quot;width&quot;, &#x27;100%&#x27;);
+                tar.find(&#x27;.db_uf_result&#x27;).html(&#x27;&lt;span class=&quot;icon db_complete&quot;&gt;&lt;/span&gt;&#x27;);
+                tar.find(&#x27;.db_uf_operating em&#x27;).hide();
+
+                disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+            };
+            function uploadComplete() {
+                //uploadComplete
+                swfup.startUpload();
+                if (swfup.getStats().files_queued == 0) {
+                    inprogress = false;
+                    popMinify();
+                    $(&#x27;.OP_upCount&#x27;).html(&#x27;上传完成&#x27;);
+                }
+                //
+            };
+
+        });
+    };
+
+    /**
+     * for html5
+     * add the input
+     */
+    function addInput() {
+        var input = document.createElement(&#x27;input&#x27;);
+        input.type = &#x27;file&#x27;;
+        input.multiple = &#x27;multiple&#x27;;
+        input.style.position = &#x27;absolute&#x27;;
+        input.style.top = &#x27;0&#x27;;
+        input.style.right = &#x27;0&#x27;;
+        exp.sys.fileD.appendChild(input);
+
+        input.addEventListener(&#x27;change&#x27;, selectFile, false);
+        return input;
+    }
+
+    function selectFile(evt) {
+        addInput();
+        var files = evt.target.files;
+        if (files &amp;&amp; files.length &gt; 0) {
+            //if have the popbox maximize it
+            popMaximize();
+            addfile(files);
+        }
+    }
+
+    function popMinify() {
+        var tar = $(&#x27;.db_uppop&#x27;);
+        if (tar.length &gt; 0) {
+            $(&#x27;.nyt-minify&#x27;).removeClass().addClass(&#x27;icon nyt-minify nyt-blow-up&#x27;);
+            tar.animate({
+                &#x27;bottom&#x27; : &#x27;-338px&#x27;
+            }, 500);
+        }
+    }
+
+    function popMaximize() {
+        var tar = $(&#x27;.db_uppop&#x27;);
+        if (tar.length &gt; 0) {
+            $(&#x27;.nyt-minify&#x27;).removeClass().addClass(&#x27;icon nyt-minify nyt-blow-down&#x27;);
+            tar.animate({
+                &#x27;bottom&#x27; : &#x27;0px&#x27;
+            }, 500);
+        }
+    }
+
+    function dragFile(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = &#x27;copy&#x27;;
+    }
+
+    function dropFile(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        var files = evt.dataTransfer.files;
+        var upfiles = {};
+        var filesLen = 0;
+        for (i in files) {
+            if (parseInt(i) &lt; 10000) {
+                if (/\.\w|\d+$/.test(files[i].name)) {
+                    upfiles[filesLen] = files[i];
+                    filesLen++;
+                }
+            }
+        }
+        upfiles.length = filesLen;
+        filesLen &gt; 0 ? addfile(upfiles) : &#x27;&#x27;;
+    }
+
+    //add file info
+    function addfile(files) {
+        exp.sys.total += files.length;
+        showPopbox(exp.cancle, closepop);
+
+        function closepop() {
+            $(&#x27;.nyt-close&#x27;).unbind(&#x27;click&#x27;).on(&#x27;click&#x27;, function() {
+                if (exp.sys.files[exp.sys.current]) {
+                    if (confirm(&#x27;文件正在上传中，是否取消上传?&#x27;)) {
+                        var filesL = exp.sys.files.length;
+                        for ( i = exp.sys.current; i &lt; filesL; i++) {
+                            exp.sys.files[i].del = true;
+                        }
+                        $(&#x27;.db_uppop&#x27;).animate({
+                            &#x27;bottom&#x27; : &#x27;-500&#x27;
+                        }, 500, function() {
+                            $(&#x27;.db_uppop&#x27;).remove();
+                        });
+                        //reset files info
+                        exp.sys.files = [];
+                        exp.sys.current = 0;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    $(&#x27;.db_uppop&#x27;).animate({
+                        &#x27;bottom&#x27; : &#x27;-500&#x27;
+                    }, 500, function() {
+                        $(&#x27;.db_uppop&#x27;).remove();
+                    });
+                    //reset files info
+                    exp.sys.files = [];
+                    exp.sys.current = 0;
+                }
+                return false;
+            });
+        }
+
+        formatList(files);
+        //upload
+        filemanage(files);
+    }
+
+    function formatList(files) {
+        var temp = exp.modle.uploadList;
+        var fileinfo = &#x27;&#x27;;
+        //add file info to views
+        for (var i = 0, l = files.length; i &lt; l; i++) {
+            fileinfo += temp.replace(/{(\w+)}/g, function() {
+                var key = arguments[1];
+                if (key == &#x27;path&#x27;) {
+                    return disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27; &#x27;;
+                }
+                //file size
+                if (key == &#x27;size&#x27;) {
+                    var fSize = parseInt(files[i][&#x27;size&#x27;] * 10) / 10;
+                    if (fSize &lt; 1024) {
+                        return fSize + &#x27;B&#x27;;
+                    } else if (fSize &lt; 1024 * 1024) {
+                        return parseInt(fSize / 1024 * 100) / 100 + &#x27;K&#x27;;
+                    } else if (fSize &gt;= 1024 * 1024 &amp;&amp; fSize &lt; 1024 * 1024 * 1024) {
+                        return parseInt(fSize / 1024 / 1024 * 100) / 100 + &#x27;M&#x27;;
+                    } else if (fSize &gt;= 1024 * 1024 * 1024) {
+                        return parseInt(fSize / 1024 / 1024 / 1024 * 100) / 100 + &#x27;G&#x27;;
+                    }
+                }
+                //file icon
+                if (key == &#x27;icon&#x27;) {
+                    var key = /\.(\w+)$/.exec(files[i][&#x27;name&#x27;]);
+                    var type = [&#x27;zip&#x27;, &#x27;psd&#x27;, &#x27;ai&#x27;, &#x27;swf&#x27;, &#x27;fla&#x27;, &#x27;mp3&#x27;, &#x27;pdf&#x27;, &#x27;wmv&#x27;, &#x27;htm&#x27;, &#x27;doc&#x27;, &#x27;xls&#x27;, &#x27;txt&#x27;, &#x27;png&#x27;, &#x27;jpg&#x27;, &#x27;rar&#x27;, &#x27;mp4&#x27;, &#x27;asx&#x27;, &#x27;asf&#x27;, &#x27;ppt&#x27;, &#x27;gif&#x27;, &#x27;bmp&#x27;];
+                    if (key) {
+                        var fKey = key[1];
+                        for ( j = 0, len = type.length; j &lt; len; j++) {
+                            if (fKey == type[j]) {
+                                return &#x27;db_uc_&#x27; + type[j];
+                            }
+                        }
+                        return &#x27;db_uc_unknown&#x27;;
+                    } else {
+                        return &#x27;db_uc_unknown&#x27;;
+                    }
+                }
+                //file sign
+                if (key == &#x27;filesign&#x27;) {
+                    return files[i][&#x27;name&#x27;] + &#x27;_&#x27; + files[i][&#x27;size&#x27;] + &#x27;_&#x27; + files[i][&#x27;type&#x27;];
+                }
+                //default
+                return files[i][key];
+            });
+        }
+        $(&#x27;.db_upload&#x27;).append(fileinfo);
+    };
+
+    function showPopbox(fn, close) {
+        if ($(&#x27;.db_uppop&#x27;).length &lt;= 0) {
+            $(&#x27;body&#x27;).append(exp.modle.upPop);
+            $(&#x27;.db_uppop&#x27;).css(&#x27;bottom&#x27;, &#x27;-500px&#x27;).animate({
+                &#x27;bottom&#x27; : &#x27;0&#x27;
+            }, 500);
+            fn &amp;&amp; fn();
+            close &amp;&amp; close();
+        }
+        return false;
+    }
+
+    //file list
+    function filemanage(files) {
+        var filesLen = files.length;
+        for (var i = 0; i &lt; filesLen; i++) {
+            files[i][&#x27;uppath&#x27;] = disk.getUrl().url;
+            exp.sys.files.push(files[i]);
+        }
+        if (!exp.sys.inprocess) {
+            uploadfiles();
+            exp.sys.inprocess = true;
+            $(exp.sys.fileD).find(&#x27;input&#x27;).val(&#x27;&#x27;);
+        }
+    }
+
+    function uploadfiles() {
+        var fileList = exp.sys.files;
+        var fileIndex = exp.sys.current;
+        var file = fileList[fileIndex];
+        var file_available = true;
+        //
+        if (!file) {
+            popMinify();
+            $(&#x27;.OP_upCount&#x27;).html(&#x27;上传完成&#x27;);
+            exp.sys.inprocess = false;
+            //console.log(&#x27;%c files upload finished &#x27;, &#x27;background:blue;color:white&#x27;);
+            return false;
+        }
+        var fileUpPath = file[&#x27;uppath&#x27;];
+        //get the current list dom
+        var filesign = file[&#x27;name&#x27;] + &#x27;_&#x27; + file[&#x27;size&#x27;] + &#x27;_&#x27; + file[&#x27;type&#x27;];
+
+        var uploadDom = $(&#x27;.db_upl_cont[filesign=&quot;&#x27; + filesign + &#x27;&quot;][complete=&quot;false&quot;]&#x27;).eq(0);
+
+        //for the scrollbar
+        var Listindex = $(&#x27;.db_upl_cont:visible&#x27;).index(uploadDom);
+        if (Listindex &gt;= 0) {
+            $(&#x27;.db_upload&#x27;).scrollTop((Listindex + 1) * uploadDom.height() - $(&#x27;.db_upload&#x27;).height());
+        };
+
+        var fileSize = file.size;
+
+        //console.log(&#x27;%c files upload start: &#x27; + file[&#x27;name&#x27;] + &#x27;(&#x27; + fileSize + &#x27;) &#x27;, &#x27;font-weight:bold;background: #222; color: #bada55&#x27;);
+
+        if (fileSize &lt;= 1024 * 1024 * 25.6) {
+            var PRESIZE = exp.sys.PRESIZE;
+            //console.log(&#x27;%c PRESIZE size is [&#x27; + PRESIZE + &#x27;] total [&#x27; + Math.ceil(fileSize / PRESIZE) + &#x27;] &lt;=25.6M&#x27;, &#x27;background:yellow;color:#333;&#x27;);
+        } else if (fileSize &gt; 1024 * 1024 * 25.6 &amp;&amp; fileSize &lt;= 1024 * 1024 * 15 * 100) {
+            var PRESIZE = Math.ceil(fileSize / 100);
+            //console.log(&#x27;%c PRESIZE size is [&#x27; + PRESIZE + &#x27;] total [&#x27; + Math.ceil(fileSize / PRESIZE) + &#x27;] &gt;25.6M &lt;=15M*100&#x27;, &#x27;background:yellow;color:#333;&#x27;);
+        } else {
+            var PRESIZE = 1024 * 1024 * 15;
+            //console.log(&#x27;%c PRESIZE size is [&#x27; + PRESIZE + &#x27;] total [&#x27; + Math.ceil(fileSize / PRESIZE) + &#x27;] &gt;1.5G&#x27;, &#x27;background:yellow;color:#333;&#x27;);
+        }
+
+        var start = 0;
+        var end = PRESIZE;
+        var packetNo = 0;
+        var totalpacket = Math.ceil(fileSize / PRESIZE);
+        var token = &#x27;&#x27;;
+        var fileid = &#x27;&#x27;;
+        var fileLocalId = file[&#x27;name&#x27;] + &#x27;|&#x27; + file[&#x27;size&#x27;] + &#x27;|&#x27; + file[&#x27;type&#x27;];
+
+        var startTime;
+        var speed = 0;
+        var uploadPer = 0;
+        var uploadedsize = 0;
+        var errortime = 0;
+
+        //reg file in server
+        regFile(file, function(data) {
+            //console.log(&#x27;   try to reg file in server&#x27;, data);
+            var data = eval(&#x27;(&#x27; + data + &#x27;)&#x27;);
+            if (data.token &amp;&amp; data.fileid &amp;&amp; data.ret == 200) {
+                token = data.token;
+                fileid = data.fileid;
+                //console.log(&#x27;   %c reg file successed!upload now&#x27;, &#x27;color:#fff;background:green;font-weight:bold&#x27;);
+
+                //if this file have been upload some part,try control
+                if (localStorage[fileLocalId] &amp;&amp; (data[&#x27;action&#x27;] == &#x27;resume&#x27;)) {
+                    packetNo = localStorage[fileLocalId];
+                    start = packetNo * PRESIZE;
+                    end = start + PRESIZE;
+                    uploadedsize = start;
+                    //console.log(&#x27;   %c file already upload part before,try to continue&#x27;, &#x27;background:yellow; color:red&#x27;);
+                }
+
+                //show the state
+                uploadDom.find(&#x27;.db_upl_file em&#x27;).removeClass().addClass(&#x27;icon db_uc_ing&#x27;);
+                //change the del icon
+                uploadDom.find(&#x27;.db_uf_operating em&#x27;).hide();
+                uploadDom.find(&#x27;.db_uf_stop&#x27;).show();
+                //try to uplaod
+                startTime = new Date();
+                errortime = 0;
+                upload();
+            } else {
+                errortime = 10;
+                //console.log(&#x27;   %c file reg filed&#x27;, &#x27;background:yellow; color:red&#x27;);
+                upload();
+            }
+        });
+
+        //get the picker
+        function upload() {
+            //if one file is uploaded or file is too big or error too may times,we skin this one
+            if (start &gt; fileSize || fileSize &gt; exp.sys.maxSize || fileSize &lt;= 0 || errortime &gt; 2 || file.del == true) {
+                //big size skin
+                if (file.del) {
+                    //console.log(&#x27;%c DEL:文件被删除&#x27;, &#x27;color:red&#x27;);
+                } else if (fileSize &lt;= 0) {
+                    //db_uc_fail
+                    uploadDom.find(&#x27;.db_uf_result&#x27;).html(&#x27;&lt;span class=&quot;db_uf_fail&quot;&gt;文件大小为0，上传失败&lt;/span&gt;&#x27;);
+                    uploadDom.find(&#x27;.db_upl_file_prec&#x27;).css({
+                        &#x27;background-color&#x27; : &#x27;pink&#x27;,
+                        &#x27;width&#x27; : &#x27;100%&#x27;
+                    });
+                    uploadDom.find(&#x27;.db_upl_file em&#x27;).removeClass().addClass(&#x27;icon db_uc_fail&#x27;);
+                    //console.log(&#x27;   %c [&#x27; + file[&#x27;name&#x27;] + &#x27;] size is zero try next one&#x27;, &#x27;background:red; color:yellow&#x27;);
+                } else if (fileSize &gt; exp.sys.maxSize) {
+                    //db_uc_fail
+                    uploadDom.find(&#x27;.db_uf_result&#x27;).html(&#x27;&lt;span class=&quot;db_uf_fail&quot;&gt;文件大于1G，上传失败&lt;/span&gt;&#x27;);
+                    uploadDom.find(&#x27;.db_upl_file_prec&#x27;).css({
+                        &#x27;background-color&#x27; : &#x27;pink&#x27;,
+                        &#x27;width&#x27; : &#x27;100%&#x27;
+                    });
+                    uploadDom.find(&#x27;.db_upl_file em&#x27;).removeClass().addClass(&#x27;icon db_uc_fail&#x27;);
+                    //console.log(&#x27;   %c [&#x27; + file[&#x27;name&#x27;] + &#x27;] is too big try next one&#x27;, &#x27;background:red; color:yellow&#x27;);
+                } else if (errortime &gt; 2) {
+                    //err too many skin to next
+                    uploadDom.find(&#x27;.db_uf_result&#x27;).html(&#x27;&lt;span class=&quot;db_uf_fail&quot;&gt;上传失败&lt;/span&gt;&#x27;);
+                    uploadDom.find(&#x27;.db_upl_file em&#x27;).removeClass().addClass(&#x27;icon db_uc_fail&#x27;);
+                    uploadDom.find(&#x27;.db_upl_file_prec&#x27;).css(&#x27;background-color&#x27;, &#x27;pink&#x27;);
+
+                    uploadDom.find(&#x27;.db_uf_operating em&#x27;).hide();
+                    uploadDom.find(&#x27;.db_uf_refresh&#x27;).show();
+
+                    //console.log(&#x27;error too much &#x27;);
+                } else {
+                    uploadDom.attr(&#x27;complete&#x27;, &#x27;true&#x27;);
+                    uploadDom.find(&#x27;.db_uf_result&#x27;).html(&#x27;&lt;span class=&quot;icon db_complete&quot;&gt;&lt;/span&gt;&#x27;);
+                    uploadDom.find(&#x27;.db_uf_operating em&#x27;).hide();
+                    //uploadDom.find(&#x27;.db_uf_delete&#x27;).attr(&#x27;state&#x27;, &#x27;ok&#x27;).show();
+                    uploadDom.find(&#x27;.db_upl_file_prec&#x27;).css({
+                        &#x27;background-color&#x27; : &#x27;#cfeeff&#x27;,
+                        &#x27;width&#x27; : &#x27;100%&#x27;
+                    });
+                    localStorage.removeItem(fileLocalId);
+                    var tar = uploadDom.find(&#x27;.db_upl_file em&#x27;);
+                    tar.removeClass().addClass(&#x27;icon &#x27; + tar.attr(&#x27;icon&#x27;));
+                    //console.log(&#x27;   [&#x27; + file[&#x27;name&#x27;] + &#x27;] upload success try next one&#x27;);
+                    if (fileUpPath == disk.getUrl().url) {
+                        disk.getList(fileUpPath, &#x27;files&#x27;);
+                    }
+                }
+                start = 0;
+                end = PRESIZE;
+                packetNo = 0;
+                exp.sys.current++;
+                uploadfiles();
+                return false;
+            }
+
+            var packet = file.slice(start, end);
+
+            //console.log(&#x27;   upload file:&#x27;, packetNo, start + &#x27;to&#x27; + end, file[&#x27;name&#x27;], packet);
+
+            var xhr = new XMLHttpRequest();
+            var url = disk.base.dir + &quot;/ajax/upload/getPacket?fileid=&quot; + fileid + &quot;&amp;token=&quot; + token + &quot;&amp;packet=&quot; + packetNo;
+
+            xhr.open(&#x27;POST&#x27;, url, true);
+            //mark
+            xhr.upload.onprogress = function(e) {
+                if (file_available &amp;&amp; file.del) {
+                    file_available = false;
+                    upload();
+                    return false;
+                }
+                //computer the size speed
+                var useTime = new Date() - startTime;
+                var showLoad = PRESIZE * packetNo;
+                var uploaded = showLoad + e.loaded;
+                var uploadPer = parseInt(uploaded / fileSize * 100);
+                var showLoadPer = parseInt(showLoad / fileSize * 100);
+                var speed = parseInt(((uploaded - uploadedsize) / 1024 / 1024) / (useTime / 1000) * 100) / 100;
+                uploadDom.find(&#x27;.db_upl_file_prec&#x27;).css(&#x27;width&#x27;, showLoadPer + &#x27;%&#x27;);
+                uploadDom.find(&#x27;.db_uf_result&#x27;).html(showLoadPer + &#x27;% 速度:&#x27; + speed + &#x27;M/S&#x27;);
+
+                var delLen = 0;
+                var delPass = 0;
+                for ( i = 0, len = fileList.length; i &lt; len; i++) {
+                    if (fileList[i][&#x27;del&#x27;] == true) {
+                        if (i &lt; fileIndex) {
+                            delPass++;
+                        }
+                        delLen++;
+                    }
+                };
+
+                //show progress
+                showProgress(fileIndex - delPass + 1, fileList.length - delLen);
+            };
+
+            xhr.onload = function(e) {
+                var resVal = xhr.responseText;
+                if (/^\{.*?\}$/.test(resVal)) {
+                    var sta = eval(&#x27;(&#x27; + resVal + &#x27;)&#x27;).ret;
+                    if (sta == &#x27;200&#x27;) {
+                        packetNo++;
+                        start = end;
+                        end = start + PRESIZE;
+                        localStorage[fileLocalId] = packetNo;
+                        //console.log(&#x27;   %c upload success&#x27;, &#x27;background:green;color:#fff&#x27;);
+                    } else {
+                        errortime++;
+                        //console.log(&#x27;%c result:&#x27; + resVal, &#x27;background:red;color:#fff&#x27;);
+                    }
+                } else {
+                    errortime++;
+                    //console.log(&#x27;%c upload return bad arguments: \n&#x27; + resVal + &#x27;\n let\&#x27;s try again&#x27;, &#x27;background:red;color:#fff&#x27;);
+                }
+                if (file_available) {
+                    upload();
+                }
+            };
+
+            xhr.send(packet);
+
+        }
+
+    }
+
+    function regFile(file, callback) {
+        var xhr = new XMLHttpRequest();
+        var url = disk.base.dir + &#x27;/ajax/upload/accept?total_size=&#x27; + file.size + &#x27;&amp;type=&#x27; + file.type + &#x27;&amp;uri=&#x27; + encodeURI((!file[&#x27;uppath&#x27;] ? &#x27;&#x27; : file[&#x27;uppath&#x27;] + &#x27;/&#x27;)) + encodeURIComponent(file[&#x27;name&#x27;]);
+        xhr.open(&#x27;POST&#x27;, url, true);
+        xhr.onload = function() {
+            callback(xhr.responseText);
+        };
+        xhr.send();
+    }
+
+    function showProgress(index, total) {
+        $(&#x27;.OP_upCount&#x27;).html(index + &#x27;/&#x27; + total);
+    };
+
+})(_fileup);
+
+_fileup();
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

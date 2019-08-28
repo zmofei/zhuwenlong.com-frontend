@@ -1,0 +1,4198 @@
+{
+    "project": {
+        "name": "资料库",
+        "description": "易班资料库",
+        "version": "1.0",
+        "url": "http://www.yiban.cn/i"
+    },
+    "files": {
+        "viewer\\extensions\\chrome\\pdfHandler.js": {
+            "name": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\extensions\\firefox\\components\\PdfStreamConverter.js": {
+            "name": "viewer\\extensions\\firefox\\components\\PdfStreamConverter.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\external\\builder\\builder.js": {
+            "name": "viewer\\external\\builder\\builder.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\external\\jasmine\\jasmine.js": {
+            "name": "viewer\\external\\jasmine\\jasmine.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\external\\webL10n\\l10n.js": {
+            "name": "viewer\\external\\webL10n\\l10n.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\core\\core.js": {
+            "name": "viewer\\src\\core\\core.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\core\\fonts.js": {
+            "name": "viewer\\src\\core\\fonts.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\core\\image.js": {
+            "name": "viewer\\src\\core\\image.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\core\\obj.js": {
+            "name": "viewer\\src\\core\\obj.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\core\\stream.js": {
+            "name": "viewer\\src\\core\\stream.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\display\\api.js": {
+            "name": "viewer\\src\\display\\api.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\display\\font_loader.js": {
+            "name": "viewer\\src\\display\\font_loader.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\shared\\colorspace.js": {
+            "name": "viewer\\src\\shared\\colorspace.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\src\\shared\\util.js": {
+            "name": "viewer\\src\\shared\\util.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\firefoxcom.js": {
+            "name": "viewer\\firefoxcom.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\pdf_find_bar.js": {
+            "name": "viewer\\pdf_find_bar.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\pdf_find_controller.js": {
+            "name": "viewer\\pdf_find_controller.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\text_layer_builder.js": {
+            "name": "viewer\\text_layer_builder.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\ui_utils.js": {
+            "name": "viewer\\ui_utils.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\viewer.js": {
+            "name": "viewer\\viewer.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "viewer\\viewer_init.js": {
+            "name": "viewer\\viewer_init.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "hm_popBox_database.js": {
+            "name": "hm_popBox_database.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "Bomb_box.js": {
+            "name": "Bomb_box.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "disk.js": {
+            "name": "disk.js",
+            "modules": {},
+            "classes": {
+                "disk": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "drage.js": {
+            "name": "drage.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "filesControl.js": {
+            "name": "filesControl.js",
+            "modules": {},
+            "classes": {
+                "fc": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "hm_popBox.js": {
+            "name": "hm_popBox.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lantern.js": {
+            "name": "lantern.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "pdf_frame.js": {
+            "name": "pdf_frame.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "print.js": {
+            "name": "print.js",
+            "modules": {},
+            "classes": {
+                "db_print": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "select.js": {
+            "name": "select.js",
+            "modules": {},
+            "classes": {
+                "select": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "upload.js": {
+            "name": "upload.js",
+            "modules": {},
+            "classes": {
+                "_fileup": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "view.js": {
+            "name": "view.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "disk": {
+            "name": "disk",
+            "shortname": "disk",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "",
+            "file": "disk.js",
+            "line": 1,
+            "description": "disk's main javascript"
+        },
+        "fc": {
+            "name": "fc",
+            "shortname": "fc",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "",
+            "file": "filesControl.js",
+            "line": 1,
+            "description": "files control"
+        },
+        "db_print": {
+            "name": "db_print",
+            "shortname": "db_print",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "",
+            "file": "print.js",
+            "line": 1,
+            "description": "yiban print functions"
+        },
+        "select": {
+            "name": "select",
+            "shortname": "select",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "",
+            "file": "select.js",
+            "line": 1,
+            "description": "This class is to set the action of select."
+        },
+        "_fileup": {
+            "name": "_fileup",
+            "shortname": "_fileup",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "",
+            "file": "upload.js",
+            "line": 1,
+            "description": "disk's upload"
+        }
+    },
+    "classitems": [
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 22,
+            "params": [
+                {
+                    "name": "details",
+                    "description": "First argument of the webRequest.onHeadersReceived\n                        event. The property \"url\" is read.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the PDF file should be downloaded.",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 39,
+            "description": "Insert the content script in a tab which renders the PDF viewer.",
+            "params": [
+                {
+                    "name": "tabId",
+                    "description": "ID of the tab used by the Chrome APIs.",
+                    "type": "Number"
+                },
+                {
+                    "name": "url",
+                    "description": "URL of the PDF file. Used to detect whether the viewer\n                    should be activated in a specific (i)frame.",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 58,
+            "description": "Try to render the PDF viewer when (a frame within) a tab unloads.\nThis indicates that a PDF file may be loading.",
+            "params": [
+                {
+                    "name": "tabId",
+                    "description": "ID of the tab used by the Chrome APIs.",
+                    "type": "Number"
+                },
+                {
+                    "name": "url",
+                    "description": "The URL of the pdf file.",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 82,
+            "description": "Fallback for Opera.",
+            "see": [
+                "activatePDFJSForTab"
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 95,
+            "description": "Get the header from the list of headers for a given name.",
+            "params": [
+                {
+                    "name": "headers",
+                    "description": "responseHeaders of webRequest.onHeadersReceived",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "} The header, if found.",
+                "type": "Undefined|name: string, value: string"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 109,
+            "description": "Check if the request is a PDF file.",
+            "params": [
+                {
+                    "name": "details",
+                    "description": "First argument of the webRequest.onHeadersReceived\n                        event. The properties \"responseHeaders\" and \"url\"\n                        are read.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the resource is a PDF file.",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\chrome\\pdfHandler.js",
+            "line": 126,
+            "description": "Takes a set of headers, and set \"Content-Disposition: attachment\".",
+            "params": [
+                {
+                    "name": "details",
+                    "description": "First argument of the webRequest.onHeadersReceived\n                        event. The property \"responseHeaders\" is read and\n                        modified if needed.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The return value for the onHeadersReceived event.\n                           Object with key \"responseHeaders\" if the headers\n                           have been modified, undefined otherwise.",
+                "type": "Object|undefined"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\firefox\\components\\PdfStreamConverter.js",
+            "line": 438,
+            "description": "This is for range requests",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\extensions\\firefox\\components\\PdfStreamConverter.js",
+            "line": 528,
+            "description": "This is for a single network stream",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\builder\\builder.js",
+            "line": 11,
+            "description": "A simple preprocessor that is based on the firefox preprocessor\nsee (https://developer.mozilla.org/en/Build/Text_Preprocessor).  The main\ndifference is that this supports a subset of the commands and it supports\npreproccesor commands in html style comments.\nCurrently Supported commands:\n- if\n- else\n- endif\n- include\n- expand",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\builder\\builder.js",
+            "line": 164,
+            "description": "Simplifies common build steps.",
+            "params": [
+                {
+                    "name": "setup!~YUIDOC_LINE~!",
+                    "description": ".defines defines for preprocessors\n       .copy array of arrays of source and destination pairs of files to copy\n       .preprocess array of arrays of source and destination pairs of files\n                   run through preprocessor.",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\builder\\builder.js",
+            "line": 204,
+            "description": "Merge two defines arrays. Values in the second param will override values in\nthe first.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 3,
+            "description": "Top level namespace for Jasmine, a lightweight JavaScript BDD/spec/testing framework.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 10,
+            "access": "private",
+            "tagname": "",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 17,
+            "description": "Use <code>jasmine.undefined</code> instead of <code>undefined</code>, since <code>undefined</code> is just\na plain old variable and may be redefined by somebody else.",
+            "access": "private",
+            "tagname": "",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 25,
+            "description": "Show diagnostic messages in the console if set to true",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 31,
+            "description": "Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all tests have completed.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 37,
+            "description": "Default timeout interval in milliseconds for waitsFor() blocks.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 50,
+            "description": "Allows for bound functions to be compared.  Internal use only.",
+            "ignore": "",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "bound 'this' for the function",
+                    "type": "Object"
+                },
+                {
+                    "name": "name",
+                    "description": "function to find",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 114,
+            "description": "Getter for the Jasmine environment. Ensures one gets created",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 122,
+            "ignore": "",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 132,
+            "ignore": "",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 142,
+            "ignore": "",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 152,
+            "ignore": "",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "typeName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 163,
+            "description": "Pretty printer for expecations.  Takes any object and turns it into a human-readable string.",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "an object to be outputted",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 175,
+            "description": "Returns true if the object is a DOM Node.",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "object to check",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 185,
+            "description": "Returns a matchable 'generic' object of the class type.  For use in expecations of type when values don't matter.",
+            "example": [
+                "\n// don't care about which function is passed in, as long as it's a function\nexpect(mySpy).toHaveBeenCalledWith(jasmine.any(Function));"
+            ],
+            "params": [
+                {
+                    "name": "clazz",
+                    "description": "",
+                    "type": "Class"
+                }
+            ],
+            "return": {
+                "description": "matchable object of the type clazz"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 199,
+            "description": "Jasmine Spies are test doubles that can act as stubs, spies, fakes or when used in an expecation, mocks.\n\nSpies should be created in test setup, before expectations.  They can then be checked, using the standard Jasmine\nexpectation syntax. Spies can be checked if they were called or not and what the calling params were.\n\nA Spy has the following fields: wasCalled, callCount, mostRecentCall, and argsForCall (see docs).\n\nSpies are torn down at the end of every spec.\n\nNote: Do <b>not</b> call new jasmine.Spy() directly - a spy must be created using spyOn, jasmine.createSpy or jasmine.createSpyObj.",
+            "example": [
+                "\n// a stub\nvar myStub = jasmine.createSpy('myStub');  // can be used anywhere\n\n// spy example\nvar foo = {\n  not: function(bool) { return !bool; }\n}\n\n// actual foo.not will not be called, execution stops\nspyOn(foo, 'not');\n\n// foo.not spied upon, execution will continue to implementation\nspyOn(foo, 'not').andCallThrough();\n\n// fake example\nvar foo = {\n  not: function(bool) { return !bool; }\n}\n\n// foo.not(val) will return val\nspyOn(foo, 'not').andCallFake(function(value) {return value;});\n\n// mock example\nfoo.not(7 == 7);\nexpect(foo.not).toHaveBeenCalled();\nexpect(foo.not).toHaveBeenCalledWith(true);"
+            ],
+            "is_constructor": 1,
+            "see": [
+                "spyOn",
+                "jasmine.createSpy",
+                "jasmine.createSpyObj"
+            ],
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 244,
+            "description": "The name of the spy, if provided.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 248,
+            "description": "Is this Object a spy?",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 252,
+            "description": "The actual function this spy stubs.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 257,
+            "description": "Tracking of the most recent call to the spy.",
+            "example": [
+                "\nvar mySpy = jasmine.createSpy('foo');\nmySpy(1, 2);\nmySpy.mostRecentCall.args = [1, 2];"
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 266,
+            "description": "Holds arguments for each call to the spy, indexed by call count",
+            "example": [
+                "\nvar mySpy = jasmine.createSpy('foo');\nmySpy(1, 2);\nmySpy(7, 8);\nmySpy.mostRecentCall.args = [7, 8];\nmySpy.argsForCall[0] = [1, 2];\nmySpy.argsForCall[1] = [7, 8];"
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 280,
+            "description": "Tells a spy to call through to the actual implemenatation.",
+            "example": [
+                "\nvar foo = {\n  bar: function() { // do some stuff }\n}\n\n// defining a spy on an existing property: foo.bar\nspyOn(foo, 'bar').andCallThrough();"
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 296,
+            "description": "For setting the return value of a spy.",
+            "example": [
+                "\n// defining a spy from scratch: foo() returns 'baz'\nvar foo = jasmine.createSpy('spy on foo').andReturn('baz');\n\n// defining a spy on an existing property: foo.bar() returns 'baz'\nspyOn(foo, 'bar').andReturn('baz');"
+            ],
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 315,
+            "description": "For throwing an exception when a spy is called.",
+            "example": [
+                "\n// defining a spy from scratch: foo() throws an exception w/ message 'ouch'\nvar foo = jasmine.createSpy('spy on foo').andThrow('baz');\n\n// defining a spy on an existing property: foo.bar() throws an exception w/ message 'ouch'\nspyOn(foo, 'bar').andThrow('baz');"
+            ],
+            "params": [
+                {
+                    "name": "exceptionMsg",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 334,
+            "description": "Calls an alternate implementation when a spy is called.",
+            "example": [
+                "\nvar baz = function() {\n  // do some stuff, return something\n}\n// defining a spy from scratch: foo() calls the function baz\nvar foo = jasmine.createSpy('spy on foo').andCall(baz);\n\n// defining a spy on an existing property: foo.bar() calls an anonymnous function\nspyOn(foo, 'bar').andCall(function() { return 'baz';} );"
+            ],
+            "params": [
+                {
+                    "name": "fakeFunc",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 354,
+            "description": "Resets all of a spy's the tracking variables so that it can be used again.",
+            "example": [
+                "\nspyOn(foo, 'bar');\n\nfoo.bar();\n\nexpect(foo.bar.callCount).toEqual(1);\n\nfoo.bar.reset();\n\nexpect(foo.bar.callCount).toEqual(0);"
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 400,
+            "description": "Determines whether an object is a spy.",
+            "params": [
+                {
+                    "name": "putativeSpy",
+                    "description": "",
+                    "type": "jasmine.Spy|Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 410,
+            "description": "Creates a more complicated spy: an Object that has every property a function that is a spy.  Used for stubbing something\nlarge in one call.",
+            "params": [
+                {
+                    "name": "baseName",
+                    "description": "name of spy class",
+                    "type": "String"
+                },
+                {
+                    "name": "methodNames",
+                    "description": "array of names of methods to make spies",
+                    "type": "Array"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 428,
+            "description": "All parameters are pretty-printed and concatenated together, then written to the current spec's output.\n\nBe careful not to leave calls to <code>jasmine.log</code> in production code.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 438,
+            "description": "Function that installs a spy on an existing object's method name.  Used within a Spec to create a spy.",
+            "example": [
+                "\n// spy example\nvar foo = {\n  not: function(bool) { return !bool; }\n}\nspyOn(foo, 'not'); // actual foo.not will not be called, execution stops"
+            ],
+            "see": [
+                "jasmine.createSpy"
+            ],
+            "params": [
+                {
+                    "name": "obj",
+                    "description": ""
+                },
+                {
+                    "name": "methodName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "a Jasmine spy that can be chained with all spy methods"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 458,
+            "description": "Creates a Jasmine spec that will be added to the current suite.\n\n// TODO: pending tests",
+            "example": [
+                "\nit('should be true', function() {\n  expect(true).toEqual(true);\n});"
+            ],
+            "params": [
+                {
+                    "name": "desc",
+                    "description": "description of this specification",
+                    "type": "String"
+                },
+                {
+                    "name": "func",
+                    "description": "defines the preconditions and expectations of the spec",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 476,
+            "description": "Creates a <em>disabled</em> Jasmine spec.\n\nA convenience method that allows existing specs to be disabled temporarily during development.",
+            "params": [
+                {
+                    "name": "desc",
+                    "description": "description of this specification",
+                    "type": "String"
+                },
+                {
+                    "name": "func",
+                    "description": "defines the preconditions and expectations of the spec",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 489,
+            "description": "Starts a chain for a Jasmine expectation.\n\nIt is passed an Object that is the actual value and should chain to one of the many\njasmine.Matchers functions.",
+            "params": [
+                {
+                    "name": "actual",
+                    "description": "Actual value to test against and expected value",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 502,
+            "description": "Defines part of a jasmine spec.  Used in cominbination with waits or waitsFor in asynchrnous specs.",
+            "params": [
+                {
+                    "name": "func",
+                    "description": "Function that defines part of a jasmine spec.",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 512,
+            "description": "Waits a fixed time period before moving to the next block.",
+            "deprecated": true,
+            "deprecationMessage": "Use waitsFor() instead",
+            "params": [
+                {
+                    "name": "timeout",
+                    "description": "milliseconds to wait",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 523,
+            "description": "Waits for the latchFunction to return true before proceeding to the next block.",
+            "params": [
+                {
+                    "name": "latchFunction",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "optional_timeoutMessage",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "optional_timeout",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 535,
+            "description": "A function that is called before each spec in a suite.\n\nUsed for spec setup, including validating assumptions.",
+            "params": [
+                {
+                    "name": "beforeEachFunction",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 547,
+            "description": "A function that is called after each spec in a suite.\n\nUsed for restoring any state that is hijacked during spec execution.",
+            "params": [
+                {
+                    "name": "afterEachFunction",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 559,
+            "description": "Defines a suite of specifications.\n\nStores the description and all defined specs in the Jasmine environment as one suite of specs. Variables declared\nare accessible by calls to beforeEach, it, and afterEach. Describe blocks can be nested, allowing for specialization\nof setup in some tests.",
+            "example": [
+                "\n// TODO: a simple suite\n\n// TODO: a simple suite with a nested describe block"
+            ],
+            "params": [
+                {
+                    "name": "description",
+                    "description": "A string, usually the class under test.",
+                    "type": "String"
+                },
+                {
+                    "name": "specDefinitions",
+                    "description": "function that defines several specs.",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 579,
+            "description": "Disables a suite of specifications.  Used to disable some suites in a file, or files, temporarily during development.",
+            "params": [
+                {
+                    "name": "description",
+                    "description": "A string, usually the class under test.",
+                    "type": "String"
+                },
+                {
+                    "name": "specDefinitions",
+                    "description": "function that defines several specs.",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 618,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 623,
+            "description": "Declare that a child class inherit it's prototype from the parent class.",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "childClass",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "parentClass",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 631,
+            "access": "private",
+            "tagname": "",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 685,
+            "description": "Environment for Jasmine",
+            "is_constructor": 1,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 723,
+            "return": {
+                "description": "an object containing jasmine version build info, if set."
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 734,
+            "return": {
+                "description": "string containing jasmine version build info, if set."
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 751,
+            "return": {
+                "description": "a sequential integer starting at 0"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 758,
+            "return": {
+                "description": "a sequential integer starting at 0"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 765,
+            "description": "Register a reporter to receive status updates from Jasmine.",
+            "params": [
+                {
+                    "name": "reporter",
+                    "description": "An object which will receive status updates.",
+                    "type": "jasmine.Reporter"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 954,
+            "is_constructor": 1,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 985,
+            "description": "Blocks are functions with executable code that make up a spec.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "env",
+                    "description": "",
+                    "type": "jasmine.Env"
+                },
+                {
+                    "name": "func",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "spec",
+                    "description": "",
+                    "type": "jasmine.Spec"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1007,
+            "is_constructor": 1,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1109,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "env",
+                    "description": "",
+                    "type": "jasmine.Env"
+                },
+                {
+                    "name": "actual",
+                    "description": ""
+                },
+                {
+                    "name": "spec",
+                    "description": "",
+                    "type": "jasmine.Spec"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1186,
+            "description": "toBe: compares the actual to the expected using ===",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": ""
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1194,
+            "description": "toNotBe: compares the actual to the expected using !==",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": ""
+                }
+            ],
+            "deprecated": true,
+            "deprecationMessage": "as of 1.0. Use not.toBe() instead.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1203,
+            "description": "toEqual: compares the actual to the expected using common sense equality. Handles Objects, Arrays, etc.",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": ""
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1212,
+            "description": "toNotEqual: compares the actual to the expected using the ! of jasmine.Matchers.toEqual",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": ""
+                }
+            ],
+            "deprecated": true,
+            "deprecationMessage": "as of 1.0. Use not.toNotEqual() instead.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1221,
+            "description": "Matcher that compares the actual to the expected using a regular expression.  Constructs a RegExp, so takes\na pattern or a String.",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": ""
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1231,
+            "description": "Matcher that compares the actual to the expected using the boolean inverse of jasmine.Matchers.toMatch",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": ""
+                }
+            ],
+            "deprecated": true,
+            "deprecationMessage": "as of 1.0. Use not.toMatch() instead.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1240,
+            "description": "Matcher that compares the actual to jasmine.undefined.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1247,
+            "description": "Matcher that compares the actual to jasmine.undefined.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1254,
+            "description": "Matcher that compares the actual to null.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1261,
+            "description": "Matcher that boolean not-nots the actual.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1269,
+            "description": "Matcher that boolean nots the actual.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1277,
+            "description": "Matcher that checks to see if the actual, a Jasmine spy, was called.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1299,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1302,
+            "description": "Matcher that checks to see if the actual, a Jasmine spy, was not called.",
+            "deprecated": true,
+            "deprecationMessage": "Use expect(xxx).not.toHaveBeenCalled() instead",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1326,
+            "description": "Matcher that checks to see if the actual, a Jasmine spy, was called with a set of parameters.",
+            "example": [
+                "\n"
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1355,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1358,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1375,
+            "description": "Matcher that checks that the expected item is an element in the actual Array.",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1384,
+            "description": "Matcher that checks that the expected item is NOT an element in the actual Array.",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "deprecated": true,
+            "deprecationMessage": "as of 1.0. Use not.toNotContain() instead.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1402,
+            "description": "Matcher that checks that the expected item is equal to the actual item\nup to a given level of decimal precision (default 2).",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "precision",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1419,
+            "description": "Matcher that checks that the expected exception was thrown by the actual.",
+            "params": [
+                {
+                    "name": "expected",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1480,
+            "is_constructor": 1,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1515,
+            "description": "Holds results for a set of Jasmine spec. Allows for the results array to hold another jasmine.NestedResults",
+            "is_constructor": 1,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1521,
+            "description": "The total count of results",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1525,
+            "description": "Number of passed results",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1529,
+            "description": "Number of failed results",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1533,
+            "description": "Was this suite/spec skipped?",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1537,
+            "ignore": "",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1543,
+            "description": "Roll up the result counts.",
+            "params": [
+                {
+                    "name": "result",
+                    "description": ""
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1554,
+            "description": "Adds a log message.",
+            "params": [
+                {
+                    "name": "values",
+                    "description": "Array of message parts which will be concatenated later."
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1562,
+            "description": "Getter for the results: message & results.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1569,
+            "description": "Adds a result, tracking counts (total, passed, & failed)",
+            "params": [
+                {
+                    "name": "result",
+                    "description": "",
+                    "type": "jasmine.ExpectationResult|jasmine.NestedResults"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1589,
+            "return": {
+                "description": "True if <b>everything</b> below passed",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1595,
+            "description": "Base class for pretty printing for expectation results.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1602,
+            "description": "Formats a value in a nice, human-readable string.",
+            "params": [
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1817,
+            "description": "Runner",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "env",
+                    "description": "",
+                    "type": "jasmine.Env"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1894,
+            "description": "Internal representation of a Jasmine specification, or test.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "env",
+                    "description": "",
+                    "type": "jasmine.Env"
+                },
+                {
+                    "name": "suite",
+                    "description": "",
+                    "type": "jasmine.Suite"
+                },
+                {
+                    "name": "description",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1933,
+            "description": "All parameters are pretty-printed and concatenated together, then written to the spec's output.\n\nBe careful not to leave calls to <code>jasmine.log</code> in production code.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1956,
+            "params": [
+                {
+                    "name": "result",
+                    "description": "",
+                    "type": "jasmine.ExpectationResult"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1969,
+            "description": "Waits a fixed time period before moving to the next block.",
+            "deprecated": true,
+            "deprecationMessage": "Use waitsFor() instead",
+            "params": [
+                {
+                    "name": "timeout",
+                    "description": "milliseconds to wait",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 1981,
+            "description": "Waits for the latchFunction to return true before proceeding to the next block.",
+            "params": [
+                {
+                    "name": "latchFunction",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "optional_timeoutMessage",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "optional_timeout",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 2137,
+            "description": "Internal representation of a Jasmine suite.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "env",
+                    "description": "",
+                    "type": "jasmine.Env"
+                },
+                {
+                    "name": "description",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "specDefinitions",
+                    "description": "",
+                    "type": "Function"
+                },
+                {
+                    "name": "parentSuite",
+                    "description": "",
+                    "type": "jasmine.Suite"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 2234,
+            "description": "A block which waits for some condition to become true, with timeout.",
+            "is_constructor": 1,
+            "extends": "jasmine.Block",
+            "params": [
+                {
+                    "name": "env",
+                    "description": "The Jasmine environment.",
+                    "type": "jasmine.Env"
+                },
+                {
+                    "name": "timeout",
+                    "description": "The maximum time in milliseconds to wait for the condition to become true.",
+                    "type": "Number"
+                },
+                {
+                    "name": "latchFunction",
+                    "description": "A function which returns true when the desired condition has been met.",
+                    "type": "Function"
+                },
+                {
+                    "name": "message",
+                    "description": "The message to display if the desired condition hasn't been met within the given time period.",
+                    "type": "String"
+                },
+                {
+                    "name": "spec",
+                    "description": "The Jasmine spec.",
+                    "type": "jasmine.Spec"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\jasmine\\jasmine.js",
+            "line": 2375,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\webL10n\\l10n.js",
+            "line": 1,
+            "description": "Permission is hereby granted, free of charge, to any person obtaining a copy\n of this software and associated documentation files (the \"Software\"), to\n deal in the Software without restriction, including without limitation the\n rights to use, copy, modify, merge, publish, distribute, sublicense, and/or\n sell copies of the Software, and to permit persons to whom the Software is\n furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in\n all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\n FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS\n IN THE SOFTWARE.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\webL10n\\l10n.js",
+            "line": 47,
+            "description": "DOM helpers for the so-called \"HTML API\".\n\nThese functions are written for modern browsers. For old versions of IE,\nthey're overridden in the 'startup' section at the end of this file.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\webL10n\\l10n.js",
+            "line": 87,
+            "description": "l10n resource parser:\n - reads (async XHR) the l10n resource matching `lang';\n - imports linked resources (synchronously) when specified;\n - parses the text data (fills `gL10nData' and `gTextData');\n - triggers success/failure callbacks when done.",
+            "params": [
+                {
+                    "name": "href!~YUIDOC_LINE~!",
+                    "description": "URL of the l10n resource to parse.",
+                    "type": "String"
+                },
+                {
+                    "name": "lang!~YUIDOC_LINE~!",
+                    "description": "locale (language) to parse.",
+                    "type": "String"
+                },
+                {
+                    "name": "successCallback!~YUIDOC_LINE~!",
+                    "description": "triggered when the l10n resource has been successully parsed.",
+                    "type": "Function"
+                },
+                {
+                    "name": "failureCallback!~YUIDOC_LINE~!",
+                    "description": "triggered when the an error has occured.",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "\n   uses the following global variables: gL10nData, gTextData, gTextProp.",
+                "type": "Void"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\webL10n\\l10n.js",
+            "line": 304,
+            "description": "Get rules for plural forms (shared with JetPack), see:\nhttp://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html\nhttps://github.com/mozilla/addon-sdk/blob/master/python-lib/plural-rules-generator.p",
+            "params": [
+                {
+                    "name": "lang!~YUIDOC_LINE~!",
+                    "description": "locale (language) used.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "\n   returns a function that gives the plural form name for a given integer:\n      var fun = getPluralRules('en');\n      fun(1)    -> 'one'\n      fun(0)    -> 'other'\n      fun(1000) -> 'other'.",
+                "type": "Function"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\webL10n\\l10n.js",
+            "line": 745,
+            "description": "l10n dictionary functions",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\external\\webL10n\\l10n.js",
+            "line": 760,
+            "description": "The plan is to support C-style expressions from the l20n project;\nuntil then, only two kinds of simple expressions are supported:\n  {[ index ]} and {{ arguments }}.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\core.js",
+            "line": 267,
+            "description": "The `PDFDocument` holds all the data of the PDF file. Compared to the\n`PDFDoc`, this one doesn't have any job management code.\nRight now there exists one PDFDocument on the main thread + one object\nfor each worker. If there is no worker support enabled, there are two\n`PDFDocument` objects on the main thread created.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\fonts.js",
+            "line": 291,
+            "description": "Hold a map of decoded fonts and of the standard fourteen Type1\nfonts and their acronyms.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\fonts.js",
+            "line": 346,
+            "description": "Holds the map of the non-standard fonts that might be included as a standard\nfonts without glyph data.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\fonts.js",
+            "line": 2149,
+            "description": "'Font' is the class the outside world should use, it encapsulate all the font\ndecoding logics whatever type it is (assuming the font type is supported).\n\nFor example to read a Type1 font and to attach it to the document:\n  var type1Font = new Font(\"MyFontName\", binaryFile, propertiesObject);\n  type1Font.bind();",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\fonts.js",
+            "line": 2871,
+            "description": "Read the appropriate subtable from the cmap according to 9.6.6.4 from\nPDF spec",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\fonts.js",
+            "line": 5211,
+            "description": "The CFF class takes a Type1 file and wrap it into a\n'Compact Font Format' which itself embed Type2 charstrings.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\image.js",
+            "line": 23,
+            "description": "Decode the image in the main thread if it supported. Resovles the promise\nwhen the image data is ready.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\image.js",
+            "line": 43,
+            "description": "Decode and clamp a value. The formula is different from the spec because we\ndon't decode to float range [0,1], we decode it in the [0,max] range.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\image.js",
+            "line": 126,
+            "description": "Handles processing of image data and calls the callback with an argument\nof a PDFImage when the image is ready to be used.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\image.js",
+            "line": 170,
+            "description": "Resize an image using the nearest neighbor algorithm.  Currently only\nsupports one and three component images.",
+            "params": [
+                {
+                    "name": "pixels",
+                    "description": "The original image with one component.",
+                    "type": "TypedArray"
+                },
+                {
+                    "name": "bpc",
+                    "description": "Number of bits per component.",
+                    "type": "Number"
+                },
+                {
+                    "name": "components",
+                    "description": "Number of color components, 1 or 3 is supported.",
+                    "type": "Number"
+                },
+                {
+                    "name": "w1",
+                    "description": "Original width.",
+                    "type": "Number"
+                },
+                {
+                    "name": "h1",
+                    "description": "Original height.",
+                    "type": "Number"
+                },
+                {
+                    "name": "w2",
+                    "description": "New width.",
+                    "type": "Number"
+                },
+                {
+                    "name": "h2",
+                    "description": "New height.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Resized image data.",
+                "type": "TypedArray"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\obj.js",
+            "line": 1041,
+            "description": "A NameTree is like a Dict but has some adventagous properties, see the spec\n(7.9.6) for more details.\nTODO: implement all the Dict functions and make this more efficent.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\obj.js",
+            "line": 1093,
+            "description": "A helper for loading missing data in object graphs. It traverses the graph\ndepth first and queues up any objects that have missing data. Once it has\nhas traversed as many objects that are available it attempts to bundle the\nmissing data requests and then resume from the nodes that weren't ready.\n\nNOTE: It provides protection from circular references by keeping track of\nof loaded references. However, you must be careful not to load any graphs\nthat have references to the catalog or other pages since that will cause the\nentire PDF document object graph to be traversed.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\stream.js",
+            "line": 797,
+            "description": "Depending on the type of JPEG a JpegStream is handled in different ways. For\nJPEG's that are supported natively such as DeviceGray and DeviceRGB the image\ndata is stored and then loaded by the browser.  For unsupported JPEG's we use\na library to decode these images and the stream behaves like all the other\nDecodeStreams.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\stream.js",
+            "line": 837,
+            "description": "Checks if the image can be decoded and displayed by the browser without any\nfurther processing such as color space conversions.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\stream.js",
+            "line": 846,
+            "description": "Checks if the image can be decoded by the browser.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\stream.js",
+            "line": 859,
+            "description": "For JPEG 2000's we use a library to decode these images and\nthe stream behaves like all the other DecodeStreams.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\core\\stream.js",
+            "line": 958,
+            "description": "For JBIG2's we use a library to decode these images and\nthe stream behaves like all the other DecodeStreams.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 25,
+            "description": "The maximum allowed image size in total pixels e.g. width * height. Images\nabove this value will not be drawn. Use -1 for no limit.",
+            "var": "{Number}",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 32,
+            "description": "This is the main entry point for loading a PDF and interacting with it.\nNOTE: If a URL is used to fetch the PDF data a standard XMLHttpRequest(XHR)\nis used, which means it must follow the same origin rules that any XHR does\ne.g. No cross domain requests without CORS.",
+            "params": [
+                {
+                    "name": "source",
+                    "description": "Can be an url to where a PDF is\nlocated, a typed array (Uint8Array) already populated with data or\nand parameter object with the following possible fields:\n - url   - The URL of the PDF.\n - data  - A typed array with PDF data.\n - httpHeaders - Basic authentication headers.\n - password - For decrypting password-protected PDFs.",
+                    "type": "String|TypedAray|object"
+                },
+                {
+                    "name": "pdfDataRangeTransport",
+                    "description": "is optional. It is used if you want\nto manually serve range requests for data in the PDF. See viewer.js for\nan example of pdfDataRangeTransport's interface.",
+                    "type": "Object"
+                },
+                {
+                    "name": "passwordCallback",
+                    "description": "is optional. It is used to request a\npassword if wrong or no password was provided. The callback receives two\nparameters: function that needs to be called with new password and reason\n(see {PasswordResponses}).",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "A promise that is resolved with {PDFDocumentProxy} object.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 96,
+            "description": "Proxy to a PDFDocument in the worker thread. Also, contains commonly used\nproperties that can be read synchronously.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 106,
+            "return": {
+                "description": "Total number of pages the PDF contains.",
+                "type": "Number"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 112,
+            "return": {
+                "description": "A unique ID to identify a PDF. Not guaranteed to be\nunique.",
+                "type": "String"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 119,
+            "return": {
+                "description": "true if embedded document fonts are in use. Will be\nset during rendering of the pages.",
+                "type": "Boolean"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 126,
+            "params": [
+                {
+                    "name": "The",
+                    "description": "page number to get. The first page is 1.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "A promise that is resolved with a {PDFPageProxy}\nobject.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 134,
+            "return": {
+                "description": "A promise that is resolved with a lookup table for\nmapping named destinations to reference numbers.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 141,
+            "return": {
+                "description": "A promise that is resolved with an array of all the\nJavaScript strings in the name tree.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 151,
+            "return": {
+                "description": "A promise that is resolved with an {array} that is a\ntree outline (if it has one) of the PDF. The tree is in the format of:\n[\n {\n  title: string,\n  bold: boolean,\n  italic: boolean,\n  color: rgb array,\n  dest: dest obj,\n  items: array of more items like this\n },\n ...\n].",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 172,
+            "return": {
+                "description": "A promise that is resolved with an {object} that has\ninfo and metadata properties.  Info is an {object} filled with anything\navailable in the information dictionary and similarly metadata is a\n{Metadata} object with information from the metadata section of the PDF.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 193,
+            "return": {
+                "description": "A promise that is resolved with a TypedArray that has\nthe raw data from the PDF.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 202,
+            "return": {
+                "description": "A promise that is resolved when the document's data\nis loaded",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 230,
+            "return": {
+                "description": "Page number of the page. First page is 1.",
+                "type": "Number"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 236,
+            "return": {
+                "description": "The number of degrees the page is rotated clockwise.",
+                "type": "Number"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 242,
+            "return": {
+                "description": "The reference that points to this page. It has 'num' and\n'gen' properties.",
+                "type": "Object"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 249,
+            "return": {
+                "description": "An array of the visible portion of the PDF page in the\nuser space units - [x1, y1, x2, y2].",
+                "type": "Array"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 256,
+            "params": [
+                {
+                    "name": "scale",
+                    "description": "The desired scale of the viewport.",
+                    "type": "Number"
+                },
+                {
+                    "name": "rotate",
+                    "description": "Degrees to rotate the viewport. If omitted this\ndefaults to the page rotation.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Contains 'width' and 'height' properties along\nwith transforms required for rendering.",
+                "type": "PageViewport"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 268,
+            "return": {
+                "description": "A promise that is resolved with an {array} of the\nannotation objects.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 281,
+            "description": "Begins the process of rendering a page to the desired context.",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameter object that supports:\n{\n  canvasContext(required): A 2D context of a DOM Canvas object.,\n  textLayer(optional): An object that has beginLayout, endLayout, and\n                       appendText functions.,\n  imageLayer(optional): An object that has beginLayout, endLayout and\n                        appendImage functions.,\n  continueCallback(optional): A function that will be called each time\n                              the rendering is paused.  To continue\n                              rendering call the function that is the\n                              first argument to the callback.\n}.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "An extended promise that is resolved when the page\nfinishes rendering (see RenderTask).",
+                "type": "RenderTask"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 367,
+            "return": {
+                "description": "That is resolved with the a {string} that is the text\ncontent from the page.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 382,
+            "description": "Stub for future feature.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 394,
+            "description": "Destroys resources allocated by the page.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 401,
+            "description": "For internal use only. Attempts to clean up if rendering is in a state\nwhere that's possible.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 417,
+            "description": "For internal use only.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 423,
+            "description": "For internal use only.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 447,
+            "description": "For internal use only.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 820,
+            "description": "A PDF document and page is built of many objects. E.g. there are objects\nfor fonts, images, rendering code and such. These objects might get processed\ninside of a worker. The `PDFObjects` implements some basic functions to\nmanage these objects.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 832,
+            "description": "Internal function.\nEnsures there is an object defined for `objId`.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 850,
+            "description": "If called *without* callback, this returns the data of `objId` but the\nobject needs to be resolved. If it isn't, this function throws.\n\nIf called *with* a callback, the callback is called with the data of the\nobject once the object is resolved. That means, if you call this\nfunction and the object is already resolved, the callback gets called\nright away.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 879,
+            "description": "Resolves the object `objId` with optional `data`.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 904,
+            "description": "Returns the data of `objId` if object exists, null otherwise.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\api.js",
+            "line": 933,
+            "description": "Cancel the rendering task. If the task is curently rendering it will not be\ncancelled until graphics pauses with a timeout. The promise that this\nobject extends will resolved when cancelled.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\font_loader.js",
+            "line": 144,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\display\\font_loader.js",
+            "line": 248,
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 29,
+            "description": "Converts the color value to the RGB color. The color components are\nlocated in the src array starting from the srcOffset. Returns the array\nof the rgb components, each value ranging from [0,255].",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 37,
+            "description": "Converts the color value to the RGB color, similar to the getRgb method.\nThe result placed into the dest array starting from the destOffset.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 44,
+            "description": "Converts the specified number of the color values to the RGB colors.\nThe colors are located in the src array starting from the srcOffset.\nThe result is placed into the dest array starting from the destOffset.\nThe src array items shall be in [0,2^bits) range, the dest array items\nwill be in [0,255] range.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 55,
+            "description": "Determines amount of the bytes is required to store the reslut of the\nconversion that done by the getRgbBuffer method.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 62,
+            "description": "Returns true if source data will be equal the result/output data.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 68,
+            "description": "Creates the output buffer and converts the specified number of the color\nvalues to the RGB colors, similar to the getRgbBuffer.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 109,
+            "description": "True if the colorspace has components in the default range of [0, 1].\nThis should be true for all colorspaces except for lab color spaces\nwhich are [0,100], [-128, 127], [-128, 127].",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 260,
+            "description": "Checks if a decode map matches the default decode map for a color space.\nThis handles the general decode maps where there are two values per\ncomponent. e.g. [0, 1, 0, 1, 0, 1] for a RGB color.\nThis does not handle Lab, Indexed, or Pattern decode maps since they are\nslightly different.",
+            "params": [
+                {
+                    "name": "decode",
+                    "description": "Decode map (usually from an image).",
+                    "type": "Array"
+                },
+                {
+                    "name": "n",
+                    "description": "Number of components the color space has.",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\colorspace.js",
+            "line": 299,
+            "description": "Alternate color space handles both Separation and DeviceN color spaces.  A\nSeparation color space is actually just a DeviceN with one color component.\nBoth color spaces use a tinting function to convert colors to a base color\nspace.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\util.js",
+            "line": 702,
+            "description": "The following promise implementation tries to generally implment the\nPromise/A+ spec. Some notable differences from other promise libaries are:\n- There currently isn't a seperate deferred and promise object.\n- Unhandled rejections eventually show an error if they aren't handled.\n\nBased off of the work in:\nhttps://bugzilla.mozilla.org/show_bug.cgi?id=810490",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\util.js",
+            "line": 823,
+            "description": "Builds a promise that is resolved when all the passed in promises are\nresolved.",
+            "params": [
+                {
+                    "name": "promises",
+                    "description": "Array of promises to wait for.",
+                    "type": "Promise[]"
+                }
+            ],
+            "return": {
+                "description": "New dependant promise.",
+                "type": "Promise"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\src\\shared\\util.js",
+            "line": 1050,
+            "description": "Sends a message to the comObj to invoke the action with the supplied data.",
+            "params": [
+                {
+                    "name": "actionName",
+                    "description": "Action to call.",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "JSON data to send.",
+                    "type": "JSON"
+                },
+                {
+                    "name": "callback",
+                    "description": "Optional callback that will handle a reply.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\firefoxcom.js",
+            "line": 21,
+            "description": "Creates an event that the extension is listening for and will\nsynchronously respond to.\nNOTE: It is reccomended to use request() instead since one day we may not\nbe able to synchronously reply.",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The action to trigger.",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Optional data to send.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The response.",
+                "type": "*"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\firefoxcom.js",
+            "line": 42,
+            "description": "Creates an event that the extension is listening for and will\nasynchronously respond by calling the callback.",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The action to trigger.",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Optional data to send.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Optional response callback that will be called\nwith one data argument.",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\pdf_find_bar.js",
+            "line": 21,
+            "description": "Creates a \"search bar\" given set of DOM elements\nthat act as controls for searching, or for setting\nsearch preferences in the UI. This object also sets\nup the appropriate events for the controls. Actual\nsearching is done by PDFFindController",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\pdf_find_controller.js",
+            "line": 21,
+            "description": "Provides a \"search\" or \"find\" functionality for the PDF.\nThis object actually performs the search for a given string.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\text_layer_builder.js",
+            "line": 21,
+            "description": "TextLayerBuilder provides text-selection\nfunctionality for the PDF. It does this\nby creating overlay divs over the PDF\ntext. This divs contain text that matches\nthe PDF text they are overlaying. This\nobject also provides for a way to highlight\ntext that is being searched for.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\ui_utils.js",
+            "line": 79,
+            "description": "Returns scale factor for the canvas. It makes sense for the HiDPI displays.",
+            "return": {
+                "description": "The object with horizontal (sx) and vertical (sy)\n                   scales. The scaled property is set to false if scaling is\n                   not required, true otherwise.",
+                "type": "Object"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\ui_utils.js",
+            "line": 94,
+            "description": "Scrolls specified element into view of its parent.\nelement {Object} The element to be visible.\nspot {Object} The object with the top property -- offset from the top edge.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\ui_utils.js",
+            "line": 120,
+            "description": "Event handler to suppress context menu.",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\ui_utils.js",
+            "line": 127,
+            "description": "Returns the filename or guessed filename from the url (see issue 3455).\nurl {String} The original PDF location.",
+            "return": {
+                "description": "Guessed PDF file name.",
+                "type": "String"
+            },
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer.js",
+            "line": 793,
+            "description": "For the firefox extension we prefix the full url on anchor links so they\ndon't come up as resource:// urls and so open in new tab/window works.",
+            "params": [
+                {
+                    "name": "anchor",
+                    "description": "The anchor hash include the #.",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer.js",
+            "line": 807,
+            "description": "Show the error box.",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "A message that is human readable.",
+                    "type": "String"
+                },
+                {
+                    "name": "moreInfo",
+                    "description": "(optional) Further information about the error\n                           that is more technical.  Should have a 'message'\n                           and optionally a 'stack' property.",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer.js",
+            "line": 1546,
+            "description": "This function flips the page in presentation mode if the user scrolls up\nor down with large enough motion and prevents page flipping too often.",
+            "this": "{PDFView}",
+            "params": [
+                {
+                    "name": "mouseScrollDelta",
+                    "description": "The delta value from the mouse event.",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer.js",
+            "line": 1600,
+            "description": "This function clears the member attributes used with mouse scrolling in\npresentation mode.",
+            "this": "{PDFView}",
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer_init.js",
+            "line": 645,
+            "description": "For the firefox extension we prefix the full url on anchor links so they\ndon't come up as resource:// urls and so open in new tab/window works.",
+            "params": [
+                {
+                    "name": "anchor",
+                    "description": "The anchor hash include the #.",
+                    "type": "String"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer_init.js",
+            "line": 659,
+            "description": "Show the error box.",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "A message that is human readable.",
+                    "type": "String"
+                },
+                {
+                    "name": "moreInfo",
+                    "description": "(optional) Further information about the error\n                           that is more technical.  Should have a 'message'\n                           and optionally a 'stack' property.",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer_init.js",
+            "line": 1257,
+            "description": "This function flips the page in presentation mode if the user scrolls up\nor down with large enough motion and prevents page flipping too often.",
+            "this": "{PDFView}",
+            "params": [
+                {
+                    "name": "mouseScrollDelta",
+                    "description": "The delta value from the mouse event.",
+                    "type": "Number"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "viewer\\viewer_init.js",
+            "line": 1311,
+            "description": "This function clears the member attributes used with mouse scrolling in\npresentation mode.",
+            "this": "{PDFView}",
+            "class": "disk"
+        },
+        {
+            "file": "hm_popBox_database.js",
+            "line": 1,
+            "author": "jerry",
+            "class": "disk"
+        },
+        {
+            "file": "Bomb_box.js",
+            "line": 1,
+            "author": "",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 148,
+            "description": "load the script in frist time",
+            "itemtype": "method",
+            "name": "loadScript",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "the scripts list",
+                    "type": "Array"
+                },
+                {
+                    "name": "success",
+                    "description": "this function will called after one of the files is loaded ok;",
+                    "type": "Function"
+                },
+                {
+                    "name": "finish",
+                    "description": "this function will called after all the files were loaded.",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 169,
+            "itemtype": "method",
+            "name": "getList",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The list's url",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "The list's type",
+                    "type": "Number"
+                },
+                {
+                    "name": "fn",
+                    "description": "Callback function",
+                    "type": "Function"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 374,
+            "description": "get how many capacity you used",
+            "itemtype": "method",
+            "name": "getCapacity",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 400,
+            "itemtype": "method",
+            "name": "getTree",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The Tree's url",
+                    "type": "String"
+                },
+                {
+                    "name": "dom",
+                    "description": "Where the three show",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 707,
+            "description": "html templete",
+            "itemtype": "method",
+            "name": "modle",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 712,
+            "itemtype": "property",
+            "name": "folders",
+            "type": "String",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 722,
+            "itemtype": "property",
+            "name": "files",
+            "type": "String",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 732,
+            "itemtype": "property",
+            "name": "filesBig",
+            "type": "String",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 742,
+            "itemtype": "property",
+            "name": "treeTitle",
+            "type": "String",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 752,
+            "itemtype": "property",
+            "name": "shareF",
+            "type": "String",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 764,
+            "description": "show ListClass",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 791,
+            "description": "format folders",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 873,
+            "description": "format files",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1099,
+            "description": "Show the Folders",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1115,
+            "description": "Show the filesList",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1244,
+            "description": "fit the left aside and main-area's height",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1258,
+            "description": "switch whice database you want show (all,share to me,my share,public)\ntype {string}  'a'|'i'|'o'|'p'",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1278,
+            "description": "switch the file list's icon",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1285,
+            "description": "sort the list",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1348,
+            "description": "browser the floders",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1764,
+            "description": "pages",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1782,
+            "description": "set url",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1800,
+            "description": "get url",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1851,
+            "description": "get cookie",
+            "class": "disk"
+        },
+        {
+            "file": "disk.js",
+            "line": 1869,
+            "description": "set cookie",
+            "class": "disk"
+        },
+        {
+            "file": "drage.js",
+            "line": 1,
+            "description": "drage.js\ndrage to move",
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 66,
+            "description": "new folder",
+            "itemtype": "method",
+            "name": "newfolder",
+            "example": [
+                " fc.newfolder()"
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 90,
+            "description": "edit file",
+            "itemtype": "method",
+            "name": "edit",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "edit type is edit folder use [folder]",
+                            "type": "String"
+                        },
+                        {
+                            "name": "fileName",
+                            "description": "edit file name,you need't give the path,we'll get the path form the url.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "callback",
+                            "description": "callback",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n         fc.edit({'type':'folder',\n                  'fileName':'name',\n                  'callback':function(){\n                      //....\n                  }\n                })"
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 279,
+            "description": "for new folder and folder edit\nobj {object}     popbox:the popbox id\n                 type: newfloder | edit",
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 562,
+            "description": "readen friend choose box in target",
+            "itemtype": "method",
+            "name": "_readenMyfriend",
+            "params": [
+                {
+                    "name": "obj.tar",
+                    "description": "the target where you show the box",
+                    "type": "String"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 786,
+            "description": "delete file",
+            "itemtype": "method",
+            "name": "del",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "the file's name,you needn't give the full path of the file"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 815,
+            "description": "popTree show the pop tree and do the fn",
+            "itemtype": "method",
+            "name": "popTree",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "title",
+                            "description": "the popbox's title",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "fn(choosepath,popbox);",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "example": [
+                " fc.popTree({title:'移动文件夹'},function(path,pop){alert('you choose the target is '+path);popbox.close()})"
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 889,
+            "description": "move files",
+            "itemtype": "method",
+            "name": "move",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "the file's path,you needn't give the full path",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "the callback function",
+                    "type": "Function"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 928,
+            "description": "copy to my database",
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "filePath",
+                    "description": "the full path of the file",
+                    "type": "String"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 994,
+            "itemtype": "method",
+            "name": "share",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "fileName",
+                            "description": "fileName|[filePath]",
+                            "type": "String"
+                        },
+                        {
+                            "name": "filePath",
+                            "description": "fileName|[filePath]",
+                            "type": "String"
+                        },
+                        {
+                            "name": "fullPaht",
+                            "description": "",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "string",
+                    "description": "sid",
+                    "type": "Type"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 1047,
+            "itemtype": "method",
+            "name": "cancelShare",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "file's path",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "callback",
+                    "type": "Function"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 1106,
+            "description": "repotr the file to admin",
+            "itemtype": "method",
+            "name": "reportFile",
+            "params": [
+                {
+                    "name": "sid",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 1143,
+            "description": "preview the file",
+            "itemtype": "method",
+            "name": "preview",
+            "params": [
+                {
+                    "name": "filePath",
+                    "description": "the full path of the files",
+                    "type": "String"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 1191,
+            "description": "make a file as good",
+            "itemtype": "method",
+            "name": "makeGood",
+            "params": [
+                {
+                    "name": "the",
+                    "description": "file's sid\n       {fn}  the callback funciton",
+                    "type": "Sid"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "filesControl.js",
+            "line": 1212,
+            "description": "make a file as bad",
+            "itemtype": "method",
+            "name": "makeBad",
+            "params": [
+                {
+                    "name": "the",
+                    "description": "file's sid\n       {fn}  the callback funciton",
+                    "type": "Sid"
+                }
+            ],
+            "class": "fc"
+        },
+        {
+            "file": "hm_popBox.js",
+            "line": 1,
+            "author": "jerry",
+            "class": "db_print"
+        },
+        {
+            "file": "hm_popBox_database.js",
+            "line": 1,
+            "author": "jerry",
+            "class": "db_print"
+        },
+        {
+            "file": "lantern.js",
+            "line": 1,
+            "author": "bh-lay\n\nlantern(pathname);",
+            "class": "db_print"
+        },
+        {
+            "file": "pdf_frame.js",
+            "line": 1,
+            "author": "bh-lay\n\npdf frame",
+            "class": "db_print"
+        },
+        {
+            "file": "print.js",
+            "line": 19,
+            "description": "Template for this view's container...",
+            "itemtype": "property",
+            "name": "containerTemplate",
+            "type": "String",
+            "class": "db_print"
+        },
+        {
+            "file": "print.js",
+            "line": 38,
+            "itemtype": "method",
+            "name": "print",
+            "params": [
+                {
+                    "name": "filepath",
+                    "description": "the files's path",
+                    "type": "String"
+                }
+            ],
+            "example": [
+                " db_print('xxx/xx/a.docs')"
+            ],
+            "class": "db_print"
+        },
+        {
+            "file": "print.js",
+            "line": 219,
+            "description": "when you money is not enough , borrow the money form friends",
+            "itemtype": "method",
+            "name": "getMoney",
+            "class": "db_print"
+        },
+        {
+            "file": "select.js",
+            "line": 239,
+            "description": "show the actionBar",
+            "itemtype": "method",
+            "name": "actionBar",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "btn",
+                            "description": "",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "pos",
+                            "description": "[x,y]",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "filePath",
+                            "description": "the file's path",
+                            "type": "String"
+                        },
+                        {
+                            "name": "type",
+                            "description": "left",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 478,
+            "description": "select's ballback",
+            "itemtype": "method",
+            "name": "actionDo",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 727,
+            "description": "control select,if you choose more than one , top bar show.",
+            "itemtype": "method",
+            "name": "multi",
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 979,
+            "description": "get the file(s) and folder(s) list which you choosed",
+            "itemtype": "method",
+            "name": "getGroup",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "the type you want get,[files|folders]",
+                    "type": "String"
+                }
+            ],
+            "example": [
+                "\n     select.getGroup('files');\n     select.getGroup('folders');"
+            ],
+            "return": {
+                "description": "the group's id",
+                "type": "Number"
+            },
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 1017,
+            "description": "cancle what you select",
+            "itemtype": "method",
+            "name": "removeAll",
+            "example": [
+                "\n     select.removeAll();"
+            ],
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 1032,
+            "description": "cancle folders",
+            "itemtype": "method",
+            "name": "removeFolders",
+            "example": [
+                "\n     select.removeFolders();"
+            ],
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 1044,
+            "description": "cancle files",
+            "itemtype": "method",
+            "name": "removeFiles",
+            "example": [
+                "\n     select.removeFiles();"
+            ],
+            "class": "select"
+        },
+        {
+            "file": "select.js",
+            "line": 1059,
+            "description": "reg the file you choose",
+            "itemtype": "method",
+            "name": "act.reg",
+            "example": [
+                "\n     select.act.reg.apply(this,arguments)"
+            ],
+            "class": "select"
+        },
+        {
+            "file": "upload.js",
+            "line": 98,
+            "description": "cancle all the files which in the upload list",
+            "itemtype": "method",
+            "name": "cancle",
+            "class": "_fileup"
+        },
+        {
+            "file": "upload.js",
+            "line": 167,
+            "description": "for old browser we use flash to upload",
+            "methoc": "oldupload",
+            "class": "_fileup"
+        },
+        {
+            "file": "upload.js",
+            "line": 387,
+            "description": "for html5\nadd the input",
+            "class": "_fileup"
+        },
+        {
+            "file": "view.js",
+            "line": 1,
+            "author": "bh-lay",
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: ignore",
+            "line": " viewer\\external\\jasmine\\jasmine.js:50"
+        },
+        {
+            "message": "unknown tag: ignore",
+            "line": " viewer\\external\\jasmine\\jasmine.js:122"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:122"
+        },
+        {
+            "message": "unknown tag: ignore",
+            "line": " viewer\\external\\jasmine\\jasmine.js:132"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:132"
+        },
+        {
+            "message": "unknown tag: ignore",
+            "line": " viewer\\external\\jasmine\\jasmine.js:142"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:142"
+        },
+        {
+            "message": "unknown tag: ignore",
+            "line": " viewer\\external\\jasmine\\jasmine.js:152"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:152"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:163"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:175"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:185"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:400"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:438"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:723"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:734"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:751"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:758"
+        },
+        {
+            "message": "unknown tag: ignore",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1537"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1589"
+        },
+        {
+            "message": "unknown tag: var",
+            "line": " viewer\\src\\display\\api.js:25"
+        },
+        {
+            "message": "unknown tag: this",
+            "line": " viewer\\viewer.js:1546"
+        },
+        {
+            "message": "unknown tag: this",
+            "line": " viewer\\viewer.js:1600"
+        },
+        {
+            "message": "unknown tag: this",
+            "line": " viewer\\viewer_init.js:1257"
+        },
+        {
+            "message": "unknown tag: this",
+            "line": " viewer\\viewer_init.js:1311"
+        },
+        {
+            "message": "unknown tag: methoc",
+            "line": " upload.js:167"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:22"
+        },
+        {
+            "message": "Missing item type\nInsert the content script in a tab which renders the PDF viewer.",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:39"
+        },
+        {
+            "message": "Missing item type\nTry to render the PDF viewer when (a frame within) a tab unloads.\nThis indicates that a PDF file may be loading.",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:58"
+        },
+        {
+            "message": "Missing item type\nFallback for Opera.",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:82"
+        },
+        {
+            "message": "Missing item type\nGet the header from the list of headers for a given name.",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:95"
+        },
+        {
+            "message": "Missing item type\nCheck if the request is a PDF file.",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:109"
+        },
+        {
+            "message": "Missing item type\nTakes a set of headers, and set \"Content-Disposition: attachment\".",
+            "line": " viewer\\extensions\\chrome\\pdfHandler.js:126"
+        },
+        {
+            "message": "Missing item type\nThis is for range requests",
+            "line": " viewer\\extensions\\firefox\\components\\PdfStreamConverter.js:438"
+        },
+        {
+            "message": "Missing item type\nThis is for a single network stream",
+            "line": " viewer\\extensions\\firefox\\components\\PdfStreamConverter.js:528"
+        },
+        {
+            "message": "Missing item type\nA simple preprocessor that is based on the firefox preprocessor\nsee (https://developer.mozilla.org/en/Build/Text_Preprocessor).  The main\ndifference is that this supports a subset of the commands and it supports\npreproccesor commands in html style comments.\nCurrently Supported commands:\n- if\n- else\n- endif\n- include\n- expand",
+            "line": " viewer\\external\\builder\\builder.js:11"
+        },
+        {
+            "message": "Missing item type\nSimplifies common build steps.",
+            "line": " viewer\\external\\builder\\builder.js:164"
+        },
+        {
+            "message": "Missing item type\nMerge two defines arrays. Values in the second param will override values in\nthe first.",
+            "line": " viewer\\external\\builder\\builder.js:204"
+        },
+        {
+            "message": "Missing item type\nTop level namespace for Jasmine, a lightweight JavaScript BDD/spec/testing framework.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:3"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:10"
+        },
+        {
+            "message": "Missing item type\nUse <code>jasmine.undefined</code> instead of <code>undefined</code>, since <code>undefined</code> is just\na plain old variable and may be redefined by somebody else.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:17"
+        },
+        {
+            "message": "Missing item type\nShow diagnostic messages in the console if set to true",
+            "line": " viewer\\external\\jasmine\\jasmine.js:25"
+        },
+        {
+            "message": "Missing item type\nDefault interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all tests have completed.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:31"
+        },
+        {
+            "message": "Missing item type\nDefault timeout interval in milliseconds for waitsFor() blocks.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:37"
+        },
+        {
+            "message": "Missing item type\nAllows for bound functions to be compared.  Internal use only.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:50"
+        },
+        {
+            "message": "Missing item type\nGetter for the Jasmine environment. Ensures one gets created",
+            "line": " viewer\\external\\jasmine\\jasmine.js:114"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:122"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:132"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:142"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:152"
+        },
+        {
+            "message": "Missing item type\nPretty printer for expecations.  Takes any object and turns it into a human-readable string.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:163"
+        },
+        {
+            "message": "Missing item type\nReturns true if the object is a DOM Node.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:175"
+        },
+        {
+            "message": "Missing item type\nReturns a matchable 'generic' object of the class type.  For use in expecations of type when values don't matter.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:185"
+        },
+        {
+            "message": "Missing item type\nJasmine Spies are test doubles that can act as stubs, spies, fakes or when used in an expecation, mocks.\n\nSpies should be created in test setup, before expectations.  They can then be checked, using the standard Jasmine\nexpectation syntax. Spies can be checked if they were called or not and what the calling params were.\n\nA Spy has the following fields: wasCalled, callCount, mostRecentCall, and argsForCall (see docs).\n\nSpies are torn down at the end of every spec.\n\nNote: Do <b>not</b> call new jasmine.Spy() directly - a spy must be created using spyOn, jasmine.createSpy or jasmine.createSpyObj.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:199"
+        },
+        {
+            "message": "Missing item type\nThe name of the spy, if provided.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:244"
+        },
+        {
+            "message": "Missing item type\nIs this Object a spy?",
+            "line": " viewer\\external\\jasmine\\jasmine.js:248"
+        },
+        {
+            "message": "Missing item type\nThe actual function this spy stubs.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:252"
+        },
+        {
+            "message": "Missing item type\nTracking of the most recent call to the spy.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:257"
+        },
+        {
+            "message": "Missing item type\nHolds arguments for each call to the spy, indexed by call count",
+            "line": " viewer\\external\\jasmine\\jasmine.js:266"
+        },
+        {
+            "message": "Missing item type\nTells a spy to call through to the actual implemenatation.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:280"
+        },
+        {
+            "message": "Missing item type\nFor setting the return value of a spy.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:296"
+        },
+        {
+            "message": "Missing item type\nFor throwing an exception when a spy is called.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:315"
+        },
+        {
+            "message": "Missing item type\nCalls an alternate implementation when a spy is called.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:334"
+        },
+        {
+            "message": "Missing item type\nResets all of a spy's the tracking variables so that it can be used again.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:354"
+        },
+        {
+            "message": "Missing item type\nDetermines whether an object is a spy.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:400"
+        },
+        {
+            "message": "Missing item type\nCreates a more complicated spy: an Object that has every property a function that is a spy.  Used for stubbing something\nlarge in one call.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:410"
+        },
+        {
+            "message": "Missing item type\nAll parameters are pretty-printed and concatenated together, then written to the current spec's output.\n\nBe careful not to leave calls to <code>jasmine.log</code> in production code.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:428"
+        },
+        {
+            "message": "Missing item type\nFunction that installs a spy on an existing object's method name.  Used within a Spec to create a spy.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:438"
+        },
+        {
+            "message": "Missing item type\nCreates a Jasmine spec that will be added to the current suite.\n\n// TODO: pending tests",
+            "line": " viewer\\external\\jasmine\\jasmine.js:458"
+        },
+        {
+            "message": "Missing item type\nCreates a <em>disabled</em> Jasmine spec.\n\nA convenience method that allows existing specs to be disabled temporarily during development.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:476"
+        },
+        {
+            "message": "Missing item type\nStarts a chain for a Jasmine expectation.\n\nIt is passed an Object that is the actual value and should chain to one of the many\njasmine.Matchers functions.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:489"
+        },
+        {
+            "message": "Missing item type\nDefines part of a jasmine spec.  Used in cominbination with waits or waitsFor in asynchrnous specs.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:502"
+        },
+        {
+            "message": "Missing item type\nWaits a fixed time period before moving to the next block.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:512"
+        },
+        {
+            "message": "Missing item type\nWaits for the latchFunction to return true before proceeding to the next block.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:523"
+        },
+        {
+            "message": "Missing item type\nA function that is called before each spec in a suite.\n\nUsed for spec setup, including validating assumptions.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:535"
+        },
+        {
+            "message": "Missing item type\nA function that is called after each spec in a suite.\n\nUsed for restoring any state that is hijacked during spec execution.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:547"
+        },
+        {
+            "message": "Missing item type\nDefines a suite of specifications.\n\nStores the description and all defined specs in the Jasmine environment as one suite of specs. Variables declared\nare accessible by calls to beforeEach, it, and afterEach. Describe blocks can be nested, allowing for specialization\nof setup in some tests.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:559"
+        },
+        {
+            "message": "Missing item type\nDisables a suite of specifications.  Used to disable some suites in a file, or files, temporarily during development.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:579"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:618"
+        },
+        {
+            "message": "Missing item type\nDeclare that a child class inherit it's prototype from the parent class.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:623"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:631"
+        },
+        {
+            "message": "Missing item type\nEnvironment for Jasmine",
+            "line": " viewer\\external\\jasmine\\jasmine.js:685"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:723"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:734"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:751"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:758"
+        },
+        {
+            "message": "Missing item type\nRegister a reporter to receive status updates from Jasmine.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:765"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:954"
+        },
+        {
+            "message": "Missing item type\nBlocks are functions with executable code that make up a spec.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:985"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1007"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1109"
+        },
+        {
+            "message": "Missing item type\ntoBe: compares the actual to the expected using ===",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1186"
+        },
+        {
+            "message": "Missing item type\ntoNotBe: compares the actual to the expected using !==",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1194"
+        },
+        {
+            "message": "Missing item type\ntoEqual: compares the actual to the expected using common sense equality. Handles Objects, Arrays, etc.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1203"
+        },
+        {
+            "message": "Missing item type\ntoNotEqual: compares the actual to the expected using the ! of jasmine.Matchers.toEqual",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1212"
+        },
+        {
+            "message": "Missing item type\nMatcher that compares the actual to the expected using a regular expression.  Constructs a RegExp, so takes\na pattern or a String.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1221"
+        },
+        {
+            "message": "Missing item type\nMatcher that compares the actual to the expected using the boolean inverse of jasmine.Matchers.toMatch",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1231"
+        },
+        {
+            "message": "Missing item type\nMatcher that compares the actual to jasmine.undefined.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1240"
+        },
+        {
+            "message": "Missing item type\nMatcher that compares the actual to jasmine.undefined.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1247"
+        },
+        {
+            "message": "Missing item type\nMatcher that compares the actual to null.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1254"
+        },
+        {
+            "message": "Missing item type\nMatcher that boolean not-nots the actual.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1261"
+        },
+        {
+            "message": "Missing item type\nMatcher that boolean nots the actual.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1269"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks to see if the actual, a Jasmine spy, was called.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1277"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1299"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks to see if the actual, a Jasmine spy, was not called.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1302"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks to see if the actual, a Jasmine spy, was called with a set of parameters.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1326"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1355"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1358"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks that the expected item is an element in the actual Array.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1375"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks that the expected item is NOT an element in the actual Array.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1384"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks that the expected item is equal to the actual item\nup to a given level of decimal precision (default 2).",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1402"
+        },
+        {
+            "message": "Missing item type\nMatcher that checks that the expected exception was thrown by the actual.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1419"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1480"
+        },
+        {
+            "message": "Missing item type\nHolds results for a set of Jasmine spec. Allows for the results array to hold another jasmine.NestedResults",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1515"
+        },
+        {
+            "message": "Missing item type\nThe total count of results",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1521"
+        },
+        {
+            "message": "Missing item type\nNumber of passed results",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1525"
+        },
+        {
+            "message": "Missing item type\nNumber of failed results",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1529"
+        },
+        {
+            "message": "Missing item type\nWas this suite/spec skipped?",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1533"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1537"
+        },
+        {
+            "message": "Missing item type\nRoll up the result counts.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1543"
+        },
+        {
+            "message": "Missing item type\nAdds a log message.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1554"
+        },
+        {
+            "message": "Missing item type\nGetter for the results: message & results.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1562"
+        },
+        {
+            "message": "Missing item type\nAdds a result, tracking counts (total, passed, & failed)",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1569"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1589"
+        },
+        {
+            "message": "Missing item type\nBase class for pretty printing for expectation results.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1595"
+        },
+        {
+            "message": "Missing item type\nFormats a value in a nice, human-readable string.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1602"
+        },
+        {
+            "message": "Missing item type\nRunner",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1817"
+        },
+        {
+            "message": "Missing item type\nInternal representation of a Jasmine specification, or test.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1894"
+        },
+        {
+            "message": "Missing item type\nAll parameters are pretty-printed and concatenated together, then written to the spec's output.\n\nBe careful not to leave calls to <code>jasmine.log</code> in production code.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1933"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1956"
+        },
+        {
+            "message": "Missing item type\nWaits a fixed time period before moving to the next block.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1969"
+        },
+        {
+            "message": "Missing item type\nWaits for the latchFunction to return true before proceeding to the next block.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:1981"
+        },
+        {
+            "message": "Missing item type\nInternal representation of a Jasmine suite.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:2137"
+        },
+        {
+            "message": "Missing item type\nA block which waits for some condition to become true, with timeout.",
+            "line": " viewer\\external\\jasmine\\jasmine.js:2234"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\external\\jasmine\\jasmine.js:2375"
+        },
+        {
+            "message": "Missing item type\nPermission is hereby granted, free of charge, to any person obtaining a copy\n of this software and associated documentation files (the \"Software\"), to\n deal in the Software without restriction, including without limitation the\n rights to use, copy, modify, merge, publish, distribute, sublicense, and/or\n sell copies of the Software, and to permit persons to whom the Software is\n furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in\n all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\n FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS\n IN THE SOFTWARE.",
+            "line": " viewer\\external\\webL10n\\l10n.js:1"
+        },
+        {
+            "message": "Missing item type\nDOM helpers for the so-called \"HTML API\".\n\nThese functions are written for modern browsers. For old versions of IE,\nthey're overridden in the 'startup' section at the end of this file.",
+            "line": " viewer\\external\\webL10n\\l10n.js:47"
+        },
+        {
+            "message": "Missing item type\nl10n resource parser:\n - reads (async XHR) the l10n resource matching `lang';\n - imports linked resources (synchronously) when specified;\n - parses the text data (fills `gL10nData' and `gTextData');\n - triggers success/failure callbacks when done.",
+            "line": " viewer\\external\\webL10n\\l10n.js:87"
+        },
+        {
+            "message": "Missing item type\nGet rules for plural forms (shared with JetPack), see:\nhttp://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html\nhttps://github.com/mozilla/addon-sdk/blob/master/python-lib/plural-rules-generator.p",
+            "line": " viewer\\external\\webL10n\\l10n.js:304"
+        },
+        {
+            "message": "Missing item type\nl10n dictionary functions",
+            "line": " viewer\\external\\webL10n\\l10n.js:745"
+        },
+        {
+            "message": "Missing item type\nThe plan is to support C-style expressions from the l20n project;\nuntil then, only two kinds of simple expressions are supported:\n  {[ index ]} and {{ arguments }}.",
+            "line": " viewer\\external\\webL10n\\l10n.js:760"
+        },
+        {
+            "message": "Missing item type\nThe `PDFDocument` holds all the data of the PDF file. Compared to the\n`PDFDoc`, this one doesn't have any job management code.\nRight now there exists one PDFDocument on the main thread + one object\nfor each worker. If there is no worker support enabled, there are two\n`PDFDocument` objects on the main thread created.",
+            "line": " viewer\\src\\core\\core.js:267"
+        },
+        {
+            "message": "Missing item type\nHold a map of decoded fonts and of the standard fourteen Type1\nfonts and their acronyms.",
+            "line": " viewer\\src\\core\\fonts.js:291"
+        },
+        {
+            "message": "Missing item type\nHolds the map of the non-standard fonts that might be included as a standard\nfonts without glyph data.",
+            "line": " viewer\\src\\core\\fonts.js:346"
+        },
+        {
+            "message": "Missing item type\n'Font' is the class the outside world should use, it encapsulate all the font\ndecoding logics whatever type it is (assuming the font type is supported).\n\nFor example to read a Type1 font and to attach it to the document:\n  var type1Font = new Font(\"MyFontName\", binaryFile, propertiesObject);\n  type1Font.bind();",
+            "line": " viewer\\src\\core\\fonts.js:2149"
+        },
+        {
+            "message": "Missing item type\nRead the appropriate subtable from the cmap according to 9.6.6.4 from\nPDF spec",
+            "line": " viewer\\src\\core\\fonts.js:2871"
+        },
+        {
+            "message": "Missing item type\nThe CFF class takes a Type1 file and wrap it into a\n'Compact Font Format' which itself embed Type2 charstrings.",
+            "line": " viewer\\src\\core\\fonts.js:5211"
+        },
+        {
+            "message": "Missing item type\nDecode the image in the main thread if it supported. Resovles the promise\nwhen the image data is ready.",
+            "line": " viewer\\src\\core\\image.js:23"
+        },
+        {
+            "message": "Missing item type\nDecode and clamp a value. The formula is different from the spec because we\ndon't decode to float range [0,1], we decode it in the [0,max] range.",
+            "line": " viewer\\src\\core\\image.js:43"
+        },
+        {
+            "message": "Missing item type\nHandles processing of image data and calls the callback with an argument\nof a PDFImage when the image is ready to be used.",
+            "line": " viewer\\src\\core\\image.js:126"
+        },
+        {
+            "message": "Missing item type\nResize an image using the nearest neighbor algorithm.  Currently only\nsupports one and three component images.",
+            "line": " viewer\\src\\core\\image.js:170"
+        },
+        {
+            "message": "Missing item type\nA NameTree is like a Dict but has some adventagous properties, see the spec\n(7.9.6) for more details.\nTODO: implement all the Dict functions and make this more efficent.",
+            "line": " viewer\\src\\core\\obj.js:1041"
+        },
+        {
+            "message": "Missing item type\nA helper for loading missing data in object graphs. It traverses the graph\ndepth first and queues up any objects that have missing data. Once it has\nhas traversed as many objects that are available it attempts to bundle the\nmissing data requests and then resume from the nodes that weren't ready.\n\nNOTE: It provides protection from circular references by keeping track of\nof loaded references. However, you must be careful not to load any graphs\nthat have references to the catalog or other pages since that will cause the\nentire PDF document object graph to be traversed.",
+            "line": " viewer\\src\\core\\obj.js:1093"
+        },
+        {
+            "message": "Missing item type\nDepending on the type of JPEG a JpegStream is handled in different ways. For\nJPEG's that are supported natively such as DeviceGray and DeviceRGB the image\ndata is stored and then loaded by the browser.  For unsupported JPEG's we use\na library to decode these images and the stream behaves like all the other\nDecodeStreams.",
+            "line": " viewer\\src\\core\\stream.js:797"
+        },
+        {
+            "message": "Missing item type\nChecks if the image can be decoded and displayed by the browser without any\nfurther processing such as color space conversions.",
+            "line": " viewer\\src\\core\\stream.js:837"
+        },
+        {
+            "message": "Missing item type\nChecks if the image can be decoded by the browser.",
+            "line": " viewer\\src\\core\\stream.js:846"
+        },
+        {
+            "message": "Missing item type\nFor JPEG 2000's we use a library to decode these images and\nthe stream behaves like all the other DecodeStreams.",
+            "line": " viewer\\src\\core\\stream.js:859"
+        },
+        {
+            "message": "Missing item type\nFor JBIG2's we use a library to decode these images and\nthe stream behaves like all the other DecodeStreams.",
+            "line": " viewer\\src\\core\\stream.js:958"
+        },
+        {
+            "message": "Missing item type\nThe maximum allowed image size in total pixels e.g. width * height. Images\nabove this value will not be drawn. Use -1 for no limit.",
+            "line": " viewer\\src\\display\\api.js:25"
+        },
+        {
+            "message": "Missing item type\nThis is the main entry point for loading a PDF and interacting with it.\nNOTE: If a URL is used to fetch the PDF data a standard XMLHttpRequest(XHR)\nis used, which means it must follow the same origin rules that any XHR does\ne.g. No cross domain requests without CORS.",
+            "line": " viewer\\src\\display\\api.js:32"
+        },
+        {
+            "message": "Missing item type\nProxy to a PDFDocument in the worker thread. Also, contains commonly used\nproperties that can be read synchronously.",
+            "line": " viewer\\src\\display\\api.js:96"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:106"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:112"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:119"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:126"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:134"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:141"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:151"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:172"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:193"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:202"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:230"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:236"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:242"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:249"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:256"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:268"
+        },
+        {
+            "message": "Missing item type\nBegins the process of rendering a page to the desired context.",
+            "line": " viewer\\src\\display\\api.js:281"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\api.js:367"
+        },
+        {
+            "message": "Missing item type\nStub for future feature.",
+            "line": " viewer\\src\\display\\api.js:382"
+        },
+        {
+            "message": "Missing item type\nDestroys resources allocated by the page.",
+            "line": " viewer\\src\\display\\api.js:394"
+        },
+        {
+            "message": "Missing item type\nFor internal use only. Attempts to clean up if rendering is in a state\nwhere that's possible.",
+            "line": " viewer\\src\\display\\api.js:401"
+        },
+        {
+            "message": "Missing item type\nFor internal use only.",
+            "line": " viewer\\src\\display\\api.js:417"
+        },
+        {
+            "message": "Missing item type\nFor internal use only.",
+            "line": " viewer\\src\\display\\api.js:423"
+        },
+        {
+            "message": "Missing item type\nFor internal use only.",
+            "line": " viewer\\src\\display\\api.js:447"
+        },
+        {
+            "message": "Missing item type\nA PDF document and page is built of many objects. E.g. there are objects\nfor fonts, images, rendering code and such. These objects might get processed\ninside of a worker. The `PDFObjects` implements some basic functions to\nmanage these objects.",
+            "line": " viewer\\src\\display\\api.js:820"
+        },
+        {
+            "message": "Missing item type\nInternal function.\nEnsures there is an object defined for `objId`.",
+            "line": " viewer\\src\\display\\api.js:832"
+        },
+        {
+            "message": "Missing item type\nIf called *without* callback, this returns the data of `objId` but the\nobject needs to be resolved. If it isn't, this function throws.\n\nIf called *with* a callback, the callback is called with the data of the\nobject once the object is resolved. That means, if you call this\nfunction and the object is already resolved, the callback gets called\nright away.",
+            "line": " viewer\\src\\display\\api.js:850"
+        },
+        {
+            "message": "Missing item type\nResolves the object `objId` with optional `data`.",
+            "line": " viewer\\src\\display\\api.js:879"
+        },
+        {
+            "message": "Missing item type\nReturns the data of `objId` if object exists, null otherwise.",
+            "line": " viewer\\src\\display\\api.js:904"
+        },
+        {
+            "message": "Missing item type\nCancel the rendering task. If the task is curently rendering it will not be\ncancelled until graphics pauses with a timeout. The promise that this\nobject extends will resolved when cancelled.",
+            "line": " viewer\\src\\display\\api.js:933"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\font_loader.js:144"
+        },
+        {
+            "message": "Missing item type",
+            "line": " viewer\\src\\display\\font_loader.js:248"
+        },
+        {
+            "message": "Missing item type\nConverts the color value to the RGB color. The color components are\nlocated in the src array starting from the srcOffset. Returns the array\nof the rgb components, each value ranging from [0,255].",
+            "line": " viewer\\src\\shared\\colorspace.js:29"
+        },
+        {
+            "message": "Missing item type\nConverts the color value to the RGB color, similar to the getRgb method.\nThe result placed into the dest array starting from the destOffset.",
+            "line": " viewer\\src\\shared\\colorspace.js:37"
+        },
+        {
+            "message": "Missing item type\nConverts the specified number of the color values to the RGB colors.\nThe colors are located in the src array starting from the srcOffset.\nThe result is placed into the dest array starting from the destOffset.\nThe src array items shall be in [0,2^bits) range, the dest array items\nwill be in [0,255] range.",
+            "line": " viewer\\src\\shared\\colorspace.js:44"
+        },
+        {
+            "message": "Missing item type\nDetermines amount of the bytes is required to store the reslut of the\nconversion that done by the getRgbBuffer method.",
+            "line": " viewer\\src\\shared\\colorspace.js:55"
+        },
+        {
+            "message": "Missing item type\nReturns true if source data will be equal the result/output data.",
+            "line": " viewer\\src\\shared\\colorspace.js:62"
+        },
+        {
+            "message": "Missing item type\nCreates the output buffer and converts the specified number of the color\nvalues to the RGB colors, similar to the getRgbBuffer.",
+            "line": " viewer\\src\\shared\\colorspace.js:68"
+        },
+        {
+            "message": "Missing item type\nTrue if the colorspace has components in the default range of [0, 1].\nThis should be true for all colorspaces except for lab color spaces\nwhich are [0,100], [-128, 127], [-128, 127].",
+            "line": " viewer\\src\\shared\\colorspace.js:109"
+        },
+        {
+            "message": "Missing item type\nChecks if a decode map matches the default decode map for a color space.\nThis handles the general decode maps where there are two values per\ncomponent. e.g. [0, 1, 0, 1, 0, 1] for a RGB color.\nThis does not handle Lab, Indexed, or Pattern decode maps since they are\nslightly different.",
+            "line": " viewer\\src\\shared\\colorspace.js:260"
+        },
+        {
+            "message": "Missing item type\nAlternate color space handles both Separation and DeviceN color spaces.  A\nSeparation color space is actually just a DeviceN with one color component.\nBoth color spaces use a tinting function to convert colors to a base color\nspace.",
+            "line": " viewer\\src\\shared\\colorspace.js:299"
+        },
+        {
+            "message": "Missing item type\nThe following promise implementation tries to generally implment the\nPromise/A+ spec. Some notable differences from other promise libaries are:\n- There currently isn't a seperate deferred and promise object.\n- Unhandled rejections eventually show an error if they aren't handled.\n\nBased off of the work in:\nhttps://bugzilla.mozilla.org/show_bug.cgi?id=810490",
+            "line": " viewer\\src\\shared\\util.js:702"
+        },
+        {
+            "message": "Missing item type\nBuilds a promise that is resolved when all the passed in promises are\nresolved.",
+            "line": " viewer\\src\\shared\\util.js:823"
+        },
+        {
+            "message": "Missing item type\nSends a message to the comObj to invoke the action with the supplied data.",
+            "line": " viewer\\src\\shared\\util.js:1050"
+        },
+        {
+            "message": "Missing item type\nCreates an event that the extension is listening for and will\nsynchronously respond to.\nNOTE: It is reccomended to use request() instead since one day we may not\nbe able to synchronously reply.",
+            "line": " viewer\\firefoxcom.js:21"
+        },
+        {
+            "message": "Missing item type\nCreates an event that the extension is listening for and will\nasynchronously respond by calling the callback.",
+            "line": " viewer\\firefoxcom.js:42"
+        },
+        {
+            "message": "Missing item type\nCreates a \"search bar\" given set of DOM elements\nthat act as controls for searching, or for setting\nsearch preferences in the UI. This object also sets\nup the appropriate events for the controls. Actual\nsearching is done by PDFFindController",
+            "line": " viewer\\pdf_find_bar.js:21"
+        },
+        {
+            "message": "Missing item type\nProvides a \"search\" or \"find\" functionality for the PDF.\nThis object actually performs the search for a given string.",
+            "line": " viewer\\pdf_find_controller.js:21"
+        },
+        {
+            "message": "Missing item type\nTextLayerBuilder provides text-selection\nfunctionality for the PDF. It does this\nby creating overlay divs over the PDF\ntext. This divs contain text that matches\nthe PDF text they are overlaying. This\nobject also provides for a way to highlight\ntext that is being searched for.",
+            "line": " viewer\\text_layer_builder.js:21"
+        },
+        {
+            "message": "Missing item type\nReturns scale factor for the canvas. It makes sense for the HiDPI displays.",
+            "line": " viewer\\ui_utils.js:79"
+        },
+        {
+            "message": "Missing item type\nScrolls specified element into view of its parent.\nelement {Object} The element to be visible.\nspot {Object} The object with the top property -- offset from the top edge.",
+            "line": " viewer\\ui_utils.js:94"
+        },
+        {
+            "message": "Missing item type\nEvent handler to suppress context menu.",
+            "line": " viewer\\ui_utils.js:120"
+        },
+        {
+            "message": "Missing item type\nReturns the filename or guessed filename from the url (see issue 3455).\nurl {String} The original PDF location.",
+            "line": " viewer\\ui_utils.js:127"
+        },
+        {
+            "message": "Missing item type\nFor the firefox extension we prefix the full url on anchor links so they\ndon't come up as resource:// urls and so open in new tab/window works.",
+            "line": " viewer\\viewer.js:793"
+        },
+        {
+            "message": "Missing item type\nShow the error box.",
+            "line": " viewer\\viewer.js:807"
+        },
+        {
+            "message": "Missing item type\nThis function flips the page in presentation mode if the user scrolls up\nor down with large enough motion and prevents page flipping too often.",
+            "line": " viewer\\viewer.js:1546"
+        },
+        {
+            "message": "Missing item type\nThis function clears the member attributes used with mouse scrolling in\npresentation mode.",
+            "line": " viewer\\viewer.js:1600"
+        },
+        {
+            "message": "Missing item type\nFor the firefox extension we prefix the full url on anchor links so they\ndon't come up as resource:// urls and so open in new tab/window works.",
+            "line": " viewer\\viewer_init.js:645"
+        },
+        {
+            "message": "Missing item type\nShow the error box.",
+            "line": " viewer\\viewer_init.js:659"
+        },
+        {
+            "message": "Missing item type\nThis function flips the page in presentation mode if the user scrolls up\nor down with large enough motion and prevents page flipping too often.",
+            "line": " viewer\\viewer_init.js:1257"
+        },
+        {
+            "message": "Missing item type\nThis function clears the member attributes used with mouse scrolling in\npresentation mode.",
+            "line": " viewer\\viewer_init.js:1311"
+        },
+        {
+            "message": "Missing item type",
+            "line": " hm_popBox_database.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Bomb_box.js:1"
+        },
+        {
+            "message": "Missing item type\nshow ListClass",
+            "line": " disk.js:764"
+        },
+        {
+            "message": "Missing item type\nformat folders",
+            "line": " disk.js:791"
+        },
+        {
+            "message": "Missing item type\nformat files",
+            "line": " disk.js:873"
+        },
+        {
+            "message": "Missing item type\nShow the Folders",
+            "line": " disk.js:1099"
+        },
+        {
+            "message": "Missing item type\nShow the filesList",
+            "line": " disk.js:1115"
+        },
+        {
+            "message": "Missing item type\nfit the left aside and main-area's height",
+            "line": " disk.js:1244"
+        },
+        {
+            "message": "Missing item type\nswitch whice database you want show (all,share to me,my share,public)\ntype {string}  'a'|'i'|'o'|'p'",
+            "line": " disk.js:1258"
+        },
+        {
+            "message": "Missing item type\nswitch the file list's icon",
+            "line": " disk.js:1278"
+        },
+        {
+            "message": "Missing item type\nsort the list",
+            "line": " disk.js:1285"
+        },
+        {
+            "message": "Missing item type\nbrowser the floders",
+            "line": " disk.js:1348"
+        },
+        {
+            "message": "Missing item type\npages",
+            "line": " disk.js:1764"
+        },
+        {
+            "message": "Missing item type\nset url",
+            "line": " disk.js:1782"
+        },
+        {
+            "message": "Missing item type\nget url",
+            "line": " disk.js:1800"
+        },
+        {
+            "message": "Missing item type\nget cookie",
+            "line": " disk.js:1851"
+        },
+        {
+            "message": "Missing item type\nset cookie",
+            "line": " disk.js:1869"
+        },
+        {
+            "message": "Missing item type\ndrage.js\ndrage to move",
+            "line": " drage.js:1"
+        },
+        {
+            "message": "Missing item type\nfor new folder and folder edit\nobj {object}     popbox:the popbox id\n                 type: newfloder | edit",
+            "line": " filesControl.js:279"
+        },
+        {
+            "message": "Missing item type",
+            "line": " hm_popBox.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " hm_popBox_database.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lantern.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " pdf_frame.js:1"
+        },
+        {
+            "message": "Missing item type\nfor old browser we use flash to upload",
+            "line": " upload.js:167"
+        },
+        {
+            "message": "Missing item type\nfor html5\nadd the input",
+            "line": " upload.js:387"
+        },
+        {
+            "message": "Missing item type",
+            "line": " view.js:1"
+        }
+    ]
+}

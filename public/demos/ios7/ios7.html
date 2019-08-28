@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>ios7</title>
+		<meta name="description" content="">
+		<meta name="author" content="Mofei">
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		<style>
+			.ios7 {
+				width: 700px;
+				height: 525px;
+				overflow: hidden;
+				position: relative;
+				margin: 0 auto;
+			}
+			.ios7_f, .ios7_b {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.ios7_f img, .ios7_b img{
+				width:700px; height:525px;
+			}
+			.ios7_b {
+				-webkit-filter: blur(8px) contrast(0.4) brightness(1.4);
+				clip: rect(205px 572px 516px 351px);
+				z-index: 50;
+				transition: all 0.5s ease-in-out;
+			}
+			.ios7_b_on {
+				clip: rect(516px 572px 516px 351px);
+			}
+			.ios7_i {
+				position: absolute;
+				clip: rect(205px 572px 516px 351px);
+			}
+			.ios7_i img {
+				z-index: 100;
+				width: 222px;
+				height:301px;
+				top: 215px;
+				left: 350px;
+				position: absolute;
+				transition: all 0.5s ease-in-out;
+			}
+			.ios7_i_on img {
+				top: 516px
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="ios7">
+			<div class="ios7_f">
+				<img src="ios7_icon_redesign_by_ida_swarczewskaja.jpg" width="700px" height="525px" />
+			</div>
+			<div class="ios7_b">
+				<img src="ios7_icon_redesign_by_ida_swarczewskaja.jpg" width="700px" height="525px" />
+			</div>
+			<div class="ios7_i">
+				<img src="Control-Center-btns.png" width="222px" height="331px"/>
+			</div>
+		</div>
+		<script>
+            var img = document.querySelector('.ios7_i');
+            var back = document.querySelector('.ios7_b');
+            document.onkeydown = function(e) {
+                if (e.keyCode == '38') {
+                    img.className = 'ios7_i';
+                    back.className = 'ios7_b';
+                    return false;
+                } else if (e.keyCode == '40') {
+                    img.className += ' ios7_i_on';
+                    back.className += ' ios7_b_on';
+                    return false;
+                }
+            };
+		</script>
+		<script src="/static/js/plug/analytical.js"></script>
+	</body>
+</html>

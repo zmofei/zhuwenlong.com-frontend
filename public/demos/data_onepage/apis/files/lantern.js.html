@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lantern.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lantern.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @author bh-lay
+ *
+ * lantern(pathname);
+ */
+window.usepdf = window.usepdf || true;
+
+var lantern = lantern ||
+function(pathname) {
+
+    pathname = decodeURI(pathname);
+    var extension = pathname.match(/\.(\w+)$/) ? pathname.match(/\.(\w+)$/)[1] : &#x27;&#x27;;
+
+    lantern.init(pathname, extension);
+};
+
+(function(exports) {
+	var console = window.console || {&#x27;log&#x27; : function() {}};
+	var app_root = &#x27;/i/&#x27;;
+	
+	var public_win = $(window);
+	var public_winW = public_win.width();
+	var public_winH = public_win.height();
+	
+	
+	var frame_temp = [&#x27;&lt;div class=&quot;db_full_screen&quot;&gt;&#x27;,
+		&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;&#x27; + app_root + &#x27;public/disk/css/view.css&quot; /&gt;&#x27;,
+		&#x27;&lt;div class=&quot;db_reader&quot;&gt;&#x27;, 
+			&#x27;&lt;div class=&quot;db_re_cnt&quot;&gt;&#x27;, 
+				&#x27;&lt;iframe class=&quot;db_reader_iframe&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;&#x27;,
+			&#x27;&lt;/div&gt;&#x27;,
+			&#x27;&lt;div class=&quot;pdf_exist&quot;&gt;×&lt;/div&gt;&#x27;,
+		&#x27;&lt;/div&gt;&#x27;,
+		&quot;&lt;div class=&#x27;lan_tool lan_tool_2&#x27;&gt;&lt;/div&gt;&quot;,
+	&#x27;&lt;/div&gt;&#x27;].join(&#x27;&#x27;);
+   
+	// office //////////////////////////////////////////////////////////
+	var render_office = function() {
+		console.log(&#x27;office_frame&#x27;, &#x27;render dom !&#x27;);
+		//var view_path = &#x27;http://view.officeapps.live.com/op/view.aspx?src=http://yfs.yiban.cn/YzUz2rE/易班资料库后端基本结构信息2.0.docx&#x27;;
+		var view_path = &#x27;http://view.officeapps.live.com/op/view.aspx?src=&#x27; + this.location;
+		
+		this.dom.find(&#x27;.db_re_cnt&#x27;).css({
+			&#x27;bottom&#x27; : 0
+		}).find(&#x27;iframe&#x27;).attr(&#x27;src&#x27;,view_path);
+
+    };
+
+	// pdf //////////////////////////////////////////////////////////
+	var pdf_tool_tpl = [&#x27;&lt;div class=&quot;db_re_info&quot;&gt;&#x27;,
+		&#x27;&lt;div class=&quot;db_re_info_c&quot;&gt;&#x27;,
+			&#x27;&lt;div class=&quot;db_re_tool_page&quot;&gt;&#x27;,
+				&#x27;&lt;a class=&quot;db_re_tool_prev&quot; href=&quot;javascript:void(0)&quot;&gt;上一张&lt;/a&gt;&#x27;,
+				&#x27;&lt;input class=&quot;db_re_tool_cur&quot; type=&quot;text&quot;/&gt;&#x27;,
+				&#x27;&lt;span class=&quot;db_re_tool_all&quot;&gt;&lt;/span&gt;&#x27;,
+				&#x27;&lt;a class=&quot;db_re_tool_next&quot; href=&quot;javascript:void(0)&quot;&gt;下一张&lt;/a&gt;&#x27;, 
+			&#x27;&lt;/div&gt;&#x27;,
+		&#x27;&lt;/div&gt;&#x27;,
+	&#x27;&lt;/div&gt;&#x27;].join(&#x27;&#x27;);
+	var render_pdf = function() {
+		console.log(&#x27;pdf_frame&#x27;, &#x27;render dom !&#x27;,this);
+		var url = this.view_url;
+		var this_frame = this;
+		
+		var view_path = app_root + &quot;public/disk/js/viewer/index.html?&quot; + this.view_url;
+		this.dom.find(&#x27;iframe&#x27;).attr(&#x27;src&#x27;,view_path);
+		
+		db_reader = this.dom.find(&#x27;.db_reader&#x27;);
+		db_reader.append(pdf_tool_tpl);
+		function pdf_tool(dom, pdf) {
+			console.log(&#x27;pdf_frame&#x27;, &#x27;get tool control!&#x27;);
+			var pageIpt = $(&#x27;.db_re_tool_cur&#x27;);
+			pageIpt.val(pdf.page.cur()).on(&#x27;change&#x27;, function() {
+				pdf.page.to(pageIpt.val());
+			});
+			dom.find(&#x27;.db_re_tool_all&#x27;).html(&#x27;/&#x27; + pdf.page.all());
+
+			dom.on(&#x27;click&#x27;, &#x27;.db_re_tool_next&#x27;, function() {
+				pdf.page.next();
+			}).on(&#x27;click&#x27;, &#x27;.db_re_tool_prev&#x27;, function() {
+				pdf.page.prev();
+			});
+			pdf.onPagechange(function(n) {
+				pageIpt.val(n);
+			});
+		}
+        var read_frame = this_frame.dom.find(&#x27;.db_reader_iframe&#x27;)[0];
+        var read_timer = setInterval(function() {
+            if (read_frame.contentWindow &amp;&amp; read_frame.contentWindow.exports) {
+                clearInterval(read_timer);
+                var pdf = read_frame.contentWindow.exports;
+                pdf_tool(this_frame.dom, pdf);
+            }
+        }, 50);
+
+    };
+
+    // img //////////////////////////////////////////////////////////
+    var view_image = function(pathname) {
+        var uri = pathname.match(/(^.*)\/.*$/) ? pathname.match(/(^.*)\/.*$/)[1] : &#x27;/&#x27;;
+        var filename = pathname.split(/\//).pop();
+        //console.log(&#x27;here&#x27;,pathname,filename)
+
+        //start
+        var data = disk.config.thisFolder.files;
+        parse_data(data, function(json, index, uri) {
+            start_render(json, index, uri);
+        });
+
+        ///////////////////////////////////////////////////
+        function start_render(json, index, uri) {
+
+            console.log(&#x27;lantern:&#x27;, &#x27;so , start view gallery !&#x27;);
+
+            var this_gallery = gallery(json, index, uri);
+            this_gallery.start();
+            //console.log(this_gallery);
+            lantern.toolbar(this_gallery.dom, {
+                &#x27;delete&#x27; : function() {
+                    this_gallery.del();
+                },
+                &#x27;rename&#x27; : function(name) {
+                    this_gallery.rename(name);
+                },
+                &#x27;active&#x27; : function(check) {
+                    this_gallery.change_active(check);
+                }
+            },uri);
+        };
+
+        //////////////////////////////////////////////////
+        function parse_data(data, callback) {
+            console.log(&#x27;lantern:&#x27;, &#x27;parse data!&#x27;);
+            var index, json = [], s = 0;
+            for (var i in data) {
+                console.log(data[i][&#x27;type&#x27;]);
+                if ( typeof (data[i][&#x27;type&#x27;]) == &#x27;string&#x27; &amp;&amp; data[i][&#x27;type&#x27;].match(/^\.(jpg|jpeg|png|gif)$/i)) {
+                    json[s] = {};
+                    json[s][&#x27;cover&#x27;] = data[i][&#x27;location&#x27;];
+                    json[s][&#x27;sid&#x27;] = data[i][&#x27;sid&#x27;];
+                    json[s][&#x27;thumb&#x27;] = data[i][&#x27;location&#x27;] + &#x27;/thumb&#x27;;
+                    json[s][&#x27;nm&#x27;] = data[i][&#x27;nm&#x27;];
+                    if (json[s][&#x27;nm&#x27;] == filename) {
+                        index = s;
+                    }
+                    s++;
+                }
+            }
+            callback &amp;&amp; callback(json, index, uri);
+        }
+
+    };
+	
+	
+	function fix_size(dom) {
+		console.log(&#x27;pdf_frame&#x27;, &#x27;fix size !&#x27;);
+		public_winW = public_win.width();
+		public_winH = public_win.height();
+		dom.animate({
+			&#x27;top&#x27; : 50,
+			&#x27;left&#x27; : public_winW / 2 - 500,
+			&#x27;height&#x27; : public_winH - 200
+		},100).find(&#x27;.db_re_cnt&#x27;).css({
+	//		&#x27;height&#x27; : public_winH - 220
+		});
+	}
+        
+	function frame(pathname,render_type){
+		//FIXME delete this line 
+		$(&#x27;.Bubble&#x27;).remove()
+	
+		console.log(&#x27;pdf_frame&#x27;, &#x27;start !&#x27;, pathname);
+	
+		if (arguments.length == 0) {
+			return;
+		}
+		var this_frame = this;
+		this.render_type = render_type;
+		this.pathname = pathname;
+		
+		this.from = &#x27;document&#x27;;
+		this.view_url = app_root + &#x27;v/&#x27; + pathname + &#x27;/view&#x27;;
+		var type = disk.config.database.type;
+		if (type == &#x27;i&#x27; || type == &#x27;o&#x27;) {
+			this.from = &#x27;share&#x27;;
+			this.view_url = app_root + &#x27;s/&#x27; + pathname + &#x27;/view&#x27;;
+		}
+		
+		var base_temp = frame_temp;
+		this.dom = $(base_temp);
+		this.close = function() {
+			this_frame.dom.remove();
+		}
+		
+		$(&#x27;body&#x27;).append(this.dom);
+		this.dom.on(&#x27;click&#x27;, &#x27;.pdf_exist&#x27;, function() {
+			this_frame.close();
+		});
+		
+		var delay;
+		fix_size(this.dom.find(&#x27;.db_reader&#x27;));
+		public_win.resize(function() {
+			clearTimeout(delay);
+			delay = setTimeout(function() {
+				fix_size(this_frame.dom.find(&#x27;.db_reader&#x27;));
+			}, 100);
+		});
+				
+		$.get(app_root + &#x27;ajax/&#x27; + this.from + &#x27;/open&#x27;, {
+			uri : pathname
+		}, function(d) {
+			if (d.ret == 200) {
+				this_frame.location = d.data.location;
+				lantern.toolbar(this_frame.dom,{
+					&#x27;pathname&#x27; : this_frame.pathname,
+					&#x27;download_path&#x27; : this_frame.location + &#x27;?dl&#x27;,
+					&#x27;delete&#x27; : function() {
+						this_frame.close();
+					}
+				});
+				if(this_frame.render_type == &#x27;PDF&#x27;){
+					render_pdf.call(this_frame);
+				}else if (this_frame.render_type == &#x27;OFFICE&#x27;){
+					if(window.usepdf){
+						render_pdf.call(this_frame);
+					}else{
+						render_office.call(this_frame);
+					}
+				}else{
+					//something wrong
+				}
+				console.log(&#x27;pdf_frame&#x27;, &#x27;deal with pathname !&#x27;, pathname);
+			} else {
+				console.log(&#x27;pdf_frame&#x27;, &#x27;stop !&#x27;);
+			}
+		});
+	}
+	exports.init = function(pathname, extension) {
+		console.log(&#x27;lantern:&#x27;, &#x27;To distinguish the type of file or image !&#x27;);
+		if (extension.match(/doc|docx|ppt|pptx|xls|xlsx/i)) {
+			new frame(pathname,&#x27;OFFICE&#x27;);
+		} else if (extension.match(/pdf|txt/i)) {
+			new frame(pathname,&#x27;PDF&#x27;);
+		} else if (extension.match(/^(jpg|jpeg|gif|png)$/i)) {
+			console.log(&#x27;lantern:&#x27;, &#x27;this type is image !&#x27;);
+			view_image(pathname);
+		} else {
+			//FIXME
+			console.log(&#x27;lantern:&#x27;, &#x27;stop not support this type of file !&#x27;);
+		}
+	};
+})(lantern);
+
+
+
+// toolbar //////////////////////////////////////////////////////////
+(function(exports){
+	var app_root = &#x27;/i/&#x27;;
+	exports.toolbar = function(dom,param) {
+		console.log(&#x27;lantern:&#x27;, &#x27;tool start !&#x27;);
+		var dataDom = dom.find(&#x27;.lan_tool&#x27;), param = param || {},
+			 deleteFn = param[&#x27;delete&#x27;] || null,
+			 renameFn = param[&#x27;rename&#x27;] || null,
+			 activeFn = param[&#x27;active&#x27;] || null,
+			 download_path = param[&#x27;download_path&#x27;]||null,
+			 pathname = param[&#x27;pathname&#x27;];
+			 //activeFn(false);
+		function getData() {
+			var sid = dataDom.attr(&#x27;data-sid&#x27;);
+			var pathname = dataDom.attr(&#x27;data-pathname&#x27;);
+			var uri = pathname.match(/(^.*)\/.*$/) ? pathname.match(/(^.*)\/.*$/)[1] : &#x27;/&#x27;;
+			var filename = pathname.split(/\//).pop();
+			return {
+				&#x27;pathname&#x27; : pathname,
+				&#x27;uri&#x27; : uri,
+				&#x27;filename&#x27; : filename,
+				&#x27;sid&#x27; : sid
+			};
+		}
+		function render_tool(data) {
+	      var tpl = {
+				&#x27;del&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;删除&#x27; class=&#x27;lan_to_del&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;share&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;分享&#x27; class=&#x27;lan_to_share&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;share_del&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;取消共享&#x27; class=&#x27;lan_to_share_del&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;share_edit&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;修改共享&#x27; class=&#x27;lan_to_share_edit&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;down&#x27; : &quot;&lt;a href=&#x27;#&#x27; title=&#x27;下载&#x27; class=&#x27;lan_to_down&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;save&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;转存到个人&#x27; class=&#x27;lan_to_save&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;more&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;更多&#x27; class=&#x27;lan_to_more&#x27;&gt;&lt;/a&gt;&quot;,
+				&#x27;move&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;移动&#x27; class=&#x27;lan_to_move&#x27;&gt;移动&lt;/a&gt;&quot;,
+				&#x27;edit&#x27; : &quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;编辑&#x27; class=&#x27;lan_to_edit&#x27;&gt;编辑&lt;/a&gt;&quot;
+			};
+            
+			if(/doc\/view$|docx\/view$|ppt\/view$|pptx\/view$|xls\/view$|xlsx\/view$|pdf\/view$/i.test(pathname)){
+				tpl[&#x27;print&#x27;]=&quot;&lt;a href=&#x27;javascript:void(0)&#x27; title=&#x27;打印&#x27; class=&#x27;lan_to_print&#x27;&gt;&lt;/a&gt;&quot;;
+			};
+			
+			if (data[&#x27;more&#x27;]) {
+				data[&#x27;list&#x27;].push(&#x27;more&#x27;);
+			}
+			var html = &quot;&lt;div class=&#x27;lan_to_cnt&#x27;&gt;&quot;;
+			for (var i = 0, total = data[&#x27;list&#x27;].length; i &lt; total; i++) {
+				html += tpl[data[&#x27;list&#x27;][i]] || &#x27;&#x27;;
+			}
+			html += &quot;&lt;/div&gt;&quot;;
+			if (data[&#x27;more&#x27;]) {
+				html += &quot;&lt;div class=&#x27;lan_to_cnt_more&#x27;&gt;&quot;;
+					for (var i = 0, total = data[&#x27;more&#x27;].length; i &lt; total; i++) {
+						html += tpl[data[&#x27;more&#x27;][i]] || &#x27;&#x27;;
+					}
+					html += &quot;&lt;/div&gt;&quot;;
+				}
+				$(&#x27;.lan_tool&#x27;).attr({
+					&#x27;data-pathname&#x27; : pathname,
+					&#x27;data-resources&#x27; : download_path
+				}).html(html).find(&#x27;.lan_to_cnt&#x27;).css({
+					&#x27;width&#x27; : 20 + data[&#x27;list&#x27;].length * 60
+				});
+
+        }
+
+        var config = {
+            &#x27;a&#x27; : {
+                &#x27;list&#x27; : [&#x27;del&#x27;, &#x27;share&#x27;, &#x27;down&#x27;, &#x27;print&#x27;],
+                &#x27;more&#x27; : [&#x27;move&#x27;, &#x27;edit&#x27;]
+            },
+            &#x27;i&#x27; : {
+                &#x27;list&#x27; : [&#x27;down&#x27;, &#x27;save&#x27;]
+            },
+            &#x27;o&#x27; : {
+                &#x27;list&#x27; : [&#x27;down&#x27;, &#x27;share_del&#x27;, &#x27;share_edit&#x27;],
+            },
+        };
+        var type = disk.config.database.type || null;
+        if (!type) {
+            return;
+        }
+        
+        render_tool(config[type]);
+
+        dataDom.on(&#x27;click&#x27;, &#x27;.lan_to_del&#x27;, function() {
+            var pathname = getData().pathname;
+            console.log(&#x27;delete&#x27; + pathname);
+            hm.confirm({
+                &#x27;width&#x27; : 340,
+                &#x27;title&#x27; : &#x27;删除&#x27;,
+                &#x27;text&#x27; : &#x27;&lt;div style=&quot;padding:5px 20px;&quot;&gt;&lt;p style=&quot;font-weight:bold; padding-bottom:8px;&quot;&gt;确定要删除文件？&lt;/p&gt;&lt;p&gt;&#x27; + pathname + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;
+            }, function() {
+                $.get(app_root + &#x27;ajax/document/delete&#x27;, {
+                    uri : pathname
+                }, function(d) {
+                    disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+                    console.log(d);
+                    deleteFn &amp;&amp; deleteFn();
+                });
+            });
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_share&#x27;, function() {
+            console.log(&#x27;分享 &#x27;);
+            var filename = getData().filename;
+            fc.share({
+                &#x27;fileName&#x27; : filename
+            });
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_print&#x27;, function() {
+            console.log(&#x27;打印 &#x27;);
+            var pathname = getData().pathname;
+            db_print.print(pathname);
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_down&#x27;, function() {
+            console.log(&#x27;下载 &#x27;);
+            var url = dataDom.attr(&#x27;data-resources&#x27;) + &#x27;?dl&#x27;;
+            $(this).attr(&#x27;href&#x27;, url);
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_more&#x27;, function() {
+            console.log(&#x27;更多&#x27;);
+            dataDom.find(&#x27;.lan_to_cnt_more&#x27;).slideDown(100);
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_save&#x27;, function() {
+            //转存到个人
+            var sid = getData().sid;
+            var filename = getData().filename;
+            fc.copydo(sid, filename);
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_move&#x27;, function() {
+            console.log(&#x27;移动&#x27;);
+            var pathname = dataDom.attr(&#x27;data-pathname&#x27;);
+            file_name = pathname.split(/\//).pop();
+            fc.move(file_name, function() {
+                deleteFn &amp;&amp; deleteFn();
+            });
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_edit&#x27;, function() {
+            console.log(&#x27;编辑&#x27;);
+            activeFn &amp;&amp; activeFn(false);
+            //var data = disk.config.thisFolder.files;
+            //activeFn(false);
+            var filename = getData().filename;
+            fc.edit({
+                &#x27;fileName&#x27; : filename,
+                &#x27;callback&#x27; : function(d) {
+                    activeFn &amp;&amp; activeFn(true);
+                    if ( typeof (d) == &#x27;object&#x27;) {
+                        var name = decodeURI(d.name || &#x27;&#x27;);
+                        //console.log(name)
+                        renameFn &amp;&amp; renameFn(name);
+                    }
+                }
+            });
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_share_edit&#x27;, function() {
+            //console.log(&#x27;bingo&#x27;);
+            //编辑共享FIXME
+            var sid = getData().sid;
+            var filename = getData().filename;
+            fc.share({
+                &#x27;fileName&#x27; : filename,
+                &#x27;filePath&#x27; : sid + filename
+            }, &#x27;sid&#x27;);
+        }).on(&#x27;click&#x27;, &#x27;.lan_to_share_del&#x27;, function() {
+            //取消共享
+            var sid = getData().sid;
+            var filename = getData().filename;
+            console.log(&#x27;取消共享：&#x27;, sid, filename);
+
+            fc.cancelShare(sid + &#x27;/&#x27; + filename, function() {
+                hm.toast({
+                    &#x27;text&#x27; : &#x27;取消共享成功！&#x27;
+                });
+                disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+                deleteFn &amp;&amp; deleteFn();
+            });
+        }).on(&#x27;mouseleave&#x27;, function() {
+            dataDom.find(&#x27;.lan_to_cnt_more&#x27;).slideUp(200);
+        });
+    };
+})(lantern)
+
+
+
+/////////////////////////////////////////////////
+//this is pic gallery
+//gallery([{},{}],0,).start()
+/////////////////////////////////////////
+function gallery(json, index, uri) {
+    return new gallery.init(json, index, uri);
+}
+
+(function(exports) {
+	var app_root = &#x27;/i/&#x27;;
+	
+	var gallery_tpl = [&quot;&lt;div class=&#x27;lan_show&#x27;&gt;&quot;,
+		&#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;&#x27; + app_root + &#x27;public/disk/css/view.css&quot; /&gt;&#x27;,
+		&quot;&lt;div class=&#x27;lan_img&#x27;&gt;&quot;,
+			&quot;&lt;div class=&#x27;lan_exist&#x27;&gt;×&lt;/div&gt;&quot;,
+			&quot;&lt;img src=&#x27;&#x27; /&gt;&quot;,
+		&quot;&lt;/div&gt;&quot;,
+		&quot;&lt;div class=&#x27;lan_tool&#x27;&gt;&quot;,
+			&quot;&lt;div class=&#x27;lan_to_cnt&#x27;&gt;&lt;/div&gt;&quot;,
+			&quot;&lt;div class=&#x27;lan_to_cnt_more&#x27;&gt;&lt;/div&gt;&quot;,
+		&quot;&lt;/div&gt;&quot;,
+		&quot;&lt;div class=&#x27;lan_List&#x27; data-pathname=&#x27;${pathname}&#x27; data-resources=&#x27;&#x27;&gt;&quot;,
+			&quot;&lt;div class=&#x27;lan_List_cnt&#x27;&gt;&lt;/div&gt;&quot;,
+		&quot;&lt;/div&gt;&quot;,
+		&quot;&lt;div class=&#x27;lan_prev&#x27; title=&#x27;上一张&#x27;&gt;&lt;/div&gt;&quot;,
+		&quot;&lt;div class=&#x27;lan_next&#x27; title=&#x27;下一张&#x27;&gt;&lt;/div&gt;&quot;,
+	&quot;&lt;/div&gt;&quot;].join(&#x27;&#x27;);
+
+    //load image
+    function loadImg(src, parm) {
+        var parm = parm || {};
+        var img = new Image();
+        if (parm.errorFn) {
+            img.onerror = function() {
+                parm.errorFn();
+            }
+        }
+        if (parm.loadFn) {
+            img.onload = function() {
+                parm.loadFn(img.width, img.height);
+            }
+        }
+        if (parm.sizeFn) {
+            var delay = setInterval(function() {
+                if (img.width &gt; 1) {
+                    clearInterval(delay);
+                    parm.sizeFn(img.width, img.height);
+                }
+            }, 2)
+        }
+
+        img.src = src;
+    };
+
+    var init = function(json, index, uri) {
+        console.log(&#x27;gallery:&#x27;, &#x27;Calculate the initial parameters !&#x27;);
+        var dom_html = gallery_tpl;
+        var this_gal = this;
+
+        this.isactive = true
+        this.json = json;
+        this.total = json.length;
+        this.dom = $(dom_html);
+        this.cur = {
+            &#x27;index&#x27; : index,
+            &#x27;width&#x27; : null,
+            &#x27;height&#x27; : null
+        };
+
+        //define global variable
+        var private_win = $(window), private_winH = private_win.height(), private_winW = private_win.width(), private_bottomH = 160, private_changeID = 0, private_list_cnt = this.dom.find(&#x27;.lan_List_cnt&#x27;), private_next_btn = this.dom.find(&#x27;.lan_next&#x27;), private_prev_btn = this.dom.find(&#x27;.lan_prev&#x27;), dataDom = this.dom.find(&#x27;.lan_tool&#x27;);
+
+        //////////////////////////////////////////////////
+        function bindEvent() {
+            console.log(&#x27;gallery:&#x27;, &#x27;bind some events !&#x27;);
+            var winResizeDelay;
+            $(window).resize(function() {
+                clearTimeout(winResizeDelay);
+                winResizeDelay = setTimeout(function() {
+                    console.log(&#x27;gallery:&#x27;, &#x27;window resizing !&#x27;);
+                    private_winH = private_win.height(), private_winW = private_win.width(), this_gal.resize();
+                }, 200);
+            }).on(&#x27;keydown&#x27;, function(e) {
+                if (!this_gal.isactive) {
+                    return
+                }
+                console.log(&#x27;gallery:&#x27;, &#x27;press key !&#x27;);
+                var key = parseInt(e.keyCode);
+                switch(key) {
+                    case 37:
+                        this_gal.prev();
+                        break
+                    case 39:
+                        this_gal.next();
+                        break
+                    case 27:
+                        this_gal.exist();
+                        break
+                }
+            });
+
+            // bind this gallery event
+            var except = false;
+            function check_mouse(event) {
+                var area = null;
+                if (except || event.clientY &gt; private_winH - 160) {
+                    area = null;
+                    except = false;
+                } else if (event.clientX &lt; private_winW / 2) {
+                    area = &#x27;left&#x27;;
+                } else {
+                    area = &#x27;right&#x27;;
+                }
+                return area;
+            }
+
+
+            this_gal.dom.on(&#x27;click&#x27;, function(e) {
+                var this_area = check_mouse(e);
+                if (this_area == &#x27;left&#x27;) {
+                    this_gal.prev()
+                } else if (this_area == &#x27;right&#x27;) {
+                    this_gal.next()
+                }
+            }).on(&#x27;mousemove&#x27;, function(e) {
+                var this_area = check_mouse(e);
+                if (this_area == &#x27;left&#x27;) {
+                    private_next_btn.removeClass(&#x27;active&#x27;);
+                    private_prev_btn.addClass(&#x27;active&#x27;);
+                } else if (this_area == &#x27;right&#x27;) {
+                    private_prev_btn.removeClass(&#x27;active&#x27;);
+                    private_next_btn.addClass(&#x27;active&#x27;);
+                } else {
+                    private_prev_btn.removeClass(&#x27;active&#x27;);
+                    private_next_btn.removeClass(&#x27;active&#x27;);
+                }
+            }).on(&#x27;mousemove&#x27;, &#x27;.lan_exist,.lan_List,.lan_to_cnt&#x27;, function() {
+                except = true;
+            }).on(&#x27;click&#x27;, &#x27;.lan_exist&#x27;, function() {
+                this_gal.exist();
+            }).on(&#x27;click&#x27;, &#x27;.lan_List_cnt a&#x27;, function() {
+                this_gal.cur.index = $(this).index();
+                changePic();
+            });
+
+        }
+
+        /////////////////////////////////////////////////////
+        function render_thumb() {
+            var picList = &#x27;&#x27;;
+            for (var s = 0; s &lt; this_gal.total; s++) {
+                picList += &quot;&lt;a href=&#x27;javascript:void(0)&#x27;&gt;&lt;span data-src=&#x27;&quot; + this_gal.json[s][&#x27;thumb&#x27;] + &quot;&#x27;&gt;&lt;/span&gt;&lt;/a&gt;&quot;;
+            }
+            private_list_cnt.html(picList);
+
+            console.log(&#x27;gallery:&#x27;, &#x27;loading thumbnail!&#x27;);
+            private_list_cnt.find(&#x27;span&#x27;).each(function() {
+                var this_dom = $(this);
+                var src = this_dom.attr(&#x27;data-src&#x27;);
+                //		console.log(src);
+                //			loadImg(src,{&#x27;loadFn&#x27;:function(w,h){
+                //this_dom.html(&#x27;&lt;img src=&quot;&#x27; + src + &#x27;&quot; /&gt;&#x27;);
+                //			this_dom.html(&#x27;&lt;img src=&quot;&#x27; + src + &#x27;&quot; /&gt;&#x27;);
+                this_dom.css(&#x27;backgroundImage&#x27;, &#x27;url(\&quot;&#x27; + src + &#x27;\&quot;)&#x27;);
+                //		}});
+            });
+        }
+
+        ///////////////////////////////////////////////////////
+        function resize() {
+            var w = this_gal.cur.width, h = this_gal.cur.height, mainPicCnt = this_gal.dom.find(&#x27;.lan_img&#x27;), mainPic = mainPicCnt.find(&#x27;img&#x27;);
+
+            if (h &gt; private_winH - private_bottomH) {
+                var newH = private_winH - private_bottomH - 30;
+                w = newH * w / h;
+                h = newH;
+            }
+            if (w &gt; private_winW - 200) {
+                var newW = private_winW - 200;
+                h = newW * h / w;
+                w = newW;
+            }
+            var Bottom = (private_winH + private_bottomH - h) / 2, Left = (private_winW - w) / 2;
+
+            (Left &lt; 0) &amp;&amp; ( Left = 0);
+            mainPicCnt.animate({
+                &#x27;width&#x27; : w,
+                &#x27;height&#x27; : h,
+                &#x27;bottom&#x27; : Bottom,
+                &#x27;left&#x27; : Left
+            }, 100, function() {
+                mainPic.stop().fadeTo(80, 1);
+            });
+            mainPic.css({
+                &#x27;width&#x27; : w,
+                &#x27;height&#x27; : h
+            });
+        }
+
+        /////////////////////////////////////////////////////
+        function resetList() {
+            var index = this_gal.cur.index;
+
+            list_cntW = 88 * this_gal.total;
+            private_list_cnt.width(list_cntW);
+
+            private_list_cnt.find(&#x27;a&#x27;).removeClass(&#x27;cur&#x27;).eq(index).addClass(&#x27;cur&#x27;);
+            if (list_cntW &gt; private_winW) {
+                var marginLeft = parseInt(private_list_cnt.css(&#x27;marginLeft&#x27;)) + private_winW / 2 - private_list_cnt.find(&#x27;.cur&#x27;).offset().left - 44;
+                if (marginLeft &gt; 0) {
+                    marginLeft = 0;
+                }
+                if (list_cntW + marginLeft &lt; private_winW) {
+                    marginLeft = private_winW - list_cntW;
+                }
+                private_list_cnt.animate({
+                    &#x27;marginLeft&#x27; : marginLeft
+                }, 80);
+            } else {
+                private_list_cnt.css({
+                    &#x27;marginLeft&#x27; : private_winW / 2 - list_cntW / 2
+                }, 80);
+            }
+        }
+
+        //////////////////////////////////////////////////////
+        function changePic() {
+            if (this_gal.total == 0) {
+                this_gal.exist();
+                return
+            } else if (this_gal.total == 1) {
+                private_next_btn.hide();
+                private_prev_btn.hide();
+                //	return
+            }
+            var this_changeID = ++private_changeID;
+
+            console.log(&#x27;gallery:&#x27;, &#x27;change picture view !&#x27;);
+
+            var index = this_gal.cur.index, mainPic = this_gal.dom.find(&#x27;.lan_img img&#x27;), changeDelay = 0, list_cntW = null;
+
+            resetList();
+
+            var src = this_gal.json[index][&#x27;cover&#x27;];
+            var data_pathname = uri + &#x27;/&#x27; + this_gal.json[index][&#x27;nm&#x27;];
+            data_pathname = data_pathname.replace(/\/+/g, &#x27;/&#x27;);
+            var data_sid = this_gal.json[index][&#x27;sid&#x27;];
+
+            console.log(&#x27;this is :&#x27;, data_pathname);
+            dataDom.attr({
+                &#x27;data-pathname&#x27; : data_pathname,
+                &#x27;data-resources&#x27; : src,
+                &#x27;data-sid&#x27; : data_sid
+            });
+
+            mainPic.stop().fadeTo(70, 0);
+            clearTimeout(changeDelay);
+            changeDelay = setTimeout(function() {
+                mainPic.attr(&#x27;src&#x27;, src);
+                loadImg(src, {
+                    &#x27;loadFn&#x27; : function(w, h) {
+                        this_gal.cur.width = w;
+                        this_gal.cur.height = h;
+                        //console.log(&#x27;LOOK ME:&#x27;,this_changeID , private_changeID);
+                        if (this_changeID == private_changeID) {
+                            resize();
+                        }
+                    },
+                    &#x27;errorFn&#x27; : function() {
+                        console.log(&#x27;gallery:&#x27;, &#x27;pic error !&#x27;);
+                        this_gal.cur.width = 40;
+                        this_gal.cur.height = 40;
+                        if (this_changeID == private_changeID) {
+                            resize();
+                        }
+                    }
+                });
+            }, 100);
+        };
+
+        this.start = function() {
+            if (this.total == 0) {
+                console.log(&#x27;gallery:&#x27;, &#x27;stop list does not exist !&#x27;);
+                return
+            }
+            $(&#x27;body&#x27;).append(this.dom).hide().fadeIn(400);
+            bindEvent();
+            render_thumb();
+            changePic();
+        };
+        this.exist = function() {
+            this.isactive = false;
+            this.dom.fadeOut(150, function() {
+                $(this).remove();
+            });
+        };
+        this.next = function() {
+            if (this.total &lt; 2) {
+                return
+            }
+            if (this.cur.index &gt;= this.total - 1) {
+                this.cur.index = 0;
+            } else {
+                this.cur.index++;
+            }
+            changePic();
+        };
+        this.prev = function() {
+            if (this.total &lt; 2) {
+                return
+            }
+            if (this.cur.index &lt;= 0) {
+                this.cur.index = this.total - 1;
+            } else {
+                this.cur.index--
+            }
+            changePic();
+        };
+
+        this.resize = function() {
+            resize()
+        };
+    };
+
+    init.prototype = {
+        &#x27;start&#x27; : function() {
+            this.start();
+        },
+        &#x27;prev&#x27; : function prev() {
+            this.prev();
+        },
+        &#x27;next&#x27; : function next() {
+            this.next();
+        },
+        &#x27;exist&#x27; : function() {
+            this.exist();
+        },
+        &#x27;del&#x27; : function() {
+            if (this.total == 1) {
+                this.exist();
+                return
+            }
+            this.dom.find(&#x27;.lan_List_cnt a.cur&#x27;).remove();
+            this[&#x27;json&#x27;].splice(this[&#x27;cur&#x27;][&#x27;index&#x27;], 1);
+            this.total--;
+            this.next();
+        },
+        &#x27;rename&#x27; : function(name) {
+            var index = this[&#x27;cur&#x27;][&#x27;index&#x27;];
+            var cover = this[&#x27;json&#x27;][index][&#x27;cover&#x27;];
+            var path_part = cover.match(/(.+\/).+$/);
+            if (path_part) {
+                this[&#x27;json&#x27;][index][&#x27;cover&#x27;] = path_part[1] + name;
+            }
+        },
+        &#x27;change_active&#x27; : function(check) {
+            if ( typeof (check) == &quot;boolean&quot;) {
+                this.isactive = check;
+            }
+        }
+    };
+    exports.init = init;
+})(gallery); 
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

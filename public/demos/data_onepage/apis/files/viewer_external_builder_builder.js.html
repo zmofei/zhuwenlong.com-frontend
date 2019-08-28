@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>viewer\external\builder\builder.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: viewer\external\builder\builder.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/* jshint node:true */
+/* globals cp, ls, test */
+
+&#x27;use strict&#x27;;
+
+require(&#x27;../shelljs/make&#x27;);
+var fs = require(&#x27;fs&#x27;),
+    path = require(&#x27;path&#x27;),
+    vm = require(&#x27;vm&#x27;);
+
+/**
+ * A simple preprocessor that is based on the firefox preprocessor
+ * see (https://developer.mozilla.org/en/Build/Text_Preprocessor).  The main
+ * difference is that this supports a subset of the commands and it supports
+ * preproccesor commands in html style comments.
+ * Currently Supported commands:
+ * - if
+ * - else
+ * - endif
+ * - include
+ * - expand
+ */
+function preprocess(inFilename, outFilename, defines) {
+  // TODO make this really read line by line.
+  var lines = fs.readFileSync(inFilename).toString().split(&#x27;\n&#x27;);
+  var totalLines = lines.length;
+  var out = &#x27;&#x27;;
+  var i = 0;
+  function readLine() {
+    if (i &lt; totalLines) {
+      return lines[i++];
+    }
+    return null;
+  }
+  var writeLine = typeof outFilename === &#x27;function&#x27; ? outFilename :
+                                                      function(line) {
+    out += line + &#x27;\n&#x27;;
+  };
+  function include(file) {
+    var realPath = fs.realpathSync(inFilename);
+    var dir = path.dirname(realPath);
+    preprocess(path.join(dir, file), writeLine, defines);
+  }
+  function expand(line) {
+    line = line.replace(/__[\w]+__/g, function(variable) {
+      variable = variable.substring(2, variable.length - 2);
+      if (variable in defines) {
+        return defines[variable];
+      }
+      return &#x27;&#x27;;
+    });
+    writeLine(line);
+  }
+
+  var s, state = 0, stack = [];
+  var control =
+    /^(?:\/\/|&lt;!--)\s*#(if|else|endif|expand|include)(?:\s+(.*?)(?:--&gt;)?$)?/;
+  var lineNumber = 0;
+  while ((s = readLine()) !== null) {
+    ++lineNumber;
+    var m = control.exec(s);
+    if (m) {
+      switch (m[1]) {
+        case &#x27;if&#x27;:
+          stack.push(state);
+          try {
+            state = vm.runInNewContext(m[2], defines) ? 3 : 1;
+          } catch (e) {
+            console.error(&#x27;Could not evalute line \&#x27;&#x27; + m[2] + &#x27;\&#x27; at &#x27; +
+                          fs.realpathSync(inFilename) + &#x27;:&#x27; + lineNumber);
+            throw e;
+          }
+          break;
+        case &#x27;else&#x27;:
+          state = state === 1 ? 3 : 2;
+          break;
+        case &#x27;endif&#x27;:
+          state = stack.pop();
+          break;
+        case &#x27;expand&#x27;:
+          if (state === 0 || state === 3)
+            expand(m[2]);
+          break;
+        case &#x27;include&#x27;:
+          if (state === 0 || state === 3)
+            include(m[2]);
+          break;
+      }
+    } else {
+      if (state === 0) {
+        writeLine(s);
+      } else if (state === 3) {
+        writeLine(s.replace(/^\/\/|^&lt;!--|--&gt;/g, &#x27;  &#x27;));
+      }
+    }
+  }
+  if (state !== 0 || stack.length !== 0)
+    throw new Error(&#x27;Missing endif in preprocessor.&#x27;);
+  if (typeof outFilename !== &#x27;function&#x27;)
+    fs.writeFileSync(outFilename, out);
+}
+exports.preprocess = preprocess;
+
+function preprocessCSS(mode, source, destination) {
+  function hasPrefixed(line) {
+    return (/(^|\W)-(ms|o|webkit)-\w/.test(line));
+  }
+
+  function removePrefixed(content) {
+    var lines = content.split(/\r?\n/g);
+    var i = 0;
+    while (i &lt; lines.length) {
+      var line = lines[i];
+      if (!hasPrefixed(line)) {
+        i++;
+        continue;
+      }
+      if (/\{\s*$/.test(line)) {
+        var bracketLevel = 1;
+        var j = i + 1;
+        while (j &lt; lines.length &amp;&amp; bracketLevel &gt; 0) {
+          var checkBracket = /([{}])\s*$/.exec(lines[j]);
+          if (checkBracket) {
+            if (checkBracket[1] === &#x27;{&#x27;) {
+              bracketLevel++;
+            } else if (lines[j].indexOf(&#x27;{&#x27;) &lt; 0) {
+              bracketLevel--;
+            }
+          }
+          j++;
+        }
+        lines.splice(i, j - i);
+      } else if (/[};]\s*$/.test(line)) {
+        lines.splice(i, 1);
+      } else {
+        // multiline? skipping until next directive or bracket
+        do {
+          lines.splice(i, 1);
+        } while (i &lt; lines.length &amp;&amp;
+                 !/\}\s*$/.test(lines[i]) &amp;&amp;
+                 lines[i].indexOf(&#x27;:&#x27;) &lt; 0);
+        if (i &lt; lines.length &amp;&amp; /\S\s*}\s*$/.test(lines[i])) {
+          lines[i] = lines[i].substr(lines[i].indexOf(&#x27;}&#x27;));
+        }
+      }
+      // collapse whitespaces
+      while (lines[i] === &#x27;&#x27; &amp;&amp; lines[i - 1] === &#x27;&#x27;) {
+        lines.splice(i, 1);
+      }
+    }
+    return lines.join(&#x27;\n&#x27;);
+  }
+
+  if (mode !== &#x27;firefox&#x27;) {
+    throw new Error(&#x27;Invalid CSS preprocessor mode&#x27;);
+  }
+
+  var content = fs.readFileSync(source, &#x27;utf8&#x27;);
+  var out = removePrefixed(content);
+  fs.writeFileSync(destination, out);
+}
+exports.preprocessCSS = preprocessCSS;
+
+/**
+ * Simplifies common build steps.
+ * @param {object} setup
+ *        .defines defines for preprocessors
+ *        .copy array of arrays of source and destination pairs of files to copy
+ *        .preprocess array of arrays of source and destination pairs of files
+ *                    run through preprocessor.
+ */
+function build(setup) {
+  var defines = setup.defines;
+
+  setup.copy.forEach(function(option) {
+    var source = option[0];
+    var destination = option[1];
+    cp(&#x27;-R&#x27;, source, destination);
+  });
+
+  setup.preprocess.forEach(function(option) {
+    var sources = option[0];
+    var destination = option[1];
+
+    sources = ls(&#x27;-R&#x27;, sources);
+    sources.forEach(function(source) {
+      // ??? Warn if the source is wildcard and dest is file?
+      var destWithFolder = destination;
+      if (test(&#x27;-d&#x27;, destination))
+        destWithFolder += &#x27;/&#x27; + path.basename(source);
+      preprocess(source, destWithFolder, defines);
+    });
+  });
+
+  (setup.preprocessCSS || []).forEach(function(option) {
+    var mode = option[0];
+    var source = option[1];
+    var destination = option[2];
+    preprocessCSS(mode, source, destination);
+  });
+}
+exports.build = build;
+
+/**
+ * Merge two defines arrays. Values in the second param will override values in
+ * the first.
+ */
+function merge(defaults, defines) {
+  var ret = {};
+  for (var key in defaults)
+    ret[key] = defaults[key];
+  for (key in defines)
+    ret[key] = defines[key];
+  return ret;
+}
+exports.merge = merge;
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

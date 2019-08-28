@@ -88,7 +88,7 @@ function Lab(props) {
             <Lan en={info['intro-en'] || info['intro']} zh={info.intro} />
           </div>
           <div className={`${CSS["lab-block-author"]}`}>
-            <Lan en="Author By:" zh="作者：" /> {info.author.map(a => (
+            <Lan en="Author By:" zh="作者" />{info.author.map(a => (
               <Link key={a.url} to={{
                 pathname: `/api/jump`,
                 search: `?url=${a.url}`
