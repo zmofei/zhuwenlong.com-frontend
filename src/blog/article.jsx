@@ -8,6 +8,7 @@ import avatra from '../static/img/avatar.jpg';
 import blogMoney from '../static/img/blog/money.png';
 import Message from '../commons/message.jsx';
 import Lan from '../i18n/languageMap.jsx';
+import Adsense from '../commons/googleAds.jsx';
 import hljs from 'highlight.js';
 
 const oldTitle = document.title;
@@ -77,7 +78,10 @@ function Article(props) {
                     <Lan
                       en={<div dangerouslySetInnerHTML={{ __html: blog['html-en'] || blog.html }} />}
                       zh={<div dangerouslySetInnerHTML={{ __html: blog.html }} />} />
-                    <div className={CSS["blog-money"]}><img src={blogMoney} alt="sponsorship" /></div>
+                    <div className={CSS["blog-money"]}>
+                      {/* <img src={blogMoney} alt="sponsorship" /> */}
+                    </div>
+                    <Adsense />
                   </div>
                 </section>
                 <section className={CSS["article-tags"]}>

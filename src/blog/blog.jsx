@@ -5,7 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Lan from '../i18n/languageMap.jsx';
 import Page from '../commons/pageNumber';
-
+import Adsense from '../commons/googleAds.jsx';
 
 let blogReqSource;
 
@@ -16,7 +16,6 @@ function Blog(props) {
     current: Number((props.match.params && props.match.params.page) || 1),
     total: 1
   });
-
 
   function getSearchObj() {
     const searchObj = {};
@@ -205,6 +204,7 @@ function Blog(props) {
         <div>
           {getBlogLists()}
         </div>
+
         <div className={CSS['blog-pages']}>
           {page.total > 1 ? <Page
             total={page.total}
@@ -212,8 +212,8 @@ function Blog(props) {
             bacicPath='/blog'
             search={(getSearchObj().tags ? `?tags=${getSearchObj().tags}` : '')}
           /> : ''}
-
         </div>
+        <Adsense />
       </div>
     </div>
   )
