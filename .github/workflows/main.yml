@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Add ssh key for vm
+      run: ./.github/scripts/addssh.sh
+      env:
+        SSH_S: $
+    - name: build add deploy
+      run: ./deploy.sh
