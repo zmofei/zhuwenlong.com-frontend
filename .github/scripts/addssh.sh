@@ -7,3 +7,5 @@ gpg --quiet --batch --yes --decrypt --passphrase="$SSH_S" \
 eval "$(ssh-agent -s)"
 chmod 600 $HOME/secrets/deploy_rsa
 ssh-add $HOME/secrets/deploy_rsa
+
+ssh-keyscan -H 47.110.229.91 >> ~/.ssh/known_hosts
