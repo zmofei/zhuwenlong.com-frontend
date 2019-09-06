@@ -1,5 +1,6 @@
 #!/bin/sh
 
+mkdir /tmp
 # --batch to prevent interactive command --yes to assume "yes" for questions
 gpg --quiet --batch --yes --decrypt --passphrase="$SSH_S" \
   --output /tmp/deploy_rsa deploy_rsa.gpg
