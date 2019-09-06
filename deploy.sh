@@ -1,3 +1,4 @@
+npm install
 FileName=$(date +%y_%m_%d_%H_%M_%S)
 rm -rf ./build
 PUBLIC_URL="//cdn.zhuwenlong.com" npm run build
