@@ -13,8 +13,4 @@ jobs:
       run: ./.github/scripts/addssh.sh
       env:
         SSH_S: ${{ secrets.SSH_S }}
-    - name: build add deploy
-      run: ./deploy.sh
-    - name: SCP Files
-      uses: appleboy/scp-action@v0.0.1
 
