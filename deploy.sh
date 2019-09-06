@@ -5,6 +5,8 @@ PUBLIC_URL="//cdn.zhuwenlong.com" npm run build
 echo "packup the tar"
 tar -cvzf build_$FileName.tar.gz ./build
 echo "scp file"
+chmod 777 ./
+ls ./
 scp build_$FileName.tar.gz root@47.110.229.91:/usr/local/zhuwenlong/www/zhuwenlong.com-frontend
 rm -rf build_$FileName.tar.gz
 echo "login to deploy"
