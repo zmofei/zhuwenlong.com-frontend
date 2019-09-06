@@ -12,6 +12,6 @@ jobs:
     - name: Add ssh key for vm
       run: ./.github/scripts/addssh.sh
       env:
-        SSH_S: $
+        SSH_S: ${{ secrets.SSH_S }}
     - name: build add deploy
       run: ./deploy.sh
