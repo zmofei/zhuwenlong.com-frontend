@@ -12,6 +12,7 @@ import Message from './message/message';
 import Copyright from './commons/copyright';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import CSS from './App.module.scss';
 
 import lan from './reducers/lan.js';
 

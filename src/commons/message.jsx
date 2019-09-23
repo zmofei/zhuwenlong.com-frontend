@@ -181,7 +181,7 @@ function Message(props) {
     }
 
     function getMessageList() {
-        if (messageList!==null && messageList.length >= 0 ) {
+        if (messageList !== null && messageList.length >= 0) {
             return messageList.map(l => {
                 return (
                     <div key={`comment_${l._id}`}

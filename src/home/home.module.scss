@@ -15,7 +15,7 @@
 
 .videoBgMobile {
     display: none;
-    background: url("//cdn.zhuwenlong.com/image/index/cover-820e030cca.jpg") center center;
+    background: url("../static/img/cover.jpg") center center;
     background-size: cover;
     position: fixed;
     z-index: -100;
@@ -510,17 +510,17 @@
     }
     .index-about-identity .img,
     .index-about-identity:hover .img {
-        background: url(" ../static/img/index/idnetity.gif") no-repeat center;
+        background: url("../static/img/index/idnetity.gif") no-repeat center;
         background-size: contain;
     }
     .index-about-work .img,
     .index-about-work:hover .img {
-        background: url(" ../static/img/index/work.gif") no-repeat center;
+        background: url("../static/img/index/work.gif") no-repeat center;
         background-size: contain;
     }
     .index-about-dream .img,
     .index-about-dream:hover .img {
-        background: url(" ../static/img/index/dream.gif") no-repeat center;
+        background: url("../static/img/index/dream.gif") no-repeat center;
         background-size: contain;
     }
     .index-content-box {
