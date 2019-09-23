@@ -1,0 +1,10 @@
+/public/demos
+/src/static
+/build
+/public
+/config
+*.enc
+*.gpg
+*.sh
+.github
+.DS_Store

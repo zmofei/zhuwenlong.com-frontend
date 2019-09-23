@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
+const CopyPlugin = require('copy-webpack-plugin');
 
 let config = {
   mode: isEnvDevelopment ? 'development' : 'production',
@@ -20,15 +21,15 @@ let config = {
     }, {
       test: /\.s[ac]ss$/i,
       use: [!isEnvDevelopment && {
-          loader: MiniCssExtractPlugin.loader
-        },
-        // Creates `style` nodes from JS strings
-        isEnvDevelopment && 'style-loader',
-        // Translates CSS into CommonJS
-        {
-          loader: 'css-loader',
-          options: { url: true, modules: true }
-        },
+        loader: MiniCssExtractPlugin.loader
+      },
+      // Creates `style` nodes from JS strings
+      isEnvDevelopment && 'style-loader',
+      // Translates CSS into CommonJS
+      {
+        loader: 'css-loader',
+        options: { url: true, modules: true }
+      },
         // Compiles Sass to CSS
         'sass-loader',
       ].filter(Boolean),
@@ -40,7 +41,7 @@ let config = {
           name: isEnvDevelopment ? '[name].[ext]' : '[name].[hash].[ext]',
           outputPath: 'asset'
         }
-      }, ],
+      },],
     }]
   },
   resolve: {
@@ -61,6 +62,20 @@ let config = {
       filename: isEnvDevelopment ? '[name].css' : '[name].[hash].css',
       chunkFilename: isEnvDevelopment ? '[id].css' : '[id].[hash].css',
     }),
+    new CopyPlugin([
+      {
+        from: 'public/**/*',
+        to: '',
+        toType: 'dir',
+        transformPath(targetPath, absolutePath) {
+          return targetPath.replace(/^public\//,'');
+          console.log('@@@@', targetPath, absolutePath)
+          return targetPath;
+          return 'newPath';
+        },
+        ignore: ['index.html', 'index-en.html'],
+      },
+    ]),
   ],
   optimization: {
     splitChunks: {
