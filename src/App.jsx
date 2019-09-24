@@ -1,7 +1,7 @@
 /* global gtag */
 
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter, StaticRouter, Route } from "react-router-dom";
 import Nav from './commons/nav';
 import Home from './home/home';
 import Blog from './blog/blog';
@@ -13,17 +13,32 @@ import Copyright from './commons/copyright';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import CSS from './App.module.scss';
+import { canUseDOM } from 'exenv';
 
 import lan from './reducers/lan.js';
 
+const Router = canUseDOM ? BrowserRouter : StaticRouter;
+
+console.log(11)
 const store = createStore(lan);
 
-function BasicExample() {
+function App(args) {
+  // if ssr set the lan
+  if (!canUseDOM) {
+    let lan = 'zh';
+    if (args && args.hostname && args.hostname.indexOf('himofei.com') !== -1) {
+      lan = 'en'
+    }
+    store.dispatch({
+      type: 'SET_LANGUAGE',
+      lan
+    });
+  }
   return (
-    <Router >
+    <Router location='/'>
       <Provider store={store}>
         <Route children={({ location }) => (
-          <Nav path={location.pathname} />
+          <Nav path='/' />
         )} />
 
         <Route exact path="/" component={Home} />
@@ -36,6 +51,7 @@ function BasicExample() {
 
         <Route path="/" render={props => {
           // google analystics
+          if (!canUseDOM) return;
           gtag('config', 'UA-109405512-1', {
             'page_path': `${props.location.pathname}${props.location.search}`
           });
@@ -49,4 +65,4 @@ function BasicExample() {
   );
 }
 
-export default BasicExample;
+export default App;

@@ -5,7 +5,10 @@
   "main": "webpack.config.js",
   "dependencies": {
     "axios": "^0.19.0",
+    "exenv": "^1.2.2",
+    "express": "^4.17.1",
     "highlight.js": "^9.15.10",
+    "isomorphic-loader": "^2.1.1",
     "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
     "react": "^16.9.0",
@@ -16,7 +19,8 @@
     "redux": "^4.0.4",
     "spark-md5": "^3.0.0",
     "url-loader": "^2.1.0",
-    "webpack": "^4.40.2"
+    "webpack": "^4.40.2",
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
@@ -27,8 +31,10 @@
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "isomorphic-style-loader": "^5.1.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
+    "null-loader": "^3.0.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "svg-inline-loader": "^0.8.0",
@@ -40,6 +46,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf build && webpack",
     "build:dev": " rm -rf build && NODE_ENV=development webpack",
+    "build:server-dev": "rm -rf build-ssr && NODE_ENV=development webpack --config server.webpack.config.js",
     "dev": "webpack-dev-server"
   },
   "repository": {

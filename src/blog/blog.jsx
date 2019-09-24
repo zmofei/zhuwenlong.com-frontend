@@ -6,6 +6,7 @@ import moment from 'moment';
 import Lan from '../i18n/languageMap.jsx';
 import Page from '../commons/pageNumber';
 import Adsense from '../commons/googleAds.jsx';
+import { canUseDOM } from 'exenv';
 
 let blogReqSource;
 
@@ -38,7 +39,7 @@ function Blog(props) {
     const page = Number(props.match.params.page || 1);
 
     let { tags } = { ...getSearchObj() };
-    window.scroll({
+    canUseDOM && window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth'

@@ -1,7 +1,11 @@
 import Cookie from 'js-cookie';
-let defaultLan = Cookie.get('lan');
+import { canUseDOM } from 'exenv';
+
+let defaultLan = Cookie.get('lan') || 'zh';
 if (!defaultLan) {
-  defaultLan = window.location.hostname.indexOf('himofei.com') !== -1 ? 'en' : 'zh';
+  if (canUseDOM) {
+    defaultLan = window.location.hostname.indexOf('himofei.com') !== -1 ? 'en' : 'zh';
+  }
 }
 
 const lan = (state = { lan: defaultLan }, action) => {

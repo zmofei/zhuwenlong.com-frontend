@@ -6,13 +6,22 @@ import axios from 'axios';
 import Lan from '../i18n/languageMap.jsx';
 
 import Copyright from '../commons/copyright';
+import { canUseDOM } from 'exenv';
 
 function Home() {
-  const isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800)
-  const screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+  let isMobile = true;
+  let screenHeight = 700
+  if (canUseDOM) {
+    isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800)
+    screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+  }
+
   const [msgState, setMsgState] = useState(0); // 0: ready 1: sending 2: sended 3: faild
   // for scroll
   const onClickMore = () => {
+    if (!canUseDOM) {
+      return;
+    }
     var fromTop = window.scrollY;
     var loop = setInterval(function () {
       if ((fromTop += screenHeight / 10) >= screenHeight) {
@@ -119,7 +128,7 @@ function Home() {
     <div className={CSS.homeBody} >
       <div className={CSS.videoBgMobile} style={{ height: `${screenHeight}px` }} ></div>
       {!isMobile && (
-        <video className={CSS.videoBg} id="bgvid" autoPlay loop muted playsinline poster="//cdn.zhuwenlong.com/image/index/cover-820e030cca.jpg">
+        <video className={CSS.videoBg} id="bgvid" autoPlay loop muted playsInline poster="//cdn.zhuwenlong.com/image/index/cover-820e030cca.jpg">
           <source src="//cdn.zhuwenlong.com/video/bgvideo-0c73e2c57a.mp4" type="video/mp4" />
           <source src="//cdn.zhuwenlong.com/video/bgvideo-513397179e.webm" type="video/webm" />
           <source src="//cdn.zhuwenlong.com/video/bgvideo-5428b1617d.ogv" type="video/ogg" />

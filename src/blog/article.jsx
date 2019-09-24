@@ -10,8 +10,13 @@ import Message from '../commons/message.jsx';
 import Lan from '../i18n/languageMap.jsx';
 import Adsense from '../commons/googleAds.jsx';
 import hljs from 'highlight.js';
+import { canUseDOM } from 'exenv';
 
-const oldTitle = document.title;
+let oldTitle;
+if (canUseDOM) {
+  oldTitle = document.title;
+}
+
 function Article(props) {
   const id = props.match.params.id;
   const [blog, setBlog] = useState(null);
@@ -22,9 +27,9 @@ function Article(props) {
   useEffect(() => {
     // Update the document title using the browser API
     const H1Txt = (titleDom && titleDom.current && titleDom.current.innerText);
-    document.title = H1Txt ? (H1Txt + ' - ' + oldTitle) : oldTitle;
+    canUseDOM && (document.title = H1Txt ? (H1Txt + ' - ' + oldTitle) : oldTitle);
     return () => {
-      document.title = oldTitle;
+      canUseDOM && (document.title = oldTitle);
     }
   });
   useEffect(() => {

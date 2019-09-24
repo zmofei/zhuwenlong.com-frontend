@@ -1,18 +1,22 @@
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
-const CopyPlugin = require('copy-webpack-plugin');
-
 const cdnHost = isEnvDevelopment ? '//cdn.blog.com' : '//cdn.zhuwenlong.com';
 
 let config = {
   mode: isEnvDevelopment ? 'development' : 'production',
-  entry: [path.resolve(__dirname, 'src/index')],
+  entry: [path.resolve(__dirname, 'src/server')],
   output: {
-    filename: isEnvDevelopment ? '[name].js' : '[name].[chunkhash].bundle.js',
-    path: path.resolve(__dirname, 'build'),
-    publicPath: cdnHost,
+    filename: isEnvDevelopment ? '[name].js' : '[name].server.js',
+    path: path.resolve(__dirname, 'build-ssr'),
+  },
+  target: 'node',
+  externals: [nodeExternals()],
+  // context: __dirname,
+  node: {
+    __filename: false,
+    __dirname: false
   },
   module: {
     rules: [{
@@ -52,57 +56,14 @@ let config = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, 'public/index.html')
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'index-en.html',
-      template: path.resolve(__dirname, 'public/index-en.html')
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: isEnvDevelopment ? 'asset/css/[name].css' : 'asset/css/[name].[hash].css',
       chunkFilename: isEnvDevelopment ? 'asset/css/[id].css' : 'asset/css/[id].[hash].css',
-    }),
-    new CopyPlugin([{
-      from: 'public/**/*',
-      to: '',
-      toType: 'dir',
-      transformPath(targetPath, absolutePath) {
-        return targetPath.replace(/^public\//, '');
-      },
-      ignore: ['index.html', 'index-en.html'],
-    }, ]),
-  ],
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          // cacheGroupKey here is `commons` as the key of the cacheGroup
-          name(module, chunks, cacheGroupKey) {
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-            return `asset/js/npm.${packageName.replace('@', '')}`;
-          },
-          chunks: 'all'
-        }
-      }
-    }
-  }
+    })
+  ]
 };
-
-if (isEnvDevelopment) {
-  config = Object.assign(config, {
-    devServer: {
-      contentBase: path.join(__dirname, 'build'),
-      compress: true,
-      port: 9000
-    }
-  })
-}
 
 
 module.exports = config;
