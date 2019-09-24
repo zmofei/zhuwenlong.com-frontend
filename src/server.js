@@ -13,7 +13,7 @@ const html = fs.readFileSync(url.resolve(__dirname, './build/index.html'));
 const htmlArr = html.toString().split('<div id="root"></div>');
 app.use((req, res) => {
   res.write(htmlArr[0] + '<div id="root">');
-  const stream = ReactDOMServer.renderToNodeStream(<App hostname={req.hostname}/>);
+  const stream = ReactDOMServer.renderToNodeStream(<App hostname={req.hostname} url={req.url} />);
   stream.pipe(res, { end: false });
   stream.on('end', () => {
     res.write('</div>' + htmlArr[1]);

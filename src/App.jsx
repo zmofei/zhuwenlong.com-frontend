@@ -19,11 +19,9 @@ import lan from './reducers/lan.js';
 
 const Router = canUseDOM ? BrowserRouter : StaticRouter;
 
-console.log(11)
 const store = createStore(lan);
 
 function App(args) {
-  // if ssr set the lan
   if (!canUseDOM) {
     let lan = 'zh';
     if (args && args.hostname && args.hostname.indexOf('himofei.com') !== -1) {
@@ -33,12 +31,13 @@ function App(args) {
       type: 'SET_LANGUAGE',
       lan
     });
-  }
+  };
+
   return (
-    <Router location='/'>
+    <Router location={args && args.url}>
       <Provider store={store}>
         <Route children={({ location }) => (
-          <Nav path='/' />
+          <Nav path={location.pathname} />
         )} />
 
         <Route exact path="/" component={Home} />
@@ -48,7 +47,7 @@ function App(args) {
         <Route exact path="/lab" component={Lab} />
         <Route exact path="/links" component={Links} />
         <Route exact path="/message" component={Message} />
-
+        
         <Route path="/" render={props => {
           // google analystics
           if (!canUseDOM) return;
