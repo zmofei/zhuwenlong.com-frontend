@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>viewer\src\core\core.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: viewer\src\core\core.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
+/* Copyright 2012 Mozilla Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* globals assertWellFormed, calculateMD5, Catalog, error, info, isArray,
+           isArrayBuffer, isName, isStream, isString, Lexer,
+           Linearization, NullStream, PartialEvaluator, shadow, Stream,
+           StreamsSequenceStream, stringToPDFString, Util, XRef,
+           MissingDataException, Promise, Annotation, ObjectLoader, OperatorList
+           */
+
+&#x27;use strict&#x27;;
+
+var Page = (function PageClosure() {
+
+  function Page(pdfManager, xref, pageIndex, pageDict, ref) {
+    this.pdfManager = pdfManager;
+    this.pageIndex = pageIndex;
+    this.pageDict = pageDict;
+    this.xref = xref;
+    this.ref = ref;
+    this.idCounters = {
+      obj: 0
+    };
+    this.resourcesPromise = null;
+  }
+
+  Page.prototype = {
+    getPageProp: function Page_getPageProp(key) {
+      return this.pageDict.get(key);
+    },
+    inheritPageProp: function Page_inheritPageProp(key) {
+      var dict = this.pageDict;
+      var obj = dict.get(key);
+      while (obj === undefined) {
+        dict = dict.get(&#x27;Parent&#x27;);
+        if (!dict)
+          break;
+        obj = dict.get(key);
+      }
+      return obj;
+    },
+    get content() {
+      return this.getPageProp(&#x27;Contents&#x27;);
+    },
+    get resources() {
+      return shadow(this, &#x27;resources&#x27;, this.inheritPageProp(&#x27;Resources&#x27;));
+    },
+    get mediaBox() {
+      var obj = this.inheritPageProp(&#x27;MediaBox&#x27;);
+      // Reset invalid media box to letter size.
+      if (!isArray(obj) || obj.length !== 4)
+        obj = [0, 0, 612, 792];
+      return shadow(this, &#x27;mediaBox&#x27;, obj);
+    },
+    get view() {
+      var mediaBox = this.mediaBox;
+      var cropBox = this.inheritPageProp(&#x27;CropBox&#x27;);
+      if (!isArray(cropBox) || cropBox.length !== 4)
+        return shadow(this, &#x27;view&#x27;, mediaBox);
+
+      // From the spec, 6th ed., p.963:
+      // &quot;The crop, bleed, trim, and art boxes should not ordinarily
+      // extend beyond the boundaries of the media box. If they do, they are
+      // effectively reduced to their intersection with the media box.&quot;
+      cropBox = Util.intersect(cropBox, mediaBox);
+      if (!cropBox)
+        return shadow(this, &#x27;view&#x27;, mediaBox);
+
+      return shadow(this, &#x27;view&#x27;, cropBox);
+    },
+    get annotationRefs() {
+      return shadow(this, &#x27;annotationRefs&#x27;, this.inheritPageProp(&#x27;Annots&#x27;));
+    },
+    get rotate() {
+      var rotate = this.inheritPageProp(&#x27;Rotate&#x27;) || 0;
+      // Normalize rotation so it&#x27;s a multiple of 90 and between 0 and 270
+      if (rotate % 90 !== 0) {
+        rotate = 0;
+      } else if (rotate &gt;= 360) {
+        rotate = rotate % 360;
+      } else if (rotate &lt; 0) {
+        // The spec doesn&#x27;t cover negatives, assume its counterclockwise
+        // rotation. The following is the other implementation of modulo.
+        rotate = ((rotate % 360) + 360) % 360;
+      }
+      return shadow(this, &#x27;rotate&#x27;, rotate);
+    },
+    getContentStream: function Page_getContentStream() {
+      var content = this.content;
+      var stream;
+      if (isArray(content)) {
+        // fetching items
+        var xref = this.xref;
+        var i, n = content.length;
+        var streams = [];
+        for (i = 0; i &lt; n; ++i)
+          streams.push(xref.fetchIfRef(content[i]));
+        stream = new StreamsSequenceStream(streams);
+      } else if (isStream(content)) {
+        stream = content;
+      } else {
+        // replacing non-existent page content with empty one
+        stream = new NullStream();
+      }
+      return stream;
+    },
+    loadResources: function(keys) {
+      if (!this.resourcesPromise) {
+        // TODO: add async inheritPageProp and remove this.
+        this.resourcesPromise = this.pdfManager.ensure(this, &#x27;resources&#x27;);
+      }
+      var promise = new Promise();
+      this.resourcesPromise.then(function resourceSuccess() {
+        var objectLoader = new ObjectLoader(this.resources.map,
+                                            keys,
+                                            this.xref);
+        objectLoader.load().then(function objectLoaderSuccess() {
+          promise.resolve();
+        });
+      }.bind(this));
+      return promise;
+    },
+    getOperatorList: function Page_getOperatorList(handler) {
+      var self = this;
+      var promise = new Promise();
+
+      function reject(e) {
+        promise.reject(e);
+      }
+
+      var pageListPromise = new Promise();
+
+      var pdfManager = this.pdfManager;
+      var contentStreamPromise = pdfManager.ensure(this, &#x27;getContentStream&#x27;,
+                                                   []);
+      var resourcesPromise = this.loadResources([
+        &#x27;ExtGState&#x27;,
+        &#x27;ColorSpace&#x27;,
+        &#x27;Pattern&#x27;,
+        &#x27;Shading&#x27;,
+        &#x27;XObject&#x27;,
+        &#x27;Font&#x27;,
+        // ProcSet
+        // Properties
+      ]);
+
+      var partialEvaluator = new PartialEvaluator(
+            pdfManager, this.xref, handler,
+            this.pageIndex, &#x27;p&#x27; + this.pageIndex + &#x27;_&#x27;,
+            this.idCounters);
+
+      var dataPromises = Promise.all(
+          [contentStreamPromise, resourcesPromise], reject);
+      dataPromises.then(function(data) {
+        var contentStream = data[0];
+
+
+        var opList = new OperatorList(handler, self.pageIndex);
+
+        handler.send(&#x27;StartRenderPage&#x27;, {
+          transparency: partialEvaluator.hasBlendModes(self.resources),
+          pageIndex: self.pageIndex
+        });
+        partialEvaluator.getOperatorList(contentStream, self.resources, opList);
+        pageListPromise.resolve(opList);
+      });
+
+      var annotationsPromise = pdfManager.ensure(this, &#x27;annotations&#x27;);
+      Promise.all([pageListPromise, annotationsPromise]).then(function(datas) {
+        var pageOpList = datas[0];
+        var annotations = datas[1];
+
+        if (annotations.length === 0) {
+          PartialEvaluator.optimizeQueue(pageOpList);
+          pageOpList.flush(true);
+          promise.resolve(pageOpList);
+          return;
+        }
+
+        var annotationsReadyPromise = Annotation.appendToOperatorList(
+          annotations, pageOpList, pdfManager, partialEvaluator);
+        annotationsReadyPromise.then(function () {
+          PartialEvaluator.optimizeQueue(pageOpList);
+          pageOpList.flush(true);
+          promise.resolve(pageOpList);
+        }, reject);
+      }, reject);
+
+      return promise;
+    },
+    extractTextContent: function Page_extractTextContent() {
+      var handler = {
+        on: function nullHandlerOn() {},
+        send: function nullHandlerSend() {}
+      };
+
+      var self = this;
+
+      var textContentPromise = new Promise();
+
+      var pdfManager = this.pdfManager;
+      var contentStreamPromise = pdfManager.ensure(this, &#x27;getContentStream&#x27;,
+                                                   []);
+
+      var resourcesPromise = this.loadResources([
+        &#x27;ExtGState&#x27;,
+        &#x27;XObject&#x27;,
+        &#x27;Font&#x27;
+      ]);
+
+      var dataPromises = Promise.all([contentStreamPromise,
+                                      resourcesPromise]);
+      dataPromises.then(function(data) {
+        var contentStream = data[0];
+        var partialEvaluator = new PartialEvaluator(
+              pdfManager, self.xref, handler,
+              self.pageIndex, &#x27;p&#x27; + self.pageIndex + &#x27;_&#x27;,
+              self.idCounters);
+
+        var bidiTexts = partialEvaluator.getTextContent(contentStream,
+                                                        self.resources);
+        textContentPromise.resolve(bidiTexts);
+      });
+
+      return textContentPromise;
+    },
+
+    getAnnotationsData: function Page_getAnnotationsData() {
+      var annotations = this.annotations;
+      var annotationsData = [];
+      for (var i = 0, n = annotations.length; i &lt; n; ++i) {
+        annotationsData.push(annotations[i].getData());
+      }
+      return annotationsData;
+    },
+
+    get annotations() {
+      var annotations = [];
+      var annotationRefs = this.annotationRefs || [];
+      for (var i = 0, n = annotationRefs.length; i &lt; n; ++i) {
+        var annotationRef = annotationRefs[i];
+        var annotation = Annotation.fromRef(this.xref, annotationRef);
+        if (annotation) {
+          annotations.push(annotation);
+        }
+      }
+      return shadow(this, &#x27;annotations&#x27;, annotations);
+    }
+  };
+
+  return Page;
+})();
+
+/**
+ * The &#x60;PDFDocument&#x60; holds all the data of the PDF file. Compared to the
+ * &#x60;PDFDoc&#x60;, this one doesn&#x27;t have any job management code.
+ * Right now there exists one PDFDocument on the main thread + one object
+ * for each worker. If there is no worker support enabled, there are two
+ * &#x60;PDFDocument&#x60; objects on the main thread created.
+ */
+var PDFDocument = (function PDFDocumentClosure() {
+  function PDFDocument(pdfManager, arg, password) {
+    if (isStream(arg))
+      init.call(this, pdfManager, arg, password);
+    else if (isArrayBuffer(arg))
+      init.call(this, pdfManager, new Stream(arg), password);
+    else
+      error(&#x27;PDFDocument: Unknown argument type&#x27;);
+  }
+
+  function init(pdfManager, stream, password) {
+    assertWellFormed(stream.length &gt; 0, &#x27;stream must have data&#x27;);
+    this.pdfManager = pdfManager;
+    this.stream = stream;
+    var xref = new XRef(this.stream, password, pdfManager);
+    this.xref = xref;
+  }
+
+  function find(stream, needle, limit, backwards) {
+    var pos = stream.pos;
+    var end = stream.end;
+    var str = &#x27;&#x27;;
+    if (pos + limit &gt; end)
+      limit = end - pos;
+    for (var n = 0; n &lt; limit; ++n)
+      str += String.fromCharCode(stream.getByte());
+    stream.pos = pos;
+    var index = backwards ? str.lastIndexOf(needle) : str.indexOf(needle);
+    if (index == -1)
+      return false; /* not found */
+    stream.pos += index;
+    return true; /* found */
+  }
+
+  var DocumentInfoValidators = {
+    get entries() {
+      // Lazily build this since all the validation functions below are not
+      // defined until after this file loads.
+      return shadow(this, &#x27;entries&#x27;, {
+        Title: isString,
+        Author: isString,
+        Subject: isString,
+        Keywords: isString,
+        Creator: isString,
+        Producer: isString,
+        CreationDate: isString,
+        ModDate: isString,
+        Trapped: isName
+      });
+    }
+  };
+
+  PDFDocument.prototype = {
+    parse: function PDFDocument_parse(recoveryMode) {
+      this.setup(recoveryMode);
+      try {
+        // checking if AcroForm is present
+        this.acroForm = this.catalog.catDict.get(&#x27;AcroForm&#x27;);
+        if (this.acroForm) {
+          this.xfa = this.acroForm.get(&#x27;XFA&#x27;);
+          var fields = this.acroForm.get(&#x27;Fields&#x27;);
+          if ((!fields || !isArray(fields) || fields.length === 0) &amp;&amp;
+              !this.xfa) {
+            // no fields and no XFA -- not a form (?)
+            this.acroForm = null;
+          }
+        }
+      } catch (ex) {
+        info(&#x27;Something wrong with AcroForm entry&#x27;);
+        this.acroForm = null;
+      }
+    },
+
+    get linearization() {
+      var length = this.stream.length;
+      var linearization = false;
+      if (length) {
+        try {
+          linearization = new Linearization(this.stream);
+          if (linearization.length != length) {
+            linearization = false;
+          }
+        } catch (err) {
+          if (err instanceof MissingDataException) {
+            throw err;
+          }
+
+          info(&#x27;The linearization data is not available &#x27; +
+               &#x27;or unreadable PDF data is found&#x27;);
+          linearization = false;
+        }
+      }
+      // shadow the prototype getter with a data property
+      return shadow(this, &#x27;linearization&#x27;, linearization);
+    },
+    get startXRef() {
+      var stream = this.stream;
+      var startXRef = 0;
+      var linearization = this.linearization;
+      if (linearization) {
+        // Find end of first obj.
+        stream.reset();
+        if (find(stream, &#x27;endobj&#x27;, 1024))
+          startXRef = stream.pos + 6;
+      } else {
+        // Find startxref by jumping backward from the end of the file.
+        var step = 1024;
+        var found = false, pos = stream.end;
+        while (!found &amp;&amp; pos &gt; 0) {
+          pos -= step - &#x27;startxref&#x27;.length;
+          if (pos &lt; 0)
+            pos = 0;
+          stream.pos = pos;
+          found = find(stream, &#x27;startxref&#x27;, step, true);
+        }
+        if (found) {
+          stream.skip(9);
+          var ch;
+          do {
+            ch = stream.getByte();
+          } while (Lexer.isSpace(ch));
+          var str = &#x27;&#x27;;
+          while (ch &gt;= 0x20 &amp;&amp; ch &lt;= 0x39) { // &lt; &#x27;9&#x27;
+            str += String.fromCharCode(ch);
+            ch = stream.getByte();
+          }
+          startXRef = parseInt(str, 10);
+          if (isNaN(startXRef))
+            startXRef = 0;
+        }
+      }
+      // shadow the prototype getter with a data property
+      return shadow(this, &#x27;startXRef&#x27;, startXRef);
+    },
+    get mainXRefEntriesOffset() {
+      var mainXRefEntriesOffset = 0;
+      var linearization = this.linearization;
+      if (linearization)
+        mainXRefEntriesOffset = linearization.mainXRefEntriesOffset;
+      // shadow the prototype getter with a data property
+      return shadow(this, &#x27;mainXRefEntriesOffset&#x27;, mainXRefEntriesOffset);
+    },
+    // Find the header, remove leading garbage and setup the stream
+    // starting from the header.
+    checkHeader: function PDFDocument_checkHeader() {
+      var stream = this.stream;
+      stream.reset();
+      if (find(stream, &#x27;%PDF-&#x27;, 1024)) {
+        // Found the header, trim off any garbage before it.
+        stream.moveStart();
+        // Reading file format version
+        var MAX_VERSION_LENGTH = 12;
+        var version = &#x27;&#x27;, ch;
+        while ((ch = stream.getByte()) &gt; 0x20) { // SPACE
+          if (version.length &gt;= MAX_VERSION_LENGTH) {
+            break;
+          }
+          version += String.fromCharCode(ch);
+        }
+        // removing &quot;%PDF-&quot;-prefix
+        this.pdfFormatVersion = version.substring(5);
+        return;
+      }
+      // May not be a PDF file, continue anyway.
+    },
+    parseStartXRef: function PDFDocument_parseStartXRef() {
+      var startXRef = this.startXRef;
+      this.xref.setStartXRef(startXRef);
+    },
+    setup: function PDFDocument_setup(recoveryMode) {
+      this.xref.parse(recoveryMode);
+      this.catalog = new Catalog(this.pdfManager, this.xref);
+    },
+    get numPages() {
+      var linearization = this.linearization;
+      var num = linearization ? linearization.numPages : this.catalog.numPages;
+      // shadow the prototype getter
+      return shadow(this, &#x27;numPages&#x27;, num);
+    },
+    get documentInfo() {
+      var docInfo = {
+        PDFFormatVersion: this.pdfFormatVersion,
+        IsAcroFormPresent: !!this.acroForm,
+        IsXFAPresent: !!this.xfa
+      };
+      var infoDict;
+      try {
+        infoDict = this.xref.trailer.get(&#x27;Info&#x27;);
+      } catch (err) {
+        info(&#x27;The document information dictionary is invalid.&#x27;);
+      }
+      if (infoDict) {
+        var validEntries = DocumentInfoValidators.entries;
+        // Only fill the document info with valid entries from the spec.
+        for (var key in validEntries) {
+          if (infoDict.has(key)) {
+            var value = infoDict.get(key);
+            // Make sure the value conforms to the spec.
+            if (validEntries[key](value)) {
+              docInfo[key] = typeof value !== &#x27;string&#x27; ? value :
+                stringToPDFString(value);
+            } else {
+              info(&#x27;Bad value in document info for &quot;&#x27; + key + &#x27;&quot;&#x27;);
+            }
+          }
+        }
+      }
+      return shadow(this, &#x27;documentInfo&#x27;, docInfo);
+    },
+    get fingerprint() {
+      var xref = this.xref, fileID;
+      if (xref.trailer.has(&#x27;ID&#x27;)) {
+        fileID = &#x27;&#x27;;
+        var id = xref.trailer.get(&#x27;ID&#x27;)[0];
+        id.split(&#x27;&#x27;).forEach(function(el) {
+          fileID += Number(el.charCodeAt(0)).toString(16);
+        });
+      } else {
+        // If we got no fileID, then we generate one,
+        // from the first 100 bytes of PDF
+        var data = this.stream.bytes.subarray(0, 100);
+        var hash = calculateMD5(data, 0, data.length);
+        fileID = &#x27;&#x27;;
+        for (var i = 0, length = hash.length; i &lt; length; i++) {
+          fileID += Number(hash[i]).toString(16);
+        }
+      }
+
+      return shadow(this, &#x27;fingerprint&#x27;, fileID);
+    },
+
+    traversePages: function PDFDocument_traversePages() {
+      this.catalog.traversePages();
+    },
+
+    getPage: function PDFDocument_getPage(pageIndex) {
+      return this.catalog.getPage(pageIndex);
+    }
+  };
+
+  return PDFDocument;
+})();
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>国贸建筑群</title>
+        <script src="/js/lab/webgl/three.73.js"></script>
+        <script src="/js/lab/webgl/trackballControls.js"></script>
+        <style>
+        body,html{
+            margin: 0;
+            padding: 0;
+        }
+        </style>
+    </head>
+    <body>
+        <div style="position:absolute; top: 10px ; right: 10px; color: white; text-align:right;">
+            <p style="color:red; font-weight:bold">*如果过于卡顿，请关闭阴影</p>
+            <p><label><input type="checkbox" checked="checked" id="shadow">阴影</label></p>
+            <p><label><input type="checkbox" checked="checked" id="rotation">旋转</label></p>
+        </div>
+        <div id="main"></div>
+        <script src="/demo/guomao/data/guomao.json"></script>
+        <script src="/js/lab/webgl/guomao/guomao.js"></script>
+    </body>
+</html>

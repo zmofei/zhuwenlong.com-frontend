@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>hm_popBox_database.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: hm_popBox_database.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @author jerry
+ */
+(function(exports){
+	//native promote
+	var isIe6=(!!window.ActiveXObject&amp;&amp;!window.XMLHttpRequest),
+	zindex=10100,
+	maskColl=[], popColl=[],winAttr={},
+	$body,$win,$dcmen;
+	var init=function(parm){
+		var def={
+			callBack : null, //返回函数
+			noTitle : false, //是否显示标题栏
+			timeout : 0, //设置等待关闭时间，为0为不关闭
+			arrow:false,
+			direction:&#x27;top&#x27;,//top|right|bottom|left
+			skewing:&#x27;20&#x27;,
+			link : null, //链接地址
+			requestType : null, //iframe,ajax,img
+			title : &#x27;标题&#x27;, //标题
+			drag : true, //是否拖动，当此值为true时，如果noTitle为false，也不可以拖动
+			width : 400, //内容区的宽度
+			height : &#x27;auto&#x27;, //内容的高度
+			html : &#x27;&#x27;,//popBox的内容
+			style:&quot;&quot;,//目前针对iframe设置
+			scrolling:&quot;auto&quot;,//目前针对iframe使用
+ 			noMask:false,
+ 			noClose:false,
+ 			positionStyle:&#x27;auto&#x27;,//auto|define
+ 			top:null,left:null,right:null,bottom:null,
+ 			closeFn:null,
+ 			mini:false //最小化
+		};
+		$.extend(def,parm);
+		$body||($body=$(&#x27;body&#x27;));
+		$dcmen||($dcmen=$(document));
+		if(!$win){
+			$win=$(window);
+			baseInfo();
+		};
+		return def;
+	},
+	getPopTpl=function(ntitle,title,arrow,nclose,mini){
+	    var miniHtml=&#x27;&#x27;;
+	    if(mini){
+	        var miniHtml=&#x27;&lt;a href=&quot;javascript:;&quot; class=&quot;icon nyt-minify nyt-blow-down&quot;&gt;&lt;/a&gt;&#x27;;
+	    }
+		var popTpl=&#x27;&lt;div class=&quot;NY-pop-warp&quot;&gt;&#x27;+(arrow?&#x27;&lt;div class=&quot;NY-arrow&quot;&gt;&lt;span class=&quot;npa-a npa-w&quot;&gt;◆&lt;/span&gt;&lt;span class=&quot;npa-a npa-u&quot;&gt;◆&lt;/span&gt;&lt;span class=&quot;npa-a npa-b&quot;&gt;◆&lt;/span&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;div class=&quot;NY-pop-bg&quot;&gt;&lt;div class=&quot;NY-pop-ct&quot;&gt;&#x27;+(ntitle?&#x27;&#x27;:&#x27;&lt;div class=&quot;NY-pop-title&quot;&gt;&#x27;+(nclose?&#x27;&#x27;:miniHtml+&#x27;&lt;a href=&quot;javascript:;&quot; class=&quot;icon nyt-close&quot;&gt;&#x27;)+&#x27;&lt;/a&gt;&lt;h4 class=&quot;nyt-txt&quot;&gt;&#x27;+title+&#x27;&lt;/h4&gt;&lt;/div&gt;&#x27;)+&#x27;&lt;div class=&quot;NY-con-warp&quot; note-type=&quot;pop-cont-warp&quot;&gt;&lt;/div&gt;&#x27;+&#x27;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+		return popTpl; 
+	},
+	getConfirmTpl=function(txt,ok,cc){
+		var ctpl=&#x27;&lt;div class=&quot;NY-con-cofirm&quot;&gt;&lt;div class=&quot;NY-con-cnfirm-txt&quot;&gt;&lt;div class=&quot;NY-ccf&quot;&gt;&lt;p&gt;&#x27;+txt+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pop_common_ft&quot;&gt;&lt;div class=&quot;pop_common_ft_bt&quot;&gt;&lt;b class=&quot;xpy-btn btn_c_s OP_subnewf&quot;&gt; &lt;a href=&quot;javascript:void(0)&quot; id=&quot;newFolder&quot; class=&quot;xpy-btn-inner xpy-btn-inner_active&quot;  node-type=&quot;ok&quot;&gt;确定&lt;/a&gt;&lt;/b&gt;&lt;b class=&quot;xpy-btn btn_c_s OP_newfing&quot; style=&quot;display:none;&quot;&gt;&lt;a class=&quot;xpy-btn-inner&quot;&gt;处理中,请稍候&lt;/a&gt;&lt;/b&gt;&lt;b class=&quot;xpy-btn btn_c_s&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;xpy-btn-inner&quot; id=&quot;cancle_newfolder&quot;  node-type=&quot;cancel&quot;&gt;取消&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+		return ctpl;
+	},
+	getalertTpl=function(txt,ok){
+		var ctpl=&#x27;&lt;div class=&quot;NY-con-cofirm&quot;&gt;&lt;div class=&quot;NY-con-alert-txt&quot;&gt;&lt;p&gt;&#x27;+txt+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;NY-com-btnarea&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;NY_rt_btn NY_rt_active&quot; node-type=&quot;ok&quot;&gt;&lt;b class=&quot;NY_iw&quot;&gt;&lt;b class=&quot;NY_ii&quot;&gt;&lt;u class=&quot;NY_it&quot;&gt;&#x27;+ok+&#x27;&lt;/u&gt;&lt;/b&gt;&lt;/b&gt;&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+		return ctpl;
+	},
+	getToastTpl=function(txt){
+		var tpl=&#x27;&lt;div class=&quot;NY-con-warp&quot; note-type=&quot;pop-cont-warp&quot;&gt;&lt;div class=&quot;NY-con-toast&quot;&gt;	&lt;p&gt;&#x27;+txt+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+			return tpl;
+	},
+	getealertTpl=function(text,ok,type){
+		var tc;
+		if(type==&#x27;ok&#x27;){
+			tc=&#x27;NY_icon_ok&#x27;;
+		}else if(type==&#x27;notice&#x27;){
+			tc=&#x27;NY_icon_ok&#x27;;
+		}
+		var h = &#x27;&lt;div class=&quot;NY_report_warp clearfix&quot;&gt;&lt;div class=&quot;NY_report&quot;&gt;&lt;div class=&quot;NY_tipwarp&quot;&gt;&lt;span class=&quot;NY_tiptxt&quot;&gt;&lt;span class=&quot;NY_icon &#x27;+tc+&#x27;&quot;&gt;&lt;/span&gt;&#x27;+text+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;NY-com-btnarea&quot;&gt;&lt;a href=&quot;javascript:;&quot; class=&quot;NY_rt_btn NY_rt_active&quot; node-type=&quot;ok&quot;&gt;&lt;b class=&quot;NY_iw&quot;&gt;&lt;b class=&quot;NY_ii&quot;&gt;&lt;u class=&quot;NY_it&quot;&gt;&#x27;+ok+&#x27;&lt;/u&gt;&lt;/b&gt;&lt;/b&gt;&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+		return h;
+	},
+	 baseInfo=function(){
+		var getWinInfo=function(){
+			winAttr[&#x27;winWidth&#x27;]=$win.width();
+			winAttr[&#x27;winHeight&#x27;]=$win.height();
+		};
+		$win.bind(&#x27;resize.hmpop&#x27;,function(){
+			getWinInfo();
+		});
+		getWinInfo();
+	};
+	//-----------------------
+	var mask=function(){
+		this.random=(Math.random()*10000*8|0).toString(16);
+		this.init();
+	};
+	mask.prototype={
+		init:function(){
+			var __=this;
+			__.create();
+		},
+		create:function(){
+			var __=this,html=&#x27;&lt;div class=&quot;NY-pop-mask&quot;&gt;&lt;/div&gt;&#x27;;
+			var mobj=$(html);
+			__.setattr(mobj);
+			$body.append(mobj);
+			__.mobj=mobj;
+			__.autoUpdata(mobj);
+		},
+		setattr:function(mobj){
+			if(isIe6){
+				var $h = $(document).height(), $wh =document.body.scrollHeight;
+				$h = Math.max($h, $wh);
+				mobj.css({&#x27;position&#x27;:&#x27;absolute&#x27;,height:$h});
+			}else{
+				mobj.css({&#x27;position&#x27;:&#x27;fixed&#x27;,height:winAttr[&#x27;winHeight&#x27;]});
+			}
+		},
+		autoUpdata:function(mobj){
+			var __=this;
+			$win.bind(&#x27;resize&#x27;,function(){
+				if(isIe6){
+					var $h = $(document).height(), $wh =document.body.scrollHeight;
+					$h = Math.max($h, $wh);
+					mobj.css({&#x27;position&#x27;:&#x27;absolute&#x27;,height:$h});
+				}else{
+					mobj.css({height:winAttr[&#x27;winHeight&#x27;]});
+				}
+			})
+		},
+		setZindex:function(num){
+			var __=this;
+			__.mobj.css({&#x27;z-index&#x27;:num});
+		},
+		close:function(){
+			this.mobj.remove();
+		}
+	};
+	var popFn=function(parm){
+		for(var i in parm){
+			this[i]=parm[i];
+		}
+		this.random=(Math.random()*10000000*8|0).toString(16);
+		this.init();
+	};
+	popFn.prototype={
+		init:function(){
+			var __=this;
+			__.createpop();
+			__.createMask();
+			//callback function
+			if(typeof __.callBack===&#x27;function&#x27;)__.callBack(__);
+			__.autoClose(__.timeout);
+		},
+		createpop:function(){
+			var __=this;
+			var html=getPopTpl(__.noTitle,__.title,__.arrow,__.noClose,__.mini);
+			var pobj=$(html);
+			$body.append(pobj);
+			__.setZindex(pobj);
+			__.setPostion(pobj);
+			//set pop DOM object with this object
+			__.index=popColl.length;
+			__.popobj=pobj;
+			__.arrowDandS();
+			//let the object push in popColl
+			popColl.push(__);
+			//is or no can drag
+			if(!__.noTitle&amp;&amp;__.drag){
+				__.dragfn();
+			}
+			//bind close icon eventy
+			pobj.find(&#x27;.nyt-close&#x27;).bind(&#x27;click&#x27;,function(){__.close();});
+			__.afterSet();
+		},
+		arrowDandS:function(){
+			var __=this;
+			if(!__.arrow)return;
+			var arrow=__.popobj.find(&#x27;.NY-arrow&#x27;);
+			arrow.addClass(&#x27;NY-arrow_&#x27;+__.direction);
+			switch(__.direction){
+				case &#x27;top&#x27;:
+				case &#x27;bottom&#x27;:
+				arrow.css({left:__.skewing});	
+				break;
+				case &#x27;left&#x27;:
+				case &#x27;right&#x27;:
+				arrow.css({top:__.skewing});
+				break;
+			}
+		},
+		afterSet:function(){
+			var __=this,cont=__.popobj.find(&#x27;.NY-con-warp&#x27;);
+			if(__.requestType &amp;&amp; $.inArray(__.requestType, [&#x27;iframe&#x27;, &#x27;ajax&#x27;, &#x27;img&#x27;]) != -1) {
+				cont.html(&#x27;&lt;div class=&quot;NY-con_loading&quot;&gt;&lt;/div&gt;&#x27;);
+				//img
+				if(__.requestType === &#x27;img&#x27;) {
+					var img = $(&#x27;&lt;img /&gt;&#x27;);
+					img.attr(&quot;src&quot;, __.link);
+					img.load(function() {
+						img.appendTo(cont.empty());
+						var imgobj = cont.find(&#x27;img&#x27;);
+						__.width = imgobj.width();
+						__.height = imgobj.height();
+						__.setPostion(__.popobj);
+					});
+				}
+				//ajax
+				else if(__.requestType===&#x27;ajax&#x27;){
+					$.get(__.link,function(date) {
+						cont.html(date);
+						__.setPostion(__.popobj);
+					});
+				}else{
+					var ifr = $(&#x27;&lt;iframe frameborder=&quot;0&quot; id=&quot;hmiframe&quot; scrolling=&#x27;+__.scrolling+&#x27; src=&quot;&quot;&gt;&lt;/iframe&gt;&#x27;).attr(&quot;style&quot;,&#x27;height:&#x27;+(__.height==&#x27;auto&#x27;?__.height:__.height+&#x27;px&#x27;)+ &#x27;;width:&#x27; + __.width + &#x27;px;&#x27;+__.style);
+					ifr.appendTo(cont.empty());
+					setTimeout(function(){ifr.attr(&#x27;src&#x27;,__.link);},0);
+				}
+			}else if(__.link){
+				$(__.link).clone(true).show().appendTo(cont.empty());
+			}else if(__.html){
+				cont.html(__.html);
+			}
+		},
+		autoClose:function(time){
+			var __=this;
+			if(time&gt;0){
+				setTimeout(function(){
+					__.close();
+				},time);
+			}
+		},
+		createMask:function(){
+			var __=this;
+			if(!__.noMask){
+				if(maskColl.length===0){
+					var maskobj=new mask();
+					maskColl.push(maskobj);
+				}
+				var pcount=popColl.length-1;
+				var zidx=zindex+(pcount*10)+1;
+				maskColl[0].setZindex(zidx);
+			}
+		},
+		close:function(){
+			var __=this;
+			__.popobj.remove();
+			//__.popobj=null;
+			for(var i=popColl.length;i&gt;=0;i--){
+				if(popColl[i-1][&#x27;random&#x27;]==__.random){
+					popColl.splice(i-1,1);
+					break;
+				}
+			};
+			for(var i=popColl.length;i&gt;=0;i--){
+				if(i===0){
+					if(maskColl.length&gt;0){
+						maskColl[0].close();
+						delete maskColl[0];
+						maskColl.splice(0,1);	
+					}
+					break;
+				}
+				if(!popColl[i-1][&#x27;noMask&#x27;]){
+					var pcount=i-1;
+					var zidx=zindex+(pcount*10)+1;
+					maskColl[0].setZindex(zidx);
+					break;
+				}
+			}
+			if(typeof __.closeFn===&#x27;function&#x27;)__.closeFn();
+			delete __;
+		},
+		setZindex:function(pobj){
+			var pcount=popColl.length;
+			var zidx=zindex+(pcount*10)+2;
+			pobj.css({&#x27;z-index&#x27;:zidx});
+		},
+		setPostion:function(pobj){
+			var __=this;
+			pobj.width(parseInt(__.width)+8);
+			var width=pobj.width(),posi=__.calPostion(width);
+			pobj.css(posi);
+		},
+		calPostion:function(width){
+			var __=this;
+			if(__.positionStyle===&#x27;auto&#x27;){
+				var l=($body.width()-width)/2,
+				t=$win.scrollTop() + $win.height()/ 5;	
+				return {left:l,top:t};
+			}else if(__.positionStyle===&#x27;define&#x27;){
+				var l=__.left,t=__.top;
+				return {left:l,top:t,right:__.right,bottom:__.bottom};
+			}else{
+				try{
+					throw(&#x27;error no &#x27;+__.positionStyle+&#x27; style&#x27;);
+				}catch(e){}
+			}
+			return {l:l,t:t};
+		},
+		dragfn:function(){
+			var __=this;
+			var gropBar=__.popobj.find(&#x27;.NY-pop-title&#x27;),oldPos,oldmouse,nx,ny;
+			gropBar.css({&#x27;cursor&#x27;: &#x27;move&#x27;});
+			gropBar.bind(&#x27;mousedown.&#x27;+__.random,function(e){
+				e.preventDefault();
+   				e.stopPropagation();
+				__.gropStatus=true;
+				oldmouse = {
+                    x : e.clientX,
+                    y : e.clientY
+                };
+                oldPos={left:__.popobj.css(&#x27;left&#x27;),top:__.popobj.css(&#x27;top&#x27;)};
+                $dcmen.bind(&#x27;mousemove.&#x27;+__.random,function(e){
+                	//清除选择
+                   window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+                    if(!__.gropStatus)return;
+                    var currs={
+                    	 x : e.clientX,
+                   		 y : e.clientY
+                    };
+                    if(currs.x&gt;=winAttr[&#x27;winWidth&#x27;])currs.x=winAttr[&#x27;winWidth&#x27;];
+                    if(currs.y&lt;0)currs.y=0;
+                    nx=currs.x-oldmouse.x+parseInt(oldPos.left);
+                    ny=currs.y-oldmouse.y+parseInt(oldPos.top);
+                    __.popobj.css({left:nx,top:ny});
+                }).bind(&#x27;mouseup.&#x27;+__.random,function(e){
+                	__.gropStatus=false;
+                	$dcmen.unbind(&#x27;mousemove.&#x27;+__.random);
+                	$dcmen.unbind(&#x27;mouseup.&#x27;+__.random);
+                });
+				
+			});
+		}
+	};
+	//----------------------
+	var popbox=function(parm){
+		var parms=init(parm);
+		var pbox=new popFn(parms);
+		return pbox;
+	},
+	toast=function(parm){
+		var def={
+			text:&#x27;请输入提示信息&#x27;,
+			timeout:1200,
+			noTitle : true,
+			width:210
+		};
+		$.extend(def,parm);
+		var parms=init(def);
+		parms.html=getToastTpl(parms.text);
+		var pbox=new popFn(parms);
+	},
+	alert=function(parm,btnFn){
+		var defaults = {
+			noTitle : true, //是否显示标题
+			text : &#x27;请输入提示信息&#x27;, //内容文
+			height : &#x27;auto&#x27;, //高度字
+			width : 210,//宽度
+			confirm:&#x27;确定&#x27;,
+			enhance:false,
+			icontype:&#x27;ok&#x27; //ok||notice
+		};
+		$.extend(defaults,parm);
+		var parms=init(defaults);
+		if(parms.enhance){
+			parms.html=getealertTpl(parms.text,parms.confirm,parms.icontype);
+		}else{
+			parms.html=getalertTpl(parms.text,parms.confirm);
+		}
+		var pbox=new popFn(parms);
+		var ok= pbox.popobj.find(&#x27;a[node-type=ok]&#x27;);
+		ok.bind(&#x27;click&#x27;,function(){
+			(typeof btnFn===&#x27;function&#x27;)&amp;&amp;btnFn();
+			pbox.close();
+			return false;
+		});
+	},
+	confirm=function(parm,okFn,cancelFn){
+		var defaults = {
+			noTitle : false, //是否显示标题
+			text : &#x27;请输入提示信息&#x27;, //内容文
+			height : &#x27;auto&#x27;, //高度字
+			width : 220,//宽度
+			confirm:&#x27;确定&#x27;,
+			cancel:&#x27;取消&#x27;
+		};
+		$.extend(defaults,parm);
+		var parms=init(defaults);
+		parms.html=getConfirmTpl(parms.text,parms.confirm,parms.cancel);
+		var pbox=new popFn(parms);
+		var ok= pbox.popobj.find(&#x27;a[node-type=ok]&#x27;),cancel=pbox.popobj.find(&#x27;a[node-type=cancel]&#x27;);
+		ok.bind(&#x27;click&#x27;,function(){
+			(typeof okFn===&#x27;function&#x27;)&amp;&amp;okFn();
+			pbox.close();
+			return false;
+		});
+		cancel.bind(&#x27;click&#x27;,function(){
+			(typeof cancelFn===&#x27;function&#x27;)&amp;&amp;cancelFn();
+			pbox.close();
+			return false;
+		});
+	};
+	exports.popbox=exports.popBox=popbox;
+	exports.confirm=confirm;
+	exports.toast=toast;
+	exports.alert=alert;
+	
+}(window.hm=window.hm||{}));
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>select.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: select.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * This class is to set the action of select.
+ * @class select
+ */
+
+var select = function() {
+    return select[&#x27;init&#x27;].apply(select, arguments);
+};
+
+(function(exp) {
+
+    exp.init = function() {
+        // option
+        exp.option(&#x27;#sub_option&#x27;, &#x27;.db_choice_c&#x27;, changeType);
+        var array = [&#x27;#search_handle_a&#x27;, &#x27;#search_handle_i&#x27;, &#x27;#search_handle_o&#x27;, &#x27;#search_handle_p&#x27;];
+        var handArray = [&#x27;.db_s_class_a&#x27;, &#x27;.db_s_class_i&#x27;, &#x27;.db_s_class_o&#x27;, &#x27;.db_s_class_p&#x27;];
+        var arrayL = array.length;
+        for (var i = 0; i &lt; arrayL; i++) {
+            exp.option(array[i], handArray[i], function(dom, other) {
+                show(dom, other);
+            });
+        }
+
+        function show(dom, other) {
+            var searchBox = $(other.handleDom);
+            var iconTar = searchBox.find(&#x27;.db_c_small&#x27;);
+            var oldClass = iconTar.attr(&#x27;class&#x27;);
+            var newType = dom.attr(&#x27;file&#x27;);
+            var newClass = oldClass.replace(/db_small_(\w+)/, function() {
+                return &#x27;db_small_&#x27; + dom.attr(&#x27;searchtype&#x27;);
+            });
+            iconTar.attr({
+                &#x27;class&#x27; : newClass
+            });
+            searchBox.attr({
+                &#x27;ftype&#x27; : newType
+            });
+        }
+
+
+        exp.modle = {
+            actionBar : (function() {
+                var dom = $(&#x27;#TEM_action&#x27;);
+                var html = dom.html();
+                dom.remove();
+                return html;
+            })()
+        };
+
+        //
+
+        exp.showActive();
+        exp.action();
+
+        function changeType(tar) {
+            var type = tar.attr(&#x27;file&#x27;);
+            disk.config.database.fileType = type;
+            disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+        }
+
+        //file action
+        var file_bub;
+        //get the btnType
+        function btnType(fileType, isfolder, isBig) {
+            var fileType = fileType.toLowerCase();
+            var btn = [];
+            //disk.config.prewiew
+            if (disk.config.database.type == &#x27;a&#x27;) {
+                if (isfolder) {
+                    btn.push(&#x27;delete&#x27;);
+                    btn.push(&#x27;edit&#x27;);
+                } else {
+                    btn.push(&#x27;share&#x27;);
+                    if (isBig) {
+                        btn.push(&#x27;edit&#x27;);
+                        btn.push(&#x27;delete&#x27;);
+                        btn.push(&#x27;move&#x27;);
+                    } else {
+                        btn.push(&#x27;more&#x27;);
+                    }
+                    disk.config.prewiew[fileType] ? btn.push(&#x27;view&#x27;) : &#x27;&#x27;;
+                    disk.config.print[fileType] ? btn.push(&#x27;print&#x27;) : &#x27;&#x27;;
+                }
+            } else if (disk.config.database.type == &#x27;i&#x27;) {
+                disk.config.prewiew[fileType] ? btn.push(&#x27;view&#x27;) : &#x27;&#x27;;
+                btn.push(&#x27;dump&#x27;);
+            } else if (disk.config.database.type == &#x27;o&#x27;) {
+                disk.config.prewiew[fileType] ? btn.push(&#x27;view&#x27;) : &#x27;&#x27;;
+                btn.push(&#x27;editshare&#x27;);
+                btn.push(&#x27;cancel&#x27;);
+            } else if (disk.config.database.type == &#x27;p&#x27;) {
+                disk.config.prewiew[fileType] ? btn.push(&#x27;view&#x27;) : &#x27;&#x27;;
+                btn.push(&#x27;dump&#x27;);
+                btn.push(&#x27;report&#x27;);
+                btn.push(&#x27;laud&#x27;);
+                btn.push(&#x27;tread&#x27;);
+            }
+            return btn;
+        }
+
+
+        $(&#x27;#db_filelist&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_file_namebox&#x27;, function() {
+            var that = $(this);
+            var title = that.find(&#x27;.db_file_name_link&#x27;).html();
+            var top = that.offset().top + $(&#x27;.db_main&#x27;).scrollTop() - 50 + that.height() / 2;
+            var left = that.width() + that.position().left + 10;
+            var filename = that.attr(&#x27;filename&#x27;);
+            var fileTest = /\.(\w+)$/.exec(filename);
+            var fileType = fileTest ? fileTest[1] : &#x27;&#x27;;
+            var sid = that.attr(&#x27;sid&#x27;);
+            var filePath = ( sid ? sid + &#x27;/&#x27; : &#x27;&#x27;) + that.attr(&#x27;path&#x27;);
+            var btn = btnType(fileType);
+
+            var that = $(this).parents(&#x27;.db_cf_file&#x27;);
+
+            file_bub = exp.actionBar({
+                type : &#x27;left&#x27;,
+                btn : btn,
+                title : title,
+                tar : $(&#x27;.db_main&#x27;),
+                pos : [left, top],
+                callback : exp.actionDo,
+                sid : sid,
+                filePath : filePath,
+                fileName : filename,
+                target : that
+            });
+
+            file_bub.on(&#x27;mouseenter&#x27;, function() {
+                $(this).show();
+                that.addClass(&#x27;db_file_active&#x27;);
+            });
+
+            file_bub.on(&#x27;mouseleave&#x27;, function() {
+                $(this).hide();
+                if (that.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;) != &#x27;true&#x27;) {
+                    that.removeClass(&#x27;db_file_active&#x27;);
+                }
+            });
+
+        }).on(&#x27;mouseleave&#x27;, &#x27;.db_file_namebox&#x27;, function() {
+            file_bub.hide();
+            var tar = $(this).parents(&#x27;.db_cf_file&#x27;);
+            if (tar.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;) != &#x27;true&#x27;) {
+                tar.removeClass(&#x27;db_file_active&#x27;);
+            }
+        });
+
+        $(&#x27;#db_filelist&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.oper_border&#x27;, function() {
+            var that = $(this);
+            var thatParent=that.parents(&#x27;.db_class&#x27;);
+            thatParent.addClass(&#x27;db_class_active&#x27;);
+            var title = thatParent.find(&#x27;span[sname]&#x27;).html();
+            var top = that.offset().top + $(&#x27;.db_main&#x27;).scrollTop() - 20;
+            var left = that.offset().left - 242;
+            that = thatParent;
+            var filename = that.attr(&#x27;filename&#x27;);
+            var fileTest = /\.(\w+)$/.exec(filename);
+            var fileType = fileTest ? fileTest[1] : &#x27;&#x27;;
+            var sid = that.attr(&#x27;sid&#x27;);
+            var filePath = ( sid ? sid + &#x27;/&#x27; : &#x27;&#x27;) + that.attr(&#x27;path&#x27;);
+            var btn = btnType(fileType, false, true);
+
+            file_bub = exp.actionBar({
+                type : &#x27;top&#x27;,
+                maxWidth : 3,
+                btn : btn,
+                title : title,
+                tar : $(&#x27;.db_main&#x27;),
+                pos : [left, top],
+                callback : exp.actionDo,
+                sid : sid,
+                filePath : filePath,
+                fileName : filename,
+                target : that,
+                listType : &#x27;big&#x27;
+            });
+
+            file_bub.on(&#x27;mouseenter&#x27;, function() {
+                $(this).show();
+                that.addClass(&#x27;db_class_active&#x27;);
+            });
+            file_bub.on(&#x27;mouseleave&#x27;, function() {
+                $(this).hide();
+                if (that.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;) != &#x27;true&#x27;) {
+                    that.removeClass(&#x27;db_class_active&#x27;);
+                }
+            });
+        }).on(&#x27;mouseleave&#x27;, &#x27;.oper_border&#x27;, function() {
+            file_bub.hide();
+        });
+
+        $(&#x27;.db_cf_class&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.oper_border&#x27;, function() {
+            var that = $(this);
+            var thatParent=that.parents(&#x27;.db_class&#x27;);
+            thatParent.addClass(&#x27;db_class_active&#x27;);
+            var title = thatParent.find(&#x27;span[sname]&#x27;).html();
+            var top = that.offset().top + $(&#x27;.db_main&#x27;).scrollTop() - 20;
+            var left = that.offset().left - 240;
+            that = thatParent;
+            var filename = that.attr(&#x27;filename&#x27;);
+            var fileTest = /\.(\w+)$/.exec(filename);
+            var fileType = fileTest ? fileTest[1] : &#x27;&#x27;;
+            var sid = that.attr(&#x27;sid&#x27;);
+            var filePath = ( sid ? sid + &#x27;/&#x27; : &#x27;&#x27;) + that.attr(&#x27;path&#x27;);
+            var btn = btnType(fileType, true);
+            file_bub = exp.actionBar({
+                type : &#x27;top&#x27;,
+                maxWidth : 3,
+                btn : btn,
+                title : title,
+                tar : $(&#x27;.db_main&#x27;),
+                pos : [left, top],
+                callback : exp.actionDo,
+                sid : sid,
+                filePath : filePath,
+                fileName : filename,
+                target : that,
+                listType : &#x27;big&#x27;,
+                isfolder : true
+            });
+
+            file_bub.on(&#x27;mouseenter&#x27;, function() {
+                $(this).show();
+                that.addClass(&#x27;db_class_active&#x27;);
+            });
+            file_bub.on(&#x27;mouseleave&#x27;, function() {
+                $(this).hide();
+                if (that.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;) != &#x27;true&#x27;) {
+                    that.removeClass(&#x27;db_class_active&#x27;);
+                }
+            });
+        }).on(&#x27;mouseleave&#x27;, &#x27;.oper_border&#x27;, function() {
+            file_bub.hide();
+        });
+
+    };
+
+    /**
+     * show the actionBar
+     * @method actionBar
+     * @param obj {Object}
+     * @param obj.btn {Object}
+     * @param obj.pos {Array} [x,y]
+     * @param obj.filePath {String} the file&#x27;s path
+     * @param obj.type {String} left
+     */
+    exp.actionBar = function(obj) {
+
+        var tar = $(&#x27;.Bubble&#x27;);
+
+        if (tar.length &lt; 1) {
+            var box = obj.tar || $(&#x27;body&#x27;);
+            box.append(select.modle.actionBar);
+            tar = $(&#x27;.Bubble&#x27;);
+        }
+
+        tar.off();
+        tar.on(&#x27;click&#x27;, &#x27;.bub_button,.bub_right b&#x27;, function() {
+            obj.callback &amp;&amp; obj.callback($(this).attr(&#x27;bType&#x27;), obj);
+        });
+
+        //show btn
+        var btnA = obj.btn;
+        for (var i = 0, len = btnA.length; i &lt; len; i++) {
+            btnA[i] = &#x27;.a_&#x27; + btnA[i];
+        };
+        //show btn - modifi the box&#x27;s width
+        if (obj.maxWidth &amp;&amp; btnA.length &gt; obj.maxWidth) {
+            tar.find(&#x27;.bub_main&#x27;).css(&#x27;width&#x27;, 20 + 57 * obj.maxWidth);
+        } else {
+            tar.find(&#x27;.bub_main&#x27;).css(&#x27;width&#x27;, 20 + 57 * btnA.length);
+        }
+
+        //
+        btnS = btnA.join(&#x27;,&#x27;);
+
+        //show title
+        if (obj.title) {
+            tar.find(&#x27;.bub_title&#x27;).show().html(obj.title);
+        } else {
+            tar.find(&#x27;.bub_title&#x27;).hide().html(&#x27;&#x27;);
+        }
+
+        tar.find(&#x27;.bub_button&#x27;).hide();
+        tar.find(btnS).show();
+
+        //good&amp;&amp;bad
+        var good = obj.target.attr(&#x27;good&#x27;);
+        var bad = obj.target.attr(&#x27;bad&#x27;);
+        var isgood = obj.target.attr(&#x27;isgood&#x27;);
+        var isbad = obj.target.attr(&#x27;isbad&#x27;);
+        var goodDom = tar.find(&#x27;.a_laud&#x27;);
+        var badDom = tar.find(&#x27;.a_tread&#x27;);
+        goodDom.find(&#x27;b&#x27;).html(good);
+        badDom.find(&#x27;b&#x27;).html(bad);
+
+        goodDom.off();
+        badDom.off();
+
+        goodDom.on(&#x27;mouseenter&#x27;, function() {
+            if (obj.target.attr(&#x27;isgood&#x27;) == &#x27;1&#x27;) {
+                $(this).find(&#x27;b&#x27;).html(&#x27;已赞&#x27;);
+            } else {
+                $(this).find(&#x27;b&#x27;).html(&#x27;赞&#x27;);
+            };
+        }).on(&#x27;mouseleave&#x27;, function() {
+            $(this).find(&#x27;b&#x27;).html(obj.target.attr(&#x27;good&#x27;));
+        });
+
+        badDom.on(&#x27;mouseenter&#x27;, function() {
+            if (obj.target.attr(&#x27;isbad&#x27;) == &#x27;1&#x27;) {
+                $(this).find(&#x27;b&#x27;).html(&#x27;已踩&#x27;);
+            } else {
+                $(this).find(&#x27;b&#x27;).html(&#x27;踩&#x27;);
+            };
+        }).on(&#x27;mouseleave&#x27;, function() {
+            $(this).find(&#x27;b&#x27;).html(obj.target.attr(&#x27;bad&#x27;));
+        });
+
+        //good&amp;bac click
+        goodDom.on(&#x27;click&#x27;, function() {
+            var that = $(this);
+            if (obj.sid &amp;&amp; obj.target.attr(&#x27;isgood&#x27;) != &#x27;1&#x27;) {
+                fc.makeGood(obj.sid, function() {
+                    obj.target.attr(&#x27;isgood&#x27;, &#x27;1&#x27;);
+                    obj.target.attr(&#x27;good&#x27;, parseInt(obj.target.attr(&#x27;good&#x27;)) + 1);
+                    that.find(&#x27;b&#x27;).html(&#x27;已赞&#x27;);
+                    if (obj.target.attr(&#x27;isbad&#x27;) == &#x27;1&#x27;) {
+                        var afterV = parseInt(obj.target.attr(&#x27;bad&#x27;)) - 1;
+                        obj.target.attr(&#x27;bad&#x27;, afterV);
+                        badDom.find(&#x27;b&#x27;).html(afterV);
+                        obj.target.attr(&#x27;isbad&#x27;, &#x27;0&#x27;);
+                    }
+                });
+            }
+        });
+
+        badDom.on(&#x27;click&#x27;, function() {
+            var that = $(this);
+            if (obj.sid &amp;&amp; obj.target.attr(&#x27;isbad&#x27;) != &#x27;1&#x27;) {
+                fc.makeBad(obj.sid, function() {
+                    obj.target.attr(&#x27;isbad&#x27;, &#x27;1&#x27;);
+                    obj.target.attr(&#x27;bad&#x27;, parseInt(obj.target.attr(&#x27;bad&#x27;)) + 1);
+                    that.find(&#x27;b&#x27;).html(&#x27;已踩&#x27;);
+                    if (obj.target.attr(&#x27;isgood&#x27;) == &#x27;1&#x27;) {
+                        var afterV = parseInt(obj.target.attr(&#x27;good&#x27;)) - 1;
+                        obj.target.attr(&#x27;good&#x27;, afterV);
+                        goodDom.find(&#x27;b&#x27;).html(afterV);
+                        obj.target.attr(&#x27;isgood&#x27;, &#x27;0&#x27;);
+                    }
+                });
+            }
+        });
+        tar.show();
+
+        //for the posotion
+        $(&#x27;.bub_arrow&#x27;).hide();
+        if (obj.type == &#x27;top&#x27;) {
+            $(&#x27;.bub_arrow_top&#x27;).show();
+            if (obj.pos) {
+                var x = obj.pos[0];
+                var y = obj.pos[1];
+                x = x - tar.width() / 2 + 60;
+                var offsetLeft = &#x27;50%&#x27;, top;
+
+                if (x &lt; 0) {
+                    offsetLeft = tar.width() / 2 + x;
+                    left = 0;
+                } else if (x + tar.width() &gt; $(&#x27;.db_main&#x27;).width()) {
+                    offsetLeft = tar.width() / 2 + (x + tar.width() - $(&#x27;.db_main&#x27;).width()) + 5;
+                    left = $(&#x27;.db_main&#x27;).width() - tar.width() - 5;
+                } else {
+                    left = x;
+                }
+
+                tar.find(&#x27;.bub_arrow_top&#x27;).css(&#x27;left&#x27;, offsetLeft);
+                var top = y;
+                x &amp;&amp; tar.css(&#x27;left&#x27;, left);
+                y &amp;&amp; tar.css(&#x27;top&#x27;, top);
+            }
+        } else if (obj.type == &#x27;left&#x27;) {
+            $(&#x27;.bub_arrow&#x27;).eq(0).show();
+            if (obj.pos) {
+                var x = obj.pos[0];
+                var y = obj.pos[1];
+                var left = x;
+                var top = y - tar.height() / 2;
+                x &amp;&amp; tar.css(&#x27;left&#x27;, left);
+                y &amp;&amp; tar.css(&#x27;top&#x27;, top);
+            }
+        } else {
+            $(&#x27;.bub_arrow&#x27;).eq(1).show();
+            if (obj.pos) {
+                var x = obj.pos[0];
+                var y = obj.pos[1];
+                x = x - tar.width() / 2 + 60;
+                var offsetLeft = &#x27;50%&#x27;, top;
+
+                if (x &lt; 0) {
+                    offsetLeft = tar.width() / 2 + x;
+                    left = 0;
+                } else if (x + tar.width() &gt; $(&#x27;.db_main&#x27;).width()) {
+                    offsetLeft = tar.width() / 2 + (x + tar.width() - $(&#x27;.db_main&#x27;).width()) + 5;
+                    left = $(&#x27;.db_main&#x27;).width() - tar.width() - 5;
+                } else {
+                    left = x;
+                }
+
+                tar.find(&#x27;.bub_arrow_bot&#x27;).css(&#x27;left&#x27;, offsetLeft);
+                var top = y - tar.height();
+                x &amp;&amp; tar.css(&#x27;left&#x27;, left);
+                y &amp;&amp; tar.css(&#x27;top&#x27;, top);
+            }
+        }
+        //more action
+
+        var bub_right = tar.find(&#x27;.bub_right&#x27;);
+        var btn_more = tar.find(&#x27;.a_more&#x27;);
+
+        var rightSta, rightEnd, topSta, topEnd;
+        if ((tar.width() + obj.pos[0]) &gt; ($(&#x27;.db_main&#x27;).width() - 80)) {
+            rightSta = &#x27;0px&#x27;;
+            rightEnd = &#x27;0px&#x27;;
+            bottomSta = &#x27;-0px&#x27;;
+            bottomEnd = (-tar.find(&#x27;.bub_right&#x27;).height()) + &#x27;px&#x27;;
+        } else {
+            rightSta = &#x27;-50px&#x27;;
+            rightEnd = &#x27;-67px&#x27;;
+            bottomSta = &#x27;0px&#x27;;
+            bottomEnd = &#x27;0px&#x27;;
+        }
+
+        var rightHide;
+        btn_more.off();
+        btn_more.on(&#x27;mouseenter&#x27;, function() {
+            clearTimeout(rightHide);
+            btn_more.addClass(&#x27;active&#x27;);
+            bub_right.show();
+            bub_right.stop().animate({
+                &#x27;right&#x27; : rightEnd,
+                &#x27;bottom&#x27; : bottomEnd,
+                &#x27;opacity&#x27; : 1
+            }, 150);
+        }).on(&#x27;mouseleave&#x27;, function() {
+            rightHide = setTimeout(function() {
+                btn_more.removeClass(&#x27;active&#x27;);
+                bub_right.stop().animate({
+                    &#x27;right&#x27; : rightSta,
+                    &#x27;bottom&#x27; : bottomSta,
+                    &#x27;opacity&#x27; : 0.3
+                }, 150, function() {
+                    $(this).hide();
+                });
+            }, 300);
+        });
+        bub_right.off();
+        bub_right.on(&#x27;mouseenter&#x27;, function() {
+            clearTimeout(rightHide);
+        }).on(&#x27;mouseleave&#x27;, function() {
+            clearTimeout(rightHide);
+            rightHide = setTimeout(function() {
+                btn_more.removeClass(&#x27;active&#x27;);
+                bub_right.stop().animate({
+                    &#x27;right&#x27; : rightSta,
+                    &#x27;top&#x27; : topSta,
+                    &#x27;opacity&#x27; : 0.3
+                }, 150, function() {
+                    $(this).hide();
+                });
+            }, 300);
+        });
+
+        //
+        return tar;
+    };
+
+    /**
+     * select&#x27;s ballback
+     * @method actionDo
+     * @param type {String}
+     */
+    exp.actionDo = function(type, obj) {
+        console.log(type, obj);
+        if (type == &#x27;share&#x27;) {
+            //share the file
+            fc.share({
+                fullPath : obj.filePath
+            });
+        } else if (type == &#x27;edit&#x27;) {
+            //edit the file
+            fc.edit({
+                fileName : obj.fileName
+            });
+        } else if (type == &#x27;move&#x27;) {
+            //move the file
+            fc.move(obj.fileName);
+        } else if (type == &#x27;delete&#x27;) {
+            //delete the file
+            fc.del(obj.fileName);
+        } else if (type == &#x27;view&#x27;) {
+            fc.preview(obj.filePath);
+            select.removeAll();
+            $(&#x27;.Bubble&#x27;).remove();
+            return false;
+        } else if (type == &#x27;print&#x27;) {
+            db_print.print(obj.filePath);
+        } else if (type == &#x27;dump&#x27;) {
+            fc.copy(obj.filePath);
+        } else if (type == &#x27;deleteShare&#x27;) {
+            fc.cancelShare(obj.filePath, function() {
+                disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+            });
+        } else if (type == &#x27;editBig&#x27;) {
+            if (obj.isfolder) {
+                fc.edit({
+                    editType : &#x27;folder&#x27;,
+                    fileName : obj.fileName
+                });
+            } else {
+                fc.share({
+                    fullPath : obj.filePath
+                }, &#x27;sid&#x27;);
+            }
+        } else if (type == &#x27;report&#x27;) {
+            fc.reportFile(obj.sid);
+        }
+        if (type != &#x27;laud&#x27; &amp;&amp; type != &#x27;tread&#x27;) {
+            $(&#x27;.Bubble&#x27;).remove();
+        }
+        select.removeAll();
+        if (obj.listType == &#x27;big&#x27;) {
+            obj.target &amp;&amp; select.act.reg.apply(obj.target, arguments);
+        } else {
+            obj.target &amp;&amp; select.act.reg.apply(obj.target.parents(&#x27;.db_cf_file&#x27;), arguments);
+        }
+    };
+
+    exp.sys = {
+        lastFlieIndex : &#x27;&#x27;
+    };
+
+    exp.option = function(handleDom, selectDom, callback) {
+        var sub_handle = $(handleDom);
+        var sub_select = $(selectDom);
+        var sub_text = sub_handle.find(&#x27;.OP_textValue&#x27;);
+
+        var openId = &#x27;&#x27;;
+        var closeId = &#x27;&#x27;;
+
+        sub_handle.on(&#x27;click&#x27;, &#x27;.OP_handle&#x27;, function(e) {
+            sub_select.slideToggle(50);
+        });
+
+        sub_select.on(&#x27;click&#x27;, &#x27;a&#x27;, function() {
+            var tar = $(this);
+            sub_text.html(tar.text());
+            sub_select.slideUp(50);
+            callback &amp;&amp; callback(tar, {
+                handleDom : handleDom,
+                selectDom : selectDom
+            });
+        });
+
+        hide(handleDom.replace(&#x27;#&#x27;, &#x27;&#x27;), sub_select, &#x27;slideUp&#x27;);
+
+        function hide(id, dom, action) {
+            $(&#x27;body&#x27;).on(&#x27;mouseup&#x27;, function(tar) {
+                var target = tar.target;
+                var count = 0;
+                while (target &amp;&amp; target.nodeName.toUpperCase() != &#x27;BODY&#x27; &amp;&amp; count &lt; 10) {
+                    if (target.id == id) {
+                        return true;
+                    };
+                    count++;
+                    target = target.parentNode;
+                };
+                if (action == &#x27;slideUp&#x27;) {
+                    dom.slideUp(50);
+                } else {
+                    dom.hide();
+                }
+            });
+        };
+    };
+
+    exp.showActive = function() {
+        $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_class&#x27;, function() {
+            $(this).addClass(&#x27;db_class_active&#x27;);
+        }).on(&#x27;mouseleave&#x27;, &#x27;.db_class&#x27;, function() {
+            var that = $(this);
+            var input = that.find(&#x27;.OP_input&#x27;);
+            if (input &amp;&amp; (input.attr(&#x27;check&#x27;) != &#x27;true&#x27;)) {
+                $(this).removeClass(&#x27;db_class_active&#x27;);
+            };
+            $(&#x27;.db_control_or&#x27;).hide();
+        });
+
+        $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_cf_file&#x27;, function() {
+            $(this).addClass(&#x27;db_file_active&#x27;);
+        }).on(&#x27;mouseleave&#x27;, &#x27;.db_cf_file&#x27;, function() {
+            var that = $(this);
+            var input = that.find(&#x27;.OP_input&#x27;);
+            if (input &amp;&amp; (input.attr(&#x27;check&#x27;) != &#x27;true&#x27;)) {
+                $(this).removeClass(&#x27;db_file_active&#x27;);
+            };
+            $(&#x27;.db_control_or&#x27;).hide();
+        });
+
+        //click checkbox buttom;
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;.db_cf_class .OP_input,#db_filelist .OP_input&#x27;, function() {
+            var input = $(this);
+            if (input.attr(&#x27;check&#x27;) == &#x27;true&#x27;) {
+                input.attr(&#x27;check&#x27;, &#x27;false&#x27;);
+                input.removeClass(&#x27;db_c_em_active&#x27;);
+                $(&#x27;.db_cf_choice&#x27;).removeClass(&#x27;db_cf_c_active&#x27;).attr(&#x27;check&#x27;, &#x27;false&#x27;);
+            } else {
+                input.attr(&#x27;check&#x27;, &#x27;true&#x27;);
+                input.addClass(&#x27;db_c_em_active&#x27;);
+            }
+            exp.multi();
+            return false;
+        });
+
+        //click the file list
+        //if no ctrl or shift key choose onle
+        //if ctrl key or shift key,mutil-check
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;.db_cf_file&#x27;, function(event) {
+            var list = $(&#x27;.db_cf_file&#x27;);
+            var clickIndex = $(&#x27;.db_cf_file&#x27;).index($(this));
+
+            if (event.ctrlKey) {
+                var checkbox = $(this).find(&#x27;.OP_input&#x27;);
+                isCheck = checkbox.attr(&#x27;check&#x27;) == &#x27;true&#x27;;
+                if (isCheck) {
+                    select.sys.lastFlieIndex = &#x27;&#x27;;
+                    exp.act.remove.apply(this, arguments);
+                } else {
+                    exp.act.reg.apply(this, arguments);
+                    select.sys.lastFlieIndex = clickIndex;
+                }
+            } else if (event.shiftKey) {
+                if (select.sys.lastFlieIndex !== &#x27;&#x27;) {
+                    var max = Math.max(select.sys.lastFlieIndex, clickIndex);
+                    var min = Math.min(select.sys.lastFlieIndex, clickIndex);
+                    list.slice(min, max + 1).each(function() {
+                        exp.act.reg.apply(this, arguments);
+                    });
+                } else {
+                    return false;
+                }
+            } else {
+                exp.removeAll();
+                exp.act.reg.apply(this, arguments);
+                select.sys.lastFlieIndex = clickIndex;
+            }
+            return false;
+        });
+        //click the folder area choose only one
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;.db_class&#x27;, function() {
+            var list = $(&#x27;.db_class&#x27;);
+            var clickIndex = $(&#x27;.db_class&#x27;).index($(this));
+            if (event.ctrlKey) {
+                var checkbox = $(this).find(&#x27;.OP_input&#x27;);
+                isCheck = checkbox.attr(&#x27;check&#x27;) == &#x27;true&#x27;;
+                if (isCheck) {
+                    select.sys.lastFolderIndex = &#x27;&#x27;;
+                    exp.act.remove.apply(this, arguments);
+                } else {
+                    exp.act.reg.apply(this, arguments);
+                    select.sys.lastFolderIndex = clickIndex;
+                }
+            } else if (event.shiftKey) {
+                if (select.sys.lastFolderIndex !== &#x27;&#x27;) {
+                    var max = Math.max(select.sys.lastFolderIndex, clickIndex);
+                    var min = Math.min(select.sys.lastFolderIndex, clickIndex);
+                    list.slice(min, max + 1).each(function() {
+                        exp.act.reg.apply(this, arguments);
+                    });
+                } else {
+                    return false;
+                }
+            } else {
+                exp.removeAll();
+                exp.act.reg.apply(this, arguments);
+                select.sys.lastFolderIndex = clickIndex;
+            }
+            return false;
+        });
+
+        $(&#x27;.db_cf_choice&#x27;).on(&#x27;click&#x27;, function() {
+            var that = $(this);
+            var input = that;
+
+            if (input.attr(&#x27;check&#x27;) == &#x27;true&#x27;) {
+                input.attr(&#x27;check&#x27;, &#x27;false&#x27;);
+                that.removeClass(&#x27;db_cf_c_active&#x27;);
+                exp.removeAll();
+            } else {
+                input.attr(&#x27;check&#x27;, &#x27;true&#x27;);
+                that.addClass(&#x27;db_cf_c_active&#x27;);
+                chooseAll();
+            }
+            exp.multi();
+        });
+
+        function chooseAll() {
+            var folderbox = $(&#x27;.db_cf_class .db_class[author!=0]&#x27;);
+            folderbox.addClass(&#x27;db_class_active&#x27;);
+            folderbox.find(&#x27;.db_c_c_em&#x27;).addClass(&#x27;db_c_em_active&#x27;);
+            folderbox.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;, &#x27;true&#x27;);
+            var files = $(&#x27;#db_filelist&#x27;);
+            files.find(&#x27;.db_cf_file&#x27;).addClass(&#x27;db_file_active&#x27;);
+            files.find(&#x27;.db_class&#x27;).addClass(&#x27;db_class_active&#x27;);
+            files.find(&#x27;.db_c_c_em&#x27;).addClass(&#x27;db_c_em_active&#x27;);
+            files.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;, &#x27;true&#x27;);
+        };
+
+    };
+
+    exp.action = function() {
+        $(&#x27;.db_cf_class,#db_filelist&#x27;).on(&#x27;mouseover&#x27;, &#x27;.db_c_operation,.OP_listFileOpea&#x27;, function() {
+            $(this).parent().next(&#x27;.db_control_or&#x27;).show();
+        });
+    };
+
+    /**
+     * control select,if you choose more than one , top bar show.
+     * @method multi
+     */
+    exp.multi = function() {
+        var cFiles = $(&#x27;#db_filelist .OP_input[check=&quot;true&quot;]&#x27;);
+        var cFolders = $(&#x27;.db_cf_class .OP_input[check=&quot;true&quot;][author!=&quot;0&quot;]&#x27;);
+        var haveSys = false;
+        cFolders.each(function() {
+            if ($(this).attr(&#x27;author&#x27;) == 0) {
+                haveSys = true;
+            };
+        });
+
+        var total = cFiles.length + cFolders.length;
+        if (total &gt; 0) {
+            exp.fitTop();
+            $(&#x27;.db_main_item a&#x27;).hide();
+            $(&#x27;.OP_multi_cancle&#x27;).show();
+
+            //all files
+            if (disk.config.database.type == &#x27;a&#x27;) {
+                if (haveSys) {
+                    $(&#x27;.OP_multi_del,.OP_multi_move,.OP_multi_edit,.OP_multi_del,.OP_multi_removeshare&#x27;).hide();
+                } else {
+                    //
+                    $(&#x27;.OP_multi_del,.OP_multi_move,.OP_multi_edit,.OP_multi_share&#x27;).show();
+                    if (total != 1) {
+                        $(&#x27;.OP_multi_edit&#x27;).hide();
+                    }
+                    if (cFolders.length &gt; 0) {
+                        $(&#x27;.OP_multi_move,.OP_multi_share&#x27;).hide();
+                    }
+                }
+            } else if (disk.config.database.type == &#x27;o&#x27;) {
+                $(&#x27;.OP_multi_removeshare&#x27;).show();
+            } else if (disk.config.database.type == &#x27;i&#x27;) {
+                $(&#x27;.OP_multi_saveto&#x27;).show();
+            } else if (disk.config.database.type == &#x27;p&#x27;) {
+                $(&#x27;.OP_multi_saveto&#x27;).show();
+            }
+            $(&#x27;.db_main_item&#x27;).show();
+        } else {
+            $(&#x27;.db_main_item&#x27;).hide();
+        }
+
+    };
+    //cancle
+    $(&#x27;.OP_multi_cancle&#x27;).on(&#x27;click&#x27;, function() {
+        exp.removeAll();
+        $(&#x27;.db_cf_choice&#x27;).removeClass(&#x27;db_cf_c_active&#x27;).attr(&#x27;check&#x27;, &#x27;false&#x27;);
+        return false;
+    });
+    //edit
+    $(&#x27;.OP_multi_edit&#x27;).on(&#x27;click&#x27;, function() {
+        var cFiles = $(&#x27;#db_filelist .OP_input[check=&quot;true&quot;]&#x27;);
+        var cFolders = $(&#x27;.db_cf_class .OP_input[check=&quot;true&quot;]&#x27;);
+        var dom = cFiles.length &gt; 0 ? cFiles : cFolders;
+        var editType = dom.attr(&#x27;edittype&#x27;);
+        var filename = dom.attr(&#x27;filename&#x27;);
+        fc.edit({
+            editType : editType,
+            fileName : filename
+        });
+        return false;
+    });
+    //move
+    $(&#x27;.OP_multi_move&#x27;).on(&#x27;click&#x27;, function() {
+        if (disk.config.database.type == &#x27;a&#x27;) {
+            var url = disk.base.dir + &#x27;/ajax/document/batch&#x27;;
+        } else {
+            var url = disk.base.dir + &#x27;/ajax/share/batch&#x27;;
+        }
+        fc.popTree({
+            title : &#x27;移动文件&#x27;
+        }, function(path, popid) {
+            popid &amp;&amp; popid.popobj.find(&#x27;.poptree&#x27;).html(&#x27;&lt;p style=&quot;text-align:center;padding:10px;&quot;&gt;处理中，请稍候...&lt;/p&gt;&#x27;);
+            var files = exp.getGroup();
+            $.ajax({
+                url : url,
+                type : &#x27;post&#x27;,
+                data : {
+                    args : path,
+                    docs : encodeURI(files.join(&#x27;,&#x27;)),
+                    action : &#x27;move&#x27;
+                },
+                success : function(data) {
+                    if (data.ret != 200) {
+                        hm.toast({
+                            text : data.ret || &#x27;未知错误&#x27;
+                        });
+                        return false;
+                    }
+                    disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                    popid &amp;&amp; popid.close();
+                    hm.toast({
+                        text : &#x27;移动成功&#x27;
+                    });
+                }
+            });
+        });
+        return false;
+    });
+
+    $(&#x27;.OP_multi_del&#x27;).on(&#x27;click&#x27;, function() {
+        var group = exp.getGroup();
+        var groupLen = group.length;
+        var delTips = &#x27;&#x27;;
+        if (groupLen &lt;= 1) {
+            var file = group[0];
+            var fileSplit = file.split(&#x27;/&#x27;);
+            var fileName = fileSplit ? fileSplit[fileSplit.length - 1] : file;
+            delTips = &#x27;&lt;div style=&quot;padding:5px 20px;&quot;&gt;&lt;p style=&quot;font-weight:bold; padding-bottom:8px;&quot;&gt;确定要删除文件？&lt;/p&gt;&lt;p&gt;&#x27; + fileName + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+        } else {
+            delTips = &#x27;确认删除所选文件吗?&#x27;;
+        }
+
+        hm.confirm({
+            title : &#x27;确认删除&#x27;,
+            text : delTips,
+            width : 245
+        }, function() {
+            deleteAll();
+        }, function() {
+            return false;
+        });
+
+        function deleteAll() {
+            var popid = hm.popbox({
+                html : &#x27;&lt;div style=&quot;padding:18px 0;text-align:center;&quot;&gt;删除中,请稍候..&lt;/div&gt;&#x27;
+            });
+            popid.popobj.find(&#x27;.NY-pop-title&#x27;).remove();
+            if (disk.config.database.type == &#x27;a&#x27;) {
+                var url = disk.base.dir + &#x27;/ajax/document/batch&#x27;;
+            } else {
+                var url = disk.base.dir + &#x27;/ajax/share/batch&#x27;;
+            }
+            $.ajax({
+                url : url,
+                type : &#x27;post&#x27;,
+                data : {
+                    docs : encodeURI(exp.getGroup().join(&#x27;,&#x27;)),
+                    action : &#x27;delete&#x27;
+                },
+                success : function(data) {
+                    popid.close();
+                    hm.toast({
+                        text : &#x27;删除成功&#x27;
+                    });
+                    disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                }
+            });
+        }
+
+    });
+    //share
+    $(&#x27;.OP_multi_share&#x27;).on(&#x27;click&#x27;, function() {
+        fc.data.chooseClass = {};
+        fc.data.chooseUser = {};
+        fc.data.chooseSchool = {};
+        var newfolderDom = hm.popBox({
+            title : &#x27;共享文件&#x27;,
+            &#x27;html&#x27; : &#x27;&lt;p style=&quot;padding:15px 0;text-align:center;&quot;&gt;加载中,请稍候...&lt;/p&gt;&#x27;,
+            &#x27;width&#x27; : 510
+        });
+        newfolderDom.popobj.find(&#x27;.NY-con-warp&#x27;).html(fc.modle.newFolder);
+        $(&#x27;.OP_newfloderTitle&#x27;).remove();
+        fc._floderEdit({
+            &#x27;popbox&#x27; : newfolderDom,
+            &#x27;type&#x27; : &#x27;shareGroup&#x27;,
+            &#x27;getGroup&#x27; : exp.getGroup
+        });
+        return false;
+    });
+    //cancle share
+    $(&#x27;.OP_multi_removeshare&#x27;).on(&#x27;click&#x27;, function() {
+        $.ajax({
+            url : disk.base.dir + &#x27;/ajax/share/batch&#x27;,
+            type : &#x27;post&#x27;,
+            data : {
+                args : &#x27;&#x27;,
+                docs : encodeURI(exp.getGroup().join(&#x27;,&#x27;)),
+                action : &#x27;share&#x27;
+            },
+            success : function(data) {
+                hm.toast({
+                    text : &#x27;取消共享成功&#x27;
+                });
+                disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+            }
+        });
+        return false;
+    });
+    //
+    $(&#x27;.OP_multi_saveto&#x27;).on(&#x27;click&#x27;, function() {
+
+        fc.popTree({
+            title : &#x27;转存&#x27;
+        }, copydo);
+
+        function copydo(path, pop) {
+            pop &amp;&amp; pop.popobj.find(&#x27;.poptree&#x27;).html(&#x27;&lt;p style=&quot;padding:10px; text-align:center;&quot;&gt;处理中，请稍候...&lt;/p&gt;&#x27;);
+            if (disk.config.database.type == &#x27;p&#x27;) {
+                var turl = disk.base.dir + &#x27;/ajax/public/batch&#x27;;
+            } else {
+                var turl = disk.base.dir + &#x27;/ajax/share/batch&#x27;;
+            }
+            $.ajax({
+                url : turl,
+                type : &#x27;post&#x27;,
+                data : {
+                    args : path,
+                    docs : encodeURI(exp.getGroup().join(&#x27;,&#x27;)),
+                    action : &#x27;dump&#x27;
+                },
+                success : function(data) {
+                    pop &amp;&amp; pop.close();
+                    hm.toast({
+                        &#x27;text&#x27; : &#x27;转存成功&#x27;
+                    });
+                    select.removeAll();
+                }
+            });
+        };
+        return false;
+    });
+
+    exp.fitTop = (function() {
+        var tar = $(&#x27;.db_main&#x27;);
+        var start = false;
+
+        function fitIt() {
+            var top = ($(&#x27;.db_main_nav&#x27;).outerHeight() - 1) || 40;
+            var scroll = tar.scrollTop();
+            scroll = scroll &gt; 0 ? scroll : top;
+            $(&#x27;.db_main_item&#x27;).css(&#x27;top&#x27;, scroll);
+        }
+
+        return function() {
+            if (!start) {
+                tar.on(&#x27;scroll&#x27;, function() {
+                    fitIt();
+                });
+                start = true;
+                fitIt();
+            } else {
+                fitIt();
+            }
+        };
+
+    })();
+
+    /**
+     * get the file(s) and folder(s) list which you choosed
+     * @method getGroup
+     * @param type {String} the type you want get,[files|folders]
+     * @example
+     *      select.getGroup(&#x27;files&#x27;);
+     *      select.getGroup(&#x27;folders&#x27;);
+     * @return {Number} the group&#x27;s id
+     */
+    exp.getGroup = function(type) {
+        var urlA = [];
+
+        if (type == &#x27;files&#x27;) {
+            urlA = urlA.concat(exp._getGroup(&#x27;files&#x27;));
+        } else if (type == &#x27;folders&#x27;) {
+            urlA = urlA.concat(exp._getGroup(&#x27;folders&#x27;));
+        } else {
+            urlA = urlA.concat(exp._getGroup(&#x27;files&#x27;));
+            urlA = urlA.concat(exp._getGroup(&#x27;folders&#x27;));
+        }
+        return urlA;
+    };
+    exp._getGroup = function(type) {
+        var urlS = [];
+        var dom = &#x27;&#x27;;
+        if (type == &#x27;files&#x27;) {
+            dom = $(&#x27;#db_filelist .OP_input[check=&quot;true&quot;]&#x27;);
+        } else if (type == &#x27;folders&#x27;) {
+            dom = $(&#x27;.db_cf_class .OP_input[check=&quot;true&quot;][author!=&quot;0&quot;]&#x27;);
+        }
+        dom.each(function() {
+            var pathB = disk.getUrl().url ? (disk.getUrl().url + &#x27;/&#x27;) : ($(this).attr(&#x27;sid&#x27;) ? $(this).attr(&#x27;sid&#x27;) + &#x27;/&#x27; : &#x27;&#x27;);
+            var path = pathB + $(this).attr(&#x27;filename&#x27;);
+            urlS.push(path);
+        });
+        return urlS;
+    };
+
+    /**
+     * cancle what you select
+     * @method removeAll
+     * @example
+     *      select.removeAll();
+     */
+    exp.removeAll = function() {
+        exp.removeFolders();
+        exp.removeFiles();
+        //choose checkbox
+        $(&#x27;.db_cf_choice&#x27;).removeClass(&#x27;db_cf_c_active&#x27;).attr(&#x27;check&#x27;, false);
+
+        $(&#x27;.db_main_item&#x27;).hide();
+    };
+
+    /**
+     * cancle folders
+     * @method removeFolders
+     * @example
+     *      select.removeFolders();
+     */
+    exp.removeFolders = function() {
+        var folder = $(&#x27;.db_cf_class&#x27;);
+        folder.find(&#x27;.db_class&#x27;).removeClass(&#x27;db_class_active&#x27;);
+        folder.find(&#x27;.db_c_c_em&#x27;).removeClass(&#x27;db_c_em_active&#x27;);
+        folder.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;, &#x27;false&#x27;);
+    };
+    /**
+     * cancle files
+     * @method removeFiles
+     * @example
+     *      select.removeFiles();
+     */
+    exp.removeFiles = function() {
+        var files = $(&#x27;#db_filelist&#x27;);
+        files.find(&#x27;.db_class&#x27;).removeClass(&#x27;db_class_active&#x27;);
+        files.find(&#x27;.db_cf_file&#x27;).removeClass(&#x27;db_file_active&#x27;);
+        files.find(&#x27;.db_c_c_em&#x27;).removeClass(&#x27;db_c_em_active&#x27;);
+        files.find(&#x27;.OP_input&#x27;).attr(&#x27;check&#x27;, &#x27;false&#x27;);
+    };
+
+    exp.act = {};
+    /**
+     * reg the file you choose
+     * @method act.reg
+     * @example
+     *      select.act.reg.apply(this,arguments)
+     */
+    //single choose
+    exp.act.reg = function() {
+        var that = $(this);
+        var input = that.find(&#x27;.OP_input&#x27;);
+        // &amp;&amp; that.attr(&#x27;author&#x27;) !== &#x27;0&#x27;
+        if (input.attr(&#x27;check&#x27;) !== &#x27;true&#x27;) {
+            input.attr(&#x27;check&#x27;, &#x27;true&#x27;);
+            input.addClass(&#x27;db_c_em_active&#x27;);
+
+            if (that.hasClass(&#x27;db_cf_file&#x27;)) {
+                that.addClass(&#x27;db_file_active&#x27;);
+            } else {
+                that.addClass(&#x27;db_class_active&#x27;);
+            }
+            exp.multi();
+        }
+    };
+    //single del
+    exp.act.remove = function() {
+        var that = $(this);
+        var input = that.find(&#x27;.OP_input&#x27;);
+        if (input.attr(&#x27;check&#x27;) !== &#x27;false&#x27;) {
+            input.attr(&#x27;check&#x27;, &#x27;false&#x27;);
+            input.removeClass(&#x27;db_c_em_active&#x27;);
+
+            if (that.hasClass(&#x27;db_cf_file&#x27;)) {
+                that.removeClass(&#x27;db_file_active&#x27;);
+            } else {
+                that.removeClass(&#x27;db_class_active&#x27;);
+            }
+            exp.multi();
+        }
+    };
+
+})(select);
+
+select();
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

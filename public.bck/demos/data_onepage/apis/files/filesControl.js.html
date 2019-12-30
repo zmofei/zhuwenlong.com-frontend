@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>filesControl.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: filesControl.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  files control
+ *  @class fc
+ */
+
+var fc = function() {
+    return fc[&#x27;init&#x27;].apply(fc, arguments);
+};
+
+(function(exp) {
+    exp.init = function() {
+        $(&#x27;#OP_newfolder&#x27;).click(function() {
+            exp.newfolder();
+        });
+
+        exp.download();
+
+        return exp;
+    };
+
+    exp.modle = {
+        newFolder : (function() {
+            var dom = $(&#x27;#TEM_newfolder&#x27;);
+            var theHTML = dom.html();
+            dom.remove();
+            return theHTML;
+        })(),
+        editFolder : (function() {
+            var dom = $(&#x27;#TEM_editFolder&#x27;);
+            var theHTML = dom.html();
+            dom.remove();
+            return theHTML;
+        })(),
+        myClass : (function() {
+            var dom = $(&#x27;#TEM_myclass&#x27;);
+            var theHTML = dom.html();
+            dom.remove();
+            return theHTML;
+        })(),
+        myFrined : (function() {
+            var dom = $(&#x27;#TEM_myfirend&#x27;);
+            var theHTML = dom.html();
+            dom.remove();
+            return theHTML;
+        })(),
+        popBtn : (function() {
+            var dom = $(&#x27;#TEM_popButton&#x27;);
+            var theHTML = dom.html();
+            dom.remove();
+            return theHTML;
+        })(),
+        repoit : (function() {
+            var dom = $(&#x27;#TEM_report&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })()
+    };
+
+    exp.data = {
+        chooseSchool : {},
+        chooseClass : {},
+        chooseUser : {}
+    };
+
+    /**
+     * new folder
+     * @method newfolder
+     * @example fc.newfolder()
+     */
+    exp.newfolder = function() {
+        var newfolderDom = hm.popBox({
+            &#x27;html&#x27; : exp.modle.newFolder,
+            &#x27;width&#x27; : 480,
+            &#x27;title&#x27; : &#x27;新建文件夹&#x27;
+        });
+        $(&#x27;.OP_sHan&#x27;).remove();
+
+        exp._floderEdit({
+            &#x27;popbox&#x27; : newfolderDom
+        });
+        var pow = disk.config.database.prem.split(&#x27;,&#x27;);
+        var powdata = {
+            type : pow.shift(),
+            group : pow
+        };
+        exp.readerPow(powdata);
+    };
+
+    /**
+     * edit file
+     * @method edit
+     * @param obj {Object}
+     * @param obj.type {String} edit type is edit folder use [folder]
+     * @param obj.fileName {String} edit file name,you need&#x27;t give the path,we&#x27;ll get the path form the url.
+     * @param obj.callback {Function} callback
+     * @example
+     *          fc.edit({&#x27;type&#x27;:&#x27;folder&#x27;,
+     *                   &#x27;fileName&#x27;:&#x27;name&#x27;,
+     *                   &#x27;callback&#x27;:function(){
+     *                       //....
+     *                   }
+     *                 })
+     */
+    exp.edit = function(obj) {
+        var type = obj.editType;
+        var filename = obj.fileName;
+        var postDate = false;
+
+        var popbox = hm.popBox({
+            &#x27;width&#x27; : 480,
+            &#x27;title&#x27; : &#x27;编辑&#x27;,
+            &#x27;html&#x27; : &#x27;&lt;p style=&quot;padding:15px; text-align:center;&quot;&gt;加载中，请稍候...&lt;/p&gt;&#x27;,
+            &#x27;closeFn&#x27; : function() {
+                obj &amp;&amp; obj.callback &amp;&amp; obj.callback(postDate);
+            }
+        });
+
+        //get the floder/files info
+        var url = disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;;
+        $.ajax({
+            url : encodeURI(disk.base.dir + &#x27;/ajax/document/file?uri=&#x27; + url + filename),
+            success : function(data) {
+                var data = data.data;
+                //file the info
+                popbox.popobj.find(&#x27;.NY-con-warp&#x27;).html(fc.modle.editFolder);
+
+                var nameInput = $(&#x27;#newfolder_name&#x27;);
+                var nameInputN = nameInput[0];
+                nameInput.val(data.nm);
+                
+                if (type != &#x27;folder&#x27;) {
+                    var lastD = data.nm.lastIndexOf(&#x27;.&#x27;);
+                    if (lastD != -1) {
+                        console.log(lastD);
+                        //创建选择区域
+                        if (nameInputN.createTextRange) {//IE浏览器
+                            var range = nameInputN.createTextRange();
+                            range.moveStart(&quot;character&quot;, -data.nm.length);
+                            range.moveEnd(&quot;character&quot;, -data.nm.length);
+                            range.moveStart(&quot;character&quot;, 0);
+                            range.moveEnd(&quot;character&quot;, lastD);
+                            range.select();
+                        } else {
+                            nameInputN.setSelectionRange(0, lastD);
+                            nameInputN.focus();
+                        }
+                    };
+                }
+                $(&#x27;.OP_fileinfo&#x27;).val(data.describe);
+
+                var tags = {};
+                var tagInput = $(&#x27;.OP_filetag&#x27;);
+                tagInput.val(data.tags);
+                if (type == &#x27;folder&#x27;) {
+                    $(&#x27;.OP_fildsForm&#x27;).remove();
+                } else {
+                    //get hot tags
+                    $.ajax({
+                        url : disk.base.dir + &#x27;/ajax/tags/hot&#x27;,
+                        success : function(data) {
+                            var data = data.data;
+                            var dataLen = data.length || 0;
+                            var hotHtml;
+                            for (var i = 0; i &lt; dataLen; i++) {
+                                if (i == 0) {
+                                    hotHtml = &#x27;&lt;span class=&quot;db_bqhot&quot;&gt;热门标签：&lt;/span&gt;&#x27;;
+                                }
+                                tags[data[i][&#x27;id&#x27;]] = data[i][&#x27;tag_name&#x27;];
+                                hotHtml += &#x27;&lt;a class=&quot;db_sc_a db_sc_a_active&quot;&gt;&lt;span&gt;&#x27; + data[i][&#x27;tag_name&#x27;] + &#x27;&lt;/span&gt;&lt;/a&gt;&#x27;;
+                            }
+                            $(&#x27;.db_bq_hot&#x27;).html(hotHtml);
+                        }
+                    });
+                    //choose hot tag
+                    $(&#x27;.db_bq_hot&#x27;).on(&#x27;click&#x27;, &#x27;.db_sc_a&#x27;, function() {
+                        var key = $(this).text();
+                        var already = tagInput.val();
+                        already = already ? already.split(&#x27;,&#x27;) : [];
+                        var alreadyLen = already.length;
+                        for (var i = 0; i &lt; alreadyLen; i++) {
+                            if (key == already[i]) {
+                                return false;
+                            }
+                        };
+                        already.push(key);
+                        tagInput.val(already.join(&#x27;,&#x27;));
+                    });
+                }
+
+                //check the num
+                $(&#x27;#newfolder_name&#x27;).on(&#x27;keyup&#x27;, function() {
+                    checkname();
+                });
+                $(&#x27;.OP_fileinfo&#x27;).on(&#x27;keyup&#x27;, function() {
+                    checkinfo();
+                });
+                var name = $(&#x27;#newfolder_name&#x27;);
+                var info = $(&#x27;.OP_fileinfo&#x27;);
+                function checkname() {
+                    var nameV = name.val();
+                    var infoV = info.val();
+                    if (name.length &lt;= 0) {
+                        return true;
+                    }
+                    if (/[\#\\\/\?\:\*\&quot;\&gt;\&lt;\|\+\,\;\&amp;\%]/.test(nameV)) {
+                        $(&#x27;.OP_newFolderTips span&#x27;).html(&#x27;文件名含有非法字符（#\/?:*&quot;&gt;&amp;&lt;|+,;%），请修改。&#x27;);
+                        $(&#x27;.OP_newFolderTips&#x27;).css(&#x27;visibility&#x27;, &#x27;inherit&#x27;);
+                        return false;
+                    }
+                    if (nameV.length &lt;= 0 || nameV.length &gt; 225) {
+                        $(&#x27;.OP_newFolderTips span&#x27;).html(&#x27;文件标题限制在225个字符以内，不能为空。&#x27;);
+                        $(&#x27;.OP_newFolderTips&#x27;).css(&#x27;visibility&#x27;, &#x27;inherit&#x27;);
+                        return false;
+                    } else {
+                        $(&#x27;.OP_newFolderTips&#x27;).css(&#x27;visibility&#x27;, &#x27;hidden&#x27;);
+                        return true;
+                    }
+                };
+                function checkinfo() {
+                    var nameV = name.val();
+                    var infoV = info.val();
+                    if (info.length &lt;= 0) {
+                        return true;
+                    }
+                    if (infoV.length &gt; 200) {
+                        $(&#x27;.OP_newFolderinfo span&#x27;).html(&#x27;简介限制在200个字符以内 &#x27;);
+                        $(&#x27;.OP_newFolderinfo&#x27;).css(&#x27;visibility&#x27;, &#x27;inherit&#x27;);
+                        return false;
+                    } else {
+                        $(&#x27;.OP_newFolderinfo&#x27;).css(&#x27;visibility&#x27;, &#x27;hidden&#x27;);
+                        return true;
+                    }
+                };
+
+                //submit the form
+                $(&#x27;#newFolder&#x27;).on(&#x27;click&#x27;, function() {
+                    var nameV = name.val();
+                    var infoV = info.val();
+                    var postData = {
+                        describe : infoV,
+                        tags : encodeURI($(&#x27;.OP_filetag&#x27;).val()),
+                        uri : encodeURI((disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;) + filename),
+                        name : encodeURI(nameV)
+                    };
+                    if (!(checkname() &amp;&amp; checkinfo())) {
+                        return false;
+                    }
+
+                    $(&#x27;.OP_newfing,.OP_subnewf&#x27;).toggle();
+                    $.ajax({
+                        url : disk.base.dir + &#x27;/ajax/document/edit&#x27;,
+                        data : postData,
+                        success : function(data) {
+                            if (data.ret !== 200) {
+                                var dom = $(&#x27;.OP_newFolderTips&#x27;);
+                                if (data.position == &#x27;tags&#x27;) {
+                                    dom = $(&#x27;.OP_newFolderTag&#x27;);
+                                }
+                                dom.css(&#x27;visibility&#x27;, &#x27;inherit&#x27;).find(&#x27;span&#x27;).html(disk.config.error[data.ret] || data.msg || &#x27;未知错误&#x27;);
+                                $(&#x27;.OP_newfing,.OP_subnewf&#x27;).toggle();
+                                return false;
+                            } else {
+                                disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                                postDate = postData;
+                                $(&#x27;.OP_newfing,.OP_subnewf&#x27;).toggle();
+                                popbox.close();
+                            }
+                        }
+                    });
+                });
+                $(&#x27;#cancle_newfolder&#x27;).on(&#x27;click&#x27;, function() {
+                    popbox.close();
+                });
+            }
+        });
+    };
+
+    /**
+     * for new folder and folder edit
+     * obj {object}     popbox:the popbox id
+     *                  type: newfloder | edit
+     */
+    exp._floderEdit = function(obj) {
+        $(&#x27;#newFolder&#x27;).on(&#x27;click&#x27;, function() {
+            var that = $(this);
+            var subinfo = chcektitle();
+            if (subinfo) {
+                if (subinfo.fName) {
+                    if (/[\#\\\/\?\:\*\&quot;\&gt;\&lt;\|\+\,\;\&amp;\%]/.test(subinfo.fName)) {
+                        alert(&#x27;文件名含有非法字符（#\/?:*&quot;&gt;&amp;&lt;|+,;%），请修改。&#x27;);
+                        return false;
+                    }
+                }
+
+                var fTitle = subinfo.fName;
+                var fClass = subinfo.fClass;
+
+                if (obj.fullPath) {
+                    var url = obj.fullPath;
+                } else {
+                    var url = disk.getUrl().url;
+                    url = url ? (url + &#x27;/&#x27; + fTitle) : fTitle;
+                }
+
+                var shareGroup = exp._getChoosed(fClass);
+
+                if (shareGroup.charAt(0) == &#x27;U&#x27; || shareGroup.charAt(0) == &#x27;C&#x27;) {
+                    if (shareGroup.replace(/U\,|C\,/g, &#x27;&#x27;) == &#x27;&#x27;) {
+                        alert(&#x27;分享对象不能为空，请选择要分享的对象&#x27;);
+                        return false;
+                    }
+                };
+                submit(url, shareGroup, obj);
+                $(&#x27;.OP_subnewf&#x27;).hide();
+                $(&#x27;.OP_newfing&#x27;).show();
+            } else {
+                return false;
+            };
+            return false;
+        });
+
+        $(&#x27;#newfolder_name&#x27;).on(&#x27;keyup&#x27;, function() {
+            chcektitle();
+        }).on(&#x27;blur&#x27;, function() {
+            chcektitle();
+        });
+
+        $(&#x27;#cancle_newfolder&#x27;).on(&#x27;click&#x27;, function() {
+            obj.popbox &amp;&amp; obj.popbox.close();
+        });
+
+        function submit(url, perm, obj) {
+
+            if (disk.config.database.type == &#x27;p&#x27;) {
+                var gurl = disk.base.dir + &#x27;/ajax/public/batch&#x27;;
+            } else if (disk.config.database.type == &#x27;a&#x27;) {
+                var gurl = disk.base.dir + &#x27;/ajax/document/batch&#x27;;
+            } else {
+                var gurl = disk.base.dir + &#x27;/ajax/share/batch&#x27;;
+            }
+
+            if (obj.type == &#x27;shareGroup&#x27;) {
+                //for group choose
+                $.ajax({
+                    url : gurl,
+                    type : &#x27;post&#x27;,
+                    data : {
+                        args : perm,
+                        docs : encodeURI(obj.getGroup().join(&#x27;,&#x27;)),
+                        action : &#x27;share&#x27;
+                    },
+                    success : function(data) {
+                        disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                        obj.popbox &amp;&amp; obj.popbox.close();
+                    }
+                });
+            } else {
+                var success = &quot;新建成功&quot;;
+                var postUrl = disk.config.ajax.newFloder;
+                if (obj &amp;&amp; obj.type == &#x27;share&#x27;) {
+                    if (disk.config.database.type == &#x27;a&#x27;) {
+                        postUrl = disk.base.dir + &#x27;/ajax/document/share&#x27;;
+                    } else {
+                        postUrl = disk.base.dir + &#x27;/ajax/share/edit&#x27;;
+                    }
+                    success = &quot;共享设定成功&quot;;
+                };
+                $.ajax({
+                    url : encodeURI(postUrl + &#x27;?uri=&#x27; + url + &#x27;&amp;perm=&#x27; + perm),
+                    type : &#x27;POST&#x27;,
+                    success : function(data) {
+                        if (data.ret == 200 /* &amp;&amp; data.data == &#x27;1&#x27;*/) {
+                            obj.popbox &amp;&amp; obj.popbox.close();
+                            disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                            hm.toast({
+                                text : success
+                            });
+                        } else {
+                            $(&#x27;.OP_subnewf&#x27;).show();
+                            $(&#x27;.OP_newfing&#x27;).hide();
+
+                            alert(disk.config.error[data.ret] || data.msg || &#x27;未知错误&#x27;);
+                        }
+                    }
+                });
+            };
+        };
+
+        function chcektitle() {
+            var name = $(&#x27;#newfolder_name&#x27;);
+            var nameL = name.length;
+            var nameV = $.trim(name.val());
+            var fClass = $(&#x27;#newfloder_class&#x27;);
+            if (nameL &gt; 0 &amp;&amp; nameV.length &lt;= 0) {
+                name.val(&#x27;&#x27;);
+                $(&#x27;.OP_newFolderTips&#x27;).css(&#x27;visibility&#x27;, &#x27;inherit&#x27;);
+                return false;
+            }
+            if (nameL &gt; 0 &amp;&amp; (disk.getValLen(nameV) &gt; 225 || disk.getValLen(nameV) &lt;= 0)) {
+                $(&#x27;.OP_newFolderTips&#x27;).css(&#x27;visibility&#x27;, &#x27;inherit&#x27;);
+                return false;
+            } else {
+                $(&#x27;.OP_newFolderTips&#x27;).css(&#x27;visibility&#x27;, &#x27;hidden&#x27;);
+                return {
+                    fName : nameL &gt; 0 ? nameV : &#x27;&#x27;,
+                    fClass : fClass.attr(&#x27;stype&#x27;)
+                };
+            }
+        }
+
+        var handle = $(&#x27;.OP_newfolderH&#x27;);
+        var select = $(&#x27;.db_shareSelect&#x27;);
+
+        handle.click(function() {
+            select.css(&#x27;top&#x27;, $(&#x27;.OP_sHan&#x27;).position().top + 32);
+            select.slideToggle(50);
+        });
+
+        select.on(&#x27;click&#x27;, &#x27;a&#x27;, function() {
+
+            var that = $(this);
+            var sub = $(&#x27;.db_newfloder_sub&#x27;);
+            var stype = that.attr(&#x27;stype&#x27;);
+            var text = that.text();
+
+            sub.html(&#x27;&#x27;);
+            handle.attr(&#x27;stype&#x27;, stype);
+
+            if (stype == &#x27;myclass&#x27;) {
+                exp._readenMyClass();
+            } else if (stype == &#x27;somefirends&#x27;) {
+                exp._readenMyfriend();
+            }
+
+            handle.val(text);
+            select.hide(50);
+        });
+    };
+
+    exp._readenMyClass = function(obj) {
+        $(&#x27;.db_newfloder_sub&#x27;).html(exp.modle.myClass);
+        $.ajax({
+            url : disk.config.ajax.classList,
+            success : function(data) {
+                var data = data.data;
+                var classDC = $(&#x27;.newf_classC&#x27;);
+                var clsssDL = $(&#x27;.newf_classL&#x27;);
+                if (classDC &amp;&amp; clsssDL) {
+                    classC = data.length;
+                    if (classC &lt;= 0) {
+                        classDC.html(0);
+                        clsssDL.html(&#x27;&lt;p style=&quot;text-align: center; padding:8px 0;&quot;&gt;您暂未加入任何学校&lt;/p&gt;&#x27;);
+                    } else {
+                        //draw list
+                        function drawList() {
+                            var listHTML = [];
+                            var listTep = &#x27;&lt;p class=&quot;db_class_t&quot;&gt;&lt;em class=&quot;db_cf_choice icon {active}&quot; sid=&quot;{eclass_id}&quot; check=&quot;{check}&quot;&gt;&lt;/em&gt;&lt;span title=&quot;{eclass_name}&quot;&gt;{eclass_name}&lt;/span&gt;&lt;/p&gt;&#x27;;
+                            for (var i = 0; i &lt; classC; i++) {
+                                listHTML.push(listTep.replace(/{(\w+)}/g, function() {
+                                    var key = arguments[1];
+                                    if (key == &#x27;active&#x27;) {
+                                        var choosed = exp.data.chooseClass[data[i][&#x27;eclass_id&#x27;]];
+                                        if (choosed) {
+                                            //eclass_name
+                                            exp.data.chooseClass[data[i][&#x27;eclass_id&#x27;]] = data[i][&#x27;eclass_name&#x27;];
+                                            return &#x27;db_cf_c_active&#x27;;
+                                        } else {
+                                            return &#x27;&#x27;;
+                                        }
+                                    }
+                                    if (key == &#x27;check&#x27;) {
+                                        var choosed = exp.data.chooseClass[data[i][&#x27;eclass_id&#x27;]];
+                                        if (choosed) {
+                                            return &#x27;true&#x27;;
+                                        } else {
+                                            return &#x27;false&#x27;;
+                                        }
+                                    }
+                                    return data[i][key];
+                                }));
+                            }
+                            clsssDL.html(listHTML.join(&#x27;&#x27;));
+                        };
+
+                        //draw choosed
+                        function drawChoosed() {
+                            var chooseBox = $(&#x27;.db_m_choice&#x27;);
+                            var noTips = chooseBox.find(&#x27;.db_s_none&#x27;);
+                            var chooseInfo = chooseBox.find(&#x27;.db_s_choice&#x27;);
+                            var count = 0;
+                            var chooseHTML = [];
+                            var chooseTep = &#x27;&lt;a class=&quot;db_sc_a db_sc_a_active&quot; sid={sid}&gt;&lt;span&gt;{schoolname}&lt;/span&gt;&lt;em class=&quot;db_c_em icon db_c_active&quot;&gt;&lt;/em&gt;&lt;/a&gt;&#x27;;
+                            for (i in exp.data.chooseClass) {
+                                count++;
+                                chooseHTML.push(chooseTep.replace(/{(\w+)}/g, function() {
+                                    var key = arguments[1];
+                                    if (key == &#x27;schoolname&#x27;) {
+                                        return exp.data.chooseClass[i];
+                                    } else if (key == &#x27;sid&#x27;) {
+                                        return i;
+                                    }
+                                    ;
+                                }));
+                            }
+                            chooseInfo.html(chooseHTML.join(&#x27;&#x27;));
+                            if (count) {
+                                noTips.hide();
+                                chooseInfo.show();
+                            } else {
+                                noTips.show();
+                                chooseInfo.hide();
+                            };
+                        };
+
+                        //choose contorl
+                        function chooseContorl() {
+                            $(&#x27;.newf_classL&#x27;).on(&#x27;click&#x27;, &#x27;.db_class_t&#x27;, function() {
+                                var that = $(this);
+                                var input = that.find(&#x27;.db_cf_choice&#x27;);
+                                var text = that.find(&#x27;span&#x27;).text();
+                                if (input.attr(&#x27;check&#x27;) == &#x27;true&#x27;) {
+                                    input.attr(&#x27;check&#x27;, &#x27;false&#x27;).removeClass(&#x27;db_cf_c_active&#x27;);
+                                    delete exp.data.chooseClass[input.attr(&#x27;sid&#x27;)];
+                                } else {
+                                    input.attr(&#x27;check&#x27;, &#x27;true&#x27;).addClass(&#x27;db_cf_c_active&#x27;);
+                                    exp.data.chooseClass[input.attr(&#x27;sid&#x27;)] = text;
+                                }
+                                drawChoosed(exp.data.chooseClass);
+                            });
+                        };
+
+                        //delete contorl
+                        function delectContorl() {
+                            $(&#x27;.db_s_choice&#x27;).on(&#x27;click&#x27;, &#x27;a&#x27;, function() {
+                                var sid = $(this).attr(&#x27;sid&#x27;);
+                                delete exp.data.chooseClass[sid];
+                                drawList(exp.data.chooseClass);
+                                drawChoosed(exp.data.chooseClass);
+                            });
+                            $(&#x27;.newf_del&#x27;).on(&#x27;click&#x27;, function() {
+                                exp.data.chooseClass = {};
+                                drawList(exp.data.chooseClass);
+                                drawChoosed(exp.data.chooseClass);
+                                return false;
+                            });
+                        };
+
+                        classDC.html(classC);
+
+                        drawList(exp.data.chooseClass);
+                        drawChoosed();
+                        chooseContorl(exp.data.chooseClass);
+                        delectContorl(exp.data.chooseClass);
+
+                    }
+                }
+            }
+        });
+    };
+
+    /**
+     * readen friend choose box in target
+     * @method _readenMyfriend
+     * @param {String} obj.tar the target where you show the box
+     */
+    exp._readenMyfriend = function(obj) {
+        var sub = (obj&amp;&amp;obj.tar) || $(&#x27;.db_newfloder_sub&#x27;);
+        //send to firend
+        //exp.data.chooseUser = {};
+        sub.html(exp.modle.myFrined);
+        var allFriends = [];
+        var friendsInfo = {};
+        var persionTem = &#x27;&lt;div class=&quot;db_fr_f&quot;&gt;&lt;img src=&quot;http://www.yiban.cn/weibo/eclassimg/head/u/{userid}/s/1&quot;&gt;&lt;span title=&quot;{usernick}&quot;&gt;{usernick}&lt;/span&gt;&lt;em class=&quot;db_cf_choice db_fr_f_em icon {checked}&quot; uid=&quot;{userid}&quot;}&gt;&lt;/em&gt;&lt;/div&gt;&#x27;;
+        var groupTem = &#x27;&lt;div class=&quot;db_all_f&quot;&gt;&lt;em class=&quot;db_cf_choice db_all_f_em icon&quot;&gt;&lt;/em&gt;&lt;span&gt;{name}&lt;/span&gt;&lt;b&gt;（{num}）&lt;/b&gt;&lt;/div&gt;&#x27;;
+
+        //get friend data
+        $.ajax({
+            url : disk.config.ajax.friendList,
+            success : function(data) {
+                var data = friendsInfo = data.data;
+                var group = {};
+                for (i in data) {
+                    group[i] = data[i].length;
+                    for (var j = 0; j &lt; group[i]; j++) {
+                        allFriends.push(data[i][j]);
+                    }
+                }
+                showList();
+                showGroup(group);
+            }
+        });
+
+        //show group list
+        function showGroup(group) {
+            var groupHTML = [];
+            for (i in group) {
+                groupHTML.push(groupTem.replace(/{(\w+)}/g, function(data) {
+                    var key = arguments[1];
+                    if (key == &#x27;name&#x27;) {
+                        return i;
+                    }
+                    if (key == &#x27;num&#x27;) {
+                        return group[i];
+                    }
+                }));
+            }
+            $(&#x27;#OP_groupList&#x27;).html(groupHTML.join(&#x27;&#x27;));
+        }
+
+        //show memeberlist in one group
+        function showList(group, data) {
+            var showData = &#x27;&#x27;;
+            if (group == &#x27;search&#x27; &amp;&amp; data) {
+                showData = data;
+            } else if (group) {
+                showData = friendsInfo[group];
+            } else {
+                showData = allFriends;
+            }
+            var dataL = showData.length;
+            var listHTML = [];
+            for (var i = 0; i &lt; dataL; i++) {
+                listHTML.push(persionTem.replace(/{(\w+)}/g, function() {
+                    var key = arguments[1];
+                    if (key == &#x27;checked&#x27;) {
+                        var uid = showData[i][&#x27;userid&#x27;];
+                        if (exp.data.chooseUser[uid]) {
+                            exp.data.chooseUser[uid] = showData[i][&#x27;usernick&#x27;];
+                            return &#x27;db_cf_c_active&#x27;;
+                        } else {
+                            return &#x27;&#x27;;
+                        }
+                    }
+                    return showData[i][key];
+                }));
+            }
+            if (listHTML.length &lt;= 0) {
+                $(&#x27;.OP_friendsList&#x27;).html(&#x27;&lt;p style=&quot;padding:10px; text-align:center;&quot;&gt;未找到符合条件的好友&lt;p&gt;&#x27;);
+            } else {
+                $(&#x27;.OP_friendsList&#x27;).html(listHTML.join(&#x27;&#x27;));
+            }
+        };
+
+        //search
+        $(&#x27;.db_fl_search&#x27;).on(&#x27;keyup&#x27;, &#x27;input&#x27;, function() {
+            var that = $(this);
+            var key = that.val();
+            var result = [];
+            var allL = allFriends.length;
+            for (var i = 0; i &lt; allL; i++) {
+                var username = allFriends[i][&#x27;usernick&#x27;];
+                if (username.indexOf(key) !== -1) {
+                    result.push(allFriends[i]);
+                }
+            };
+            showList(&#x27;search&#x27;, result);
+        });
+
+        //choose group
+        var groupDom = $(&#x27;.db_f_l&#x27;);
+        groupDom.on(&#x27;click&#x27;, &#x27;span&#x27;, function() {
+            var that = $(this);
+            groupDom.find(&#x27;.db_all_f&#x27;).removeClass(&#x27;db_all_f_active&#x27;);
+            that.parent().addClass(&#x27;db_all_f_active&#x27;);
+            $(&#x27;.db_fl_search input&#x27;).val(&#x27;&#x27;);
+            var key = $.trim($(this).text());
+            showList(key);
+        });
+
+        //choose all group
+        groupDom.on(&#x27;click&#x27;, &#x27;.db_cf_choice&#x27;, function() {
+            var that = $(this);
+            var key = $.trim($(this).next().text());
+            var gropu = friendsInfo[key];
+            var groupL = gropu.length;
+            $(&#x27;.db_fl_search input&#x27;).val(&#x27;&#x27;);
+            if (that.attr(&#x27;check&#x27;) == &#x27;true&#x27;) {
+                that.attr(&#x27;check&#x27;, &#x27;false&#x27;).removeClass(&#x27;db_cf_c_active&#x27;);
+                for (var i = 0; i &lt; groupL; i++) {
+                    var uid = gropu[i][&#x27;userid&#x27;];
+                    var unik = gropu[i][&#x27;usernick&#x27;];
+                    delete exp.data.chooseUser[uid];
+                }
+            } else {
+                that.attr(&#x27;check&#x27;, &#x27;true&#x27;).addClass(&#x27;db_cf_c_active&#x27;);
+                for (var i = 0; i &lt; groupL; i++) {
+                    var uid = gropu[i][&#x27;userid&#x27;];
+                    var unik = gropu[i][&#x27;usernick&#x27;];
+                    exp.data.chooseUser[uid] = unik;
+                }
+            }
+            showList(key);
+            checkchoosed();
+        });
+
+        //single choose
+        var rightDom = $(&#x27;.db_f_r&#x27;);
+        rightDom.on(&#x27;click&#x27;, &#x27;.db_fr_f&#x27;, function() {
+            var that = $(this);
+            var target = that.find(&#x27;.db_cf_choice&#x27;);
+            if (target.hasClass(&#x27;db_cf_c_active&#x27;)) {
+                var uid = target.attr(&#x27;uid&#x27;);
+                delete exp.data.chooseUser[uid];
+                target.removeClass(&#x27;db_cf_c_active&#x27;);
+            } else {
+                var uid = target.attr(&#x27;uid&#x27;);
+                var username = that.find(&#x27;span&#x27;).text();
+                exp.data.chooseUser[uid] = username;
+                target.addClass(&#x27;db_cf_c_active&#x27;);
+            }
+
+            var choosedL = rightDom.find(&#x27;.db_cf_c_active&#x27;).length;
+            var nonechoose = rightDom.find(&#x27;.db_cf_choice&#x27;).length;
+            var groupName = $(&#x27;.db_all_f_active&#x27;);
+            if (choosedL == nonechoose &amp;&amp; groupName) {
+                groupName.find(&#x27;.db_cf_choice&#x27;).addClass(&#x27;db_cf_c_active&#x27;);
+            } else if (groupName) {
+                groupName.find(&#x27;.db_cf_choice&#x27;).removeClass(&#x27;db_cf_c_active&#x27;);
+            }
+            ;
+
+            checkchoosed();
+        });
+
+        //show choosed
+        $(&#x27;.db_all_fc&#x27;).click(function() {
+            $(&#x27;.db_all_f&#x27;).removeClass(&#x27;db_all_f_active&#x27;);
+            var data = [];
+            for (i in exp.data.chooseUser) {
+                data.push({
+                    userid : i,
+                    usernick : exp.data.chooseUser[i]
+                });
+            }
+            showList(&#x27;search&#x27;, data);
+        });
+
+        function checkchoosed() {
+            var showTar = $(&#x27;.db_all_fc&#x27;);
+            var count = 0;
+            for (i in exp.data.chooseUser) {
+                count++;
+            }
+            if (count &gt; 0) {
+                showTar.find(&#x27;b&#x27;).html(count);
+                showTar.animate({
+                    &#x27;text-indent&#x27; : 0
+                }, 500);
+            } else {
+                showTar.animate({
+                    &#x27;text-indent&#x27; : -500
+                }, 500);
+            }
+        }
+
+    };
+
+    exp._getChoosed = function(fClass) {
+        switch(fClass) {
+            case &#x27;friends&#x27;:
+                return &#x27;U,&#x27; + disk.getCookie(&#x27;db_uid&#x27;);
+            case &#x27;myclass&#x27;:
+                var classId = [];
+                for (i in exp.data.chooseClass) {
+                    classId.push(i);
+                }
+                return &#x27;C,&#x27; + classId.join();
+            case &#x27;academy&#x27;:
+                return &#x27;D,&#x27; + disk.getCookie(&#x27;db_uid&#x27;);
+            case &#x27;school&#x27;:
+                return &#x27;S,&#x27; + disk.getCookie(&#x27;db_uid&#x27;);
+            case &#x27;somefirends&#x27;:
+                var uid = [];
+                for (i in exp.data.chooseUser) {
+                    uid.push(i);
+                }
+                return &#x27;U,&#x27; + uid.join();
+            case &#x27;open&#x27;:
+                return &#x27;O,&#x27; + disk.getCookie(&#x27;db_uid&#x27;);
+            default:
+                return &#x27;&#x27;;
+        };
+    };
+
+    /**
+     * delete file
+     * @method del
+     * @param filename the file&#x27;s name,you needn&#x27;t give the full path of the file
+     */
+    exp.del = function(filename) {
+        hm.confirm({
+            text : &#x27;&lt;div style=&quot;padding:5px 20px;&quot;&gt;&lt;p style=&quot;font-weight:bold; padding-bottom:8px;&quot;&gt;确定要删除文件？&lt;/p&gt;&lt;p&gt;&#x27; + filename + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;,
+            title : &#x27;删除&#x27;,
+            width : &#x27;300px&#x27;
+        }, function() {
+            var popid = hm.popbox({
+                html : &#x27;&lt;div style=&quot;padding:18px 0;text-align:center;&quot;&gt;删除中,请稍候..&lt;/div&gt;&#x27;
+            });
+            popid.popobj.find(&#x27;.NY-pop-title&#x27;).remove();
+            $.ajax({
+                url : encodeURI(disk.base.dir + &#x27;/ajax/document/delete?uri=&#x27; + (disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;) + filename),
+                success : function(data) {
+                    popid.close();
+                    hm.toast({
+                        text : &#x27;删除成功&#x27;
+                    });
+                    disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                }
+            });
+        });
+
+    };
+
+    /**
+     * popTree show the pop tree and do the fn
+     * @method popTree
+     * @param {Object} obj
+     * @param {String} obj.title the popbox&#x27;s title
+     * @param {Object} fn(choosepath,popbox);
+     * @example fc.popTree({title:&#x27;移动文件夹&#x27;},function(path,pop){alert(&#x27;you choose the target is &#x27;+path);popbox.close()})
+     */
+    exp.popTree = function(obj, fn) {
+        var popid = hm.popBox({
+            title : obj.title || &#x27;请选择目标文件夹&#x27;,
+            html : &#x27;&lt;div class=&quot;poptree&quot;&gt;&lt;div class=&quot;poptree_content&quot;&gt;&lt;p style=&quot;padding:15px; text-align:center;&quot;&gt;加载中，请稍候...&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#x27;
+        });
+        var movePath = &#x27;&#x27;;
+        var dom = popid.popobj.find(&#x27;.poptree_content&#x27;);
+        popid.popobj.find(&#x27;.poptree&#x27;).append(fc.modle.popBtn);
+        disk.getTree(&#x27;&#x27;, dom);
+
+        dom.on(&#x27;click&#x27;, &#x27;.OP_subnav&#x27;, function() {
+            //show subnav
+            var that = $(this);
+
+            var parent = that.parents(&#x27;.db_v_title&#x27;);
+            var showbox = parent.next(&#x27;.db_subnavBox:visible&#x27;).length;
+
+            if (showbox &lt;= 0) {
+                that.addClass(&#x27;db_open&#x27;);
+                that.removeClass(&#x27;db_v_plus&#x27;);
+                var path = that.attr(&#x27;pathname&#x27;);
+                disk.getTree(path, dom);
+            } else {
+                that.removeClass(&#x27;db_open&#x27;);
+                that.addClass(&#x27;db_v_plus&#x27;);
+                parent.next(&#x27;.db_subnavBox:visible&#x27;).hide();
+            }
+        }).on(&#x27;click&#x27;, &#x27;.db_vc_em&#x27;, function() {
+            //open subnav
+            var that = $(this);
+
+            var parent = that.parents(&#x27;.db_v_cont&#x27;);
+            var showbox = parent.next(&#x27;.db_subnavBox:visible&#x27;).length;
+
+            if (showbox &lt;= 0) {
+                that.addClass(&#x27;db_vc_emd&#x27;);
+                var path = that.parents(&#x27;.db_v_cont&#x27;).attr(&#x27;navpath&#x27;);
+                disk.getTree(path, dom);
+            } else {
+                that.removeClass(&#x27;db_vc_emd&#x27;);
+                parent.next(&#x27;.db_subnavBox:visible&#x27;).hide();
+            }
+
+        }).on(&#x27;click&#x27;, &#x27;.db_v_title&#x27;, function() {
+            var that = $(this);
+            $(&#x27;.db_v_title&#x27;).removeClass(&#x27;db_vt_active&#x27;);
+            $(&#x27;.db_v_cont&#x27;).removeClass(&#x27;db_v_cont_active&#x27;);
+            that.addClass(&#x27;db_vt_active&#x27;);
+            movePath = that.attr(&#x27;navpath&#x27;);
+        }).on(&#x27;click&#x27;, &#x27;.db_v_cont&#x27;, function() {
+            var that = $(this);
+            $(&#x27;.db_v_title&#x27;).removeClass(&#x27;db_vt_active&#x27;);
+            $(&#x27;.db_v_cont&#x27;).removeClass(&#x27;db_v_cont_active&#x27;);
+            that.addClass(&#x27;db_v_cont_active&#x27;);
+            movePath = that.attr(&#x27;navpath&#x27;);
+        });
+        //close
+
+        popid.popobj.on(&#x27;click&#x27;, &#x27;.OP_popCancle&#x27;, function() {
+            popid &amp;&amp; popid.close();
+        });
+        popid.popobj.on(&#x27;click&#x27;, &#x27;.OP_popOK&#x27;, function() {
+            fn ? fn(movePath, popid) : popid.close();
+        });
+    };
+
+    /**
+     * move files
+     * @method move
+     * @param filename {String} the file&#x27;s path,you needn&#x27;t give the full path
+     * @param fn {Function} the callback function
+     */
+    exp.move = function(filename, fn) {
+        var popid = &#x27;&#x27;;
+
+        exp.popTree({
+            title : &#x27;移动文件&#x27;
+        }, function(path, popid) {
+            submitMove(path, filename, popid);
+        });
+
+        function submitMove(path, filename, popid) {
+            popid.popobj.find(&#x27;.NY-con-warp&#x27;).html(&#x27;&lt;p style=&quot;padding:10px; text-align:center;&quot;&gt;移动中，请稍候...&lt;/p&gt;&#x27;);
+            var oldPath = (disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;) + filename;
+            $.ajax({
+                url : encodeURI(disk.base.dir + &#x27;/ajax/document/move?uri=&#x27; + oldPath + &#x27;&amp;to=&#x27; + path),
+                success : function(data) {
+                    popid &amp;&amp; popid.close();
+                    hm.toast({
+                        &#x27;text&#x27; : &#x27;移动成功&#x27;
+                    });
+                    if (data.ret == 200) {
+                        fn &amp;&amp; fn();
+                        disk.getList(disk.getUrl().url, &#x27;all&#x27;);
+                    } else {
+                        hm.alert({
+                            text : (disk.config.error[data.ret] || &#x27;未知错误&#x27;)
+                        });
+                    }
+                }
+            });
+        }
+
+    };
+
+    /**
+     * copy to my database
+     * @method copy
+     * @param {String} filePath  the full path of the file
+     */
+    exp.copy = function(filePath) {
+        exp.popTree({
+            title : &#x27;转存&#x27;
+        }, copyback);
+
+        function copyback(path, pop) {
+            var data = {
+                uri : encodeURI(filePath),
+                folder : encodeURI(path)
+            };
+            if (disk.config.database.type == &#x27;p&#x27;) {
+                var turl = disk.base.dir + &#x27;/ajax/public/dump&#x27;;
+            } else {
+                var turl = disk.base.dir + &#x27;/ajax/share/dump&#x27;;
+            }
+            $.ajax({
+                url : turl,
+                data : data,
+                success : function(data) {
+                    var sta = data.ret;
+                    if (sta == 200) {
+                        pop &amp;&amp; pop.close();
+                        hm.toast({
+                            text : &#x27;转存成功&#x27;
+                        });
+                        select.removeAll();
+                    } else {
+                        alert(disk.config.error[sta] || data.msg || (&#x27;未知错误\n&#x27; + (sta || &#x27;&#x27;)));
+                    }
+                }
+            });
+        }
+
+    };
+
+    exp.download = function() {
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;.db_file_namebox&#x27;, function() {
+            var that = $(this);
+            var loaction = that.attr(&#x27;location&#x27;);
+            if (loaction) {
+                location.href = loaction + &#x27;?dl&#x27;;
+            } else {
+                hm.toast({
+                    text : &#x27;下载错误&#x27;
+                });
+            }
+        });
+        $(&#x27;#db_filelist&#x27;).on(&#x27;click&#x27;, &#x27;.db_class_oparea&#x27;, function() {
+            var that = $(this);
+            var loaction = that.attr(&#x27;location&#x27;);
+            if (loaction) {
+                location.href = loaction + &#x27;?dl&#x27;;
+            } else {
+                hm.toast({
+                    text : &#x27;下载错误&#x27;
+                });
+            }
+        });
+        //db_file_name_link
+    };
+
+    /**
+     * @method share
+     * @param {Object} obj
+     * @param {String} obj.fileName  fileName|[filePath]
+     * @param {String} obj.filePath  fileName|[filePath]
+     * @param {String} obj.fullPaht
+     * @param {type} string  sid
+     */
+    exp.share = function(obj, issid) {
+        if (!obj || (!obj.fileName &amp;&amp; !obj.fullPath)) {
+            throw new Error(&quot;fc.share({&#x27;fileName&#x27; : fileName,&#x27;filePath&#x27; : path}, &#x27;sid&#x27;) need filename atleast.&quot;);
+        }
+
+        var filename = obj.fileName;
+        var filePath = obj.filePath || (disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;);
+        filenameFull = obj.fullPath || (filePath + filename);
+
+        var newfolderDom = hm.popBox({
+            &#x27;title&#x27; : &#x27;&lt;span style=&quot;float:left;&quot;&gt;共享文件&lt;/span&gt;&#x27; + ( filename ? &#x27;&lt;span class=&quot;db_share_title&quot; &gt;&#x27; + filename + &#x27;&lt;/span&gt;&#x27; : &#x27;&#x27;),
+            &#x27;html&#x27; : &#x27;&lt;p style=&quot;padding:15px 0;text-align:center;&quot;&gt;加载中,请稍候...&lt;/p&gt;&#x27;,
+            &#x27;width&#x27; : 510
+        });
+
+        var data = {
+            uri : encodeURI(filenameFull)
+        };
+
+        if (issid == &#x27;sid&#x27;) {
+            data.sid = true;
+        }
+
+        $.ajax({
+            &#x27;url&#x27; : disk.base.dir + &#x27;/ajax/share/info&#x27;,
+            &#x27;data&#x27; : data,
+            &#x27;success&#x27; : function(data) {
+                if (data.ret == 200) {
+                    newfolderDom.popobj.find(&#x27;.NY-con-warp&#x27;).html(fc.modle.newFolder);
+                    $(&#x27;.OP_newfloderTitle&#x27;).remove();
+                    exp._floderEdit({
+                        &#x27;popbox&#x27; : newfolderDom,
+                        &#x27;type&#x27; : &#x27;share&#x27;,
+                        &#x27;fullPath&#x27; : filenameFull
+                    });
+                    exp.readerPow(data.data);
+
+                } else {
+                    alert(disk.config.error[data.ret] || &#x27;未知错误&#x27;);
+                }
+            }
+        });
+
+    };
+
+    /**
+     * @method cancelShare
+     * @param path {String} file&#x27;s path
+     * @param type {Function} callback
+     **/
+    exp.cancelShare = function(path, callback) {
+        if (path) {
+            $.ajax({
+                url : encodeURI(disk.base.dir + &#x27;/ajax/share/edit?uri=&#x27; + path + &#x27;&amp;perm=&#x27;),
+                success : function(data) {
+                    callback &amp;&amp; callback();
+                }
+            });
+        } else {
+            throw new Error(&#x27;fc.cancelShare(path, callback) need a path&#x27;);
+        }
+    };
+
+    /*
+     * reader pow
+     */
+    exp.readerPow = function(data) {
+        var data = data || {};
+        var type = data.type;
+        if (type == &#x27;C&#x27;) {
+            $(&#x27;.OP_newfolderH&#x27;).attr(&#x27;stype&#x27;, &#x27;myclass&#x27;).val(&#x27;我加入的班级&#x27;);
+            var choosed = data.group;
+            var choosedL = choosed.length;
+            fc.data.chooseClass = {};
+            for (var i = 0; i &lt; choosedL; i++) {
+                fc.data.chooseClass[choosed[i]] = &#x27;未获取&#x27;;
+            }
+            exp._readenMyClass();
+        }
+        if (type == &#x27;D&#x27;) {
+            $(&#x27;.OP_newfolderH&#x27;).attr(&#x27;stype&#x27;, &#x27;academy&#x27;).val(&#x27;同一学院&#x27;);
+        }
+        if (type == &#x27;S&#x27;) {
+            $(&#x27;.OP_newfolderH&#x27;).attr(&#x27;stype&#x27;, &#x27;school&#x27;).val(&#x27;同一学校&#x27;);
+        }
+        if (type == &#x27;O&#x27;) {
+            $(&#x27;.OP_newfolderH&#x27;).attr(&#x27;stype&#x27;, &#x27;open&#x27;).val(&#x27;公开&#x27;);
+        }
+        if (type == &#x27;U&#x27;) {
+            var choosed = data.group;
+            var choosedL = choosed.length;
+            fc.data.chooseUser = {};
+            if (choosedL == 1 &amp;&amp; choosed[0] == disk.getCookie(&#x27;db_uid&#x27;)) {
+                $(&#x27;.OP_newfolderH&#x27;).attr(&#x27;stype&#x27;, &#x27;friends&#x27;).val(&#x27;全部好友&#x27;);
+            } else {
+                $(&#x27;.OP_newfolderH&#x27;).attr(&#x27;stype&#x27;, &#x27;somefirends&#x27;).val(&#x27;共享给指定好友&#x27;);
+                for (var i = 0; i &lt; choosedL; i++) {
+                    fc.data.chooseUser[choosed[i]] = &#x27;未获取&#x27;;
+                }
+                exp._readenMyfriend();
+            }
+        }
+    };
+
+    /**
+     * repotr the file to admin
+     * @method reportFile
+     * @param {String} sid
+     */
+    exp.reportFile = function(sid) {
+        if (!sid) {
+            throw new Error(&#x27;fc.reportFile(sid) need a sid&#x27;);
+        }
+        var popid = hm.popBox({
+            &#x27;title&#x27; : &#x27;举报原因&#x27;,
+            &#x27;html&#x27; : exp.modle.repoit,
+            &#x27;width&#x27; : 470
+        });
+
+        popid.popobj.find(&#x27;#cancle_newfolder&#x27;).on(&#x27;click&#x27;, function() {
+            popid &amp;&amp; popid.close();
+        });
+
+        popid.popobj.find(&#x27;.OP_subnewf&#x27;).on(&#x27;click&#x27;, function() {
+            $.ajax({
+                url : encodeURI(disk.base.dir + &#x27;/ajax/public/report?id=&#x27; + sid + &#x27;&amp;type=&#x27; + $(&#x27;input[name=&quot;report&quot;]:checked&#x27;).val()),
+                success : function(data) {
+                    var sta = data.ret;
+                    if (sta == 200) {
+                        popid &amp;&amp; popid.close();
+                        hm.toast({
+                            &#x27;text&#x27; : &#x27;举报成功&#x27;
+                        });
+                    } else {
+                        alert(disk.config.error[sta] || data.msg || &#x27;未知错误&#x27;);
+                    }
+                }
+            });
+        });
+    };
+
+    /**
+     * preview the file
+     * @method preview
+     * @param {String} filePath the full path of the files
+     */
+    exp.preview = function(filePath) {
+        var fileType = /\w+$/.exec(filePath) ? /\w+$/.exec(filePath)[0] : &#x27;&#x27;;
+        var canPreview = disk.config.prewiew[fileType.toString().toLowerCase()];
+        if (disk.config.database.type == &#x27;a&#x27; || disk.config.database.type == &#x27;o&#x27; || disk.config.database.type == &#x27;i&#x27;) {
+            if (!canPreview) {
+                hm.toast({
+                    text : &#x27;该类型文件无法预览&#x27;
+                });
+                return false;
+            }
+
+            if (window.lantern) {
+                lantern(filePath);
+            } else {
+                $.getScript(disk.base.dir + &quot;/public/disk/js/lantern.js&quot;, function(data, textStatus, jqxhr) {
+                    lantern(filePath);
+                });
+            }
+            $(&#x27;.OP_loading&#x27;).remove();
+        } else {
+            if (!canPreview) {
+                hm.toast({
+                    text : &#x27;该类型文件无法预览&#x27;
+                });
+                return false;
+            } else {
+                select.removeAll();
+            }
+            disk.setUrl(filePath, &#x27;p&#x27;);
+            disk.breadCrumb(disk.getUrl().url);
+            var readerArea = $(&#x27;.db_readerarea&#x27;);
+            $(&#x27;.OP_navsearch&#x27;).hide();
+            if (window.db_view) {
+                db_view(readerArea, disk.getUrl().url);
+            } else {
+                $.getScript(disk.base.dir + &quot;/public/disk/js/view.js&quot;, function(data, textStatus, jqxhr) {
+                    db_view(readerArea, disk.getUrl().url);
+                });
+            }
+            $(&#x27;.db_classify,.db_cf_class,.db_cf_main&#x27;).hide();
+        }
+    };
+
+    /**
+     * make a file as good
+     * @method makeGood
+     * @param {sid} the file&#x27;s sid
+     *        {fn}  the callback funciton
+     */
+    exp.makeGood = function(sid, fn) {
+        $.ajax({
+            url : encodeURI(disk.base.dir + &#x27;/ajax/public/vote?id=&#x27; + sid + &#x27;&amp;value=1&#x27;),
+            success : function(data) {
+                if (data.ret == &#x27;200&#x27;) {
+                    fn &amp;&amp; fn();
+                } else {
+                    hm.toast({
+                        text : disk.config.error[data.ret] || data.msg || &#x27;未知错误&#x27;
+                    });
+                }
+            }
+        });
+    };
+
+    /**
+     * make a file as bad
+     * @method makeBad
+     * @param {sid} the file&#x27;s sid
+     *        {fn}  the callback funciton
+     */
+    exp.makeBad = function(sid, fn) {
+        $.ajax({
+            url : encodeURI(disk.base.dir + &#x27;/ajax/public/vote?id=&#x27; + sid + &#x27;&amp;value=0&#x27;),
+            success : function(data) {
+                if (data.ret == &#x27;200&#x27;) {
+                    fn &amp;&amp; fn();
+                } else {
+                    hm.toast({
+                        text : disk.config.error[data.ret] || data.msg || &#x27;未知错误&#x27;
+                    });
+                }
+            }
+        });
+    };
+
+})(fc);
+
+fc();
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

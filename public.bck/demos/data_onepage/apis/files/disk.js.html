@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>disk.js - 资料库</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="资料库"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/_fileup.html">_fileup</a></li>
+            
+                <li><a href="../classes/db_print.html">db_print</a></li>
+            
+                <li><a href="../classes/disk.html">disk</a></li>
+            
+                <li><a href="../classes/fc.html">fc</a></li>
+            
+                <li><a href="../classes/select.html">select</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: disk.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  disk&#x27;s main javascript
+ *  @class disk
+ */
+var disk = function() {
+    return disk[&#x27;init&#x27;].apply(disk, arguments);
+};
+
+(function(exp) {
+
+    exp.base = {
+        dir : &#x27;/i&#x27;
+    };
+
+    //browser test
+    var ieTEST = /MSIE\s(\d*\.\d*)/.exec(navigator.userAgent);
+
+    if (ieTEST &amp;&amp; ieTEST[1] &lt; 8) {
+        location.href = exp.base.dir + &#x27;/notsupported&#x27;;
+        return false;
+    }
+
+    //console.log debug
+    if ( typeof console === &quot;undefined&quot; || typeof console.log === &quot;undefined&quot;) {
+        console = {};
+        console.log = function() {
+        };
+    }
+
+    exp.init = function() {
+
+        //load necessary scripts
+        var scrUrl = [exp.base.dir + &#x27;/public/disk/js/select.js&#x27;, exp.base.dir + &quot;/public/disk/js/filesControl.js&quot;, exp.base.dir + &quot;/public/disk/js/upload.js&quot;, exp.base.dir + &quot;/public/disk/js/drage.js&quot;, exp.base.dir + &quot;/public/js/panel.js&quot;, exp.base.dir + &quot;/public/disk/js/panelDo.js&quot;, exp.base.dir + &quot;/public/disk/js/print.js&quot;];
+        exp.loadScript(scrUrl, loadProgress);
+        function loadProgress(total, index) {
+            var loadDom = $(&#x27;.Loading&#x27;);
+            var present = parseInt(index / total * 100);
+            loadDom.find(&#x27;.IN&#x27;).css(&#x27;width&#x27;, present + &#x27;%&#x27;);
+            loadDom.find(&#x27;.Load_Ts span&#x27;).html(present + &#x27;%&#x27;);
+            if (index == total) {
+                loadDom.animate({
+                    &#x27;opacity&#x27; : 0
+                }, 400, function() {
+                    $(this).remove();
+                });
+            }
+        }
+
+        //show list and bind action
+        var dbType = disk.config.database.type = disk.getUrl().type || &#x27;a&#x27;;
+        var url = exp.getUrl().url;
+        $(&#x27;.db_column_title[ftype=&#x27; + dbType + &#x27;]&#x27;).addClass(&#x27;db_c_t_active&#x27;);
+        exp.getList(url);
+        exp.treeAction();
+        exp.treeBrowse();
+        exp.action();
+        exp.sort();
+        exp.pages();
+
+        //fit the side and main-area&#x27;s height
+        exp.fit();
+        exp.popstate();
+        $(window).resize(function() {
+            exp.fit();
+        });
+
+        //switch the file list&#x27;s icon
+        if (disk.getCookie(&#x27;listStyle&#x27;) == &#x27;big&#x27;) {
+            $(&#x27;.OP_listStyle&#x27;).removeClass(&#x27;db_s_active&#x27;);
+            $(&#x27;.db_s_change&#x27;).find(&#x27;.OP_listStyle:eq(1)&#x27;).addClass(&#x27;db_s_active&#x27;);
+        }
+
+        //quit
+        $(&#x27;.OP_dbquit&#x27;).on(&#x27;click&#x27;, function() {
+            $.ajax({
+                &#x27;url&#x27; : exp.base.dir + &#x27;/ajax/passport/logout&#x27;,
+                &#x27;success&#x27; : function() {
+                    location.href = &quot;http://www.yiban.cn/function/exit.php&quot;;
+                }
+            });
+        });
+
+    };
+
+    exp.config = {
+        system : {
+            pageList : 20,
+            isHtml5 : !!(window.history &amp;&amp; window.history.pushState),
+            firstLoad : false
+        },
+        ajax : {
+            list : exp.base.dir + &#x27;/ajax/document/open&#x27;,
+            listThree : exp.base.dir + &#x27;/ajax/document/listtree&#x27;,
+            newFloder : exp.base.dir + &#x27;/ajax/document/mkdir&#x27;,
+            schoolList : exp.base.dir + &#x27;/ajax/user/schoolList&#x27;,
+            classList : exp.base.dir + &#x27;/ajax/user/classList&#x27;,
+            friendList : exp.base.dir + &#x27;/ajax/friend/list&#x27;
+        },
+        error : {
+            &#x27;201&#x27; : &#x27;目录不存在&#x27;,
+            &#x27;202&#x27; : &#x27;文件不存在&#x27;,
+            &#x27;203&#x27; : &#x27;文件已存在&#x27;,
+            &#x27;204&#x27; : &#x27;目录已存在&#x27;,
+            &#x27;205&#x27; : &#x27;未知错误&#x27;,
+            &#x27;206&#x27; : &#x27;文件名不合法&#x27;,
+            &#x27;207&#x27; : &#x27;文件类型无效&#x27;,
+            &#x27;208&#x27; : &#x27;系统文件夹不可操作&#x27;,
+            &#x27;209&#x27; : &#x27;内部错误&#x27;,
+            &#x27;210&#x27; : &#x27;用户不存在&#x27;,
+            &#x27;211&#x27; : &#x27;目录或者文件数超过总限制&#x27;,
+            &#x27;212&#x27; : &#x27;单个文件大小超限&#x27;,
+            &#x27;213&#x27; : &#x27;用户剩余空间不足&#x27;
+        },
+        tree : {},
+        thisFolder : {},
+        database : {
+            sort : {
+                type : &quot;createdTime&quot;,
+                method : 1
+            },
+            type : &#x27;a&#x27;
+        },
+        prewiew : {
+            &#x27;doc&#x27; : true,
+            &#x27;docx&#x27; : true,
+            &#x27;ppt&#x27; : true,
+            &#x27;pptx&#x27; : true,
+            &#x27;xls&#x27; : true,
+            &#x27;xlsx&#x27; : true,
+            &#x27;pdf&#x27; : true,
+            &#x27;txt&#x27; : true,
+            &#x27;jpg&#x27; : true,
+            &#x27;jpeg&#x27; : true,
+            &#x27;gif&#x27; : true,
+            &#x27;png&#x27; : true
+        },
+        print : {
+            &#x27;doc&#x27; : true,
+            &#x27;docx&#x27; : true,
+            &#x27;ppt&#x27; : true,
+            &#x27;pptx&#x27; : true,
+            &#x27;xls&#x27; : true,
+            &#x27;xlsx&#x27; : true,
+            &#x27;pdf&#x27; : true
+        }
+    };
+
+    /**
+     * load the script in frist time
+     * @method loadScript
+     * @param url {Array} the scripts list
+     * @param success {Function} this function will called after one of the files is loaded ok;
+     * @param finish {Function} this function will called after all the files were loaded.
+     */
+    exp.loadScript = function(array, success, finish) {
+        var totalS = array.length;
+        var index = 0;
+        function getS(index) {
+            array[index] &amp;&amp; $.getScript(array[index], function() {
+                index++;
+                success &amp;&amp; success(totalS, index);
+                getS(index);
+            });
+        }
+
+        getS(index);
+    };
+
+    /**
+     * @method getList
+     * @param url {String} The list&#x27;s url
+     * @param type {Number} The list&#x27;s type
+     * @param fn {Function} Callback function
+     */
+    exp.getList = function(url, type, fn) {
+
+        var url = $.trim(url || &#x27;&#x27;);
+        var id = &#x27;&#x27;;
+        delete disk.config.database.search;
+
+        if ( typeof (url) == &#x27;object&#x27;) {
+            id = url.id;
+            var url = url.url;
+        }
+
+        url = url.replace(/^\//, &#x27;&#x27;);
+        exp.setUrl(url, &#x27;&#x27;, id);
+
+        $(&#x27;.db_cf_choice&#x27;).attr(&#x27;check&#x27;, false).removeClass(&#x27;db_cf_c_active&#x27;);
+
+        var ajaxURL = &#x27;&#x27;;
+
+        var nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofilessearch.jpg&quot;&gt;&#x27;;
+        //for pages
+        var page = disk.config.database.page || 1;
+        var pageOffset = (page - 1) * disk.config.system.pageList;
+        //for order
+        disk.config.database.sort = disk.config.database.sort || {};
+        var orderType = (disk.config.database.sort.type || &#x27;createdTime&#x27;);
+        var orderSort = typeof (disk.config.database.sort.method) == &#x27;undefined&#x27; ? 1 : disk.config.database.sort.method;
+        //deal with the database type
+        if (disk.config.database.type == &#x27;a&#x27;) {
+
+            var listType = (disk.config.database.fileType || &#x27;all&#x27;);
+            ajaxURL = exp.config.ajax.list + &#x27;?uri=&#x27; + url + &#x27;&amp;type=&#x27; + listType + &#x27;&amp;order=&#x27; + orderType + &#x27;&amp;sort=&#x27; + orderSort;
+
+            if (!disk.config.database.fileType) {
+                $(&#x27;.db_choice_span&#x27;).html(&#x27;全部类型&#x27;);
+            }
+
+            //nofile
+            if (!(disk.config.database.fileType &amp;&amp; disk.config.database.fileType !== &#x27;all&#x27;)) {
+                nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofiles.jpg&quot; style=&quot;float:left;&quot;&gt;&#x27;;
+            };
+        } else if (disk.config.database.type == &#x27;i&#x27;) {
+
+            ajaxURL = exp.base.dir + &#x27;/ajax/share/list?type=&#x27; + (disk.config.database.subtype || &#x27;-1&#x27;) + &#x27;&amp;uri=&#x27; + url + &#x27;&amp;order=&#x27; + orderType + &#x27;&amp;sort=&#x27; + orderSort + &#x27;&amp;offset=&#x27; + pageOffset + &#x27;&amp;limit=&#x27; + disk.config.system.pageList;
+
+            //nofile
+            if (disk.getUrl().url == &#x27;&#x27;) {
+                nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofilestome.jpg&quot;&gt;&#x27;;
+            } else {
+                nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofilestome_folder.jpg&quot;&gt;&#x27;;
+            }
+        } else if (disk.config.database.type == &#x27;o&#x27;) {
+
+            ajaxURL = exp.base.dir + &#x27;/ajax/share/mine&#x27; + &#x27;?url=&#x27; + url + &#x27;&amp;order=&#x27; + orderType + &#x27;&amp;sort=&#x27; + orderSort + &#x27;&amp;offset=&#x27; + pageOffset + &#x27;&amp;limit=&#x27; + disk.config.system.pageList;
+
+            if (disk.getUrl().url == &#x27;&#x27;) {
+                nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofilestoother.jpg&quot;&gt;&#x27;;
+            } else {
+                nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofilestoother_folder.jpg&quot;&gt;&#x27;;
+            }
+        } else if (disk.config.database.type == &#x27;p&#x27;) {
+
+            ajaxURL = exp.base.dir + &#x27;/ajax/public/list&#x27; + &#x27;?uri=&#x27; + url + &#x27;&amp;order=&#x27; + orderType + &#x27;&amp;sort=&#x27; + orderSort + &#x27;&amp;offset=&#x27; + pageOffset + &#x27;&amp;limit=&#x27; + disk.config.system.pageList;
+
+            nofiles = &#x27;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/nofilespubic.jpg&quot;&gt;&#x27;;
+        }
+        exp.getTree();
+        //if is a file reader it
+        //reader the file
+        var readerArea = $(&#x27;.db_readerarea&#x27;);
+        readerArea.html(&#x27;&#x27;);
+        if (!type || type == &#x27;all_load&#x27;) {
+            //loading icon
+            //loading img and reset
+            $(&#x27;.OP_loading&#x27;).remove();
+            $(&#x27;.db_main&#x27;).append(&#x27;&lt;p class=&quot;OP_loading&quot; style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/loading.gif&quot; /&gt;&lt;/p&gt;&#x27;);
+            $(&#x27;.db_cf_class,#db_filelist,.db_noinfo_tips&#x27;).html(&#x27;&#x27;);
+            $(&#x27;.db_cf_title_big&#x27;).hide();
+        }
+        //
+        $.ajax({
+            url : encodeURI(ajaxURL + &#x27;&amp;&#x27; + (+new Date())),
+            success : function(data) {
+                var folderpage = disk.config.database.page || 1;
+                //for thisFolder info
+                if (folderpage &lt;= 1) {
+                    disk.config.thisFolder = data.data;
+                } else {
+                    var olddata = disk.config.thisFolder;
+                    var folders = olddata.folders;
+                    var files = olddata.files;
+                    var newfolders = [];
+                    var newfiles = [];
+
+                    if (folders &amp;&amp; data.data.folders) {
+                        newfolders = folders.concat(data.data.folders);
+                    } else {
+                        newfolders = data.data.folders;
+                    }
+
+                    if (files &amp;&amp; data.data.files) {
+                        newfiles = files.concat(data.data.files);
+                    } else {
+                        newfiles = data.data.files;
+                    }
+
+                    disk.config.thisFolder = {
+                        files : newfiles,
+                        folders : newfolders
+                    };
+                }
+                //if wrong folder return to home
+                if (data.ret !== 200) {
+                    $(&#x27;.OP_loading&#x27;).remove();
+                    $(&#x27;.db_cf_title&#x27;).hide();
+                    $(&#x27;#db_filelist&#x27;).html(&#x27;&#x27;);
+                    $(&#x27;.db_cf_class&#x27;).html(&#x27;&lt;div style=&quot;text-align:center;padding:20px;  color:#666; line-height:30px; &quot;&gt;&lt;p style=&quot;font-size:22px; font-family:Microsoft Yahei;&quot;&gt;看来似乎遇到了些麻烦&lt;/p&gt;&lt;p&gt;您可以尝试：&amp;nbsp;&amp;nbsp;&lt;a href=&quot;/login&quot;&gt;重新登陆&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;javascript:location.reload();&quot;&gt;刷新页面&lt;/a&gt;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;mailto:contact@21campus.cn&quot;&gt;联系管理员&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&#x27;);
+                    return false;
+                }
+
+                if (exp.config.system.firstLoad == false) {
+                    exp.config.system.firstLoad = true;
+                };
+
+                disk.config.database.prem = data.perm || &#x27;&#x27;;
+                //
+                $(&#x27;.OP_loading&#x27;).remove();
+                //
+                var data = data.data;
+                //page&#x27;s display
+                var needPage = disk.config.database.type == &#x27;p&#x27; || disk.config.database.type == &#x27;i&#x27; || disk.config.database.type == &#x27;o&#x27;;
+                var isPageFull = (data.files ? data.files.length : 0) &gt;= disk.config.system.pageList;
+
+                if (data &amp;&amp; (data.folders || data.files)) {
+                    $(&#x27;.db_classify&#x27;).show();
+                    $(&#x27;.OP_nofilesTips&#x27;).html(&#x27;&#x27;);
+                    if (needPage &amp;&amp; isPageFull) {
+                        $(&#x27;.db_showmore&#x27;).html(&#x27;显示更多&#x27;).show();
+                    } else {
+                        $(&#x27;.db_showmore,.db_showmore_none&#x27;).hide();
+                    }
+                } else {
+                    if (folderpage &gt; 1) {
+                        $(&#x27;.db_showmore&#x27;).hide();
+                        $(&#x27;.db_showmore_none&#x27;).show();
+                    } else {
+                        $(&#x27;.db_classify&#x27;).hide();
+                        $(&#x27;.OP_nofilesTips&#x27;).html(nofiles);
+                        $(&#x27;.db_showmore,.db_showmore_none&#x27;).hide();
+                    }
+                }
+
+                if (!type) {
+                    exp.showFolders(data.folders);
+                    exp.showFiles(data.files);
+                    exp.breadCrumb(url);
+                }
+                if (type == &#x27;files&#x27;) {
+                    exp.showFiles(data.files);
+                }
+                if (type == &#x27;floders&#x27;) {
+                    exp.showFolders(data.folders);
+                }
+                if (type == &#x27;all&#x27; || type == &#x27;all_load&#x27;) {
+                    exp.showFolders(data &amp;&amp; data.folders);
+                    exp.showFiles(data &amp;&amp; data.files);
+                    exp.breadCrumb(url);
+                }
+                fn &amp;&amp; fn();
+                //remove the loading icon
+                $(&#x27;.OP_loading&#x27;).remove();
+                $(&#x27;.db_cf_main,.db_cf_class&#x27;).show();
+                exp.getCapacity();
+            }
+        });
+        $(&#x27;.db_main_item&#x27;).hide();
+
+        $(&#x27;.db_r_read,.db_r_times&#x27;).show();
+        $(&#x27;.db_title_r .db_r_hot&#x27;).hide();
+        $(&#x27;.db_title_r .db_r_hot span&#x27;).html(&#x27;&amp;nbsp;&#x27;);
+        $(&#x27;.db_title_r .db_r_share&#x27;).html(&#x27;共享对象&#x27;);
+
+        if (disk.config.database.type == &#x27;a&#x27;) {
+            $(&#x27;.db_r_read,.db_r_times&#x27;).hide();
+        }
+
+        if (disk.config.database.type == &#x27;p&#x27; || disk.config.database.type == &#x27;i&#x27;) {
+            if (disk.config.database.type == &#x27;p&#x27; &amp;&amp; disk.config.database.subtype == &#x27;1&#x27;) {
+                $(&#x27;.db_r_read,.db_r_times&#x27;).hide();
+                $(&#x27;.db_title_r .db_r_hot&#x27;).show();
+                $(&#x27;.db_title_r .db_r_hot span&#x27;).html(&#x27;人气值&#x27;);
+            } else {
+                $(&#x27;.db_r_read,.db_r_times&#x27;).show();
+                $(&#x27;.db_title_r .db_r_hot&#x27;).hide();
+                $(&#x27;.db_title_r .db_r_hot span&#x27;).html(&#x27;&amp;nbsp;&#x27;);
+            }
+            $(&#x27;.db_title_r .db_r_share&#x27;).html(&#x27;共享人&#x27;);
+        }
+    };
+
+    /**
+     * get how many capacity you used
+     * @method getCapacity
+     */
+    exp.getCapacity = function() {
+        $.ajax({
+            url : exp.base.dir + &#x27;/ajax/document/used&#x27;,
+            success : function(data) {
+                var total = 1024 * 1024 * 1024 * 10;
+                var used = 0;
+                if (data.data &lt; 1024) {
+                    used = parseInt(data.data * 100) / 100 + &#x27;B&#x27;;
+                } else if (data.data &lt; 1024 * 1024) {
+                    used = parseInt(data.data / 1024 * 100) / 100 + &#x27;K&#x27;;
+                } else if (data.data &lt; 1024 * 1024 * 1024) {
+                    used = parseInt(data.data / 1024 / 1024 * 100) / 100 + &#x27;M&#x27;;
+                } else if (data.data &lt; 1024 * 1024 * 1024 * 1024) {
+                    used = parseInt(data.data / 1024 / 1024 / 1024 * 100) / 100 + &#x27;G&#x27;;
+                }
+                $(&#x27;.db_memory_ts span&#x27;).html(used);
+                var user = data.data / total;
+                $(&#x27;.db_memory_show&#x27;).css(&#x27;width&#x27;, (user == 0 ? 0 : user &lt; 1 ? 1 : user) + &#x27;%&#x27;);
+            }
+        });
+    };
+
+    /**
+     * @method getTree
+     * @param url {String} The Tree&#x27;s url
+     * @param dom {Object} Where the three show
+     */
+    exp.getTree = (function() {
+        var queue = [];
+        var progress = false;
+        return function(url, dom) {
+            if (dom) {
+                var dom = dom || $(&#x27;#db_alldata&#x27;);
+                //fix the overflow bug
+                dom.attr(&#x27;style&#x27;, &#x27;overflow:hidden; *zoom:1; max-height:480px; overflow-y:auto&#x27;);
+                //if in progerss we add the url to array
+                url ? &#x27;&#x27; : dom.html(&#x27;&lt;p class=&quot;OP_treeloading&quot; style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/loading.gif&quot; style=&quot;margin-left:-200px; position:relative; left:50%;&quot; /&gt;&lt;/p&gt;&#x27;);
+                $.ajax({
+                    url : encodeURI(exp.config.ajax.listThree + &#x27;?uri=&#x27; + (url || &#x27;&#x27;)),
+                    success : function(data) {
+                        var data = data.data;
+                        $(&#x27;.OP_treeloading&#x27;).remove();
+                        url ? exp.showSubTree(data, url, dom) : exp.showThree(data, url, dom);
+                        setTimeout(function() {
+                            exp.fit();
+                        });
+                    }
+                });
+            } else {
+                var dom = $(&#x27;#db_alldata&#x27;);
+                var url = disk.getUrl().url;
+                var where = url.split(&#x27;/&#x27;)[0];
+                //
+                function markselect() {
+                    $(&#x27;#db_alldata&#x27;).find(&#x27;.db_v_title&#x27;).removeClass(&#x27;db_vt_active&#x27;);
+                    if (where == &#x27;&#x27; &amp;&amp; disk.config.database.type == &#x27;a&#x27;) {
+
+                        $(&#x27;.db_column_title &#x27;).eq(0).addClass(&#x27;db_c_t_active&#x27;);
+                    } else {
+
+                        try {
+                            var navpath = decodeURI(where);
+                        } catch(err) {
+                            var navpath = where;
+                        }
+                        if (disk.config.database.type == &#x27;a&#x27;) {
+                            $(&#x27;.db_column_title &#x27;).removeClass(&#x27;db_c_t_active&#x27;);
+                        }
+                        $(&#x27;#db_alldata&#x27;).find(&#x27;.db_v_title[navpath=&quot;&#x27; + navpath + &#x27;&quot;]&#x27;).addClass(&#x27;db_vt_active&#x27;);
+                    }
+                }
+
+                if (dom.find(&#x27;.db_v_title&#x27;).length &lt;= 0 || where == &#x27;&#x27;) {
+                    if (dom.find(&#x27;.db_v_title&#x27;).length &lt;= 0) {
+                        dom.html(&#x27;&lt;p class=&quot;OP_treeloading&quot; style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;&#x27; + exp.base.dir + &#x27;/public/disk/image/loading.gif&quot; style=&quot;margin-left:-200px; position:relative; left:50%;&quot; /&gt;&lt;/p&gt;&#x27;);
+                    };
+
+                    $.ajax({
+                        url : encodeURI(exp.config.ajax.listThree + &#x27;?&#x27; + Math.random()),
+                        success : function(data) {
+                            var data = data.data;
+                            $(&#x27;.OP_treeloading&#x27;).remove();
+                            exp.showThree(data, url, dom);
+                            setTimeout(function() {
+                                markselect();
+                                exp.fit();
+                            });
+                        }
+                    });
+                } else {
+                    markselect();
+                }
+
+            }
+        };
+    })();
+
+    exp.showThree = function(data, url, dom) {
+        if (dom.attr(&#x27;id&#x27;) != &#x27;db_alldata&#x27;) {
+            var treeHtml = [&#x27;&lt;div class=&quot;db_v_title db_bub_move_t db_vt_active&quot;  navpath=&quot;&quot; author=&quot;0&quot;&gt;&lt;span path=&quot;&quot; style=&quot;padding-left:20px;&quot;&gt;所有资料&lt;/span&gt;&lt;/div&gt;&#x27;];
+        } else {
+            var treeHtml = [];
+        }
+        var urlA = url ? url.split(&#x27;/&#x27;) : &#x27;&#x27;;
+        var arrayP = 0;
+        for (i in data) {
+            exp.config.tree[i] = data[i];
+            treeHtml.push(exp.modle.treeTitle.replace(/{(\w+)}/g, function() {
+                var key = arguments[1];
+                if (key == &#x27;open&#x27;) {
+                    return data[i][&#x27;isempty&#x27;] == false ? &#x27;&lt;em class=&quot;db_v_plus icon OP_subnav&quot; pathname=&quot;&#x27; + data[i][&#x27;nm&#x27;] + &#x27;&quot;&gt;&lt;/em&gt;&#x27; : &#x27;&#x27;;
+                }
+                if (key == &#x27;nm&#x27; &amp;&amp; data[i][&#x27;author&#x27;] == 0) {
+                    return data[i][&#x27;alias&#x27;];
+                }
+                if (key == &#x27;realname&#x27;) {
+                    return data[i][&#x27;nm&#x27;];
+                }
+                if (key == &#x27;icon&#x27; &amp;&amp; data[i][&#x27;author&#x27;] == 0) {
+                    switch(data[i][&#x27;nm&#x27;]) {
+                        case &#x27;易备份&#x27;:
+                            return &#x27;db_v_backup&#x27;;
+                        case &#x27;来自网盘&#x27;:
+                            return &#x27;db_v_origin&#x27;;
+                        case &#x27;document&#x27;:
+                            return &#x27;db_v_wd&#x27;;
+                        case &#x27;images&#x27;:
+                            return &#x27;db_v_img&#x27;;
+                        case &#x27;audio&#x27;:
+                            return &#x27;db_v_music&#x27;;
+                        case &#x27;video&#x27;:
+                            return &#x27;db_v_video&#x27;;
+                        case &#x27;teaching material&#x27;:
+                            return &#x27;db_v_jc&#x27;;
+                        case &#x27;work&#x27;:
+                            return &#x27;db_v_zy&#x27;;
+                        case &#x27;other&#x27;:
+                            return &#x27;db_v_else&#x27;;
+                        default :
+                            return &#x27;&#x27;;
+                    }
+                }
+                return data[i][key];
+            }));
+        }
+        dom.html(treeHtml.join(&#x27;&#x27;));
+    };
+
+    exp.showSubTree = function(data, url, dom) {
+        var tar = dom.find(&#x27;div[navpath=&quot;&#x27; + url + &#x27;&quot;]&#x27;);
+        tar.find(&#x27;.db_v_plus&#x27;).removeClass(&#x27;db_close&#x27;).addClass(&#x27;db_open&#x27;);
+        var temp = &#x27;&lt;div class=&quot;db_v_cont&quot; navpath=&quot;{navpath}&quot;&gt;&lt;a class=&quot;db_v_c&quot;&gt; &lt;span&gt;&lt;em class=&quot;db_vc_em icon &quot; {havesub}&gt;&lt;/em&gt;&lt;span class=&quot;db_vc_pathname&quot;&gt;{nm}&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&#x27;;
+        var tarHTML = [];
+        for (i in data) {
+            tarHTML.push(temp.replace(/{(\w+)}/g, function() {
+                var key = arguments[1];
+                if (key == &#x27;havesub&#x27;) {
+                    var width = 20 * (url.split(&#x27;/&#x27;).length) + 20;
+                    return data[i][&#x27;isempty&#x27;] == true ? &#x27; style=&quot;visibility:hidden; margin-left:&#x27; + width + &#x27;px;&quot; &#x27; : &#x27; style=&quot;margin-left:&#x27; + width + &#x27;px;&quot; &#x27;;
+                }
+                if (key == &#x27;navpath&#x27;) {
+                    return url + &#x27;/&#x27; + data[i][&#x27;nm&#x27;];
+                }
+                return data[i][key];
+            }));
+        }
+        tar.next().hasClass(&#x27;db_subnavBox&#x27;) ? tar.next().remove() : &#x27;&#x27;;
+
+        tar.after(&#x27;&lt;div class=&quot;db_subnavBox&quot;&gt;&#x27; + tarHTML.join(&#x27;&#x27;) + &#x27;&lt;/div&gt;&#x27;);
+    };
+
+    exp.treeAction = function() {
+        $(&#x27;#db_alldata&#x27;).on(&#x27;click&#x27;, &#x27;.db_v_title&#x27;, function() {
+            //click title nav
+            var path = $(this).attr(&#x27;navpath&#x27;);
+            exp.switchDatabase(&#x27;a&#x27;, true);
+
+            exp.getList(path);
+        });
+
+        //oepn or close my database
+        $(&#x27;.OP_subicon_all&#x27;).on(&#x27;click&#x27;, function() {
+
+            var that = $(this);
+            that.toggleClass(&#x27;db_open&#x27;).toggleClass(&#x27;db_v_plus&#x27;);
+            $(&#x27;#db_alldata&#x27;).toggle();
+            return false;
+        });
+
+        //choose the type
+        $(&#x27;.db_column_title&#x27;).on(&#x27;click&#x27;, function() {
+            var that = $(this);
+            var type = that.attr(&#x27;ftype&#x27;);
+            var isself = that.hasClass(&#x27;db_vt_active&#x27;);
+            $(&#x27;.db_column_title&#x27;).removeClass(&#x27;db_c_t_active&#x27;);
+            that.addClass(&#x27;db_c_t_active&#x27;);
+
+            if (type == &#x27;i&#x27;) {
+                $(&#x27;.db_group_i&#x27;).find(&#x27;.db_g_c&#x27;).removeClass(&#x27;db_gc_active&#x27;);
+                $(&#x27;.db_group_i&#x27;).find(&#x27;.db_g_c&#x27;).eq(0).addClass(&#x27;db_gc_active&#x27;);
+            }
+
+            exp.switchDatabase(type);
+
+        });
+
+        //thrid action
+        regSubAction($(&#x27;.db_group_i&#x27;), [&#x27;-1&#x27;, &#x27;5&#x27;, &#x27;2&#x27;, &#x27;1&#x27;, &#x27;0&#x27;]);
+        regSubAction($(&#x27;.db_group_p&#x27;), [&#x27;0&#x27;, &#x27;1&#x27;]);
+
+        function regSubAction(dom, typeArray) {
+            var nav_i = dom;
+            var nav_iHandle = nav_i.find(&#x27;.db_g_c&#x27;);
+            nav_i.on(&#x27;click&#x27;, &#x27;.db_g_c&#x27;, function() {
+                var that = $(this);
+                nav_iHandle.removeClass(&#x27;db_gc_active&#x27;);
+                that.addClass(&#x27;db_gc_active&#x27;);
+                var index = nav_iHandle.index($(this));
+                //-1全部，0学校,1学院,2班级,5单用户
+                disk.config.database.subtype = typeArray[index] || &#x27;0&#x27;;
+                //reset the pages
+                disk.config.database.page = 1;
+
+                exp.getList(&#x27;&#x27;, &#x27;all_load&#x27;);
+            });
+        }
+
+        //search
+        $(&#x27;.OP_search_a&#x27;).on(&#x27;click&#x27;, function() {
+            var box = $(this).parent().parent();
+            var key = $.trim(box.find(&#x27;.OP_searchV_a&#x27;).val());
+            var type = box.find(&#x27;.db_class_input&#x27;).attr(&#x27;ftype&#x27;);
+
+            disk.config.database.search = {};
+            disk.config.database.search.page = 1;
+            disk.config.database.search.key = key;
+            disk.config.database.search.type = type || &#x27;all&#x27;;
+            delete disk.config.database.page;
+            $(&#x27;.OP_nofilesTips&#x27;).remove();
+            $(&#x27;#db_filelist,.db_cf_class&#x27;).html(&#x27;&#x27;);
+
+            exp.search();
+            return false;
+        });
+        $(&#x27;.OP_searchV_a&#x27;).on(&#x27;keyup&#x27;, function(e) {
+            if (e.keyCode == 13) {
+                var box = $(this).parent().parent();
+                var type = box.find(&#x27;.db_class_input&#x27;).attr(&#x27;ftype&#x27;);
+                var key = $.trim($(this).val());
+
+                disk.config.database.search = {};
+                disk.config.database.search.page = 1;
+                disk.config.database.search.key = key;
+                disk.config.database.search.type = type || &#x27;all&#x27;;
+                delete disk.config.database.page;
+                $(&#x27;.OP_nofilesTips&#x27;).remove();
+                $(&#x27;#db_filelist,.db_cf_class&#x27;).html(&#x27;&#x27;);
+
+                exp.search();
+            }
+        });
+
+    };
+
+    exp.search = function() {
+
+        var key = disk.config.database.search.key;
+        var type = disk.config.database.search.type;
+        var page = disk.config.database.search.page;
+        var pageOffset = (page - 1) * disk.config.system.pageList;
+
+        disk.setUrl(&#x27;&#x27;);
+        disk.breadCrumb(&#x27;搜索结果：&#x27; + key);
+
+        if (key.length &gt; 0) {
+
+            if (disk.config.database.type == &#x27;a&#x27;) {
+                var url = exp.base.dir + &#x27;/ajax/document/search?dir=&#x27; + disk.getUrl().url + &#x27;&amp;keyword=&#x27; + key + &#x27;&amp;type=&#x27; + type;
+            } else if (disk.config.database.type == &#x27;p&#x27;) {
+                var url = exp.base.dir + &#x27;/ajax/public/search?dir=&#x27; + disk.getUrl().url + &#x27;&amp;keyword=&#x27; + key + &#x27;&amp;type=&#x27; + type;
+            } else if (disk.config.database.type == &#x27;o&#x27;) {
+                var url = exp.base.dir + &#x27;/ajax/share/search?type=1&amp;dir=&#x27; + disk.getUrl().url + &#x27;&amp;keyword=&#x27; + key + &#x27;&amp;type=&#x27; + type;
+            } else if (disk.config.database.type == &#x27;i&#x27;) {
+                var url = exp.base.dir + &#x27;/ajax/share/search?type=0&amp;dir=&#x27; + disk.getUrl().url + &#x27;&amp;keyword=&#x27; + key + &#x27;&amp;type=&#x27; + type;
+            }
+            url += (&#x27;&amp;offset=&#x27; + pageOffset + &#x27;&amp;limit=&#x27; + disk.config.system.pageList);
+
+            $.ajax({
+                //TODO:fixme with pages
+                url : encodeURI(url),
+                success : function(data) {
+
+                    $(&#x27;.db_showmore&#x27;).html(&#x27;显示更多&#x27;);
+
+                    var data = data.data;
+
+                    if (data.folders || data.files) {
+
+                        if (page &lt;= 1) {
+                            var isPageFull = (data.files ? data.files.length : 0) &gt;= disk.config.system.pageList;
+                            if (!isPageFull) {
+                                $(&#x27;.db_showmore&#x27;).hide();
+                            } else {
+                                $(&#x27;.db_showmore&#x27;).show();
+                            }
+                            $(&#x27;#db_filelist&#x27;).html(&#x27;&#x27;);
+                        }
+
+                        exp.showFolders(data.folders);
+                        exp.showFiles(data.files);
+
+                    } else {
+                        if (page &lt;= 1) {
+                            $(&#x27;.db_classify,.db_cf_title&#x27;).hide();
+                            $(&#x27;#db_filelist&#x27;).html(&#x27;&lt;div class=&quot;OP_nofilesTips&quot;&gt;&lt;img src=&quot;&#x27; + disk.base.dir + &#x27;/public/disk/image/nofilessearch.jpg&quot; /&gt;&lt;/div&gt;&#x27;);
+                        } else {
+                            $(&#x27;.db_showmore&#x27;).hide();
+                            $(&#x27;.db_showmore_none&#x27;).show();
+                        }
+                    }
+                }
+            });
+        } else {
+            hm.toast({
+                text : &#x27;搜索关键字不能为空&#x27;
+            });
+        }
+    };
+
+    /**
+     * html templete
+     * @method modle
+     */
+    exp.modle = {
+        /**
+         * @property folders
+         * @type String
+         */
+        folders : (function() {
+            var dom = $(&#x27;#TEP_folder&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })(),
+        /**
+         * @property files
+         * @type String
+         */
+        files : (function() {
+            var dom = $(&#x27;#TEM_list&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })(),
+        /**
+         * @property filesBig
+         * @type String
+         */
+        filesBig : (function() {
+            var dom = $(&#x27;#TEM_listbig&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })(),
+        /**
+         * @property treeTitle
+         * @type String
+         */
+        treeTitle : (function() {
+            var dom = $(&#x27;#TEM_tree_title&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })(),
+        /**
+         * @property shareF
+         * @type String
+         */
+        shareF : (function() {
+            var dom = $(&#x27;#TEM_shareF&#x27;);
+            var html = dom.html();
+            dom.remove();
+            return html;
+        })()
+    };
+
+    /**
+     * show ListClass
+     */
+    exp.SHOWLIST = function(data, tem, showDom, type) {
+        this.data = data;
+        this.dom = showDom;
+        this.tem = tem;
+        this.type = type;
+    };
+
+    exp.SHOWLIST.prototype = {
+        formatDate : function() {
+            var that = this;
+            var dataCount = that.data ? that.data.length : 0;
+            var dataHTML = [];
+            var url = disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;;
+            for (var i = 0; i &lt; dataCount; i++) {
+                if (that.type == &#x27;folders&#x27;) {
+                    var format = that.formatFolders(that.data[i], url);
+                } else {
+                    var format = that.formatFiles(that.data[i], url);
+                }
+                dataHTML.push(format);
+            };
+            $(&#x27;.db_cf_title_big&#x27;).html(&#x27;文档（共&#x27; + dataCount + &#x27;个）&#x27;);
+            this.html = dataHTML;
+        },
+        /**
+         * format folders
+         */
+        formatFolders : function(data, url) {
+            return this.tem.replace(/{(\w+)}/g, function() {
+                var key = arguments[1];
+
+                //TODO:
+                //doc,docx,ppt,pptx,xls,xlsx,pdf
+
+                if (key == &#x27;isShare&#x27;) {
+                    if (data.isdir == &quot;TRUE&quot;) {
+                        return &#x27;&#x27;;
+                    }
+                };
+
+                if (key == &#x27;nm&#x27; &amp;&amp; data.author == 0) {
+                    return data.alias;
+                }
+                if (key == &#x27;rnm&#x27;) {
+                    return data[&#x27;nm&#x27;];
+                }
+                if (key == &#x27;icon&#x27;) {
+                    if (disk.getUrl().url == &#x27;&#x27;) {
+                        switch(data.nm) {
+                            case &#x27;易备份&#x27;:
+                                return &#x27;db_c_backup&#x27;;
+                            case &#x27;来自网盘&#x27;:
+                                return &#x27;db_c_origin&#x27;;
+                            case &#x27;teaching material&#x27;:
+                                return &#x27;db_c_jc&#x27;;
+                            case &#x27;video&#x27;:
+                                return &#x27;db_c_video&#x27;;
+                            case &#x27;images&#x27;:
+                                return &#x27;db_c_img&#x27;;
+                            case &#x27;work&#x27;:
+                                return &#x27;db_c_zy&#x27;;
+                            case &#x27;other&#x27;:
+                                return &#x27;db_c_else&#x27;;
+                            case &#x27;document&#x27;:
+                                return &#x27;db_c_wd&#x27;;
+                            case &#x27;audio&#x27;:
+                                return &#x27;db_c_music&#x27;;
+                            default :
+                                return &#x27;db_c_new&#x27;;
+                        }
+                    } else {
+                        return &#x27;db_c_new&#x27;;
+                    }
+                };
+
+                if (key == &#x27;sys_none&#x27;) {
+                    return data[&#x27;author&#x27;] == 0 ? &#x27; style=&quot;display:none;&quot; &#x27; : &#x27;&#x27;;
+                }
+
+                if (key == &#x27;rpath&#x27;) {
+                    return data[&#x27;path&#x27;];
+                }
+
+                if (key == &#x27;path&#x27;) {
+                    return url + data[&#x27;nm&#x27;];
+                }
+                //for &#x27;o_none&#x27;,&#x27;a_none&#x27; etc. if database type equal the first letter,this display none;
+                var noneReg = /^(\w+)\_none$/.exec(key);
+                if (noneReg &amp;&amp; noneReg[1]) {
+                    var regKey = noneReg[1];
+                    var regLen = regKey.length;
+                    for (var i = 0; i &lt; regLen; i++) {
+                        if (regKey.charAt(i) == disk.config.database.type) {
+                            return &#x27; style=&quot; display:none; &quot; &#x27;;
+                        }
+                    }
+                    return &#x27;&#x27;;
+                }
+
+                if (/^\w\_show$/.test(key)) {
+                    return disk.config.database.type == key.substring(0, 1) ? &#x27; style=&quot; display:block; &quot; &#x27; : &#x27;&#x27;;
+                }
+
+                return data[key] || &#x27;&#x27;;
+            });
+        },
+        /**
+         * format files
+         */
+        formatFiles : function(data, url) {
+            var that = this;
+            return this.tem.replace(/{(\w+)}/g, function() {
+
+                var key = arguments[1];
+                if (key == &#x27;isempty&#x27;) {
+                    if (!data[&#x27;nm&#x27;]) {
+                        return &#x27; style=&quot;display:none;&quot; &#x27;;
+                    }
+                }
+                if (key == &#x27;isShare&#x27;) {
+                    if (data.isdir == &quot;TRUE&quot;) {
+                        return &#x27;&#x27;;
+                    } else {
+                        if (data.readerGroupId !== &#x27;&#x27; &amp;&amp; disk.config.database.type == &#x27;a&#x27;) {
+                            return &#x27; style=&quot;display:block&quot; &#x27;;
+                        } else {
+                            return &#x27; &#x27;;
+                        }
+                    }
+                };
+                //file size
+                if (key == &#x27;size&#x27;) {
+                    var size = data[key];
+                    if (size &lt; 1024) {
+                        return parseInt(size * 100) / 100 + &#x27;B&#x27;;
+                    } else if (size &lt; 1024 * 1024) {
+                        return parseInt(size / 1024 * 100) / 100 + &#x27;KB&#x27;;
+                    } else if (size &lt; 1024 * 1024 * 1024) {
+                        return parseInt(size / 1024 / 1024 * 100) / 100 + &#x27;M&#x27;;
+                    } else {
+                        return parseInt(size / 1024 / 1024 / 1024 * 100) / 100 + &#x27;G&#x27;;
+                    }
+                }
+
+                if (key == &#x27;rpath&#x27;) {
+                    return data[&#x27;path&#x27;];
+                }
+
+                if (key == &#x27;goldv&#x27;) {
+                    return data[&#x27;gold&#x27;];
+                }
+                if (key == &#x27;shitv&#x27;) {
+                    return data[&#x27;shit&#x27;];
+                }
+
+                //
+                if (key == &#x27;gold&#x27; &amp;&amp; disk.config.database.subtype !== &#x27;1&#x27; &amp;&amp; disk.getCookie(&#x27;listStyle&#x27;) !== &#x27;big&#x27;) {
+                    return &#x27;&amp;nbsp;&#x27;;
+                }
+
+                if (key == &#x27;p1_none&#x27;) {
+                    return disk.config.database.subtype == &#x27;1&#x27; ? &#x27; style=&quot;display:none;&quot; &#x27; : &#x27;&#x27;;
+                }
+
+                if (key == &#x27;readerGroupId&#x27;) {
+                    if (disk.config.database.type == &#x27;p&#x27;) {
+                        return data[&#x27;owner&#x27;][&#x27;nick&#x27;];
+                    } else if (disk.config.database.type == &#x27;i&#x27;) {
+                        return data[&#x27;owner_name&#x27;];
+                    } else {
+                        var key = data[key];
+                        var keyA = key &amp;&amp; key.split(&#x27;,&#x27;) || [];
+                        var type = keyA[0];
+
+                        var typeObj = {
+                            &#x27;C&#x27; : &#x27;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;OP_shareC&quot; sid=&quot;&#x27; + (data[&#x27;sid&#x27;] || 0) + &#x27;&quot; filename=&quot;&#x27; + data[&#x27;nm&#x27;] + &#x27;&quot;&gt;指定的班级&lt;/a&gt;&#x27;,
+                            &#x27;D&#x27; : &#x27;同一学院&#x27;,
+                            &#x27;S&#x27; : &#x27;同一学校&#x27;,
+                            &#x27;u&#x27; : &#x27;公开&#x27;,
+                            &#x27;U&#x27; : &#x27;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;OP_shareF&quot; sid=&quot;&#x27; + (data[&#x27;sid&#x27;] || 0) + &#x27;&quot; filename=&quot;&#x27; + data[&#x27;nm&#x27;] + &#x27;&quot;&gt;指定好友&lt;/a&gt;&#x27;
+                        };
+
+                        if ((type == &#x27;U&#x27; &amp;&amp; keyA[1] == disk.getCookie(&#x27;db_uid&#x27;)) || (type == &#x27;F&#x27; &amp;&amp; keyA[1] == &#x27;-1&#x27;)) {
+                            return &#x27;全部好友&#x27;;
+                        }
+
+                        if (type == &#x27;u&#x27; &amp;&amp; parseInt(keyA[1]) == 0) {
+                            return &#x27;公开&#x27;;
+                        }
+
+                        return typeObj[type] || &#x27;不共享&#x27;;
+                    }
+                }
+
+                if (key == &#x27;fileorforder&#x27;) {
+                    if (data[&#x27;type&#x27;] == &#x27;.folder&#x27;) {
+                        return &#x27;db_folder_name_link&#x27;;
+                    } else {
+                        return &#x27;db_file_name_link&#x27;;
+                    }
+                }
+
+                if (key == &#x27;imgthumb&#x27;) {
+
+                    var dataType = data[&#x27;type&#x27;].toString().toLowerCase();
+
+                    if (dataType == &#x27;.jpg&#x27; || dataType == &#x27;.png&#x27; || dataType == &#x27;.gif&#x27;) {
+                        var thumb = data[&#x27;location&#x27;] + &#x27;/thumb&#x27;;
+                        return &#x27;&lt;div class=&quot;db_wd_imgthumb&quot; style=&quot;background-image:url(\&#x27;&#x27; + thumb + &#x27;\&#x27;);&quot;&gt;&lt;/div&gt;&#x27;;
+                    } else {
+                        return &#x27;&#x27;;
+                    }
+                }
+                //file type
+                if (key == &#x27;icon&#x27;) {
+                    if ( typeof (that.type) == &#x27;object&#x27;) {
+                        var base = &#x27;db_wd_&#x27;;
+                    } else {
+                        var base = &#x27;db_class_&#x27;;
+                    }
+
+                    switch(data[&#x27;type&#x27;].toString().toLowerCase()||&#x27;&#x27;) {
+                        case &#x27;.folder&#x27;:
+                            return base + &#x27;folder&#x27;;
+                        case &#x27;.doc&#x27;:
+                            return base + &#x27;doc&#x27;;
+                        case &#x27;.zip&#x27;:
+                            return base + &#x27;zip&#x27;;
+                        case &#x27;.psd&#x27;:
+                            return base + &#x27;psd&#x27;;
+                        case &#x27;.ai&#x27;:
+                            return base + &#x27;ai&#x27;;
+                        case &#x27;.swf&#x27;:
+                            return base + &#x27;swf&#x27;;
+                        case &#x27;.fla&#x27;:
+                            return base + &#x27;fla&#x27;;
+                        case &#x27;.mp3&#x27;:
+                            return base + &#x27;mp3&#x27;;
+                        case &#x27;.pdf&#x27;:
+                            return base + &#x27;pdf&#x27;;
+                        case &#x27;.wma&#x27;:
+                            return base + &#x27;wma&#x27;;
+                        case &#x27;.htm&#x27;:
+                            return base + &#x27;htm&#x27;;
+                        case &#x27;.html&#x27;:
+                            return base + &#x27;html&#x27;;
+                        case &#x27;.xls&#x27;:
+                            return base + &#x27;xls&#x27;;
+                        case &#x27;.txt&#x27;:
+                            return base + &#x27;txt&#x27;;
+                        case &#x27;.png&#x27;:
+                            return base + &#x27;png&#x27;;
+                        case &#x27;.jpg&#x27;:
+                            return base + &#x27;jpg&#x27;;
+                        case &#x27;.rar&#x27;:
+                            return base + &#x27;rar&#x27;;
+                        case &#x27;.mp4&#x27;:
+                            return base + &#x27;mp4&#x27;;
+                        case &#x27;.bmp&#x27;:
+                            return base + &#x27;bmp&#x27;;
+                        case &#x27;.asf&#x27;:
+                            return base + &#x27;asf&#x27;;
+                        case &#x27;.asx&#x27;:
+                            return base + &#x27;asx&#x27;;
+                        case &#x27;.ppt&#x27;:
+                            return base + &#x27;ppt&#x27;;
+                        case &#x27;.gif&#x27;:
+                            return base + &#x27;gif&#x27;;
+                        default:
+                            return base + &#x27;unknown&#x27;;
+                    }
+
+                }
+                //file visite
+                if (key == &#x27;visit&#x27; || key == &#x27;down&#x27;) {
+                    if (data[key] == false) {
+                        return &#x27;--&#x27;;
+                    } else {
+                        return data[key] || &#x27;--&#x27;;
+                    }
+                }
+                //is marked gold
+                if (key == &#x27;isup_a&#x27;) {
+                    return data[&#x27;isup&#x27;] == 1 ? &#x27;db_lauded&#x27; : &#x27;db_laud&#x27;;
+                }
+                if (key == &#x27;isup_t&#x27;) {
+                    return data[&#x27;isup&#x27;] == 1 ? &#x27;已赞&#x27; : &#x27;赞&#x27;;
+                }
+                if (key == &#x27;isdown_a&#x27;) {
+                    return data[&#x27;isdown&#x27;] == 1 ? &#x27;db_treaded&#x27; : &#x27;db_tread&#x27;;
+                }
+                if (key == &#x27;isdown_t&#x27;) {
+                    return data[&#x27;isdown&#x27;] == 1 ? &#x27;已踩&#x27; : &#x27;踩&#x27;;
+                }
+
+                if (key == &#x27;path&#x27;) {
+                    return url + data[&#x27;nm&#x27;];
+                }
+
+                //for &#x27;o_none&#x27;,&#x27;a_none&#x27; etc. if database type equal the first letter,this display none;
+                var noneReg = /^(\w+)\_none$/.exec(key);
+                if (noneReg &amp;&amp; noneReg[1]) {
+                    var regKey = noneReg[1];
+                    var regLen = regKey.length;
+                    for (var i = 0; i &lt; regLen; i++) {
+                        if (regKey.charAt(i) == disk.config.database.type) {
+                            return &#x27; style=&quot; display:none; &quot; &#x27;;
+                        }
+                    }
+                    return &#x27;&#x27;;
+                }
+
+                if (/^\w\_show$/.test(key)) {
+                    return disk.config.database.type == key.substring(0, 1) ? &#x27; style=&quot; display:block; &quot; &#x27; : &#x27;&#x27;;
+                }
+
+                return data[key] == 0 ? &#x27;0&#x27; : (data[key] || &#x27;&#x27;);
+            });
+        },
+        showDate : function() {
+            var pages = disk.config.database.page || disk.config.database.search &amp;&amp; disk.config.database.search.page || 1;
+            if (!this.html) {
+                this.formatDate();
+            }
+            if (pages &gt; 1) {
+                this.dom.append(this.html.join(&#x27;&#x27;));
+            } else {
+                this.dom.html(this.html.join(&#x27;&#x27;));
+            }
+        }
+    };
+
+    /**
+     * Show the Folders
+     * @param {Object} data
+     */
+    exp.showFolders = function(data) {
+        if (data) {
+            var show = new exp.SHOWLIST(data, exp.modle.folders, $(&#x27;.db_cf_class&#x27;), &#x27;folders&#x27;);
+            show.showDate();
+        } else {
+            var pages = disk.config.database.page || disk.config.database.search &amp;&amp; disk.config.database.search.page || 1;
+            if (pages &lt;= 1) {
+                $(&#x27;.db_cf_class&#x27;).html(&#x27;&#x27;);
+            }
+        }
+    };
+
+    /**
+     * Show the filesList
+     * @param {Object} data
+     */
+    exp.showFiles = function(data) {
+        if (data &amp;&amp; data.length &gt; 0) {
+            isbig = disk.getCookie(&#x27;listStyle&#x27;) == &#x27;big&#x27;;
+            //contorl the files title for files title
+            isbig ? ($(&#x27;.db_cf_title&#x27;).hide(), $(&#x27;.db_cf_title_big&#x27;).show()) : ($(&#x27;.db_cf_title&#x27;).show(), $(&#x27;.db_cf_title_big&#x27;).hide());
+            //readen modle
+            var model = isbig ? exp.modle.filesBig : exp.modle.files;
+            var rtype = isbig ? {
+                type : &#x27;files&#x27;,
+                icon : &#x27;big&#x27;
+            } : &#x27;files&#x27;;
+
+            //show the list , judged by the type
+            var show = new exp.SHOWLIST(data, model, $(&#x27;#db_filelist&#x27;), rtype);
+            show.showDate();
+        } else {
+            var pages = disk.config.database.page || disk.config.database.search &amp;&amp; disk.config.database.search.page || 1;
+            if (pages &lt;= 1) {
+                $(&#x27;.db_cf_title,.db_cf_title_big&#x27;).hide();
+                $(&#x27;#db_filelist&#x27;).html(&#x27;&#x27;);
+            }
+        }
+    };
+
+    exp.breadCrumb = function(url) {
+        var temp = &#x27;&lt;a class=&quot;db_nav_j&quot;&gt;&gt;&lt;/a&gt;&lt;a href=&quot;#&quot; class=&quot;db_nav_choice db_nav_active OP_breadcrumb&quot; path=&quot;{path} &quot; title=&quot;{name}&quot;&gt;{name}&lt;/a&gt;&#x27;;
+        var backIcon = $(&#x27;.db_nav_back&#x27;);
+        var url = url ? url.split(&#x27;/&#x27;) : &#x27;&#x27;;
+        if (disk.config.database.type != &#x27;a&#x27;) {
+            url &amp;&amp; url.shift();
+        }
+        var urlL = url.length;
+        var path = &#x27;&#x27;;
+        var key = &#x27;&#x27;;
+
+        function saidmane(name) {
+            switch($.trim(name)) {
+                case &#x27;document&#x27;:
+                    return &#x27;我的文档&#x27;;
+                case &#x27;images&#x27;:
+                    return &#x27;我的图片&#x27;;
+                case &#x27;audio&#x27;:
+                    return &#x27;我的音频&#x27;;
+                case &#x27;video&#x27;:
+                    return &#x27;我的视频&#x27;;
+                case &#x27;teaching%20material&#x27;:
+                    return &#x27;我的教材&#x27;;
+                case &#x27;teaching material&#x27;:
+                    return &#x27;我的教材&#x27;;
+                case &#x27;work&#x27;:
+                    return &#x27;我的作业&#x27;;
+                case &#x27;other&#x27;:
+                    return &#x27;其他&#x27;;
+                default:
+                    return name;
+            }
+        }
+
+        switch (disk.config.database.type) {
+            case &#x27;a&#x27;:
+                key = &#x27;所有资料&#x27;;
+                break;
+            case &#x27;i&#x27;:
+                key = &#x27;共享给我&#x27;;
+                break;
+            case &#x27;o&#x27;:
+                key = &#x27;我的共享&#x27;;
+                break;
+            case &#x27;p&#x27;:
+                key = &#x27;公共资源&#x27;;
+                break;
+        };
+
+        var urlHTML = [&#x27;&lt;a href=&quot;/&quot; class=&quot;db_nav_choice OP_breadcrumb&quot; path=&quot;&quot;&gt;&#x27; + key + &#x27;&lt;/a&gt;&#x27;];
+
+        if (urlL) {
+            backIcon.removeClass(&#x27;db_nav_backed&#x27;);
+
+            //if the berad&#x27;s block is more than the space&#x27;s width, ellipsis the redundant.
+            var maxBlock = parseInt(($(&#x27;.db_main_nav&#x27;).width() - 200) / 170);
+            maxBlock = 4;
+            var start = urlL &gt; maxBlock ? urlL - maxBlock : 0;
+
+            if (urlL &gt; maxBlock) {
+                urlHTML.push(&#x27;&lt;a class=&quot;db_nav_j&quot;&gt;&gt;&lt;/a&gt;&lt;span title=&quot;隐藏了&#x27; + start + &#x27;个目录&quot;&gt;...&lt;/span&gt;&#x27;);
+
+                for (var i = 0; i &lt; start; i++) {
+                    path += url[i] + &#x27;/&#x27;;
+                }
+            }
+
+            for (var i = start; i &lt; urlL - 1; i++) {
+                path += url[i] + &#x27;/&#x27;;
+                urlHTML.push(temp.replace(/{(\w+)}/g, function() {
+                    var key = arguments[1];
+
+                    if (key == &#x27;name&#x27;) {
+                        if (i == 0) {
+                            return saidmane(url[i]);
+                        }
+                        try {
+                            retUrl = decodeURI(url[i]);
+                        } catch(err) {
+                            retUrl = url[i];
+                        };
+                        return retUrl;
+                    }
+                    if (key == &#x27;path&#x27;) {
+                        return path.replace(/\/$/, &#x27;&#x27;);
+                    }
+                }));
+            }
+
+            var lastName = url[urlL - 1];
+
+            if (urlL == 1) {
+                lastName = saidmane(lastName);
+            }
+            urlHTML.push(&#x27;&lt;a class=&quot;db_nav_j&quot;&gt;&gt;&lt;/a&gt; &lt;a href=&quot;javascript:void(0)&quot; class=&quot;db_nav_j&quot; title=&quot;&#x27; + lastName + &#x27;&quot;&gt;&#x27; + lastName + &#x27;&lt;/a&gt;&#x27;);
+        } else {
+            backIcon.addClass(&#x27;db_nav_backed&#x27;);
+        }
+        $(&#x27;.db_breadcrumb&#x27;).html(urlHTML.join(&#x27;&#x27;));
+
+    };
+    /**
+     * fit the left aside and main-area&#x27;s height
+     */
+    exp.fit = function() {
+        var maxHeight = document.body.clientHeight - 50;
+        $(&#x27;.db_main,.db_sidebar&#x27;).css(&#x27;height&#x27;, maxHeight);
+        var sideHeight = $(&#x27;.db_sidebar_top&#x27;).height() + 55;
+        if (sideHeight &gt; maxHeight) {
+            $(&#x27;.db_memory&#x27;).css(&#x27;position&#x27;, &#x27;relative&#x27;);
+        } else {
+            $(&#x27;.db_memory&#x27;).css(&#x27;position&#x27;, &#x27;absolute&#x27;);
+        }
+    };
+
+    /**
+     * switch whice database you want show (all,share to me,my share,public)
+     * type {string}  &#x27;a&#x27;|&#x27;i&#x27;|&#x27;o&#x27;|&#x27;p&#x27;
+     */
+    exp.switchDatabase = function(type, norefresh) {
+        var dbConfig = disk.config.database;
+        disk.setUrl(&#x27;&#x27;, type);
+        disk.config.database = {};
+        disk.config.database.type = type || &#x27;a&#x27;;
+        //for the search title
+        $(&#x27;.OP_navsearch&#x27;).hide();
+        $(&#x27;.db_group_&#x27; + disk.config.database.type).show();
+        //init
+        if (!norefresh) {
+            disk.getList(exp.getUrl().url, &#x27;all_load&#x27;);
+        }
+        return true;
+        // }
+    };
+
+    /**
+     * switch the file list&#x27;s icon
+     */
+    exp.listSwitch = function(type) {
+        exp.setCookie(&#x27;listStyle&#x27;, type);
+    };
+
+    /**
+     * sort the list
+     */
+    exp.sort = function() {
+        var sort = disk.config.database.sort = disk.config.database.sort || {};
+        var type = sort.type;
+        var method = sort.method;
+
+        var sortIcon = $(&#x27;.OP_sort&#x27;);
+
+        $(&#x27;.db_r_hot&#x27;).on(&#x27;click&#x27;, function() {
+            switchSort.call(this, &#x27;down&#x27;);
+        });
+        $(&#x27;.db_r_read&#x27;).on(&#x27;click&#x27;, function() {
+            switchSort.call(this, &#x27;visit&#x27;);
+        });
+        $(&#x27;.db_r_times&#x27;).on(&#x27;click&#x27;, function() {
+            var type = &#x27;down&#x27;;
+            if (disk.config.database.type == &#x27;p&#x27;) {
+                type = &#x27;up&#x27;;
+            }
+            switchSort.call(this, type);
+        });
+        $(&#x27;.db_r_size&#x27;).on(&#x27;click&#x27;, function() {
+            switchSort.call(this, &#x27;size&#x27;);
+        });
+        $(&#x27;.db_r_updata&#x27;).on(&#x27;click&#x27;, function() {
+            switchSort.call(this, &#x27;createdTime&#x27;);
+        });
+
+        switchSort = function(sortType) {
+            var that = $(this);
+
+            if (type == sortType) {
+                method = method === 1 ? 0 : 1;
+            } else {
+                type = sortType;
+                method = 1;
+            }
+
+            sortIcon.hide();
+
+            if (method === 1) {
+                if (sortType == &#x27;createdTime&#x27;) {
+                    that.find(&#x27;.icon&#x27;).removeClass(&#x27;db_updata_up&#x27;).addClass(&#x27;db_updata_down&#x27;).show();
+                } else {
+                    that.find(&#x27;.icon&#x27;).removeClass(&#x27;db_updata_down&#x27;).addClass(&#x27;db_updata_up&#x27;).show();
+                }
+            } else {
+                if (sortType == &#x27;createdTime&#x27;) {
+                    that.find(&#x27;.icon&#x27;).removeClass(&#x27;db_updata_down&#x27;).addClass(&#x27;db_updata_up&#x27;).show();
+                } else {
+                    that.find(&#x27;.icon&#x27;).removeClass(&#x27;db_updata_up&#x27;).addClass(&#x27;db_updata_down&#x27;).show();
+                }
+            }
+            disk.config.database.sort = {
+                type : type,
+                method : method
+            };
+            disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+        };
+    };
+
+    /**
+     *  browser the floders
+     */
+    exp.treeBrowse = function() {
+        $(&#x27;.db_cf_class&#x27;).on(&#x27;click&#x27;, &#x27;.db_class_oparea&#x27;, function() {
+            var that = $(this);
+            var name = that.find(&#x27;span[sname]&#x27;).attr(&#x27;sname&#x27;);
+            var url = exp.getUrl().url + &#x27;/&#x27; + name;
+            //reader url and get the next url
+            if (disk.config.database.type == &#x27;o&#x27;) {
+                var uri = that.attr(&#x27;path&#x27;) || &#x27;&#x27;;
+                exp.getList({
+                    url : url,
+                    uri : uri
+                });
+            } else {
+                exp.getList(url);
+            }
+            return false;
+        });
+
+        $(&#x27;.db_nav_back&#x27;).on(&#x27;click&#x27;, function() {
+            var url = disk.getUrl().url;
+            if (url) {
+                var urlA = url.split(&#x27;/&#x27;);
+                urlA.pop();
+
+                if (disk.config.database.type != &#x27;a&#x27; &amp;&amp; urlA.length &lt;= 1) {
+                    exp.getList();
+                    return false;
+                }
+                if (urlA.length &gt; 0) {
+                    var furl = urlA.join(&#x27;/&#x27;);
+                    exp.getList(furl);
+                } else {
+                    exp.getList();
+                }
+            }
+            return false;
+        });
+
+        $(&#x27;.db_main_nav&#x27;).on(&#x27;click&#x27;, &#x27;.OP_breadcrumb&#x27;, function() {
+            var that = $(this);
+            var path = that.attr(&#x27;path&#x27;);
+            exp.getList(path, &#x27;all&#x27;);
+            return false;
+        });
+
+        //double click to preview the file
+        $(&#x27;.db_main&#x27;).on(&#x27;dblclick&#x27;, &#x27;.db_cf_file&#x27;, function(event) {
+            var sid = $(this).attr(&#x27;sid&#x27;);
+            sid = sid ? sid + &#x27;/&#x27; : &#x27;&#x27;;
+            path = sid + $(this).attr(&#x27;path&#x27;);
+            fc.preview(path);
+            return false;
+        });
+
+        //folder reader
+        $(&#x27;#db_filelist&#x27;).on(&#x27;click&#x27;, &#x27;.db_folder_name_link&#x27;, function() {
+            var that = $(this);
+            var sid = that.attr(&#x27;sid&#x27;);
+            var filename = that.attr(&#x27;filename&#x27;);
+            //var url = (disk.getUrl().url ? &#x27;&#x27; : sid+&#x27;/&#x27;) + disk.getUrl().url +&#x27;/&#x27;+ filename;
+            var url = disk.getUrl().url + ( sid ? sid + &#x27;/&#x27; : &#x27;/&#x27;) + filename;
+            exp.getList({
+                url : url,
+                &#x27;id&#x27; : sid
+            });
+            return false;
+        });
+    };
+
+    exp.action = function() {
+        //add the switch action
+        $(&#x27;.db_s_change&#x27;).on(&#x27;click&#x27;, &#x27;.OP_listStyle&#x27;, function() {
+            var that = $(this);
+            var listStyle = that.parent().find(&#x27;.OP_listStyle&#x27;);
+            var clickIndex = listStyle.index($(this));
+            listStyle.removeClass(&#x27;db_s_active&#x27;);
+            that.addClass(&#x27;db_s_active&#x27;);
+            if (clickIndex == 0) {
+                exp.listSwitch(&#x27;normal&#x27;);
+                $(&#x27;.OP_listStyle&#x27;).removeClass(&#x27;db_s_active&#x27;);
+                $(&#x27;.db_s_change&#x27;).find(&#x27;.OP_listStyle:eq(0)&#x27;).addClass(&#x27;db_s_active&#x27;);
+            } else {
+                exp.listSwitch(&#x27;big&#x27;);
+                $(&#x27;.OP_listStyle&#x27;).removeClass(&#x27;db_s_active&#x27;);
+                $(&#x27;.db_s_change&#x27;).find(&#x27;.OP_listStyle:eq(1)&#x27;).addClass(&#x27;db_s_active&#x27;);
+            }
+            disk.config.database.page = 1;
+            //FIXME:can&#x27;t reloda the data,if in search modle
+            disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+        });
+        //click blank place cancle all the choose files or folders
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;#db_filelist,.db_cf_class,.OP_filelist_fat&#x27;, function(e) {
+            if (this == e.target, e.target) {
+                select.removeAll();
+            }
+        });
+
+        //
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;.OP_isgood&#x27;, function() {
+            var that = $(this);
+            //mark good
+            if (that.attr(&#x27;done&#x27;) == &#x27;0&#x27;) {
+                var id = that.attr(&#x27;sid&#x27;);
+                isGold(id, that);
+            } else {
+                return false;
+            };
+
+        }).on(&#x27;mouseenter&#x27;, &#x27;.OP_isgood&#x27;, function() {
+            var that = $(this);
+            var ismarked = that.attr(&#x27;done&#x27;);
+            if (ismarked == &#x27;0&#x27;) {
+                that.find(&#x27;b&#x27;).html(&#x27;赞&#x27;);
+            } else {
+                that.find(&#x27;b&#x27;).html(&#x27;已赞&#x27;);
+            }
+        }).on(&#x27;mouseleave&#x27;, &#x27;.OP_isgood&#x27;, function() {
+            var that = $(this);
+            var num = that.attr(&#x27;val&#x27;);
+            that.find(&#x27;b&#x27;).html(num);
+        });
+        $(&#x27;.db_main&#x27;).on(&#x27;click&#x27;, &#x27;.OP_isshit&#x27;, function() {
+            var that = $(this);
+            //mark shit
+            if (that.attr(&#x27;done&#x27;) == &#x27;0&#x27;) {
+                var id = that.attr(&#x27;sid&#x27;);
+                isShit(id, that);
+            } else {
+                return false;
+            }
+        }).on(&#x27;mouseenter&#x27;, &#x27;.OP_isshit&#x27;, function() {
+            var that = $(this);
+            var ismarked = that.attr(&#x27;done&#x27;);
+            if (ismarked == &#x27;0&#x27;) {
+                that.find(&#x27;b&#x27;).html(&#x27;踩&#x27;);
+            } else {
+                that.find(&#x27;b&#x27;).html(&#x27;已踩&#x27;);
+            }
+        }).on(&#x27;mouseleave&#x27;, &#x27;.OP_isshit&#x27;, function() {
+            var that = $(this);
+            var num = that.attr(&#x27;val&#x27;);
+            that.find(&#x27;b&#x27;).html(num);
+        });
+
+        // $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_laud&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html(&#x27;赞&#x27;);
+        // }).on(&#x27;mouseleave&#x27;, &#x27;.db_laud&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html($(this).attr(&#x27;val&#x27;));
+        // }).on(&#x27;click&#x27;, &#x27;.db_laud&#x27;, function() {
+        // var id = $(this).attr(&#x27;sid&#x27;);
+        // isGold(id, $(this), &#x27;list&#x27;);
+        // return false;
+        // });
+
+        // $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_lauded&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html(&#x27;已赞&#x27;);
+        // }).on(&#x27;mouseleave&#x27;, &#x27;.db_lauded&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html($(this).attr(&#x27;val&#x27;));
+        // });
+
+        // $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_tread&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html(&#x27;踩&#x27;);
+        // }).on(&#x27;mouseleave&#x27;, &#x27;.db_tread&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html($(this).attr(&#x27;val&#x27;));
+        // }).on(&#x27;click&#x27;, &#x27;.db_tread&#x27;, function() {
+        // var id = $(this).attr(&#x27;sid&#x27;);
+        // isShit(id, $(this), &#x27;list&#x27;);
+        // return false;
+        // });
+
+        // $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.db_treaded&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html(&#x27;已踩&#x27;);
+        // }).on(&#x27;mouseleave&#x27;, &#x27;.db_treaded&#x27;, function() {
+        // $(this).find(&#x27;b&#x27;).html($(this).attr(&#x27;val&#x27;));
+        // });
+
+        //isgold
+        function isGold(id, dom, type) {
+            $.ajax({
+                url : encodeURI(exp.base.dir + &#x27;/ajax/public/vote?id=&#x27; + id + &#x27;&amp;value=1&#x27;),
+                success : function(data) {
+                    if (data.ret == &#x27;200&#x27;) {
+                        if (type == &#x27;list&#x27;) {
+
+                            dom.siblings().removeClass(&#x27;db_tread&#x27;).addClass(&#x27;db_treaded&#x27;);
+                            dom.removeClass(&#x27;db_laud&#x27;).addClass(&#x27;db_lauded&#x27;);
+                            dom.find(&#x27;b&#x27;).html(&#x27;已赞&#x27;);
+
+                            var thisDom = dom;
+                            var otherDom = dom.parent().find(&#x27;.db_file_lt&#x27;).eq(1);
+                            otherDom.removeClass(&#x27;db_treaded&#x27;).addClass(&#x27;db_tread&#x27;);
+
+                            if (otherDom.attr(&#x27;done&#x27;) == 1) {
+                                var afterNum = (parseInt(otherDom.attr(&#x27;val&#x27;)) &lt; 1 ? 0 : parseInt(otherDom.attr(&#x27;val&#x27;)) - 1);
+                                otherDom.attr(&#x27;val&#x27;, afterNum);
+                                otherDom.find(&#x27;b&#x27;).html(afterNum);
+                                otherDom.attr(&#x27;done&#x27;, 0);
+                            }
+
+                            thisDom.attr(&#x27;val&#x27;, parseInt(thisDom.attr(&#x27;val&#x27;)) + 1);
+
+                        } else {
+                            var oldV = parseInt(dom.attr(&#x27;val&#x27;));
+                            dom.attr(&#x27;val&#x27;, oldV + 1);
+                            dom.find(&#x27;b&#x27;).html(oldV);
+                            setTimeout(function() {
+                                dom.find(&#x27;b&#x27;).html(oldV + 1);
+
+                                tar = dom.parent().find(&#x27;.OP_isshit[done=&quot;1&quot;]&#x27;);
+                                if (tar.length &gt; 0) {
+                                    tarN = parseInt(tar.attr(&#x27;val&#x27;));
+                                    tar.find(&#x27;b&#x27;).html(tarN - 1);
+                                    tar.attr({
+                                        &#x27;val&#x27; : tarN - 1,
+                                        &#x27;done&#x27; : 0
+                                    });
+                                }
+
+                            }, 300);
+                        }
+                        dom.attr(&#x27;done&#x27;, &#x27;1&#x27;);
+                    } else {
+                        alert(disk.config.error[data.ret] || &#x27;未知错误&#x27;);
+                    }
+                }
+            });
+        }
+
+        //isshit
+        function isShit(id, dom, type) {
+            $.ajax({
+                url : encodeURI(exp.base.dir + &#x27;/ajax/public/vote?id=&#x27; + id + &#x27;&amp;value=0&#x27;),
+                success : function(data) {
+                    if (data.ret == &#x27;200&#x27;) {
+                        if (type == &#x27;list&#x27;) {
+                            dom.siblings().removeClass(&#x27;db_laud&#x27;).addClass(&#x27;db_lauded&#x27;);
+                            dom.removeClass(&#x27;db_tread&#x27;).addClass(&#x27;db_treaded&#x27;);
+                            dom.find(&#x27;b&#x27;).html(&#x27;已踩&#x27;);
+
+                            var thisDom = dom;
+                            var otherDom = dom.parent().find(&#x27;.db_file_lt&#x27;).eq(0);
+
+                            if (otherDom.attr(&#x27;done&#x27;) == 1) {
+                                var afterNum = (parseInt(otherDom.attr(&#x27;val&#x27;)) &lt; 1 ? 0 : parseInt(otherDom.attr(&#x27;val&#x27;)) - 1);
+                                otherDom.attr(&#x27;val&#x27;, afterNum);
+                                otherDom.find(&#x27;b&#x27;).html(afterNum);
+                                otherDom.attr(&#x27;done&#x27;, 0);
+                            }
+                            otherDom.removeClass(&#x27;db_lauded&#x27;).addClass(&#x27;db_laud&#x27;);
+
+                            thisDom.attr(&#x27;val&#x27;, parseInt(thisDom.attr(&#x27;val&#x27;)) + 1);
+
+                        } else {
+                            var oldV = parseInt(dom.attr(&#x27;val&#x27;));
+                            dom.attr(&#x27;val&#x27;, oldV + 1);
+                            dom.find(&#x27;b&#x27;).html(oldV);
+                            setTimeout(function() {
+                                dom.find(&#x27;b&#x27;).html(oldV + 1);
+
+                                tar = dom.parent().find(&#x27;.OP_isgood[done=&quot;1&quot;]&#x27;);
+                                if (tar.length &gt; 0) {
+                                    tarN = parseInt(tar.attr(&#x27;val&#x27;));
+                                    tar.find(&#x27;b&#x27;).html(tarN - 1);
+                                    tar.attr({
+                                        &#x27;val&#x27; : tarN - 1,
+                                        &#x27;done&#x27; : 0
+                                    });
+                                }
+
+                            }, 300);
+                        }
+                        dom.attr(&#x27;done&#x27;, &#x27;1&#x27;);
+                    } else {
+                        alert(disk.config.error[data.ret] || &#x27;未知错误&#x27;);
+                    }
+                }
+            });
+        }
+
+        //scroll
+        var topShow = false;
+        $(&#x27;.db_main&#x27;).on(&#x27;scroll&#x27;, function() {
+            var that = $(this);
+            if (that.scrollTop() &gt; 500) {
+                if (topShow == false) {
+                    $(&#x27;.db_backTop&#x27;).stop().animate({
+                        &#x27;bottom&#x27; : &#x27;10px&#x27;
+                    });
+                    topShow = true;
+                }
+            } else {
+                if (topShow) {
+                    $(&#x27;.db_backTop&#x27;).stop().animate({
+                        &#x27;bottom&#x27; : &#x27;-100px&#x27;
+                    });
+                    topShow = false;
+                }
+            }
+        });
+
+        $(&#x27;.db_backTop&#x27;).on(&#x27;click&#x27;, function() {
+            topShow = false;
+            $(&#x27;.db_main&#x27;).scrollTop(0);
+            $(&#x27;.db_backTop&#x27;).stop().animate({
+                &#x27;bottom&#x27; : document.body.clientHeight + 100
+            }, 400, function() {
+                $(&#x27;.db_backTop&#x27;).css({
+                    &#x27;bottom&#x27; : &#x27;-100px&#x27;
+                });
+            });
+        });
+
+        //get the share info
+        var ftime = 0;
+        var fhtime = 0;
+        $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.OP_shareF&#x27;, function() {
+            var that = this;
+            ftime = setTimeout(function() {
+                getShare.apply(that, arguments);
+            }, 200);
+            return false;
+        }).on(&#x27;mouseleave&#x27;, &#x27;.OP_shareF&#x27;, function() {
+            fhtime = setTimeout(function() {
+                $(&#x27;#OP_showShare&#x27;).hide();
+            }, 200);
+            clearTimeout(ftime);
+        });
+
+        var ctime = 0;
+        var chtime = 0;
+        $(&#x27;.db_main&#x27;).on(&#x27;mouseenter&#x27;, &#x27;.OP_shareC&#x27;, function() {
+            var that = this;
+            ctime = setTimeout(function() {
+                getShare.apply(that, arguments);
+            }, 500);
+            return false;
+        }).on(&#x27;mouseleave&#x27;, &#x27;.OP_shareC&#x27;, function() {
+            chtime = setTimeout(function() {
+                $(&#x27;#OP_showShare&#x27;).hide();
+            }, 300);
+            clearTimeout(ctime);
+        });
+
+        $(&#x27;#OP_showShare&#x27;).on(&#x27;mouseenter&#x27;, function() {
+            clearTimeout(fhtime);
+            clearTimeout(chtime);
+            $(this).show();
+        });
+        $(&#x27;#OP_showShare&#x27;).on(&#x27;mouseleave&#x27;, function() {
+            $(this).hide();
+        });
+
+        function getShare() {
+            var that = $(this);
+            var isClass = that.hasClass(&#x27;OP_shareF&#x27;);
+            var path = (that.attr(&#x27;sid&#x27;) || 0) + &#x27;/&#x27; + (disk.getUrl().url ? disk.getUrl().url + &#x27;/&#x27; : &#x27;&#x27;) + that.attr(&#x27;filename&#x27;);
+            var data = {
+                uri : encodeURI(path)
+            };
+            var pop = $(&#x27;#OP_showShare&#x27;);
+            var popshow = pop.find(&#x27;.OP_myclass_data&#x27;);
+            popshow.html(&#x27;&lt;p style=&quot;text-align: center; padding:10px;&quot;&gt;获取分享列表中...&lt;/p&gt;&#x27;);
+            if (isClass) {
+                pop.addClass(&#x27;db_f_r&#x27;);
+                pop.addClass(&#x27;db_f_f&#x27;);
+                var temp = &#x27;&lt;div class=&quot;db_fr_f&quot;&gt;&lt;img src=&quot;http://www.yiban.cn/weibo/eclassimg/head/u/{id}/s/1&quot;/&gt;&lt;span title=&quot;{name}&quot;&gt;{name}&lt;/span&gt;&lt;span&gt;{nick}&lt;/span&gt;&lt;/div&gt;&#x27;;
+            } else {
+                pop.removeClass(&#x27;db_f_r&#x27;);
+                pop.removeClass(&#x27;db_f_f&#x27;);
+                var temp = &#x27;&lt;span class=&quot;db_fm_span&quot; title=&quot;{name}&quot;&gt;{name}&lt;/span&gt;&#x27;;
+            }
+
+            var thtml = [];
+            $.ajax({
+                url : disk.base.dir + &#x27;/ajax/share/target&#x27;,
+                data : data,
+                success : function(data) {
+                    var list = data.data;
+                    for (var i = 0, len = list.length; i &lt; len; i++) {
+                        thtml.push(temp.replace(/\{(\w+)\}/g, function() {
+                            var key = arguments[1];
+                            if (key == &#x27;nick&#x27;) {
+                                return list[i][key] ? &#x27;(&#x27; + list[i][key] + &#x27;)&#x27; : &#x27;&#x27;;
+                            }
+                            return list[i][key];
+                        }));
+                    }
+                    popshow.html(thtml.join(&#x27;&#x27;));
+                    var Width = $(&#x27;#OP_showShare&#x27;).outerWidth();
+                    pop.css({
+                        &#x27;left&#x27; : that.offset().left - ( isClass ? 285 : Width),
+                        &#x27;top&#x27; : that.offset().top - 15
+                    });
+                    pop.show();
+                }
+            });
+        }
+
+    };
+
+    exp.getValLen = function(key) {
+        var length = key.length;
+        var number = 0;
+        for (var i = 0; i &lt; length; i++) {
+            if (/[\u4e00-\u9fa5]/.test(key.charAt(i))) {
+                number += 2;
+            } else {
+                number++;
+            }
+        }
+        return number;
+    };
+
+    /**
+     * pages
+     */
+    exp.pages = function() {
+        $(&#x27;.db_showmore&#x27;).on(&#x27;click&#x27;, function() {
+            $(this).html(&#x27;加载中,请稍候...&#x27;);
+            if (disk.config.database.search &amp;&amp; disk.config.database.search.key) {
+                disk.config.database.search.page++;
+                disk.search();
+            } else {
+                var page = disk.config.database.page || 1;
+                disk.config.database.page = ++page;
+                disk.getList(disk.getUrl().url, &#x27;files&#x27;);
+            }
+            return false;
+        });
+    };
+
+    /**
+     * set url
+     */
+    exp.setUrl = function(url, type, id) {
+        var type = type || disk.config.database.type || &#x27;&#x27;;
+        var basePath = &#x27;&#x27;;
+        var curl = exp.base.dir + &#x27;/&#x27; + type + &#x27;/&#x27; + ( id ? id + &#x27;/&#x27; : &#x27;&#x27;) + encodeURI(url);
+        if (disk.config.system.isHtml5) {
+            var state = {
+                title : &#x27;易班资料库&#x27;,
+                url : curl
+            };
+            window.history.pushState(state, &#x27;易班资料库&#x27;, curl);
+        } else {
+            location.hash = curl;
+        }
+    };
+
+    /**
+     *get url
+     */
+    exp.getUrl = function() {
+        var getPath = &#x27;&#x27;;
+        if (window.history &amp;&amp; window.history.pushState) {
+            getPath = location.pathname;
+        } else {
+            getPath = location.hash.replace(/^\#/, &#x27;&#x27;);
+        }
+
+        getPath = getPath.replace(exp.base.dir, &#x27;&#x27;);
+
+        //new teturn object
+        var testUrl = /\/([a-zA-z]+)\//g.exec(getPath);
+        if (testUrl) {
+            if (disk.config.database.type == &#x27;a&#x27;) {
+                return {
+                    type : testUrl[1] || &#x27;&#x27;,
+                    url : decodeURI(getPath.replace(testUrl[0], &#x27;&#x27;)) || &#x27;&#x27;
+                };
+            } else {
+                var haveid = /\/[a-zA-z]+\/\d+\//g.test(getPath);
+                return {
+                    type : testUrl[1] || &#x27;&#x27;,
+                    url : haveid ? decodeURI(getPath.replace(testUrl[0], &#x27;&#x27;)) : &#x27;&#x27;
+                };
+            }
+        } else {
+            return {};
+        }
+    };
+
+    exp.popstate = function() {
+        if (disk.config.system.isHtml5) {
+            window.onpopstate = function() {
+                if (exp.config.system.firstLoad) {
+                    var url = disk.getUrl().url;
+                    disk.getList(url);
+                }
+            };
+        } else {
+            var oldHash = &#x27;&#x27;;
+            window.onhashchange = function() {
+                if (exp.config.system.firstLoad) {
+                    disk.getList(disk.getUrl().url);
+                }
+            };
+        }
+    };
+
+    /**
+     * get cookie
+     */
+    exp.getCookie = function(sName) {
+        var aCookie = document.cookie.split(&#x27;;&#x27;);
+        var len = aCookie.length;
+        for (var i = 0; i &lt; len; i++) {
+            var aCrumb = aCookie[i].split(&#x27;=&#x27;);
+            if (trim(sName) == trim(aCrumb[0])) {
+                return aCrumb[1];
+            }
+        }
+        function trim(sString) {
+            return sString.replace(/^(\s*| *)/, &#x27;&#x27;).replace(/(\s*| *)$/, &#x27;&#x27;);
+        }
+
+        return null;
+    };
+    /**
+     * set cookie
+     */
+    exp.setCookie = function(sName, sValue, sExpires, sPath, sDomain, secure) {
+        document.cookie = sName + &#x27;=&#x27; + escape(sValue) + ( sExpires ? &#x27;;expires=&#x27; + sExpires : &#x27;&#x27; ) + ( sPath ? &#x27;;path=&#x27; + sPath : &#x27;&#x27;) + ( sDomain ? &#x27;;domain=&#x27; + sDomain : &#x27;&#x27; ) + ( secure ? &#x27;;secure&#x27; : &#x27;&#x27;);
+    };
+
+})(disk);
+
+disk();
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
