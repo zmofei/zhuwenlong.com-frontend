@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import CSS from './message.module.scss';
 import Cookie from 'js-cookie';
 import axios from 'axios';

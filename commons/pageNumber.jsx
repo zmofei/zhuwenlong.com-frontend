@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import Lan from '../i18n/languageMap.jsx';
 import CSS from './pageNumber.module.scss';
 
@@ -20,36 +20,32 @@ function pageNumber(props) {
     const searchStr = isSearch ? `${search ? (search + '&') : '?'}page=${i}` : search;
     pageArr.push(
       <Link key={`page_${i}`}
-        to={{
-          pathname: isSearch ? '' : `${bacicPath}/${i}`,
-          search: searchStr,
-        }}
-        onClick={() => { changePage(i, props.pageChange) }}
-        className={i === props.current ? CSS.active : ''}  >{i}</Link>
+        href={(isSearch ? '' : `${bacicPath}/${i}`) + searchStr}
+      >
+        <a onClick={() => { changePage(i, props.pageChange) }}
+          className={i === props.current ? CSS.active : ''}  >{i}</a>
+      </Link>
     )
   }
   return (
     <div className={CSS['blog-pages']}>
       {props.current > 1 ?
         (<Link
-          to={{
-            pathname: isSearch ? '' : `${bacicPath}/${props.current - 1}`,
-            search: isSearch ? `${search ? (search + '&') : '?'}page=${props.current - 1}` : search,
-          }}
-          onClick={() => { changePage(props.current - 1, props.pageChange) }}
+          href={(isSearch ? '' : `${bacicPath}/${props.current - 1}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.current - 1}` : search)}
         >
-          <Lan en="Previous" zh="上一页" />
+          <a onClick={() => { changePage(props.current - 1, props.pageChange) }}>
+            <Lan en="Previous" zh="上一页" />
+          </a>
         </Link>) : ''}
       {props.current > 3 ? (
         <>
           <Link
-            to={{
-              pathname: isSearch ? '' : `${bacicPath}/1`,
-              search: isSearch ? `${search ? (search + '&') : '?'}page=1` : search,
-            }}
-            onClick={() => { changePage(1, props.pageChange) }}
-            className={`${bacicPath}/1`}>
-            1
+            href={(isSearch ? '' : `${bacicPath}/1`) + (isSearch ? `${search ? (search + '&') : '?'}page=1` : search)}
+          >
+            <a onClick={() => { changePage(1, props.pageChange) }}
+              className={`${bacicPath}/1`}>
+              1
+            </a>
           </Link>
           <span>...</span>
         </>
@@ -58,22 +54,21 @@ function pageNumber(props) {
       {props.total - props.current > 3 ? <span>...</span> : ''}
       {props.current < props.total - 3 ? (
         <Link
-          to={{
-            pathname: isSearch ? '' : `${bacicPath}/${props.total}`,
-            search: isSearch ? `${search ? (search + '&') : '?'}page=${props.total}` : search,
-          }}
-          onClick={() => { changePage(props.total, props.pageChange) }}
-        >{props.total}</Link>
+          href={(isSearch ? '' : `${bacicPath}/${props.total}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.total}` : search)}
+
+        >
+          <a onClick={() => { changePage(props.total, props.pageChange) }} >
+            {props.total}
+          </a>
+        </Link>
       ) : ''}
       {props.current < props.total ? (
         <Link
-          to={{
-            pathname: isSearch ? '' : `${bacicPath}/${props.current + 1}`,
-            search: isSearch ? `${search ? (search + '&') : '?'}page=${props.current + 1}` : search,
-          }}
-          onClick={() => { changePage(props.current + 1, props.pageChange) }}
+          href={(isSearch ? '' : `${bacicPath}/${props.current + 1}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.current + 1}` : search)}
         >
-          <Lan en="Next" zh="下一页" />
+          <a onClick={() => { changePage(props.current + 1, props.pageChange) }}>
+            <Lan en="Next" zh="下一页" />
+          </a>
         </Link>
       ) : ''}
     </div>

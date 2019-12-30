@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import Link from 'next/link';
 import React, { useRef } from "react";
 import logo from '../public/static/img/logo-ico.png'
@@ -24,53 +23,55 @@ function nav(props) {
       <button className={CSS['global-nav-btn']} id="navTar" onClick={onClickMenu} ref={navBtn} />
       <ul className={CSS.nav} ref={navDom} >
         <li>
-          <Link href="/" activeClassName={CSS.active} onClick={onClickMenu}>
-            <a>
+          <Link href="/" >
+            <a onClick={onClickMenu}>
               <Lan en="Index" zh="首页" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/blog/1" activeClassName={CSS.active} onClick={onClickMenu}>
-            <a>
+          <Link href="/blog/1" >
+            <a onClick={onClickMenu}>
               <Lan en="Blog" zh="博客" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/lab" activeClassName={CSS.active} onClick={onClickMenu}>
-            <a>
+          <Link href="/lab">
+            <a onClick={onClickMenu}>
               <Lan en="Lab" zh="实验室" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/message" activeClassName={CSS.active} onClick={onClickMenu}>
-            <a>
+          <Link href="/message" >
+            <a onClick={onClickMenu}>
               <Lan en="Message" zh="留言" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/links" activeClassName={CSS.active} onClick={onClickMenu}>
-            <a>
+          <Link href="/links">
+            <a onClick={onClickMenu}>
               <Lan en="Friends" zh="小伙伴" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="#" activeClassName={CSS.active} onClick={() => {
-            props.changeLan(props.lan === 'en' ? 'zh' : 'en');
-            onClickMenu();
-          }}>
-            <a>
+          <Link href="#" >
+            <a onClick={() => {
+              props.changeLan(props.lan === 'en' ? 'zh' : 'en');
+              onClickMenu();
+            }}>
               <Lan en="中文" zh="English" />
             </a>
           </Link>
         </li>
         <li>
-          <Link to={`/rss?lan=${props.lan}`} target="_blank" activeClassName={CSS.active} onClick={onClickMenu}>
-            &#xe905;
+          <Link href={`/rss?lan=${props.lan}`} >
+            <a onClick={onClickMenu} target="_blank">
+              &#xe905;
+            </a>
           </Link>
         </li>
       </ul>
