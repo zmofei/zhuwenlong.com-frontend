@@ -132,32 +132,32 @@
 }
 
 .index-about-identity .img {
-  background: url("../static/img/index/idnetity.jpg");
+  background: url("/static/img/index/idnetity.jpg");
   background-size: cover;
 }
 
 .index-about-work .img {
-  background: url("../static/img/index/work.jpg");
+  background: url("/static/img/index/work.jpg");
   background-size: cover;
 }
 
 .index-about-dream .img {
-  background: url("../static/img/index/dream.jpg");
+  background: url("/static/img/index/dream.jpg");
   background-size: cover;
 }
 
 .index-about-identity:hover .img {
-  background: url("../static/img/index/idnetity.gif");
+  background: url("/static/img/index/idnetity.gif");
   background-size: cover;
 }
 
 .index-about-work:hover .img {
-  background: url("../static/img/index/work.gif");
+  background: url("/static/img/index/work.gif");
   background-size: cover;
 }
 
 .index-about-dream:hover .img {
-  background: url("../static/img/index/dream.gif");
+  background: url("/static/img/index/dream.gif");
   background-size: cover;
 }
 
@@ -510,17 +510,17 @@
   }
   .index-about-identity .img,
   .index-about-identity:hover .img {
-      background: url(" ../static/img/index/idnetity.gif") no-repeat center;
+      background: url(" /static/img/index/idnetity.gif") no-repeat center;
       background-size: contain;
   }
   .index-about-work .img,
   .index-about-work:hover .img {
-      background: url(" ../static/img/index/work.gif") no-repeat center;
+      background: url(" /static/img/index/work.gif") no-repeat center;
       background-size: contain;
   }
   .index-about-dream .img,
   .index-about-dream:hover .img {
-      background: url(" ../static/img/index/dream.gif") no-repeat center;
+      background: url(" /static/img/index/dream.gif") no-repeat center;
       background-size: contain;
   }
   .index-content-box {
