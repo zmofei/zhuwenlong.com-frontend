@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{H0SL:function(n,t,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/",function(){return e("cMU6")}])},cMU6:function(n,t,e){"use strict";e.r(t);var o=e("q1tI"),c=e.n(o),u=(e("kxKB"),c.a.createElement);t.default=function(){return u("div",null,"Welcome to Next.js!")}}},[["H0SL",0,1,7]]]);

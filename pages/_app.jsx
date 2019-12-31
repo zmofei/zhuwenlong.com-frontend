@@ -6,12 +6,14 @@ import lan from '../reducers/lan.js';
 
 const store = createStore(lan);
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, ctx }) {
   return (
     <Provider store={store}>
       <Component {...pageProps} />
     </Provider>
   )
 }
+
+// MyApp.getInitialProps
 
 export default MyApp; 

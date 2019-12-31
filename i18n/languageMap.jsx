@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 
 function lan(props) {
-  return <>{props && props[props.lan]}</>;
+  return <span>{props && props[props.lan]}</span>;
 }
 
 const mapStateToProps = state => {

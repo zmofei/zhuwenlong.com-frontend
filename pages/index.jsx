@@ -4,7 +4,7 @@ import logo from '../public/static/img/index/logo.png';
 import world from '../public/static/js/world.js';
 import axios from 'axios';
 import Lan from '../i18n/languageMap.jsx';
-import Nav from '../commons/nav';
+import Layout from '../commons/layout';
 
 import Copyright from '../commons/copyright';
 
@@ -122,8 +122,7 @@ function Home() {
   }, [])
 
   return (
-    <>
-      <Nav />
+    <Layout>
       <div className={CSS.homeBody} >
         <div className={CSS.videoBgMobile} style={{ height: `${screenHeight}px` }} ></div>
         {!isMobile && (
@@ -255,7 +254,7 @@ function Home() {
         </section>
         <Copyright className={CSS.copyright} />
       </div>
-    </>
+    </Layout>
   )
 }
 

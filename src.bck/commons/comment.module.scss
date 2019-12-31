@@ -34,7 +34,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50px;
-    background: url("/image/nobody.jpg");
+    background: url("/static/img/nobody.jpg");
     background-size: cover;
 }
 
@@ -259,6 +259,6 @@
     top: 0;
     right: 0;
     margin: -20px;
-    background: url('../static/img/index/close.svg') no-repeat center #999;
+    background: url('/static/img/index/close.svg') no-repeat center #999;
     cursor: pointer;
 }

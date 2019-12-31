@@ -5,7 +5,6 @@ import axios from 'axios';
 import moment from 'moment';
 import Lan from '../../i18n/languageMap.jsx';
 import Page from '../../commons/pageNumber';
-import Adsense from '../../commons/googleAds.jsx';
 import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
 
@@ -80,7 +79,8 @@ function Blog(props) {
       return tag.map((t, index) => (
         <Link
           key={t.classid + Math.random()}
-          href={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')} >
+          href="/blog/[page]"
+          as={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')} >
           <a className={tags ? Number(tags) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}>
             <span className={CSS.subNavIcon}>&#xe901;</span>
             <span><Lan en={t['classname-en'] || t['classname']} zh={t.classname} /></span>
@@ -112,7 +112,8 @@ function Blog(props) {
             classinfo.map(info => (
               info && (
                 <Link key={`blogclass_${info.classid}`}
-                  href={`/blog/1?tags=${info.classid}`}
+                  href={`/blog/[page]`}
+                  as={`/blog/1?tags=${info.classid}`}
                 >
                   <a>
                     <Lan en={info['classname-en'] || info['classname']} zh={info.classname} />
@@ -134,7 +135,8 @@ function Blog(props) {
         <div key={`blog_${blog._id}`} className={CSS["blog-content-block"]}>
           <div className={`${CSS["blog-content-text"]} ${CSS["noimg"]}`}>
             <Link
-              href={`/blog/article/${blog._id}`}
+              href={`/blog/article/[id]`}
+              as={`/blog/article/${blog._id}`}
             >
               <a>
                 <h2><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
@@ -142,7 +144,8 @@ function Blog(props) {
             </Link>
             {getBlogClass(blog.classid)}
             <Link
-              href={`/blog/article/${blog._id}`}
+              href={`/blog/article/[id]`}
+              as={`/blog/article/${blog._id}`}
             >
               <a>
                 <div className={CSS["blog-review"]}>
@@ -198,6 +201,8 @@ function Blog(props) {
     }
   }
 
+  console.log(page.total)
+
   return (
     <Layout>
       <div className={CSS.blogBody}>
@@ -211,17 +216,21 @@ function Blog(props) {
 
           <div className={CSS['blog-pages']}>
             {page.total > 1 ? <Page
+              key={page.total}
               total={page.total}
               current={page.current}
               bacicPath='/blog'
               search={(getSearchObj().tags ? `?tags=${getSearchObj().tags}` : '')}
             /> : ''}
           </div>
-          <Adsense />
         </div>
       </div>
     </Layout>
   )
 }
+
+// Blog.getInitialProps = async (ctx) => {
+
+// };
 
 export default Blog;

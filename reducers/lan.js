@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie';
-let defaultLan = Cookie.get('lan');
+let defaultLan = Cookie.get('lan') || 'zh';
 
 if (!defaultLan) {
   if (process.browser) {

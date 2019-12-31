@@ -13,7 +13,6 @@ let avatarInvertId = 0;
 function getListByID(id, page, callback) {
     axios.get(`/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
         .then(res => {
-            // console.log(res.data.page)
             callback(res.data || [])
         })
 }
@@ -48,6 +47,7 @@ function Message(props) {
 
     useEffect(() => {
         getListByID(props.id, page, rst => {
+            console.log(rst.list);
             setmessageList(() => rst.list);
             setPage(page => {
                 return Object.assign({}, page, { total: Math.ceil(rst.page.total / 20) });
@@ -181,7 +181,7 @@ function Message(props) {
     }
 
     function getMessageList() {
-        if (messageList!==null && messageList.length >= 0 ) {
+        if (messageList !== null && messageList.length >= 0) {
             return messageList.map(l => {
                 return (
                     <div key={`comment_${l._id}`}
@@ -200,18 +200,15 @@ function Message(props) {
                         <div className={CSS["commend-avatar"]}>
                             <img src={l.avatar || '//avatar.zhuwenlong.com/avatar/'} alt="avatar" />
                         </div>
+
                         <div className={CSS["commend-input"]}>
                             <div className={CSS["commend-info"]}>
                                 <div className={CSS["commend-name"]}>
                                     {l.blog ?
                                         <Link
-                                            to={{
-                                                pathname: `/api/jump`,
-                                                search: `?url=${l.blog.indexOf('http') !== -1 ? l.blog : `http://${l.blog}`}`,
-                                            }}
-                                            target="_blank"
+                                            href={`/api/jump?url=${l.blog.indexOf('http') !== -1 ? l.blog : `http://${l.blog}`}`}
                                         >
-                                            {l.name}&nbsp;
+                                            <a target="_blank">{l.name}&nbsp;</a>
                                         </Link> : <span>{l.name} </span>
                                     }
                                     <span className={CSS["commend-time"]}>

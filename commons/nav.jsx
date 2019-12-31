@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import React, { useRef } from "react";
-import logo from '../public/static/img/logo-ico.png'
-import CSS from './nav.module.scss'
+import CSS from './nav.scss';
+import logo from '../public/static/img/logo-ico.png';
+
 import Lan from '../i18n/languageMap.jsx';
 import { connect } from 'react-redux';
 
@@ -30,35 +31,35 @@ function nav(props) {
           </Link>
         </li>
         <li>
-          <Link href="/blog/1" >
+          <Link href="/blog/[page]" as="/blog/1">
             <a onClick={onClickMenu}>
               <Lan en="Blog" zh="博客" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/lab">
+          <Link href="/lab" as="/lab">
             <a onClick={onClickMenu}>
               <Lan en="Lab" zh="实验室" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/message" >
+          <Link href="/message" as="/message" >
             <a onClick={onClickMenu}>
               <Lan en="Message" zh="留言" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/links">
+          <Link href="/links" as="/links">
             <a onClick={onClickMenu}>
               <Lan en="Friends" zh="小伙伴" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="#" >
+          <Link href="#" as="#" >
             <a onClick={() => {
               props.changeLan(props.lan === 'en' ? 'zh' : 'en');
               onClickMenu();
