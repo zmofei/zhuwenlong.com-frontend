@@ -51,7 +51,6 @@ function Blog(props) {
 
     const CancelToken = axios.CancelToken;
 
-    // setBlogLists(() => []);
     axios.get(`/api/blog/lists`, {
       cancelToken: new CancelToken(c => {
         blogReqSource = c;
@@ -229,8 +228,11 @@ function Blog(props) {
   )
 }
 
-// Blog.getInitialProps = async (ctx) => {
-
-// };
+Blog.getInitialProps = async (ctx) => {
+  console.log(12);
+  return {
+    a: 1
+  }
+};
 
 export default Blog;
