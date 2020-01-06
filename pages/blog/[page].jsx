@@ -10,42 +10,37 @@ import Layout from '../../commons/layout';
 
 let blogReqSource;
 
+function getSearchObj(router) {
+  const search = router.asPath.split('?');
+  let searchStr = '';
+  if (search.length >= 2) {
+    searchStr = search[1];
+  }
+  const searchObj = {};
+  searchStr.split('&').forEach(kv => {
+    const kvArr = kv.split('=');
+    searchObj[kvArr[0]] = kvArr[1];
+  });
+  return searchObj;
+}
+
 function Blog(props) {
   const router = useRouter();
   let currentPage = Number(router.query.page || 1);
 
-  const [tag, setTag] = useState(null);
-  const [blogLists, setBlogLists] = useState([]);
-  const [page, setPage] = useState({
-    current: currentPage,
-    total: 1
-  });
+  const tag = props.tags;
 
-  function getSearchObj() {
-    const searchObj = {};
-    location.search.substring(1).split('&').forEach(kv => {
-      const kvArr = kv.split('=');
-      searchObj[kvArr[0]] = kvArr[1];
-    });
-    return searchObj;
-  }
+  const [blogLists, setBlogLists] = useState(props.blogLists);
+  const [page, setPage] = useState(props.page);
+  const [pagetotal, setPagetotal] = useState(props.pagetotal);
+
+
+
+  const [currentTag, setCurrentTag] = useState(getSearchObj(router).tags);
 
 
   useEffect(() => {
-    axios.get('/api/blog/tags')
-      .then(res => {
-        setTag(() => res.data.list);
-      });
-
     const page = currentPage;
-
-
-    let { tags } = { ...getSearchObj() };
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    });
 
     blogReqSource && blogReqSource();
 
@@ -57,30 +52,38 @@ function Blog(props) {
       }),
       params: {
         page,
-        tags
+        tags: currentTag
       }
     })
       .then(res => {
         setBlogLists(() => res.data.list);
-        setPage(data => {
-          data.total = Math.ceil(res.data.page.count / res.data.page.limit);
-          data.current = page;
-          return data;
-        });
-
+        setPagetotal(() => Math.ceil(res.data.page.count / res.data.page.limit));
+        setPage(() => page);
       });
-  }, [currentPage])
+    // scroll to top
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [currentPage, currentTag])
 
 
   function getSubNav() {
     if (tag && tag.length > 0) {
-      let { tags } = { ...getSearchObj() };
+      let { tags } = { ...getSearchObj(router) };
       return tag.map((t, index) => (
         <Link
           key={t.classid + Math.random()}
           href="/blog/[page]"
-          as={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')} >
-          <a className={tags ? Number(tags) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}>
+          as={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')}
+        >
+          <a
+            className={tags ? Number(tags) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}
+            onClick={() => {
+              setCurrentTag(t.classid);
+            }}
+          >
             <span className={CSS.subNavIcon}>&#xe901;</span>
             <span><Lan en={t['classname-en'] || t['classname']} zh={t.classname} /></span>
             <span className={CSS.subNavCount}>{t.classcount}</span>
@@ -102,7 +105,7 @@ function Blog(props) {
   }
 
   function getBlogClass(classinfo) {
-    let { tags } = { ...getSearchObj() };
+    let { tags } = { ...getSearchObj(router) };
     tags = (tags || '').split(',').map(t => Number(t));
     if (classinfo.length > 0) {
       return (
@@ -200,8 +203,6 @@ function Blog(props) {
     }
   }
 
-  console.log(page.total)
-
   return (
     <Layout>
       <div className={CSS.blogBody}>
@@ -214,13 +215,14 @@ function Blog(props) {
           </div>
 
           <div className={CSS['blog-pages']}>
-            {page.total > 1 ? <Page
-              key={page.total}
-              total={page.total}
-              current={page.current}
+            <Page
+              key={pagetotal}
+              total={pagetotal}
+              current={page}
               bacicPath='/blog'
-              search={(getSearchObj().tags ? `?tags=${getSearchObj().tags}` : '')}
-            /> : ''}
+              file={router.route}
+              search={(getSearchObj(router).tags ? `?tags=${getSearchObj(router).tags}` : '')}
+            />
           </div>
         </div>
       </div>
@@ -229,10 +231,26 @@ function Blog(props) {
 }
 
 Blog.getInitialProps = async (ctx) => {
-  console.log(12);
-  return {
-    a: 1
-  }
+
+  const page = ctx.query.page;
+  const currentTag = getSearchObj(ctx).tags;
+
+  const ret = {}
+  await Promise.all([
+    axios.get('/api/blog/tags'),
+    axios.get(`/api/blog/lists`, {
+      params: {
+        page,
+        tags: currentTag
+      }
+    })
+  ]).then(([tags, lists]) => {
+    ret.tags = tags.data.list;
+    ret.blogLists = lists.data.list;
+    ret.pagetotal = Math.ceil(lists.data.page.count / lists.data.page.limit);
+    ret.page = page;
+  });
+  return ret;
 };
 
 export default Blog;
