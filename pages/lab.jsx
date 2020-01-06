@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Link from 'next/link';
 import { useRouter } from 'next/router'
 import CSS from './lab.scss';
 import axios from 'axios';
@@ -14,17 +13,6 @@ import Layout from '../commons/layout';
 function Lab(props) {
 
   const list = props.list;
-
-  // const [list, setList] = useState([])
-
-  // useEffect(() => {
-  //   axios.get(`/api/lib/getlist`)
-  //     .then(res => {
-  //       setList(() => {
-  //         return res.data.list;
-  //       })
-  //     })
-  // }, []);
 
   function getAddone() {
     const html = [];
@@ -70,40 +58,33 @@ function Lab(props) {
     const url = info.url;
     return (
       <div className={`${CSS["lab-block"]}`} key={info._id}>
-        <Link
-          to={{
-            pathname: `/api/jump`,
-            search: `?url=${url}&module=lab&id=${info._id}&type=visited`,
-
-          }}
+        <a
+          href={`/api/jump?url=${url}&module=lab&id=${info._id}&type=visited`}
           target="_blank"
         >
           <img src={info.cover} alt="cover" />
-        </Link>
+        </a>
         <div className={`${CSS["lab-block-content"]}`}>
           <div className={`${CSS["lab-block-title"]}`}>
-            <Link to={{
-              pathname: `/api/jump`,
-              search: `?url=${url}&module=lab&id=${info._id}&type=visited`
-            }}
+            <a
+              herf={`/api/jump?url=${url}&module=lab&id=${info._id}&type=visited`}
               target="_blank"
             >
               <Lan en={info['title-en'] || info['title']} zh={info.title} />
-            </Link>
+            </a>
           </div>
           <div className={`${CSS["lab-block-intro"]}`}>
             <Lan en={info['intro-en'] || info['intro']} zh={info.intro} />
           </div>
           <div className={`${CSS["lab-block-author"]}`}>
             <Lan en="Author By:" zh="作者" />{info.author.map(a => (
-              <Link key={a.url} to={{
-                pathname: `/api/jump`,
-                search: `?url=${a.url}`
-              }}
+              <a
+                key={a.url}
+                href={`/api/jump?url=${a.url}`}
                 target="_blank"
               >
                 {a.name}
-              </Link>
+              </a>
             ))}
           </div>
         </div>

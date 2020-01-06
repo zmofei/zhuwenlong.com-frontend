@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import CSS from './links.module.scss';
 import axios from 'axios';
-// import moment from 'moment';
-
+import Layout from '../commons/layout';
 
 function Links(props) {
-
-  const [list, setList] = useState([])
-
-  useEffect(() => {
-    axios.get(`/api/links/getlist`)
-      .then(res => {
-        setList(() => {
-          return res.data.list;
-        })
-      })
-  }, []);
+  const list = props.list;
 
   function getAddone() {
     const html = [];
@@ -62,26 +50,20 @@ function Links(props) {
     const url = info.url;
     return (
       <div className={`${CSS["lab-block"]}`} key={info._id}>
-        <Link
-          to={{
-            pathname: `/api/jump`,
-            search: `?url=${url}&module=links&id=${info._id}&type=visited`,
-
-          }}
+        <a
+          href={`/api/jump?url=${url}&module=links&id=${info._id}&type=visited`}
           target="_blank"
         >
           <img src={info.cover} alt="cover" />
-        </Link>
+        </a>
         <div className={`${CSS["lab-block-content"]}`}>
           <div className={`${CSS["lab-block-title"]}`}>
-            <Link to={{
-              pathname: `/api/jump`,
-              search: `?url=${url}&module=links&id=${info._id}&type=visited`
-            }}
+            <a
+              href={`/api/jump?url=${url}&module=links&id=${info._id}&type=visited`}
               target="_blank"
             >
               {info.title}
-            </Link>
+            </a>
           </div>
           <div className={`${CSS["lab-block-intro"]}`}>{info.intro}</div>
         </div>
@@ -90,15 +72,23 @@ function Links(props) {
   }
 
   return (
-    <div className={CSS.labBody}>
-      <section className={`${CSS["lab"]}`}>
-        <div className={`${CSS["lab-box"]}`}>
-          {getAddone()}
-        </div>
-      </section>
-    </div>
+    <Layout>
+      <div className={CSS.labBody}>
+        <section className={`${CSS["lab"]}`}>
+          <div className={`${CSS["lab-box"]}`}>
+            {getAddone()}
+          </div>
+        </section>
+      </div>
+    </Layout>
   )
 }
+
+Links.getInitialProps = async (ctx) => {
+  const list = await axios.get(`/api/links/getlist`);
+  return { list: list.data.list }
+};
+
 
 
 export default Links;
