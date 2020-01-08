@@ -1,20 +1,10 @@
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import Router from 'next/router';
 
 import lan from '../reducers/lan.js';
 
-Router.events.on('routeChangeComplete', () => {
-  if (process.env.NODE_ENV !== 'production') {
-    const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
-    const timestamp = new Date().valueOf();
-    els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
-  }
-});
-
-const store = createStore(lan);
-
-function MyApp({ Component, pageProps, ctx }) {
+function MyApp({ Component, pageProps, lanStr }) {
+  const store = createStore(lan, { lan: lanStr });
   return (
     <Provider store={store}>
       <Component {...pageProps} />
@@ -22,6 +12,20 @@ function MyApp({ Component, pageProps, ctx }) {
   )
 }
 
-// MyApp.getInitialProps
+MyApp.getInitialProps = async ({ ctx }) => {
+  let lan = 'zh';
+  if (/himofei\.com/.test(ctx.req.headers.host.toLocaleLowerCase())) {
+    lan = 'en';
+  };
+
+  const cookie = ctx.req.headers.cookie;
+  if (cookie) {
+    let lans = cookie.match(/lan=(\w+)/);
+    if (lans.length >= 2) {
+      lan = lans[1];
+    }
+  }
+  return { lanStr: lan }
+}
 
 export default MyApp; 
