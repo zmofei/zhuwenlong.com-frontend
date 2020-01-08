@@ -22,6 +22,14 @@ function lanSwitch(obj, lan) {
 }
 
 function Message(props) {
+    console.log(12)
+    let oldMessage = '';
+    let oldRepMessage = '';
+    if (process.browser) {
+        oldMessage = localStorage.getItem('message') || '';
+        oldRepMessage = localStorage.getItem('repMessage') || '';
+    }
+
     if (!Cookie.get('userinfo')) {
         Cookie.set('userinfo', {
             name: `${lanSwitch({ en: 'Guest', zh: '游客' }, props.lan)}_` + Math.round(Math.random('1') * 10e3),
@@ -30,30 +38,37 @@ function Message(props) {
     }
 
     const messageBox = useRef(null);
-    const [page, setPage] = useState({ current: 1, total: 1 });
-    const [userinfo, setUserinfo] = useState(Cookie.getJSON('userinfo'));
+
+    const [userinfo, setUserinfo] = useState(Cookie.getJSON('userinfo') || {});
     const [changingUserinfo, setChangingUserinfo] = useState(false);
     const [active, setActive] = useState(false);
-    const [message, setMessage] = useState(localStorage.getItem('message') || '');
+    const [message, setMessage] = useState(oldMessage);
     const [avatar, setAvatra] = useState(`//avatar.zhuwenlong.com/avatar/${(userinfo && userinfo.email) ? md5.hash(userinfo.email) : ''}`);
 
+    let hasInitData = props.initialData;
     //
-    const [messageList, setmessageList] = useState(null);
+    const [messageList, setmessageList] = useState(hasInitData ? hasInitData.list : null);
+    const [page, setPage] = useState(hasInitData ?
+        {
+            current: hasInitData.page.page,
+            total: hasInitData.page.total
+        } : { current: 1, total: 1 });
 
     // replay
     const [activeMessage, setActiveMessage] = useState(null);
     const [replyID, setReplyID] = useState(null);
-    const [repMessage, setRepMessage] = useState(localStorage.getItem('repMessage') || '');
+    const [repMessage, setRepMessage] = useState(oldRepMessage);
+
 
     useEffect(() => {
         getListByID(props.id, page, rst => {
-            console.log(rst.list);
             setmessageList(() => rst.list);
             setPage(page => {
                 return Object.assign({}, page, { total: Math.ceil(rst.page.total / 20) });
             });
         })
-    }, [page.current])
+    }, [page.current]);
+
 
 
     function updateUserinfo(key, value) {
@@ -269,42 +284,48 @@ function Message(props) {
         }
     }
 
+    const commentDom = process.browser ? (
+        <div className={CSS["commend-pub"]} onClick={() => { setActive(() => true) }}>
+            <div className={CSS["commend-pub-info"]}>
+                <div className={CSS["commend-avatar"]}>
+                    <img
+                        id="useravatar"
+                        src={avatar || '//avatar.zhuwenlong.com/avatar/'}
+                        alt="avatar" />
+                </div>
+                <div className={CSS["commend-input"]}>
+                    <div className={`${CSS["comment-handle"]} ${active ? CSS['active'] : ''}`}>
+                        {setUserInfo()}
+                        <div className={CSS["commend-input-box"]}>
+                            <textarea
+                                className={CSS.textarea}
+                                placeholder={
+                                    lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, props.lan)
+                                }
+                                onChange={e => {
+                                    const value = e.target.value;
+                                    localStorage.setItem('message', value);
+                                    setMessage(() => value)
+                                }} value={message} />
+                            <button className={CSS['commend-pub-btn']} onClick={usePbulish}>
+                                {lanSwitch({ en: 'Send', zh: '发布' }, props.lan)}
+                            </button>
+                        </div>
+                    </div>
+                    <div style={{ display: active ? 'none' : '' }} className={CSS["commend-pub-text"]} id="commendTips">
+                        {lanSwitch({ en: 'Leave a message', zh: '留言...' }, props.lan)}
+                    </div>
+                </div>
+            </div>
+        </div>
+    ) : '';
+
     return (
         <>
             <section className={CSS["commend-box"]} ref={messageBox}>
                 <section className={CSS["commend"]}>
-                    <div className={CSS["commend-pub"]} onClick={() => { setActive(() => true) }}>
-                        <div className={CSS["commend-pub-info"]}>
-                            <div className={CSS["commend-avatar"]}>
-                                <img
-                                    id="useravatar"
-                                    src={avatar || '//avatar.zhuwenlong.com/avatar/'}
-                                    alt="avatar" />
-                            </div>
-                            <div className={CSS["commend-input"]}>
-                                <div className={`${CSS["comment-handle"]} ${active ? CSS['active'] : ''}`}>
-                                    {setUserInfo()}
-                                    <div className={CSS["commend-input-box"]}>
-                                        <textarea
-                                            className={CSS.textarea}
-                                            placeholder={
-                                                lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, props.lan)
-                                            }
-                                            onChange={e => {
-                                                const value = e.target.value;
-                                                localStorage.setItem('message', value);
-                                                setMessage(() => value)
-                                            }} value={message} />
-                                        <button className={CSS['commend-pub-btn']} onClick={usePbulish}>
-                                            {lanSwitch({ en: 'Send', zh: '发布' }, props.lan)}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div style={{ display: active ? 'none' : '' }} className={CSS["commend-pub-text"]} id="commendTips">
-                                    {lanSwitch({ en: 'Leave a message', zh: '留言...' }, props.lan)}
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        {commentDom}
                     </div>
                     {getMessageList()}
                     {page.total > 1 && <Page
