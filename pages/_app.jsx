@@ -21,7 +21,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
   const cookie = ctx.req.headers.cookie;
   if (cookie) {
     let lans = cookie.match(/lan=(\w+)/);
-    if (lans.length >= 2) {
+    if (lans && lans.length >= 2) {
       lan = lans[1];
     }
   }
