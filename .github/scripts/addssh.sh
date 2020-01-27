@@ -16,20 +16,18 @@ eval "$(ssh-agent -s)"
 ssh-add $SSH_PATH/deploy_rsa
 ssh-keyscan -t rsa 47.110.229.91 >> "$SSH_PATH/known_hosts"
 
-npm install
+# npm install
 FileName=$(date +%y_%m_%d_%H_%M_%S)
-rm -rf ./build
-PUBLIC_URL="//cdn.zhuwenlong.com" npm run build
 echo "packup the tar"
-tar -cvzf build_$FileName.tar.gz ./build
+tar -cvzf build_v2_$FileName.tar.gz ./
 echo "scp file"
 chmod 777 ./
 ls ./
-scp build_$FileName.tar.gz root@47.110.229.91:/usr/local/zhuwenlong/www/zhuwenlong.com-frontend
-rm -rf build_$FileName.tar.gz
+scp build_v2_$FileName.tar.gz root@47.110.229.91:/usr/local/zhuwenlong/www/zhuwenlong.com-frontend
+rm -rf build_v2_$FileName.tar.gz
 echo "login to deploy"
 ssh root@47.110.229.91 "
 cd /usr/local/zhuwenlong/www/zhuwenlong.com-frontend
 cp -r build build_bck_$FileName
-tar -xvzf build_$FileName.tar.gz
+tar -xvzf build_v2_$FileName.tar.gz
 "
