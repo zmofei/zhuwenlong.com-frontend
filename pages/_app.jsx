@@ -13,12 +13,21 @@ function MyApp({ Component, pageProps, lanStr }) {
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
+  let host;
+  let cookie;
+  if (process.browser) {
+    host = location.host;
+    cookie = document.cookie;
+  } else {
+    host = ctx.req.headers.host;
+    cookie = ctx.req.headers.cookie;
+  }
+  
   let lan = 'zh';
-  if (/himofei\.com/.test(ctx.req.headers.host.toLocaleLowerCase())) {
+  if (/himofei\.com/.test(host.toLocaleLowerCase())) {
     lan = 'en';
   };
 
-  const cookie = ctx.req.headers.cookie;
   if (cookie) {
     let lans = cookie.match(/lan=(\w+)/);
     if (lans && lans.length >= 2) {

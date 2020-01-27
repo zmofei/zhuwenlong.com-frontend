@@ -10,11 +10,31 @@ import Copyright from '../commons/copyright';
 
 function Home() {
   let isMobile;
-  let screenHeight = 1000;
+  let heightStyle = { height: 1000 };
+
+  // for message
+
+  var username = useRef(null);
+  var email = useRef(null);
+  var message = useRef(null);
+  var sendBtn = useRef(null);
+  var tips = useRef(null);
+
+  var bgref = useRef(null);
+  var videobgref = useRef(null);
+  var coverref = useRef(null);
+
   if (process.browser) {
     isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
-    screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    const screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    heightStyle.height = screenHeight;
+    window.onload = () => {
+      bgref.current.style.height = `${screenHeight}px`;
+      videobgref.current.style.height = `${screenHeight}px`;
+      coverref.current.style.height = `${screenHeight}px`;
+    }
   }
+
 
   const [msgState, setMsgState] = useState(0); // 0: ready 1: sending 2: sended 3: faild
   // for scroll
@@ -30,12 +50,7 @@ function Home() {
     }, 16);
   }
 
-  // for message
-  var username = useRef(null);
-  var email = useRef(null);
-  var message = useRef(null);
-  var sendBtn = useRef(null);
-  var tips = useRef(null);
+
   var inputs = [username, email, message];
 
   const onSendMSG = () => {
@@ -124,7 +139,7 @@ function Home() {
   return (
     <Layout>
       <div className={CSS.homeBody} >
-        <div className={CSS.videoBgMobile} style={{ height: `${screenHeight}px` }} ></div>
+        <div className={CSS.videoBgMobile} style={heightStyle} ref={videobgref}></div>
         {!isMobile && (
           <video className={CSS.videoBg} id="bgvid" autoPlay loop muted playsInline poster="//cdn.zhuwenlong.com/image/index/cover-820e030cca.jpg">
             <source src="//cdn.zhuwenlong.com/video/bgvideo-0c73e2c57a.mp4" type="video/mp4" />
@@ -133,9 +148,9 @@ function Home() {
           </video>
         )}
 
-        <div className={CSS.videobg} style={{ height: `${screenHeight}px` }}></div>
+        <div className={CSS.videobg} style={heightStyle} ref={bgref}></div>
 
-        <section className={`${CSS.index} ${CSS.indexCover}`} style={{ height: `${screenHeight}px` }} >
+        <section className={`${CSS.index} ${CSS.indexCover}`} style={heightStyle} ref={coverref}>
           <div className={CSS.title}>
             <svg
               id="title"

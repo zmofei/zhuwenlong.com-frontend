@@ -22,7 +22,6 @@ function lanSwitch(obj, lan) {
 }
 
 function Message(props) {
-    console.log(12)
     let oldMessage = '';
     let oldRepMessage = '';
     if (process.browser) {
