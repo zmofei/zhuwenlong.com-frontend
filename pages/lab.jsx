@@ -7,7 +7,7 @@ import Lan from '../i18n/languageMap.jsx';
 import Page from '../commons/pageNumber';
 import Layout from '../commons/layout';
 
-
+import config from '../config';
 
 
 function Lab(props) {
@@ -106,7 +106,7 @@ function Lab(props) {
 }
 
 Lab.getInitialProps = async (ctx) => {
-  const list = await axios.get(`/api/lib/getlist`);
+  const list = await axios.get(`${config.dbHost}/api/lib/getlist`);
   return { list: list.data.list }
 };
 

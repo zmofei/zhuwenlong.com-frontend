@@ -7,11 +7,12 @@ import md5 from 'spark-md5';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Page from '../commons/pageNumber';
+import config from '../config';
 
 let avatarInvertId = 0;
 
 function getListByID(id, page, callback) {
-    axios.get(`/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
+    axios.get(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
         .then(res => {
             callback(res.data || [])
         })

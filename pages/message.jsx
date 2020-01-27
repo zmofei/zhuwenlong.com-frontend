@@ -4,6 +4,7 @@ import Message from '../commons/message.jsx';
 import axios from 'axios';
 import Lan from '../i18n/languageMap.jsx';
 import Layout from '../commons/layout';
+import config from '../config';
 
 const id = '000000000000000000000000';
 
@@ -15,7 +16,7 @@ function MessagePage(props) {
 
 
   useEffect(() => {
-    axios.get(`/api/github/getinfo`)
+    axios.get(`${config.dbHost}/api/github/getinfo`)
       .then(res => {
         setGithub(() => {
           return res.data.info;
@@ -85,7 +86,7 @@ function MessagePage(props) {
 
 MessagePage.getInitialProps = async (ctx) => {
   const page = ctx.query.page || 1;
-  const message = await axios.get(`/api/blog/messagelist?id=${id}&pageNumber=20&page=${page}`);
+  const message = await axios.get(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page}`);
   return message.data;
 };
 

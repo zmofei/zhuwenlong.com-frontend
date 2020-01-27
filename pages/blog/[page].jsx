@@ -8,6 +8,8 @@ import Page from '../../commons/pageNumber';
 import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
 
+import config from '../../config';
+
 let blogReqSource;
 
 function getSearchObj(router) {
@@ -46,7 +48,7 @@ function Blog(props) {
 
     const CancelToken = axios.CancelToken;
 
-    axios.get(`/api/blog/lists`, {
+    axios.get(`${config.dbHost}/api/blog/lists`, {
       cancelToken: new CancelToken(c => {
         blogReqSource = c;
       }),
@@ -237,8 +239,8 @@ Blog.getInitialProps = async (ctx) => {
 
   const ret = {}
   await Promise.all([
-    axios.get('/api/blog/tags'),
-    axios.get(`/api/blog/lists`, {
+    axios.get(`${config.dbHost}/api/blog/tags`),
+    axios.get(`${config.dbHost}/api/blog/lists`, {
       params: {
         page,
         tags: currentTag
