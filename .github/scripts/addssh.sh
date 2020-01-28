@@ -32,5 +32,5 @@ tar -xvzf build_v2_$FileName.tar.gz
 rm -rf node_modules/
 npm install
 npm run build
-
+pm2 restart zhuwenlong-front
 "
