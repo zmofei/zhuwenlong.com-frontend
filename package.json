@@ -5,8 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
-    "axios": "^0.19.0",
     "highlight.js": "^9.17.1",
+    "isomorphic-unfetch": "^3.0.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
     "next": "^9.1.6",
@@ -21,9 +21,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "next",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED='0' next",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED='0' next start"
   },
   "repository": {
     "type": "git",

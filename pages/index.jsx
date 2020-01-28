@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import CSS from './index.scss';
 import logo from '../public/static/img/index/logo.png';
 import world from '../public/static/js/world.js';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch'
 import Lan from '../i18n/languageMap.jsx';
 import Layout from '../commons/layout';
+import config from '../config';
 
 import Copyright from '../commons/copyright';
 
@@ -57,10 +58,16 @@ function Home() {
     if (msgState === 1) return;
     setMsgState(() => 1);
 
-    axios.post('/api/emailmessage', {
-      username: username.current.value,
-      email: email.current.value,
-      message: message.current.value
+    fetch(`${config.dbHost}/api/emailmessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.current.value,
+        email: email.current.value,
+        message: message.current.value
+      })
     }).then(res => {
       setMsgState(() => 2);
       for (var i in inputs) {
@@ -74,6 +81,7 @@ function Home() {
         tips.current.style.opacity = 0;
       }, 2000);
     }).catch(e => {
+      console.log(e)
       setMsgState(() => 3);
       for (var i in inputs) {
         inputs[i].current.removeAttribute('disabled');

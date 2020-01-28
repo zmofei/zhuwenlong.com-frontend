@@ -1,3 +1,4 @@
+import App from 'next/app'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
@@ -12,7 +13,10 @@ function MyApp({ Component, pageProps, lanStr }) {
   )
 }
 
-MyApp.getInitialProps = async ({ ctx }) => {
+MyApp.getInitialProps = async (appContext) => {
+  const { ctx } = appContext;
+  const appProps = await App.getInitialProps(appContext);
+
   let host;
   let cookie;
   if (process.browser) {
@@ -22,7 +26,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
     host = ctx.req.headers.host;
     cookie = ctx.req.headers.cookie;
   }
-  
+
   let lan = 'zh';
   if (/himofei\.com/.test(host.toLocaleLowerCase())) {
     lan = 'en';
@@ -34,7 +38,9 @@ MyApp.getInitialProps = async ({ ctx }) => {
       lan = lans[1];
     }
   }
-  return { lanStr: lan }
+
+  appProps.lanStr = lan;
+  return { ...appProps }
 }
 
 export default MyApp; 

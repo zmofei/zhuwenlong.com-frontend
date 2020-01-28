@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from 'next/link';
 import CSS from './message.module.scss';
 import Cookie from 'js-cookie';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 import md5 from 'spark-md5';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -12,9 +12,10 @@ import config from '../config';
 let avatarInvertId = 0;
 
 function getListByID(id, page, callback) {
-    axios.get(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
+    fetch(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
+        .then(r => r.json())
         .then(res => {
-            callback(res.data || [])
+            callback(res || [])
         })
 }
 
@@ -96,8 +97,13 @@ function Message(props) {
         if (!repMessage) {
             alert(lanSwitch({ en: 'Hellooooo!! Say something???', zh: "没写东西，不许你回复！！" }, props.lan));
         } else {
-            axios
-                .post('/api/blog/message', { message: repMessage, id: props.id, avatar, replyID })
+            fetch(`${config.dbHost}/api/blog/message`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: repMessage, id: props.id, avatar, replyID })
+            })
                 .then(data => {
                     getListByID(props.id, page, rst => {
                         setmessageList(() => rst.list);
@@ -117,8 +123,13 @@ function Message(props) {
         if (!message) {
             alert(lanSwitch({ en: 'You didn\'t write anything', zh: "你啥都就没写呐" }, props.lan));
         } else {
-            axios
-                .post('/api/blog/message', { message, id: props.id, avatar })
+            fetch(`${config.dbHost}/api/blog/message`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message, id: props.id, avatar })
+            })
                 .then(data => {
                     getListByID(props.id, page, rst => {
                         setmessageList(() => rst.list);

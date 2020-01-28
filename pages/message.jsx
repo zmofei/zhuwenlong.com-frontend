@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CSS from './message.module.scss';
 import Message from '../commons/message.jsx';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 import Lan from '../i18n/languageMap.jsx';
 import Layout from '../commons/layout';
 import config from '../config';
@@ -16,12 +16,13 @@ function MessagePage(props) {
 
 
   useEffect(() => {
-    axios.get(`${config.dbHost}/api/github/getinfo`)
+    fetch(`${config.dbHost}/api/github/getinfo`)
+      .then(r => r.json())
       .then(res => {
         setGithub(() => {
-          return res.data.info;
+          return res.info;
         })
-      })
+      });
   }, []);
 
   function getMessage() {
@@ -86,8 +87,9 @@ function MessagePage(props) {
 
 MessagePage.getInitialProps = async (ctx) => {
   const page = ctx.query.page || 1;
-  const message = await axios.get(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page}`);
-  return message.data;
+  const message = await fetch(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page}`)
+    .then(r => r.json());
+  return message;
 };
 
 export default MessagePage;

@@ -16,7 +16,7 @@ eval "$(ssh-agent -s)"
 ssh-add $SSH_PATH/deploy_rsa
 ssh-keyscan -t rsa 47.110.229.91 >> "$SSH_PATH/known_hosts"
 
-# npm install
+npm install
 FileName=$(date +%y_%m_%d_%H_%M_%S)
 echo "packup the tar"
 tar -cvzf build_v2_$FileName.tar.gz ./
@@ -28,6 +28,9 @@ rm -rf build_v2_$FileName.tar.gz
 echo "login to deploy"
 ssh root@47.110.229.91 "
 cd /usr/local/zhuwenlong/www/zhuwenlong.com-frontend
-cp -r build build_bck_$FileName
 tar -xvzf build_v2_$FileName.tar.gz
+rm -rf node_modules/
+npm install
+npm run build
+
 "

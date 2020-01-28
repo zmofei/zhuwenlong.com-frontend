@@ -1,3 +1,3 @@
 export default {
-  dbHost: "//zhuwenlong.com" // process.browser ? "" : `http://api.zhuwenlong.com`
+  dbHost: "https://zhuwenlong.com" // process.browser ? "" : `http://api.zhuwenlong.com`
 }
