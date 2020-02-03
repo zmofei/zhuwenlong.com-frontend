@@ -10,7 +10,6 @@ if (!defaultLan) {
 
 
 const lan = (state = { lan: defaultLan }, action) => {
-  console.log('init', state)
   switch (action.type) {
     case 'SET_LANGUAGE':
       Cookie.set('lan', action.lan, { expires: 999999 });
