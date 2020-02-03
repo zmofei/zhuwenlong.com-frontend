@@ -16,7 +16,6 @@ eval "$(ssh-agent -s)"
 ssh-add $SSH_PATH/deploy_rsa
 ssh-keyscan -t rsa 47.110.229.91 >> "$SSH_PATH/known_hosts"
 
-npm install
 FileName=$(date +%y_%m_%d_%H_%M_%S)
 echo "packup the tar"
 tar -cvzf build_v2_$FileName.tar.gz ./
