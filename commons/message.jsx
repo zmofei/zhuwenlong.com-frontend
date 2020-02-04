@@ -97,12 +97,21 @@ function Message(props) {
         if (!repMessage) {
             alert(lanSwitch({ en: 'Hellooooo!! Say something???', zh: "没写东西，不许你回复！！" }, props.lan));
         } else {
+            const requestQuery = [
+                `message=${repMessage}`,
+                `id=${props.id}`,
+                `avatar=${avatar}`,
+                `replyID=${replyID}`,
+            ];
+
             fetch(`${config.dbHost}/api/blog/message`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                    'Accept': 'application/json, application/xml, text/plain, text/html, *.*'
                 },
-                body: JSON.stringify({ message: repMessage, id: props.id, avatar, replyID })
+                body: requestQuery.join('&')
             })
                 .then(data => {
                     getListByID(props.id, page, rst => {
@@ -114,7 +123,8 @@ function Message(props) {
                     alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, props.lan));
                 })
                 .catch(e => {
-                    alert(e.response.data.err);
+                    console.log(e);
+                    // alert(e.response.data.err);
                 })
         }
     }
@@ -123,12 +133,22 @@ function Message(props) {
         if (!message) {
             alert(lanSwitch({ en: 'You didn\'t write anything', zh: "你啥都就没写呐" }, props.lan));
         } else {
+
+            const requestQuery = [
+                `message=${message}`,
+                `id=${props.id}`,
+                `avatar=${avatar}`,
+            ];
+
+            // console.log(1, fetch, `useinfo=${enco(JSON.stringify(userinfo))}`)
             fetch(`${config.dbHost}/api/blog/message`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                    'Accept': '*/*'
                 },
-                body: JSON.stringify({ message, id: props.id, avatar })
+                body: requestQuery.join('&')
             })
                 .then(data => {
                     getListByID(props.id, page, rst => {
@@ -140,7 +160,8 @@ function Message(props) {
                     alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, props.lan));
                 })
                 .catch(e => {
-                    alert(e.response.data.err);
+                    console.log(e);
+                    // alert(e.response.data.err);
                 })
         }
     }
