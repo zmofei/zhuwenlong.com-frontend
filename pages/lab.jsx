@@ -5,7 +5,9 @@ import fetch from 'isomorphic-unfetch';
 import moment from 'moment';
 import Lan from '../i18n/languageMap.jsx';
 import Page from '../commons/pageNumber';
+import lan from '../i18n/languagefn.js';
 import Layout from '../commons/layout';
+import { connect } from 'react-redux';
 
 import config from '../config';
 
@@ -93,7 +95,7 @@ function Lab(props) {
   }
 
   return (
-    <Layout>
+    <Layout title={lan(props.lan, { zh: `实验室 - 朱文龙的自留地`, en: `Labs - Hi! I am Mofei!` })}>
       <div className={CSS.labBody}>
         <section className={`${CSS["lab"]}`}>
           <div className={`${CSS["lab-box"]}`}>
@@ -111,4 +113,9 @@ Lab.getInitialProps = async (ctx) => {
   return { list: list.list }
 };
 
-export default Lab;
+function stateToProps(state) {
+  const lan = state.lan;
+  return { lan }
+}
+
+export default connect(stateToProps, null)(Lab);

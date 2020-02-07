@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch'
 import moment from 'moment';
 import { useRouter } from 'next/router'
 import Layout from '../../../commons/layout';
+import lan from '../../../i18n/languagefn.js';
 import { connect } from 'react-redux';
 
 import config from '../../../config';
@@ -39,14 +40,17 @@ function Article(props) {
       })
   }
 
+  const zhTtitle = blog.title;
+  const enTitle = blog['title-en'] || blog['title'];
+
   return (
-    <Layout>
+    <Layout title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}>
       <div className={CSS.articleBody}>
         <section className={CSS.blog}>
           <section className={CSS.article}>
             <section className={CSS["article-content"]}>
               <h1 ref={titleDom}>
-                <Lan en={blog['title-en'] || blog['title']} zh={blog.title} />
+                <Lan en={enTitle} zh={blog.title} />
               </h1>
               <div className={`${CSS["commend-user"]} ${CSS["article-pubinfo"]}`}>
                 <div className={CSS["commend-avatar"]}><img src={avatra} alt="avatar" /></div>

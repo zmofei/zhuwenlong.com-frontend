@@ -3,10 +3,12 @@ import Link from 'next/link';
 import CSS from './blog.module.scss';
 import moment from 'moment';
 import Lan from '../../i18n/languageMap.jsx';
+import lan from '../../i18n/languagefn.js';
 import Page from '../../commons/pageNumber';
 import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
-import fetch from 'isomorphic-unfetch'
+import fetch from 'isomorphic-unfetch';
+import { connect } from 'react-redux';
 
 import config from '../../config';
 
@@ -199,7 +201,7 @@ function Blog(props) {
   }
 
   return (
-    <Layout>
+    <Layout title={lan(props.lan, { 'zh': "博客 - 朱文龙(Mofei)的自留地", 'en': 'Blog - Hi! I am Mofei!' })}>
       <div className={CSS.blogBody}>
         <div className={CSS.blogContent}>
           <div className={CSS.subNav}>
@@ -247,4 +249,9 @@ Blog.getInitialProps = async (ctx) => {
   return ret;
 };
 
-export default Blog;
+function stateToProps(state) {
+  const lan = state.lan;
+  return { lan }
+}
+
+export default connect(stateToProps, null)(Blog);

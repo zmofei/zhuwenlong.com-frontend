@@ -3,6 +3,8 @@ import CSS from './links.module.scss';
 import fetch from 'isomorphic-unfetch';
 import Layout from '../commons/layout';
 import config from '../config';
+import { connect } from 'react-redux';
+import lan from '../i18n/languagefn.js';
 
 function Links(props) {
   const list = props.list;
@@ -73,7 +75,7 @@ function Links(props) {
   }
 
   return (
-    <Layout>
+    <Layout title={lan(props.lan, { zh: `小伙伴 - 朱文龙的自留地`, en: `Friends - Hi! I am Mofei!` })}>
       <div className={CSS.labBody}>
         <section className={`${CSS["lab"]}`}>
           <div className={`${CSS["lab-box"]}`}>
@@ -93,4 +95,9 @@ Links.getInitialProps = async (ctx) => {
 
 
 
-export default Links;
+function stateToProps(state) {
+  const lan = state.lan;
+  return { lan }
+}
+
+export default connect(stateToProps, null)(Links);
