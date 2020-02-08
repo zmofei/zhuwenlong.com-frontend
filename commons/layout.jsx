@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import lan from '../i18n/languagefn.js';
 import Copyright from './copyright.jsx';
 
+
 function Layout(props) {
   const copyright = props.nocopyright ? '' : <Copyright />;
   return (
