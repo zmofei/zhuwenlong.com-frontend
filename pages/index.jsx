@@ -157,7 +157,7 @@ function Home(props) {
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Layout>
+      <Layout nocopyright={true}>
         <div className={CSS.homeBody} >
           <div className={CSS.videoBgMobile} style={heightStyle} ref={videobgref}></div>
           {!isMobile && (

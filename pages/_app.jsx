@@ -15,22 +15,22 @@ function MyApp({ Component, pageProps, lanStr }) {
 
 MyApp.getInitialProps = async (appContext) => {
   const { ctx } = appContext;
-  const { url } = ctx.req;
-  const appProps = await App.getInitialProps(appContext);
-
-  if (url === '/blog/' || url === '/blog') {
-    ctx.res.writeHead(301, {
-      Location: '/blog/1'
-    });
-    ctx.res.end();
-  }
 
   let host;
   let cookie;
+  const appProps = await App.getInitialProps(appContext);
   if (process.browser) {
     host = location.host;
     cookie = document.cookie;
   } else {
+    const { url } = ctx.req;
+    if (url === '/blog/' || url === '/blog') {
+      ctx.res.writeHead(301, {
+        Location: '/blog/1'
+      });
+      ctx.res.end();
+    }
+
     host = ctx.req.headers.host;
     cookie = ctx.req.headers.cookie;
   }
