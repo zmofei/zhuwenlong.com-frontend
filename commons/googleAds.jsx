@@ -10,7 +10,7 @@ function Adsense(props) {
     return (
       <>
         <ins className="adsbygoogle"
-          style={{ display: "block", textAlign: "center" }}
+          style={{ display: "block" }}
           data-ad-layout="in-article"
           data-ad-format="fluid"
           data-ad-client="ca-pub-0645475852185063"
