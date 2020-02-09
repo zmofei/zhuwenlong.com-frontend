@@ -18,6 +18,14 @@ function Layout(props) {
         <meta name="keywords" content="朱文龙,Mofei,HTML,CSS,JavaScript" />
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+          {(adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-0645475852185063",
+            enable_page_level_ads: true
+          })
+          }
+        </script>
       </Head>
       <Nav />
       {props.children}
