@@ -14,6 +14,7 @@
     "next-images": "^1.2.0",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
+    "react-adsense": "^0.1.0",
     "react-dom": "^16.12.0",
     "react-ga": "^2.7.0",
     "react-redux": "^7.1.3",

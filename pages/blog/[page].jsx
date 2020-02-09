@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
 import fetch from 'isomorphic-unfetch';
 import { connect } from 'react-redux';
-import Adsense from '../../commons/googleAds';
+import AdSense from 'react-adsense';
 
 import config from '../../config';
 
@@ -172,10 +172,22 @@ function Blog(props) {
       ));
 
       if (blogDom.length >= 5) {
-        blogDom.splice(5, 0, <Adsense />)
+        blogDom.splice(5, 0, <AdSense.Google
+          style={{ display: 'block' }}
+          format='fluid'
+          layoutKey='-ft-1y+18-2v+e1'
+          client='ca-pub-0645475852185063'
+          slot='7192293841'
+        />)
       }
       if (blogDom.length >= 11) {
-        blogDom.splice(11, 0, <Adsense />)
+        blogDom.splice(11, 0, <AdSense.Google
+          style={{ display: 'block' }}
+          format='fluid'
+          layoutKey='-ft-1y+18-2v+e1'
+          client='ca-pub-0645475852185063'
+          slot='7192293841'
+        />)
       }
 
 

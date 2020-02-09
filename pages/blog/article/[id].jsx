@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Layout from '../../../commons/layout';
 import lan from '../../../i18n/languagefn.js';
 import { connect } from 'react-redux';
+import AdSense from 'react-adsense';
 
 import config from '../../../config';
 
@@ -14,7 +15,6 @@ import config from '../../../config';
 import avatra from '../../../public/static/img/avatar.jpg';
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
-import Adsense from '../../../commons/googleAds.jsx';
 import hljs from 'highlight.js';
 
 function Article(props) {
@@ -72,7 +72,14 @@ function Article(props) {
                 {/* <div className={CSS["blog-money"]}>
                    <img src={blogMoney} alt="sponsorship" /> 
                 </div> */}
-                <Adsense />
+                {/* <Adsense /> */}
+                <AdSense.Google
+                  style={{ display: 'block', textAlign: 'center' }}
+                  layout="in-article"
+                  format='fluid'
+                  client='ca-pub-0645475852185063'
+                  slot='5520937769'
+                />
               </div>
             </section>
             <section className={CSS["article-tags"]}>
