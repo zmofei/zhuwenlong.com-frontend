@@ -7,12 +7,12 @@ import lan from '../i18n/languagefn.js';
 import Copyright from './copyright.jsx';
 
 
-if (process.browser) {
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-0645475852185063",
-    enable_page_level_ads: true
-  });
-}
+// if (process.browser) {
+//   (adsbygoogle = window.adsbygoogle || []).push({
+//     google_ad_client: "ca-pub-0645475852185063",
+//     enable_page_level_ads: true
+//   });
+// }
 
 function Layout(props) {
   const copyright = props.nocopyright ? '' : <Copyright />;

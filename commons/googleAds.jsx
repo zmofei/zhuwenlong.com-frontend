@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 
 function Adsense(props) {
 
-  // useEffect(() => {
-  //   // if (window) (window.adsbygoogle = window.adsbygoogle || []).push({});
-  // }, []);
+  useEffect(() => {
+    if (window) (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }, []);
 
   function render() {
     return (
