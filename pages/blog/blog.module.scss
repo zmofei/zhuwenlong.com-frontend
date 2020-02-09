@@ -30,7 +30,7 @@ body {
 .blog-content-block {
     // border-radius: 4px;
     position: relative;
-    margin: 0 0px 25px 0px;
+    margin: 13px 0px 13px 0px;
     border: 1px solid #efefef;
     padding: 20px 10px 10px 10px;
     color: #333;
@@ -210,7 +210,7 @@ body {
 }
 
 .subNav {
-    padding-bottom: 10px;
+    padding-bottom: 0px;
     overflow: hidden;
     margin-top: 15px;
     .active {
@@ -260,7 +260,7 @@ body {
         padding: 6px 14px;
         background: white;
         font-size: 12px;
-        margin-bottom: 5px;
+        margin-bottom: 0px;
         &:first-child {
             border-radius: 4px 0 0 4px;
         }
