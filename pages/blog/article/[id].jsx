@@ -69,9 +69,9 @@ function Article(props) {
                 <Lan
                   en={<div dangerouslySetInnerHTML={{ __html: blog['html-en'] || blog.html }} />}
                   zh={<div dangerouslySetInnerHTML={{ __html: blog.html }} />} />
-                <div className={CSS["blog-money"]}>
-                  {/* <img src={blogMoney} alt="sponsorship" /> */}
-                </div>
+                {/* <div className={CSS["blog-money"]}>
+                   <img src={blogMoney} alt="sponsorship" /> 
+                </div> */}
                 <Adsense />
               </div>
             </section>

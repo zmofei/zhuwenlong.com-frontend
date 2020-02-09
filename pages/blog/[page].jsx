@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
 import fetch from 'isomorphic-unfetch';
 import { connect } from 'react-redux';
+import Adsense from '../../commons/googleAds';
 
 import config from '../../config';
 
@@ -130,7 +131,7 @@ function Blog(props) {
 
   function getBlogLists() {
     if (blogLists && blogLists.length > 0) {
-      return blogLists.map(blog => (
+      const blogDom = blogLists.map(blog => (
         <div key={`blog_${blog._id}`} className={CSS["blog-content-block"]}>
           <div className={`${CSS["blog-content-text"]} ${CSS["noimg"]}`}>
             <Link
@@ -169,6 +170,16 @@ function Blog(props) {
           </div>
         </div>
       ));
+
+      if (blogDom.length >= 5) {
+        blogDom.splice(5, 0, <Adsense />)
+      }
+      if (blogDom.length >= 11) {
+        blogDom.splice(11, 0, <Adsense />)
+      }
+
+
+      return blogDom;
     } else {
       return new Array(3).fill(0).map((v, i) => (
         <div key={i} className={`${CSS["blog-content-block"]} ${CSS.blogPlaceHolder}`}>

@@ -30,7 +30,6 @@ function Layout(props) {
       <Nav />
       {props.children}
       {copyright}
-      <Adsense />
     </>
   )
 }
