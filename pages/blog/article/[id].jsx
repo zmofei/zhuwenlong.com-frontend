@@ -74,13 +74,13 @@ function Article(props) {
                 </div> */}
                 {/* <Adsense /> */}
 
-                {process.browser ? <AdSense.Google
+                {/* {process.browser ? <AdSense.Google
                   style={{ display: 'block', textAlign: 'center' }}
                   layout="in-article"
                   format='fluid'
                   client='ca-pub-0645475852185063'
                   slot='5520937769'
-                /> : ''}
+                /> : ''} */}
               </div>
             </section>
             <section className={CSS["article-tags"]}>
