@@ -1,18 +1,9 @@
 import Nav from './nav';
-import Adsense from './googleAds.jsx';
-import CSS from './layout.scss';
 import Head from 'next/head';
 import { connect } from 'react-redux';
 import lan from '../i18n/languagefn.js';
 import Copyright from './copyright.jsx';
 
-
-// if (process.browser) {
-//   (adsbygoogle = window.adsbygoogle || []).push({
-//     google_ad_client: "ca-pub-0645475852185063",
-//     enable_page_level_ads: true
-//   });
-// }
 
 function Layout(props) {
   const copyright = props.nocopyright ? '' : <Copyright />;
@@ -25,6 +16,7 @@ function Layout(props) {
         <meta name="keywords" content="朱文龙,Mofei,HTML,CSS,JavaScript" />
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="icon" type="image/x-icon" href="https://cdn.zhuwenlong.com/upload/image/favicon.ico"/>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       </Head>
       <Nav />

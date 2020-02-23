@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import Layout from '../../../commons/layout';
 import lan from '../../../i18n/languagefn.js';
 import { connect } from 'react-redux';
-import AdSense from 'react-adsense';
 
 import config from '../../../config';
 
