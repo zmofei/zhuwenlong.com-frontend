@@ -11,6 +11,9 @@ function CopyRight(props) {
                     <span> Powered by </span>
                     <a href="https://github.com/zmofei/dufing" target="_blank" rel="noopener noreferrer" >Dufing</a> (2010-2019) & Express
                 </div>
+                <div>
+                    <a href="http://www.beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" >皖ICP备11015043号</a>
+                </div>
             </div>
         </div>
     )
