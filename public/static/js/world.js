@@ -218,6 +218,7 @@ const app = (() => {
       let y = e.offsetY;
       activeX = Math.floor(x / width);
       activeY = Math.floor(y / height);
+      console.log(activeX, activeY)
     });
 
     animationHandle = true;

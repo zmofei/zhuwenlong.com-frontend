@@ -5,7 +5,6 @@ import axios from 'axios';
 import moment from 'moment';
 
 import avatra from '../static/img/avatar.jpg';
-import blogMoney from '../static/img/blog/money.png';
 import Message from '../commons/message.jsx';
 import Lan from '../i18n/languageMap.jsx';
 import Adsense from '../commons/googleAds.jsx';

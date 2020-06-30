@@ -108,7 +108,8 @@ function Home() {
       [28, 19, 'Washington, DC [18/03/24 8-days]'],
       [8, 21, 'San Francisco [18/04/01]'],
       [106, 33, 'Bangkok'],
-      [10, 24, 'Los Angeles']
+      [10, 24, 'Los Angeles'],
+      [96, 17, '新疆 [2019/10]']
     ]
     mapData.forEach(d => {
       _map.add([d[0], d[1]], {
@@ -169,7 +170,7 @@ function Home() {
           </button>
         </section>
         <section className={CSS['index-about']}>
-          <h2><Lan en="Who am I" zh="我是谁" /></h2>
+          <h2 className={CSS.titleBlack}><Lan en="Who am I" zh="我是谁" /></h2>
           <h3><Lan en="I wish I were an interesting person" zh="我希望我是一个有趣的人" /></h3>
           <div className={CSS['index-about-who']}>
             <div className={`${CSS['index-about-block']} ${CSS['index-about-identity']}`}>

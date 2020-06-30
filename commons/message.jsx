@@ -31,10 +31,10 @@ function Message(props) {
 
     const messageBox = useRef(null);
     const [page, setPage] = useState({ current: 1, total: 1 });
-    const [userinfo, setUserinfo] = useState(Cookie.getJSON('userinfo'));
+    const [userinfo, setUserinfo] = useState(process.browser && Cookie.getJSON('userinfo') || {});
     const [changingUserinfo, setChangingUserinfo] = useState(false);
     const [active, setActive] = useState(false);
-    const [message, setMessage] = useState(localStorage.getItem('message') || '');
+    const [message, setMessage] = useState(process.browser && localStorage.getItem('message') || '');
     const [avatar, setAvatra] = useState(`//avatar.zhuwenlong.com/avatar/${(userinfo && userinfo.email) ? md5.hash(userinfo.email) : ''}`);
 
     //
@@ -43,7 +43,7 @@ function Message(props) {
     // replay
     const [activeMessage, setActiveMessage] = useState(null);
     const [replyID, setReplyID] = useState(null);
-    const [repMessage, setRepMessage] = useState(localStorage.getItem('repMessage') || '');
+    const [repMessage, setRepMessage] = useState(process.browser && localStorage.getItem('repMessage') || '');
 
     useEffect(() => {
         getListByID(props.id, page, rst => {
