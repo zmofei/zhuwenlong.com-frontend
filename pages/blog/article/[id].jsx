@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from 'next/link';
 import CSS from './article.module.scss';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch'
 import moment from 'moment';
 import { useRouter } from 'next/router'
 import Layout from '../../../commons/layout';
@@ -28,13 +28,13 @@ function Article(props) {
     hljs.initHighlightingOnLoad();
   }, []);
 
-  function likeArticle(id) {
+  async function likeArticle(id) {
     if (isLike) return false;
-    axios.post(`/api/blog/like/${id}`)
-      .then(res => {
-        setLike(like => {
-          return like += 1;
-        });
+    // 
+    await fetch(`${config.dbHost}/api/blog/like/${id}`, {
+      method: 'POST',
+    })
+      .then(() => {
         setIsLike(() => true)
       })
   }
@@ -107,8 +107,9 @@ function Article(props) {
 
 Article.getInitialProps = async (ctx) => {
   const { id } = ctx.query;
-  const res = await axios.get(`${config.dbHost}/api/blog/article/${id}`);
-  return { blog: res.data.data }
+  const res = await fetch(`${config.dbHost}/api/blog/article/${id}`)
+    .then(r => r.json())
+  return { blog: res.data }
 }
 
 const mapStateToProps = state => {

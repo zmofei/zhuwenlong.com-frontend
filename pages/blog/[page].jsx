@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 import CSS from './blog.module.scss';
-import axios from 'axios';
 import moment from 'moment';
 import Lan from '../../i18n/languageMap.jsx';
 import Page from '../../commons/pageNumber';
 import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
+import fetch from 'isomorphic-unfetch'
+
+import config from '../../config';
 
 let blogReqSource;
 
@@ -25,6 +27,7 @@ function getSearchObj(router) {
 }
 
 function Blog(props) {
+  // console.log(2)
   const router = useRouter();
   let currentPage = Number(router.query.page || 1);
 
@@ -44,22 +47,14 @@ function Blog(props) {
 
     blogReqSource && blogReqSource();
 
-    const CancelToken = axios.CancelToken;
-
-    axios.get(`/api/blog/lists`, {
-      cancelToken: new CancelToken(c => {
-        blogReqSource = c;
-      }),
-      params: {
-        page,
-        tags: currentTag
-      }
-    })
+    fetch(`${config.dbHost}/api/blog/lists?page=${page}&tags=${currentTag ? currentTag : ''}`)
+      .then(r => r.json())
       .then(res => {
-        setBlogLists(() => res.data.list);
-        setPagetotal(() => Math.ceil(res.data.page.count / res.data.page.limit));
+        setBlogLists(() => res.list);
+        setPagetotal(() => Math.ceil(res.page.count / res.page.limit));
         setPage(() => page);
       });
+
     // scroll to top
     window.scroll({
       top: 0,
@@ -231,24 +226,23 @@ function Blog(props) {
 }
 
 Blog.getInitialProps = async (ctx) => {
-
+  // const 
   const page = ctx.query.page;
   const currentTag = getSearchObj(ctx).tags;
 
   const ret = {}
   await Promise.all([
-    axios.get('/api/blog/tags'),
-    axios.get(`/api/blog/lists`, {
-      params: {
-        page,
-        tags: currentTag
-      }
-    })
+    fetch(`${config.dbHost}/api/blog/tags`),
+    fetch(`${config.dbHost}/api/blog/lists?page=${page}&tags=${currentTag ? currentTag : ''}`)
   ]).then(([tags, lists]) => {
-    ret.tags = tags.data.list;
-    ret.blogLists = lists.data.list;
-    ret.pagetotal = Math.ceil(lists.data.page.count / lists.data.page.limit);
+    return Promise.all([tags.json(), lists.json()])
+  }).then(([tags, lists]) => {
+    ret.tags = tags.list;
+    ret.blogLists = lists.list;
+    ret.pagetotal = Math.ceil(lists.page.count / lists.page.limit);
     ret.page = page;
+  }).catch((e) => {
+    console.log('error', e.message)
   });
   return ret;
 };

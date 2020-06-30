@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CSS from './links.module.scss';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 import Layout from '../commons/layout';
+import config from '../config';
 
 function Links(props) {
   const list = props.list;
@@ -85,8 +86,9 @@ function Links(props) {
 }
 
 Links.getInitialProps = async (ctx) => {
-  const list = await axios.get(`/api/links/getlist`);
-  return { list: list.data.list }
+  const list = await fetch(`${config.dbHost}/api/links/getlist`)
+    .then(r => r.json());
+  return { list: list.list }
 };
 
 

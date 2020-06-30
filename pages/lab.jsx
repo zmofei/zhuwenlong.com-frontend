@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import CSS from './lab.scss';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 import moment from 'moment';
 import Lan from '../i18n/languageMap.jsx';
 import Page from '../commons/pageNumber';
 import Layout from '../commons/layout';
 
-
+import config from '../config';
 
 
 function Lab(props) {
@@ -106,8 +106,9 @@ function Lab(props) {
 }
 
 Lab.getInitialProps = async (ctx) => {
-  const list = await axios.get(`/api/lib/getlist`);
-  return { list: list.data.list }
+  const list = await fetch(`${config.dbHost}/api/lib/getlist`)
+    .then(r => r.json());
+  return { list: list.list }
 };
 
 export default Lab;
