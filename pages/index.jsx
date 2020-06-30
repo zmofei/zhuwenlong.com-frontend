@@ -134,7 +134,8 @@ function Home(props) {
       [28, 19, 'Washington, DC [18/03/24 8-days]'],
       [8, 21, 'San Francisco [18/04/01]'],
       [106, 33, 'Bangkok'],
-      [10, 24, 'Los Angeles']
+      [10, 24, 'Los Angeles'],
+      [96, 17, '新疆 [2019/10]']
     ]
     mapData.forEach(d => {
       _map.add([d[0], d[1]], {
