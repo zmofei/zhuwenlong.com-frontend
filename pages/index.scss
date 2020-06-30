@@ -1,3 +1,6 @@
+body {
+  margin: 0;
+}
 .homeBody {
   h2 {
     font-size: 56px;
@@ -458,10 +461,10 @@
       span {
         display: block;
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
         line-height: 2em;
-        color: #fff;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        // color: #fff;
+        // text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
       }
     }
   }

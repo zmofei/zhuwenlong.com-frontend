@@ -28,9 +28,11 @@ function Home(props) {
   var videobgref = useRef(null);
   var coverref = useRef(null);
 
+  console.log('!!!!', process.browser)
+  let screenHeight = 0;
   if (process.browser) {
     isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
-    const screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
     heightStyle.height = screenHeight;
     window.onload = () => {
       bgref.current.style.height = `${screenHeight}px`;
