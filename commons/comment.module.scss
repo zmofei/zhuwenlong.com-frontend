@@ -23,6 +23,7 @@
 
 .commend-user {
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .commend-avatar {
@@ -31,9 +32,9 @@
 }
 
 .commend-avatar img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
     background: url("/static/img/nobody.jpg");
     background-size: cover;
 }
@@ -43,13 +44,13 @@
 }
 
 .commend-name {
-    height: 25px;
-    line-height: 25px;
+    height: 22px;
+    line-height: 22px;
 }
 
 .commend-time {
-    height: 25px;
-    line-height: 25px;
+    height: 22px;
+    line-height: 22px;
     color: #999;
     font-size: 12px;
 }
@@ -63,7 +64,7 @@
 
 .commend-action {
     margin-top: 10px;
-    font-family: 'icomoon';
+    font-family: "icomoon";
     overflow: hidden;
     color: #999;
 }
@@ -197,7 +198,7 @@
 }
 
 .commend-replay-box {
-    border-top: 1px solid #E8E8E8;
+    border-top: 1px solid #e8e8e8;
     width: 100%;
     margin-top: 10px;
     padding: 10px 0;
@@ -259,6 +260,6 @@
     top: 0;
     right: 0;
     margin: -20px;
-    background: url('/static/img/index/close.svg') no-repeat center #999;
+    background: url("/static/img/index/close.svg") no-repeat center #999;
     cursor: pointer;
 }

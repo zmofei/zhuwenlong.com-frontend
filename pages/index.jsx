@@ -30,7 +30,7 @@ function Home(props) {
 
   console.log('!!!!', process.browser)
   let screenHeight = 0;
-  if (process.browser) {
+  if (process.browser && bgref) {
     isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
     screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
     heightStyle.height = screenHeight;
