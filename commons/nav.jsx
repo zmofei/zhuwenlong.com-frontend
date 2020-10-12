@@ -69,7 +69,7 @@ function nav(props) {
           </Link>
         </li>
         <li>
-          <Link href={`/rss?lan=${props.lan}`} >
+          <Link href={`/api/rss?lan=${props.lan}`} >
             <a onClick={onClickMenu} target="_blank">
               &#xe905;
             </a>
