@@ -6,6 +6,11 @@
     padding: 0;
     color: #666;
     font-size: 14px;
+    a {
+        text-decoration: none;
+        color: #f15623;
+        font-size: 14px;
+    }
     .commend-pub {
         &.commendPlaceholder {
             .commend-avatar-img,
@@ -165,10 +170,7 @@
         padding: 0 5px;
         height: 25px;
         line-height: 25px;
-        a {
-            color: #f15623;
-            font-size: 14px;
-        }
+       
     }
     .commend-time {
         height: 25px;

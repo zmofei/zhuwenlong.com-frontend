@@ -1,8 +1,5 @@
 @import "../commons/placeHolder.module.scss";
-body a {
-    color: #f15623;
-    text-decoration: none;
-}
+
 
 .labBody {
     padding: 50px 10px 0 10px;
@@ -33,6 +30,7 @@ body a {
     margin-bottom: 10px;
     background: white;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+
     img {
         width: 100%;
         height: 260px;
@@ -43,7 +41,9 @@ body a {
         background-position: center;
         transition: all 0.4s ease-in;
     }
+
     &.lab-block-placeholder {
+
         .placeholder,
         .lab-block-title,
         .lab-block-intro {
@@ -53,15 +53,18 @@ body a {
             display: inline-block;
             @extend .animated-background;
         }
+
         .placeholderImg {
             width: 100%;
             height: 257px;
             border: 2px solid #fff;
             box-sizing: border-box;
         }
+
         .lab-block-title {
             width: 150px;
         }
+
         .lab-block-intro {
             display: block;
             width: 100%;
@@ -76,6 +79,11 @@ body a {
     display: inline-block;
     font-weight: 700;
     font-size: 18px;
+
+    a {
+        color: #f15623;
+        text-decoration: none;
+    }
 }
 
 .lab-block-intro {
@@ -87,6 +95,13 @@ body a {
 
 .lab-block-author {
     color: #666;
+
+    a {
+        color: #f15623;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
     // font-size: 14px;
     // line-height: 1.6em;
 }
@@ -113,17 +128,20 @@ body a {
         padding-left: 0;
         padding-right: 0;
     }
+
     // .lab {
     //     padding: 10px;
     // }
     .lab-block-addone {
         padding: 0 10px;
     }
+
     .global-nav-text-link li a {
         color: #fff;
         background: rgba(51, 51, 51, 0.95);
         border-bottom: 1px solid #484848;
     }
+
     .lab {
         min-width: 0;
         margin: 0;
@@ -132,6 +150,7 @@ body a {
         box-sizing: border-box;
         overflow: hidden;
     }
+
     .lab-block {
         float: inherit;
         width: auto;
@@ -141,6 +160,7 @@ body a {
         margin: 0;
         margin-bottom: 20px;
     }
+
     .lab-block img {
         max-width: 100%;
     }

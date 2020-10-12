@@ -75,7 +75,10 @@ function Links(props) {
   }
 
   return (
-    <Layout title={lan(props.lan, { zh: `小伙伴 - 朱文龙的自留地`, en: `Friends - Hi! I am Mofei!` })}>
+    <Layout
+      module="/links"
+      title={lan(props.lan, { zh: `小伙伴 - 朱文龙的自留地`, en: `Friends - Hi! I am Mofei!` })}
+    >
       <div className={CSS.labBody}>
         <section className={`${CSS["lab"]}`}>
           <div className={`${CSS["lab-box"]}`}>

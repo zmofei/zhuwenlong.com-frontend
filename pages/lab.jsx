@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/router'
-import CSS from './lab.scss';
+import React, { } from "react";
+import CSS from './lab.module.scss';
 import fetch from 'isomorphic-unfetch';
-import moment from 'moment';
 import Lan from '../i18n/languageMap.jsx';
-import Page from '../commons/pageNumber';
 import lan from '../i18n/languagefn.js';
 import Layout from '../commons/layout';
 import { connect } from 'react-redux';
@@ -95,7 +92,10 @@ function Lab(props) {
   }
 
   return (
-    <Layout title={lan(props.lan, { zh: `实验室 - 朱文龙的自留地`, en: `Labs - Hi! I am Mofei!` })}>
+    <Layout
+      module="/lab"
+      title={lan(props.lan, { zh: `实验室 - 朱文龙的自留地`, en: `Labs - Hi! I am Mofei!` })}
+    >
       <div className={CSS.labBody}>
         <section className={`${CSS["lab"]}`}>
           <div className={`${CSS["lab-box"]}`}>

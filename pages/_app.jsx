@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 import ReactGA from 'react-ga';
 
 import lan from '../reducers/lan.js';
+import './_app.scss';
 
 // 
 

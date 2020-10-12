@@ -2,6 +2,6 @@
 const withSass = require('@zeit/next-sass');
 const withImages = require('next-images');
 
-
-module.exports = withImages();
-// module.exports = ();
+module.exports = withImages({
+	poweredByHeader: false // This doesn't really matter
+});

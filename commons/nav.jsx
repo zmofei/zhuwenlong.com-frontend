@@ -15,6 +15,19 @@ function nav(props) {
     }
   }
 
+  console.log(props.module)
+
+  const { module } = props;
+
+  // if (process.browser) {
+  //   // oldMessage = localStorage.getItem('message') || '';
+  //   // oldRepMessage = localStorage.getItem('repMessage') || '';
+  //   console.log('1')
+  // } else {
+  //   // console.log('2', process)
+  // }
+
+
   return (
     <div className={`${styles.head} ${(props.path === '/' ? styles.index : styles.dark)}`}>
       <div className={styles.logo}>
@@ -25,35 +38,35 @@ function nav(props) {
       <ul className={styles.nav} ref={navDom} >
         <li>
           <Link href="/" >
-            <a onClick={onClickMenu}>
-              <Lan en="Index" zh="首页" />
+            <a onClick={onClickMenu}  >
+              <Lan en="Index" zh="首页" className={module === '/' ? styles.active : ''} />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/blog/[page]" as="/blog/1">
-            <a onClick={onClickMenu}>
+          <Link href="/blog/[page]" as="/blog/1" >
+            <a onClick={onClickMenu} className={module === '/blog' ? styles.active : ''}>
               <Lan en="Blog" zh="博客" />
             </a>
           </Link>
         </li>
         <li>
           <Link href="/lab" as="/lab">
-            <a onClick={onClickMenu}>
+            <a onClick={onClickMenu} className={module === '/lab' ? styles.active : ''}>
               <Lan en="Lab" zh="实验室" />
             </a>
           </Link>
         </li>
         <li>
           <Link href="/message" as="/message" >
-            <a onClick={onClickMenu}>
+            <a onClick={onClickMenu} className={module === '/message' ? styles.active : ''}>
               <Lan en="Message" zh="留言" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/links" as="/links">
-            <a onClick={onClickMenu}>
+          <Link href="/links" as="/links" >
+            <a onClick={onClickMenu} className={module === '/links' ? styles.active : ''}>
               <Lan en="Friends" zh="小伙伴" />
             </a>
           </Link>
@@ -76,9 +89,10 @@ function nav(props) {
           </Link>
         </li>
       </ul>
-    </div>
+    </div >
   )
 }
+
 
 const mapStateToProps = ({ lan }) => ({
   lan

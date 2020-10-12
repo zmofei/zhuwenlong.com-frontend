@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import CSS from './index.scss';
+import CSS from './index.module.scss';
 import logo from '../public/static/img/index/logo.png';
 import world from '../public/static/js/world.js';
 import fetch from 'isomorphic-unfetch'
@@ -28,7 +28,6 @@ function Home(props) {
   var videobgref = useRef(null);
   var coverref = useRef(null);
 
-  console.log('!!!!', process.browser)
   let screenHeight = 0;
   if (process.browser && bgref) {
     isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
@@ -160,7 +159,7 @@ function Home(props) {
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Layout nocopyright={true}>
+      <Layout nocopyright={true} module="/">
         <div className={CSS.homeBody} >
           <div className={CSS.videoBgMobile} style={heightStyle} ref={videobgref}></div>
           {!isMobile && (

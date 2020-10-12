@@ -1,6 +1,6 @@
-body {
-  margin: 0;
-}
+// body {
+//   margin: 0;
+// }
 .homeBody {
   h2 {
     font-size: 56px;
@@ -8,6 +8,7 @@ body {
     margin: 40px 0 15px;
     text-align: center;
   }
+
   h3 {
     font-size: 20px;
     font-weight: 300;
@@ -76,10 +77,12 @@ body {
     font-family: sans-serif;
     animation: titlepos 1s ease-in;
   }
+
   svg {
     max-width: 1200px;
     margin: 0 auto;
     margin-left: 20px;
+
     path {
       fill: rgba(0, 0, 0, 0);
       stroke: #fff;
@@ -88,11 +91,13 @@ body {
       animation: title 4s ease-in forwards;
     }
   }
+
   h2 {
     font-size: 16px;
     color: #ccc;
     animation: titleh2 3s ease-in;
   }
+
   .cover-more {
     position: absolute;
     width: 50%;
@@ -101,6 +106,7 @@ body {
     margin-left: -25%;
     // text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   }
+
   .btn {
     position: absolute;
     bottom: 100px;
@@ -116,9 +122,11 @@ body {
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
   padding: 40px 0 80px;
+
   p {
     margin: 8px;
   }
+
   .img {
     margin: 0 auto 30px;
     text-align: center;
@@ -127,6 +135,7 @@ body {
     height: 120px;
     border: 20px solid #fff;
     box-shadow: 0 0 1px #333;
+
     img {
       height: 0;
       width: 0;
@@ -201,6 +210,7 @@ body {
   overflow: hidden;
   color: #333;
   background: rgba(255, 255, 255, 0.85);
+
   p {
     font-size: 16px;
     line-height: 1.6em;
@@ -216,6 +226,7 @@ body {
   overflow: hidden;
   color: #ccc;
   position: relative;
+
   .btn {
     padding: 8px 0;
     width: 140px;
@@ -278,9 +289,11 @@ body {
   padding: 50px 0;
   color: #fff;
   text-align: center;
+
   a {
     text-decoration: none;
   }
+
   .btn {
     height: 80px;
     width: 80px;
@@ -291,6 +304,7 @@ body {
     padding: 10px;
     margin: 0 10px;
   }
+
   .btn:after {
     border-width: 2px;
     border-radius: 60px;
@@ -385,10 +399,12 @@ body {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
   }
+
   80% {
     stroke-dashoffset: 0;
     fill: rgba(0, 0, 0, 0);
   }
+
   100% {
     stroke-dasharray: 1000;
     stroke-dashoffset: 0;
@@ -401,6 +417,7 @@ body {
     margin-top: -250px;
     opacity: 0;
   }
+
   100% {
     margin-top: -280px;
     opacity: 1;
@@ -411,9 +428,11 @@ body {
   0% {
     opacity: 0;
   }
+
   80% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -430,33 +449,39 @@ body {
       stroke-dasharray: 1000;
       stroke-dashoffset: 1000;
     }
+
     80% {
       stroke-dashoffset: 0;
       fill: rgba(255, 255, 255, 0);
     }
+
     100% {
       stroke-dasharray: 1000;
       stroke-dashoffset: 0;
       fill: rgba(255, 255, 255, 1);
     }
   }
+
   .homeBody {
     p {
       font-size: 12px !important;
       margin: 0 !important;
       line-height: 1.6em !important;
     }
+
     h2 {
       margin-top: 25px;
       margin-bottom: 5px;
       font-size: 28px;
     }
+
     h3 {
       font-size: 14px;
       font-weight: 300;
       text-align: center;
       margin: 8px 0 18px 0;
     }
+
     h2 {
       span {
         display: block;
@@ -468,6 +493,7 @@ body {
       }
     }
   }
+
   .indexCover .title {
     top: 50%;
     position: absolute;
@@ -481,6 +507,7 @@ body {
     color: #fff;
     padding: 10px;
   }
+
   .cover-more {
     position: absolute;
     width: 50%;
@@ -489,10 +516,12 @@ body {
     margin-left: -25%;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   }
+
   .index-about {
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .index-about-block {
     width: auto;
     padding: 10px 20px;
@@ -503,6 +532,7 @@ body {
     display: block;
     float: none;
   }
+
   .index-about .img {
     // text-align: left;
     width: 100%;
@@ -512,79 +542,98 @@ body {
     box-shadow: none;
     margin-bottom: 10px;
   }
+
   .index-about-identity .img,
   .index-about-identity:hover .img {
-    background: url(" /static/img/index/idnetity.gif") no-repeat center;
+    background: url("/static/img/index/idnetity.gif") no-repeat center;
     background-size: contain;
   }
+
   .index-about-work .img,
   .index-about-work:hover .img {
-    background: url(" /static/img/index/work.gif") no-repeat center;
+    background: url("/static/img/index/work.gif") no-repeat center;
     background-size: contain;
   }
+
   .index-about-dream .img,
   .index-about-dream:hover .img {
-    background: url(" /static/img/index/dream.gif") no-repeat center;
+    background: url("/static/img/index/dream.gif") no-repeat center;
     background-size: contain;
   }
+
   .index-content-box {
     margin: 5px 0;
     padding: 10px 0px;
     box-sizing: border-box;
   }
+
   .index-content-boxhalf {
     box-sizing: border-box;
     padding: 0 5px;
     float: left;
     width: 50%;
   }
+
   .index-content {
     padding: 5px 10px;
+
     .btn {
       width: 100%;
       font-size: 14px;
     }
   }
+
   .index-content input,
   .index-content textarea {
     width: 100%;
   }
+
   .index-content-message {
     padding: 5px;
   }
+
   .index-content-btn {
     padding: 10px 5px;
     box-sizing: border-box;
   }
+
   .index-copyright-top {
     height: 25px;
   }
+
   .index-copyright-mid {
     height: 64px;
   }
+
   .index-copyright-midleft {
     margin-left: -104px;
     height: 64px;
   }
+
   .index-copyright-midcenter {
     width: 208px;
     margin-left: -104px;
     height: 64px;
   }
+
   .index-copyright-midcenter img {
     width: 208px;
     height: 64px;
   }
+
   .index-copyright-midright {
     margin-right: -104px;
     height: 64px;
   }
+
   .videoBgMobile {
     display: block;
   }
+
   .videoBg {
     display: none;
   }
+
   .index-coffee {
     margin-top: 0;
     padding-top: 10px;

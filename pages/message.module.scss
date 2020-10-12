@@ -1,11 +1,14 @@
 @import "../commons/placeHolder.module.scss";
+
 .box {
     background: #f4f4f4;
+
     .boxContent {
         padding: 50px 10px 0 10px;
         max-width: 1200px;
         margin: 0 auto;
     }
+
     .messageBody {
         margin-right: 370px;
     }
@@ -36,16 +39,19 @@
         padding: 0 10px;
         vertical-align: middle;
         fill: rgba(255, 255, 255, 0.75);
+
         svg {
             vertical-align: middle;
             width: 22px;
             height: 22px;
         }
+
         span {
-            vertical-align: middle;
-            padding-left: 10px;
+            // vertical-align: middle;
+            padding-left: 5px;
             display: inline-block;
         }
+
         a {
             float: right;
             padding: 5px 10px;
@@ -58,16 +64,24 @@
             margin-top: 7px;
         }
     }
+
     .content {
         overflow: hidden;
         background: white;
         font-size: 14px;
+
+        a {
+            color: #f15623;
+            text-decoration: none;
+        }
+
         a {
             display: inline-block;
             width: 33.3%;
             box-sizing: border-box;
             padding: 5px 0;
             border-right: 1px solid #eee;
+
             span {
                 .placeholder {
                     @extend .animated-background;
@@ -75,14 +89,17 @@
                     height: 15px;
                     width: 40px;
                 }
+
                 line-height: 1.46em;
                 display: block;
                 text-align: center;
+
                 &.number {
                     text-align: center;
                     font-weight: bolder;
                 }
             }
+
             &:last-child {
                 border: none;
             }
@@ -99,6 +116,7 @@
         top: auto;
         margin-bottom: 20px;
     }
+
     .box {
         .messageBody {
             margin-right: 0px;

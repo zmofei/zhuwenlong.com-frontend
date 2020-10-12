@@ -65,14 +65,19 @@
                 line-height: 50px;
                 display: inline-block;
                 vertical-align: middle;
+                padding: 0 5px;
 
                 &.active {
+                    height: 40px;
                     font-weight: bolder;
+                    border-bottom: 1px solid #ef9374;
+                    margin-bottom: 9px;
                 }
 
                 img {
                     vertical-align: middle;
                 }
+
             }
         }
     }

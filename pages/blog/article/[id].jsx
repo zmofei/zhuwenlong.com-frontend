@@ -43,7 +43,10 @@ function Article(props) {
   const enTitle = blog['title-en'] || blog['title'];
 
   return (
-    <Layout title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}>
+    <Layout
+      title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
+      module="/blog"
+    >
       <div className={CSS.articleBody}>
         <section className={CSS.blog}>
           <section className={CSS.article}>

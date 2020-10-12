@@ -226,7 +226,10 @@ function Blog(props) {
   }
 
   return (
-    <Layout title={lan(props.lan, { 'zh': "博客 - 朱文龙(Mofei)的自留地", 'en': 'Blog - Hi! I am Mofei!' })}>
+    <Layout
+      title={lan(props.lan, { 'zh': "博客 - 朱文龙(Mofei)的自留地", 'en': 'Blog - Hi! I am Mofei!' })}
+      module="/blog"
+    >
       <div className={CSS.blogBody}>
         <div className={CSS.blogContent}>
           <div className={CSS.subNav}>

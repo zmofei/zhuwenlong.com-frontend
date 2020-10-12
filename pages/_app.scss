@@ -6,10 +6,17 @@
   font-style: normal;
 }
 
+
 body,
 h1,
 h2 {
   font-family: 'Open Sans', 'Tahoma', 'Arial', 'Roboto', 'Droid Sans', 'Helvetica Neue', 'Droid Sans Fallback', 'Heiti SC', 'Hiragino Sans GB', Simsun, sans-self;
+}
+
+body,
+html {
+  padding: 0;
+  margin: 0;
 }
 
 html {

@@ -27,7 +27,9 @@ function MessagePage(props) {
 
   function getMessage() {
     return (
-      <Layout>
+      <Layout
+        module="/message"
+      >
         <div className={CSS.box}>
           <div className={CSS.boxContent}>
             <div className={CSS.innderBox}>
