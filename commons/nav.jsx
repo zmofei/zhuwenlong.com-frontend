@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useRef } from "react";
-import CSS from './nav.scss';
+import styles from './nav.module.scss';
 import logo from '../public/static/img/logo-ico.png';
 
 import Lan from '../i18n/languageMap.jsx';
@@ -16,13 +16,13 @@ function nav(props) {
   }
 
   return (
-    <div className={`${CSS.head} ${(props.path === '/' ? CSS.index : CSS.dark)}`}>
-      <div className={CSS.logo}>
+    <div className={`${styles.head} ${(props.path === '/' ? styles.index : styles.dark)}`}>
+      <div className={styles.logo}>
         <img src={logo} alt="logo"></img>
         <span>Hi! I'm Mofei!</span>
       </div>
-      <button className={CSS['global-nav-btn']} id="navTar" onClick={onClickMenu} ref={navBtn} />
-      <ul className={CSS.nav} ref={navDom} >
+      <button className={styles['global-nav-btn']} id="navTar" onClick={onClickMenu} ref={navBtn} />
+      <ul className={styles.nav} ref={navDom} >
         <li>
           <Link href="/" >
             <a onClick={onClickMenu}>

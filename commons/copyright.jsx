@@ -1,9 +1,9 @@
 import React from "react";
-import CSS from './copyright.scss';
+import styles from './copyright.module.scss';
 
 function CopyRight(props) {
     return (
-        <div className={`${CSS.copyright} ${props.className}`}>
+        <div className={`${styles.copyright} ${props.className}`}>
             <div>
                 <span>(C) 2010-2019 Code & Design by </span>
                 <a href="https://github.com/zmofei/" target="_blank" rel="noopener noreferrer" >Mofei</a>

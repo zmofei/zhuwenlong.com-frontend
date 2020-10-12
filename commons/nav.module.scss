@@ -14,11 +14,7 @@
     font-style: normal;
 }
 
-body,
-h1,
-h2 {
-    font-family: Open Sans, Tahoma, Arial, Roboto, ”Droid Sans”, ”Helvetica Neue”, ”Droid Sans Fallback”, ”Heiti SC”, ”Hiragino Sans GB”, Simsun, sans-self;
-}
+
 
 .head {
     background: rgba(0, 0, 0, 0.4);
@@ -30,6 +26,7 @@ h2 {
     right: 0;
     z-index: 100000;
     font-family: Arial, 'Hiragino Sans GB', 冬青黑, 'Microsoft YaHei', 微软雅黑, SimSun, 宋体, Helvetica, Tahoma, 'Arial sans-serif';
+
     .logo {
         float: left;
         height: 50px;
@@ -37,6 +34,7 @@ h2 {
         padding-left: 10px;
         color: #fff;
         font-size: 26px;
+
         img {
             vertical-align: middle;
             width: 40px;
@@ -44,17 +42,20 @@ h2 {
             margin-right: 10px;
         }
     }
+
     .nav {
         float: right;
         height: 50px;
         line-height: 50px;
         padding: 0;
         margin: 0;
+
         li {
             padding: 0;
             margin: 0;
             float: left;
             list-style: none;
+
             a {
                 font-family: icomoon, Arial, Hiragino Sans GB, 冬青黑, Microsoft YaHei, 微软雅黑, SimSun, 宋体, Helvetica, Tahoma, "Arial sans-serif";
                 text-decoration: none;
@@ -64,15 +65,18 @@ h2 {
                 line-height: 50px;
                 display: inline-block;
                 vertical-align: middle;
+
                 &.active {
                     font-weight: bolder;
                 }
+
                 img {
                     vertical-align: middle;
                 }
             }
         }
     }
+
     .global-nav-btn {
         background: none;
         border: none;
@@ -89,6 +93,7 @@ h2 {
         font-weight: bold;
         padding: 5px;
     }
+
     .global-nav-btn:after {
         content: ' ';
         width: 40px;
@@ -96,6 +101,7 @@ h2 {
         float: right;
         background: url('/static/img/index/bars.svg') no-repeat center;
     }
+
     &.dark {
         background: rgba(0, 0, 0, 0.8);
     }
@@ -110,8 +116,10 @@ h2 {
             position: absolute;
             top: 50px;
             z-index: 1000;
+
             li {
                 float: none;
+
                 a {
                     display: block;
                     background: rgba(249, 251, 248, 0.8);
@@ -124,27 +132,33 @@ h2 {
                 }
             }
         }
+
         &.dark {
             .nav {
                 li a {
                     color: #fff;
                     background: rgba(51, 51, 51, 0.95);
                     border-bottom: 1px solid #484848;
+
                     img {
                         fill: red;
                     }
                 }
             }
         }
+
         .global-nav-btn {
             display: block;
         }
+
         .global-nav-text {
             overflow: visible;
         }
+
         .global-nav-text-logo {
             margin-left: 10px;
         }
+
         .global-nav-text-link {
             display: none;
             margin-right: 0;
@@ -153,6 +167,7 @@ h2 {
             top: 50px;
             z-index: 1000;
         }
+
         .global-nav-text-link li a {
             display: block;
             background: rgba(249, 251, 248, 0.8);

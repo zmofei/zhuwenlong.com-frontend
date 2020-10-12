@@ -1,7 +1,7 @@
 import React from "react";
 import Link from 'next/link';
 import Lan from '../i18n/languageMap.jsx';
-import CSS from './pageNumber.scss';
+import CSS from './pageNumber.module.scss';
 
 
 function changePage(page, cb) {

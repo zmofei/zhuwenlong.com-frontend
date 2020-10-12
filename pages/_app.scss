@@ -11,3 +11,14 @@ h1,
 h2 {
   font-family: 'Open Sans', 'Tahoma', 'Arial', 'Roboto', 'Droid Sans', 'Helvetica Neue', 'Droid Sans Fallback', 'Heiti SC', 'Hiragino Sans GB', Simsun, sans-self;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f7f7f7;
+  font-family: Arial, "Hiragino Sans GB", 冬青黑, "Microsoft YaHei", 微软雅黑, SimSun, 宋体, Helvetica, Tahoma,
+    "Arial sans-serif";
+  -webkit-font-smoothing: antialiased;
+}
