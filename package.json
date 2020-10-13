@@ -4,7 +4,6 @@
   "description": "![CDState](https://github.com/zmofei/zhuwenlong.com-frontend/workflows/CD/badge.svg)",
   "main": "index.js",
   "dependencies": {
-    "@zeit/next-sass": "^1.0.1",
     "highlight.js": "^9.18.3",
     "history": "^4.10.1",
     "isomorphic-unfetch": "^3.1.0",

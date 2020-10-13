@@ -61,18 +61,19 @@
                 text-decoration: none;
                 color: #fff;
                 margin: 0 8px;
-                height: 50px;
+                height: 40px;
                 line-height: 50px;
                 display: inline-block;
                 vertical-align: middle;
                 padding: 0 5px;
+                border-bottom: 1px solid transparent;
+                margin-bottom: 9px;
 
-                &.active {
-                    height: 40px;
-                    font-weight: bolder;
-                    border-bottom: 1px solid #ef9374;
-                    margin-bottom: 9px;
-                }
+                // &.active {
+                //     height: 40px;
+                //     border-bottom: 1px solid #ef9374;
+                //     margin-bottom: 9px;
+                // }
 
                 img {
                     vertical-align: middle;

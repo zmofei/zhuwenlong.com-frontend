@@ -71,18 +71,6 @@ function Article(props) {
                 <Lan
                   en={<div dangerouslySetInnerHTML={{ __html: blog['html-en'] || blog.html }} />}
                   zh={<div dangerouslySetInnerHTML={{ __html: blog.html }} />} />
-                {/* <div className={CSS["blog-money"]}>
-                   <img src={blogMoney} alt="sponsorship" /> 
-                </div> */}
-                {/* <Adsense /> */}
-
-                {/* {process.browser ? <AdSense.Google
-                  style={{ display: 'block', textAlign: 'center' }}
-                  layout="in-article"
-                  format='fluid'
-                  client='ca-pub-0645475852185063'
-                  slot='5520937769'
-                /> : ''} */}
               </div>
             </section>
             <section className={CSS["article-tags"]}>
@@ -119,11 +107,11 @@ function Article(props) {
   )
 }
 
-Article.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
   const { id } = ctx.query;
   const res = await fetch(`${config.dbHost}/api/blog/article/${id}`)
     .then(r => r.json())
-  return { blog: res.data }
+  return { props: { blog: res.data } }
 }
 
 const mapStateToProps = state => {

@@ -87,11 +87,12 @@ function MessagePage(props) {
   return getMessage();
 }
 
-MessagePage.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
   const page = ctx.query.page || 1;
   const message = await fetch(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page}`)
     .then(r => r.json());
-  return message;
+  return { props: message }
 };
+
 
 export default MessagePage;

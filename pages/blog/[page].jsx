@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 import Layout from '../../commons/layout';
 import fetch from 'isomorphic-unfetch';
 import { connect } from 'react-redux';
-import AdSense from 'react-adsense';
 
 import config from '../../config';
 
@@ -30,20 +29,22 @@ function getSearchObj(router) {
 }
 
 function Blog(props) {
-  // console.log(2)
   const router = useRouter();
   let currentPage = Number(router.query.page || 1);
+  const [tags, setTags] = useState(props.data.tags);
+  const [blogLists, setBlogLists] = useState(props.data.blogLists);
+  const [page, setPage] = useState(props.data.page);
+  const [pagetotal, setPagetotal] = useState(props.data.pagetotal);
+  const [currentTag, setCurrentTag] = useState(props.data.currentTag);
 
-  const tag = props.tags;
-
-  const [blogLists, setBlogLists] = useState(props.blogLists);
-  const [page, setPage] = useState(props.page);
-  const [pagetotal, setPagetotal] = useState(props.pagetotal);
-
-
-
-  const [currentTag, setCurrentTag] = useState(getSearchObj(router).tags);
-
+  useEffect(() => {
+    // console.log(tag)
+    fetch(`${config.dbHost}/api/blog/tags`)
+      .then(r => r.json())
+      .then(res => {
+        setTags(res.list)
+      });
+  }, [currentTag]);
 
   useEffect(() => {
     const page = currentPage || 1;
@@ -68,16 +69,14 @@ function Blog(props) {
 
 
   function getSubNav() {
-    if (tag && tag.length > 0) {
-      let { tags } = { ...getSearchObj(router) };
-      return tag.map((t, index) => (
+    if (tags && tags.length > 0) {
+      return tags.map((t, index) => (
         <Link
           key={t.classid + Math.random()}
-          href="/blog/[page]"
-          as={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')}
+          href={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')}
         >
           <a
-            className={tags ? Number(tags) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}
+            className={currentTag ? Number(currentTag) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}
             onClick={() => {
               setCurrentTag(t.classid);
             }}
@@ -103,8 +102,6 @@ function Blog(props) {
   }
 
   function getBlogClass(classinfo) {
-    let { tags } = { ...getSearchObj(router) };
-    tags = (tags || '').split(',').map(t => Number(t));
     if (classinfo.length > 0) {
       return (
         <div className={CSS["blog-tag"]}>&#xe901; Tags: &nbsp;
@@ -112,17 +109,20 @@ function Blog(props) {
             classinfo.map(info => (
               info && (
                 <Link key={`blogclass_${info.classid}`}
-                  href={`/blog/[page]`}
-                  as={`/blog/1?tags=${info.classid}`}
+                  href={`/blog/1?tags=${info.classid}`}
                 >
-                  <a>
+                  <a onClick={
+                    () => {
+                      setCurrentTag(info.classid);
+                    }
+                  }>
                     <Lan en={info['classname-en'] || info['classname']} zh={info.classname} />
                   </a>
                 </Link>
               )
             ))
           }
-        </div>
+        </div >
       )
     } else {
       return '';
@@ -135,8 +135,7 @@ function Blog(props) {
         <div key={`blog_${blog._id}`} className={CSS["blog-content-block"]}>
           <div className={`${CSS["blog-content-text"]} ${CSS["noimg"]}`}>
             <Link
-              href={`/blog/article/[id]`}
-              as={`/blog/article/${blog._id}`}
+              href={`/blog/article/${blog._id}`}
             >
               <a>
                 <h2><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
@@ -144,8 +143,7 @@ function Blog(props) {
             </Link>
             {getBlogClass(blog.classid)}
             <Link
-              href={`/blog/article/[id]`}
-              as={`/blog/article/${blog._id}`}
+              href={`/blog/article/${blog._id}`}
             >
               <a>
                 <div className={CSS["blog-review"]}>
@@ -170,29 +168,6 @@ function Blog(props) {
           </div>
         </div>
       ));
-
-      // if (process.browser) {
-      //   if (blogDom.length >= 5) {
-      //     blogDom.splice(5, 0, <AdSense.Google
-      //       style={{ display: 'block' }}
-      //       format='fluid'
-      //       layoutKey='-ft-1y+18-2v+e1'
-      //       client='ca-pub-0645475852185063'
-      //       slot='7192293841'
-      //     />)
-      //   }
-      //   if (blogDom.length >= 11) {
-      //     blogDom.splice(11, 0, <AdSense.Google
-      //       style={{ display: 'block' }}
-      //       format='fluid'
-      //       layoutKey='-ft-1y+18-2v+e1'
-      //       client='ca-pub-0645475852185063'
-      //       slot='7192293841'
-      //     />)
-      //   }
-      // }
-
-
       return blogDom;
     } else {
       return new Array(3).fill(0).map((v, i) => (
@@ -233,7 +208,7 @@ function Blog(props) {
       <div className={CSS.blogBody}>
         <div className={CSS.blogContent}>
           <div className={CSS.subNav}>
-            {getSubNav(tag)}
+            {getSubNav()}
           </div>
           <div>
             {getBlogLists()}
@@ -255,17 +230,15 @@ function Blog(props) {
   )
 }
 
-Blog.getInitialProps = async (ctx) => {
-  // const 
+export async function getServerSideProps(ctx) {
   const page = ctx.query.page || 1;
-  const currentTag = getSearchObj(ctx).tags;
-
+  const currentTag = ctx.query.tags;
   const ret = {}
   await Promise.all([
     fetch(`${config.dbHost}/api/blog/tags`),
     fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}`)
   ]).then(([tags, lists]) => {
-    return Promise.all([tags.json(), lists.json()])
+    return Promise.all([tags.json(), lists.json()]);
   }).then(([tags, lists]) => {
     ret.tags = tags.list;
     ret.blogLists = lists.list;
@@ -274,8 +247,8 @@ Blog.getInitialProps = async (ctx) => {
   }).catch((e) => {
     console.log('error', e.message)
   });
-  return ret;
-};
+  return { props: { data: { ...ret, currentTag: ctx.query.tags || '' } } }
+}
 
 function stateToProps(state) {
   const lan = state.lan;

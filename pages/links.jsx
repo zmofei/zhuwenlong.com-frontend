@@ -90,13 +90,11 @@ function Links(props) {
   )
 }
 
-Links.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
   const list = await fetch(`${config.dbHost}/api/links/getlist`)
     .then(r => r.json());
-  return { list: list.list }
+  return { props: { list: list.list } }
 };
-
-
 
 function stateToProps(state) {
   const lan = state.lan;
