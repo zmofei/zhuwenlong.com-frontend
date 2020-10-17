@@ -102,7 +102,7 @@ function Blog(props) {
   }
 
   function getBlogClass(classinfo) {
-    if (classinfo.length > 0) {
+    if (classinfo && classinfo.length > 0) {
       return (
         <div className={CSS["blog-tag"]}>&#xe901; Tags: &nbsp;
           {

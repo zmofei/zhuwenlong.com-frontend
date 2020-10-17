@@ -1,12 +1,11 @@
 ROSTemplateFormatVersion: '2015-09-01'
 Transform: 'Aliyun::Serverless-2018-04-03'
 Resources:
-  zhuwenlong_com_frontend:
+  zhuwenlong_com_frontend: # service name
     Type: 'Aliyun::Serverless::Service'
     Properties:
       Description: This is FC service
-      NasConfig: Auto
-    zhuwenlong_com_frontend:
+    zhuwenlong_com_frontend: # function name
       Type: 'Aliyun::Serverless::Function'
       Properties:
         Handler: index.handler
@@ -15,27 +14,21 @@ Resources:
         MemorySize: 1024
         InstanceConcurrency: 5
         Timeout: 120
-        EnvironmentVariables:
-          NODE_PATH: '/mnt/auto/node_modules:/usr/local/lib/node_modules'
+        
       Events:
         httpTrigger:
           Type: HTTP
           Properties:
             AuthType: ANONYMOUS
-            Methods:
-              - GET
-              - POST
-              - PUT
+            Methods: ['GET', 'POST', 'PUT']
   Domain:
-    Type: 'Aliyun::Serverless::CustomDomain'
+    Type: Aliyun::Serverless::CustomDomain
     Properties:
-      DomainName: fc-source.zhuwenlong.com
+      DomainName: Auto
       Protocol: HTTP
       RouteConfig:
         Routes:
-          /*:
+          "/*":
             ServiceName: zhuwenlong_com_frontend
             FunctionName: zhuwenlong_com_frontend
-          /api/*:
-            ServiceName: zhuwenlong_com_server
-            FunctionName: zhuwenlong_com_server
+  

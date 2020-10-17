@@ -16,7 +16,7 @@ function Layout(props) {
         <meta name="keywords" content="朱文龙,Mofei,HTML,CSS,JavaScript" />
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <link rel="icon" type="image/x-icon" href="https://cdn.zhuwenlong.com/upload/image/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="https://cdn.zhuwenlong.com/upload/image/logo_128.ico" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       </Head>
       <Nav module={props.module} />

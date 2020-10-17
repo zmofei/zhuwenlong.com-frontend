@@ -1,4 +1,0 @@
-nasMappings:
-  zhuwenlong_com_frontend:
-    - localNasDir: node_modules
-      remoteNasDir: /mnt/auto/node_modules

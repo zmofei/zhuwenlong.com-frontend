@@ -7,13 +7,14 @@ if (!defaultLan) {
   }
 }
 
-
-
 const lan = (state = { lan: defaultLan }, action) => {
   switch (action.type) {
     case 'SET_LANGUAGE':
+      console.log('receive lan', action.lan, Object.assign({}, state, { lan: action.lan }))
       Cookie.set('lan', action.lan, { expires: 999999 });
-      return Object.assign({}, state, { lan: action.lan });
+      const newState = { ...state, lan: action.lan };
+      console.log(newState);
+      return { ...state, lan: action.lan };
     default:
       return state;
   }

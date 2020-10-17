@@ -15,6 +15,7 @@ function getListByID(id, page, callback) {
     fetch(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
         .then(r => r.json())
         .then(res => {
+            console.log(res);
             callback(res || [])
         })
 }
@@ -63,6 +64,7 @@ function Message(props) {
 
     useEffect(() => {
         getListByID(props.id, page, rst => {
+            console.log(rst);
             setmessageList(() => rst.list);
             setPage(page => {
                 return Object.assign({}, page, { total: Math.ceil(rst.page.total / 20) });
@@ -228,7 +230,7 @@ function Message(props) {
     }
 
     function getMessageList() {
-        if (messageList !== null && messageList.length >= 0) {
+        if (messageList && messageList.length >= 0) {
             return messageList.map(l => {
                 return (
                     <div key={`comment_${l._id}`}

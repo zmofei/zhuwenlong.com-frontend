@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useRef } from "react";
 import styles from './nav.module.scss';
-import logo from '../public/static/img/logo-ico.png';
+import logo from '../public/static/img/logo.png';
 
 import Lan from '../i18n/languageMap.jsx';
 import { connect } from 'react-redux';
@@ -15,18 +15,7 @@ function nav(props) {
     }
   }
 
-  console.log(props.module)
-
   const { module } = props;
-
-  // if (process.browser) {
-  //   // oldMessage = localStorage.getItem('message') || '';
-  //   // oldRepMessage = localStorage.getItem('repMessage') || '';
-  //   console.log('1')
-  // } else {
-  //   // console.log('2', process)
-  // }
-
 
   return (
     <div className={`${styles.head} ${(props.path === '/' ? styles.index : styles.dark)}`}>
@@ -74,7 +63,9 @@ function nav(props) {
         <li>
           <Link href="#" as="#" >
             <a onClick={() => {
-              props.changeLan(props.lan === 'en' ? 'zh' : 'en');
+              const targetLan = props.lan === 'en' ? 'zh' : 'en';
+              console.log('@changeLan', targetLan);
+              props.changeLan(targetLan);
               onClickMenu();
             }}>
               <Lan en="中文" zh="English" />
@@ -94,15 +85,20 @@ function nav(props) {
 }
 
 
-const mapStateToProps = ({ lan }) => ({
-  lan
-});
+const mapStateToProps = (state) => {
+  console.log('??', state)
+  const lan = state.lan;
+  return { lan }
+};
 
 const mapDispatchToProps = dispatch => ({
-  changeLan: lan => dispatch({
-    type: 'SET_LANGUAGE',
-    lan
-  })
+  changeLan: (lan) => {
+    console.log('changeLan', lan)
+    dispatch({
+      type: 'SET_LANGUAGE',
+      lan
+    })
+  }
 });
 
 export default connect(

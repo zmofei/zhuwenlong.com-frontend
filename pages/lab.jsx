@@ -66,7 +66,7 @@ function Lab(props) {
         <div className={`${CSS["lab-block-content"]}`}>
           <div className={`${CSS["lab-block-title"]}`}>
             <a
-              herf={`/api/jump?url=${url}&module=lab&id=${info._id}&type=visited`}
+              href={`/api/jump?url=${url}&module=lab&id=${info._id}&type=visited`}
               target="_blank"
             >
               <Lan en={info['title-en'] || info['title']} zh={info.title} />
