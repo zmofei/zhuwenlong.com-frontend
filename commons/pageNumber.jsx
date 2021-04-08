@@ -22,8 +22,7 @@ function pageNumber(props) {
     const routerAs = (isSearch ? '' : `${bacicPath}/${i}`) + searchStr;
     pageArr.push(
       <Link key={`page_${i}`}
-        href={filePath}
-        as={routerAs}
+        href={routerAs}
       >
         <a onClick={() => { changePage(i, props.pageChange) }}
           className={i === props.current ? CSS.active : ''}  >{i}</a>
@@ -35,8 +34,7 @@ function pageNumber(props) {
     <div className={CSS['blog-pages']}>
       {props.current > 1 ?
         (<Link
-          href={filePath}
-          as={(isSearch ? '' : `${bacicPath}/${props.current - 1}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.current - 1}` : search)}
+          href={(isSearch ? '' : `${bacicPath}/${props.current - 1}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.current - 1}` : search)}
         >
           <a onClick={() => { changePage(props.current - 1, props.pageChange) }}>
             <Lan en="Previous" zh="上一页" />
@@ -45,8 +43,7 @@ function pageNumber(props) {
       {props.current > 3 ? (
         <>
           <Link
-            href={filePath}
-            as={(isSearch ? '' : `${bacicPath}/1`) + (isSearch ? `${search ? (search + '&') : '?'}page=1` : search)}
+            href={(isSearch ? '' : `${bacicPath}/1`) + (isSearch ? `${search ? (search + '&') : '?'}page=1` : search)}
           >
             <a onClick={() => { changePage(1, props.pageChange) }}
               className={`${bacicPath}/1`}>
@@ -60,9 +57,7 @@ function pageNumber(props) {
       {props.total - props.current > 3 ? <span>...</span> : ''}
       {props.current < props.total - 3 ? (
         <Link
-          href={filePath}
-          as={(isSearch ? '' : `${bacicPath}/${props.total}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.total}` : search)}
-
+          href={(isSearch ? '' : `${bacicPath}/${props.total}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.total}` : search)}
         >
           <a onClick={() => { changePage(props.total, props.pageChange) }} >
             {props.total}
@@ -71,8 +66,7 @@ function pageNumber(props) {
       ) : ''}
       {props.current < props.total ? (
         <Link
-          href={filePath}
-          as={(isSearch ? '' : `${bacicPath}/${props.current + 1}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.current + 1}` : search)}
+          href={(isSearch ? '' : `${bacicPath}/${props.current + 1}`) + (isSearch ? `${search ? (search + '&') : '?'}page=${props.current + 1}` : search)}
         >
           <a onClick={() => { changePage(props.current + 1, props.pageChange) }}>
             <Lan en="Next" zh="下一页" />

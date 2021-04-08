@@ -51,7 +51,7 @@ function Blog(props) {
 
     blogReqSource && blogReqSource();
 
-    fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}`)
+    fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}&pagesize=12`)
       .then(r => r.json())
       .then(res => {
         setBlogLists(() => res.list);
@@ -104,7 +104,7 @@ function Blog(props) {
   function getBlogClass(classinfo) {
     if (classinfo && classinfo.length > 0) {
       return (
-        <div className={CSS["blog-tag"]}>&#xe901; Tags: &nbsp;
+        <div className={CSS["blog-tag"]}>
           {
             classinfo.map(info => (
               info && (
@@ -132,16 +132,45 @@ function Blog(props) {
   function getBlogLists() {
     if (blogLists && blogLists.length > 0) {
       const blogDom = blogLists.map(blog => (
-        <div key={`blog_${blog._id}`} className={CSS["blog-content-block"]}>
-          <div className={`${CSS["blog-content-text"]} ${CSS["noimg"]}`}>
-            <Link
-              href={`/blog/article/${blog._id}`}
-            >
-              <a>
-                <h2><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
-              </a>
-            </Link>
-            {getBlogClass(blog.classid)}
+        <div key={`blog_${blog._id}`} className={CSS[`blog-block`]}>
+          <div className={CSS['blog-cover']}>
+            {blog.cover && <img src={blog.cover} />}
+          </div>
+          {getBlogClass(blog.classid)}
+          <Link
+            href={`/blog/article/${blog._id}`}
+          >
+            <h2 className={CSS["blog-list-title"]}><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
+          </Link>
+          <Link
+            href={`/blog/article/${blog._id}`}
+          >
+            <div className={CSS["blog-review"]}>
+              <Lan en={blog['contentEn'] || blog['content']} zh={blog.content} />...
+                </div>
+          </Link>
+          {/* <div>
+            
+          </div> */}
+          <div className={CSS["blog-info"]}>
+            <div className={CSS["blog-time"]}>
+              <span>&#xe904;</span>
+              <span title={moment(blog.pubtime).format('YYYY-MM-DD HH:mm:ss')}>
+                {new Date() - new Date(blog.pubtime) > 1000 * 3600 * 24 * 365 ? moment(blog.pubtime).format('YYYY-MM-DD') : moment(blog.pubtime).fromNow()}
+              </span>
+            </div>
+
+            <div className={CSS["blog-read"]}>
+              <span>&#xe900; </span>
+              <span>{blog.visited} </span>
+              <span>&#xe903; </span>
+              <span>{blog.like} </span>
+              <span>&#xe902; </span>
+              <span>{blog.comment}</span>
+            </div>
+          </div>
+          <div>
+            {/* 
             <Link
               href={`/blog/article/${blog._id}`}
             >
@@ -164,7 +193,7 @@ function Blog(props) {
                 <span>&#xe902; </span>
                 <span>{blog.comment}</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       ));
@@ -210,20 +239,20 @@ function Blog(props) {
           <div className={CSS.subNav}>
             {getSubNav()}
           </div>
-          <div>
+          <div className={CSS['blog-list']}>
             {getBlogLists()}
           </div>
 
-          <div className={CSS['blog-pages']}>
-            <Page
-              key={pagetotal}
-              total={pagetotal}
-              current={page}
-              bacicPath='/blog'
-              file={router.route}
-              search={(getSearchObj(router).tags ? `?tags=${getSearchObj(router).tags}` : '')}
-            />
-          </div>
+
+          <Page
+            key={pagetotal}
+            total={pagetotal}
+            current={page}
+            bacicPath='/blog'
+            file={router.route}
+            search={(getSearchObj(router).tags ? `?tags=${getSearchObj(router).tags}` : '')}
+          />
+
         </div>
       </div>
     </Layout>
@@ -236,7 +265,7 @@ export async function getServerSideProps(ctx) {
   const ret = {}
   await Promise.all([
     fetch(`${config.dbHost}/api/blog/tags`),
-    fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}`)
+    fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}&pagesize=12`)
   ]).then(([tags, lists]) => {
     return Promise.all([tags.json(), lists.json()]);
   }).then(([tags, lists]) => {

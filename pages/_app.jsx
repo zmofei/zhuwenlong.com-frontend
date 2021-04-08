@@ -6,12 +6,11 @@ import ReactGA from 'react-ga';
 import lan from '../reducers/lan.js';
 import './_app.scss';
 
-// 
-
 if (process.browser) {
   const trackingId = "UA-109405512-1"; // Replace with your Google Analytics tracking ID
   ReactGA.initialize(trackingId);
 }
+
 
 function MyApp({ Component, pageProps, lanStr }) {
   const store = createStore(lan, { lan: lanStr });

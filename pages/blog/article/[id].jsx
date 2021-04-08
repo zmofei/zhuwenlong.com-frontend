@@ -74,7 +74,7 @@ function Article(props) {
               </div>
             </section>
             <section className={CSS["article-tags"]}>
-              {blog.classid.map(klass => <Link key={`class_${klass.classid}`}
+              {blog.classid&&blog.classid.map(klass => <Link key={`class_${klass.classid}`}
                 href={`/blog/1?tags=${klass.classid}`}
               >
                 <a>
