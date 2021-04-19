@@ -18,7 +18,7 @@ import Lan from '../../../i18n/languageMap.jsx';
 // import javascript from 'highlight.js/lib/languages/javascript';
 import hljs from 'highlight.js';
 // import javascript from 'highlight.js/lib/languages/javascript';
-import 'highlight.js/styles/vs2015.css';
+// import 'highlight.js/styles/vs2015.css';
 // hljs.registerLanguage('javascript', javascript);
 
 function Article(props) {
