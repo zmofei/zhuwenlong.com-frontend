@@ -146,7 +146,7 @@ function Blog(props) {
             href={`/blog/article/${blog._id}`}
           >
             <div className={CSS["blog-review"]}>
-              <Lan en={blog['contentEn'] || blog['content']} zh={blog.content} />...
+              <Lan en={blog['introductionEn'] || blog['contentEn'] || blog['content']} zh={blog.introduction || blog.content} />...
                 </div>
           </Link>
           {/* <div>
