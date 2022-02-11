@@ -33,44 +33,45 @@ function nav(props) {
           </Link>
         </li>
         <li>
-          <Link href="/blog/[page]" as="/blog/1" >
+          <Link href="/blog/1" >
             <a onClick={onClickMenu} className={module === '/blog' ? styles.active : ''}>
               <Lan en="Blog" zh="博客" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/lab" as="/lab">
+          <Link href="/lab">
             <a onClick={onClickMenu} className={module === '/lab' ? styles.active : ''}>
               <Lan en="Lab" zh="实验室" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/message" as="/message" >
+          <Link href="/message"  >
             <a onClick={onClickMenu} className={module === '/message' ? styles.active : ''}>
               <Lan en="Message" zh="留言" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/links" as="/links" >
+          <Link href="/links" >
             <a onClick={onClickMenu} className={module === '/links' ? styles.active : ''}>
               <Lan en="Friends" zh="小伙伴" />
             </a>
           </Link>
         </li>
         <li>
-          <Link href="#" as="#" >
-            <a onClick={() => {
+          {/* <Link href="#" > */}
+          <a
+            onClick={() => {
               const targetLan = props.lan === 'en' ? 'zh' : 'en';
               console.log('@changeLan', targetLan);
               props.changeLan(targetLan);
               onClickMenu();
             }}>
-              <Lan en="中文" zh="English" />
-            </a>
-          </Link>
+            <Lan en="中文" zh="English" />
+          </a>
+          {/* </Link> */}
         </li>
         <li>
           <Link href={`/api/rss?lan=${props.lan}`} >
@@ -86,7 +87,6 @@ function nav(props) {
 
 
 const mapStateToProps = (state) => {
-  console.log('??', state)
   const lan = state.lan;
   return { lan }
 };

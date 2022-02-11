@@ -11,19 +11,9 @@ function Links(props) {
 
   function getAddone() {
     const html = [];
-    const clumNumber = 3;
     if (list.length > 0) {
-      for (let i = 0; i < list.length; i += clumNumber) {
-        const block = [];
-        for (let j = 0; j < clumNumber; j++) {
-          list[i + j] &&
-            block.push(getList(list[i + j]))
-        }
-        html.push(
-          <div className={`${CSS["lab-block-addone"]}`} key={i}>
-            {block}
-          </div>
-        )
+      for (let i = 0; i < list.length; i += 1) {
+        html.push(getList(list[i]))
       }
       return html;
     } else {
@@ -54,6 +44,7 @@ function Links(props) {
     return (
       <div className={`${CSS["lab-block"]}`} key={info._id}>
         <a
+          className={`${CSS["lab-block-title"]}`}
           href={`/api/jump?url=${url}&module=links&id=${info._id}&type=visited`}
           target="_blank"
         >

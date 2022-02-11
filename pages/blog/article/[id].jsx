@@ -14,7 +14,12 @@ import config from '../../../config';
 import avatra from '../../../public/static/img/avatar.jpg';
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
+// import hljs from 'highlight.js';
+// import javascript from 'highlight.js/lib/languages/javascript';
 import hljs from 'highlight.js';
+// import javascript from 'highlight.js/lib/languages/javascript';
+// import 'highlight.js/styles/vs2015.css';
+// hljs.registerLanguage('javascript', javascript);
 
 function Article(props) {
   const router = useRouter();
@@ -25,7 +30,8 @@ function Article(props) {
   const titleDom = useRef(null);
 
   useEffect(() => {
-    hljs.initHighlightingOnLoad();
+    // hljs.registerLanguage('javascript', javascript);
+    hljs.highlightAll();
   }, []);
 
   async function likeArticle(id) {
@@ -74,7 +80,7 @@ function Article(props) {
               </div>
             </section>
             <section className={CSS["article-tags"]}>
-              {blog.classid.map(klass => <Link key={`class_${klass.classid}`}
+              {blog.classid && blog.classid.map(klass => <Link key={`class_${klass.classid}`}
                 href={`/blog/1?tags=${klass.classid}`}
               >
                 <a>

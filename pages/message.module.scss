@@ -32,6 +32,7 @@
 
 .message-github {
     .title {
+
         background-color: #24292e;
         color: rgba(255, 255, 255, 0.75);
         height: 40px;
@@ -53,6 +54,7 @@
         }
 
         a {
+            text-decoration: none;
             float: right;
             padding: 5px 10px;
             background: #f15623;
