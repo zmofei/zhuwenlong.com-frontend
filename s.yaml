@@ -1,0 +1,45 @@
+edition: 1.0.0
+name: transform_fun
+access: "default-1"
+vars:
+  region: cn-hangzhou
+services:
+  fc-zhuwenlong_com_frontend-zhuwenlong_com_frontend:
+    component: fc
+    actions:
+      pre-deploy: # 在deploy之前运行
+        - run: npm install --production  # 要运行的命令行
+          path: ./code # 命令行运行的路径
+        - run: npm run build  # 要运行的命令行
+          path: ./code # 命令行运行的路径
+    props:
+      region: ${vars.region}
+      service:
+        name: zhuwenlong_com_frontend
+        description: This is FC service
+        internetAccess: true
+      function:
+        name: zhuwenlong_com_frontend
+        handler: index.handler
+        timeout: 120
+        memorySize: 1024
+        runtime: custom
+        caPort: 9000
+        instanceConcurrency: 20
+        codeUri: ./code
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+      customDomains:
+        - domainName: Auto
+          protocol: HTTP
+          routeConfigs:
+            - serviceName: zhuwenlong_com_frontend
+              functionName: zhuwenlong_com_frontend
+              path: /*
