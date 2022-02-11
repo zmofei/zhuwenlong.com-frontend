@@ -1,20 +1,22 @@
 .blog-pages {
-    padding: 10px 0;
-    margin: 20px;
-    padding-bottom: 20px;
-    margin-bottom: 0;
-    margin-top: 0;
+    display: block;
+    padding: 20px 0;
+    // margin: 20px;
+    // padding-bottom: 20px;
     text-align: center;
     font-size: 20px;
+
     a,
     span {
+        box-sizing: border-box;
         color: #999;
         text-decoration: none;
-        padding: 5px 8px;
+        padding: 8px 12px;
         border: 1px solid #fff;
         margin: 0 2px;
         background: white;
         font-size: 14px;
+
         &.active,
         &:hover {
             border-radius: 2px;
