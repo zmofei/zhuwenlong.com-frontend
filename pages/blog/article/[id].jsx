@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 
 import config from '../../../config';
 
-// /static/img/avatar.jpg
-import avatra from '../../../public/static/img/avatar.jpg';
+import Image from 'next/image'
+
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
 import hljs from 'highlight.js';
@@ -55,7 +55,9 @@ function Article(props) {
                 <Lan en={enTitle} zh={blog.title} />
               </h1>
               <div className={`${CSS["commend-user"]} ${CSS["article-pubinfo"]}`}>
-                <div className={CSS["commend-avatar"]}><img src={avatra} alt="avatar" /></div>
+                <div className={CSS["commend-avatar"]}>
+                  <Image src="/img/avatar.jpg" width={40} height={40} />
+                </div>
                 <div className={CSS["commend-info"]}>
                   <div className={CSS["commend-name"]}>
                     <Link href="/">
