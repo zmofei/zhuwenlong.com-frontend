@@ -1,0 +1,38 @@
+edition: 1.0.0
+name: transform_fun
+access: default
+vars:
+  region: cn-hangzhou
+services:
+  fc-zhuwenlong_com_frontend-zhuwenlong_com_frontend:
+    component: devsapp/fc
+    props:
+      region: ${vars.region}
+      service:
+        name: zhuwenlong_com_frontend
+        description: This is FC service
+        internetAccess: true
+      function:
+        name: zhuwenlong_com_frontend
+        handler: index.handler
+        timeout: 120
+        memorySize: 1024
+        runtime: custom
+        instanceConcurrency: 20
+        codeUri: ./
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+      customDomains:
+        - domainName: auto
+          protocol: HTTP
+          routeConfigs:
+            - serviceName: zhuwenlong_com_frontend
+              functionName: zhuwenlong_com_frontend
+              path: /*
