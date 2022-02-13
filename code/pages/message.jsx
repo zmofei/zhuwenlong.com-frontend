@@ -14,11 +14,16 @@ function MessagePage(props) {
 
 
   useEffect(() => {
-    fetch(`${config.dbHost}/api/github/getinfo`)
+    fetch(`https://api.github.com/users/zmofei`)
       .then(r => r.json())
       .then(res => {
+        const { followers, following, public_repos } = res
         setGithub(() => {
-          return res.info;
+          return {
+            followers,
+            following,
+            public_repos
+          }
         })
       });
   }, []);
