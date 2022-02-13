@@ -19,7 +19,7 @@ services:
         memorySize: 1024
         runtime: custom
         instanceConcurrency: 20
-        codeUri: ./
+        codeUri: ./code
       triggers:
         - name: httpTrigger
           type: http
