@@ -16,9 +16,13 @@
         padding-left: 10px;
         color: #fff;
         font-size: 26px;
-
-        img {
+        vertical-align: middle;
+        
+        .log_img {
             vertical-align: middle;
+            margin-top: -5px;
+            display: inline-block;
+            box-sizing: border-box;
             width: 40px;
             height: 40px;
             margin-right: 10px;

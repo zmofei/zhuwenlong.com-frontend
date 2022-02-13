@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useRef } from "react";
 import styles from './nav.module.scss';
 import logo from '../public/static/img/logo.png';
-
+import Image from 'next/image'
 import Lan from '../i18n/languageMap.jsx';
 import { connect } from 'react-redux';
 
@@ -20,7 +20,9 @@ function nav(props) {
   return (
     <div className={`${styles.head} ${(props.path === '/' ? styles.index : styles.dark)}`}>
       <div className={styles.logo}>
-        <img src={logo} alt="logo"></img>
+        <div className={styles.log_img}>
+          <Image src={logo} width={40} height={40} className="log_img" />
+        </div>
         <span>Hi! I'm Mofei!</span>
       </div>
       <button className={styles['global-nav-btn']} id="navTar" onClick={onClickMenu} ref={navBtn} />

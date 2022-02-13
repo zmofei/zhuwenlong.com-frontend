@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import CSS from './index.module.scss';
+import Image from 'next/image'
 import logo from '../public/static/img/index/logo.png';
 import world from '../public/static/js/world.js';
 import fetch from 'isomorphic-unfetch'
@@ -284,7 +285,9 @@ function Home(props) {
             <div className={CSS['index-copyright-top']}></div>
             <div className={CSS['index-copyright-mid']}>
               <div className={CSS['index-copyright-midleft']}></div>
-              <div className={CSS['index-copyright-midcenter']}><img src={logo} width="412" alt="logo" /></div>
+              <div className={CSS['index-copyright-midcenter']}>
+                <Image src={logo} width="412" height={127} />
+              </div>
               <div className={CSS['index-copyright-midright']}></div>
             </div>
             <div className={CSS['index-copyright-bottom']}></div>
