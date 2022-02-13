@@ -10,8 +10,6 @@ const id = '000000000000000000000000';
 
 function MessagePage(props) {
 
-  // console.log(props)
-
   const [github, setGithub] = useState({})
 
 

@@ -1,15 +1,10 @@
 import App from 'next/app'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-// import ReactGA from 'react-ga';
 
 import lan from '../reducers/lan.js';
 import './_app.scss';
 
-if (process.browser) {
-  // const trackingId = "UA-109405512-1"; // Replace with your Google Analytics tracking ID
-  // ReactGA.initialize(trackingId);
-}
 
 export function reportWebVitals(metric) {
   const { id, name, label, value } = metric;
@@ -42,8 +37,6 @@ MyApp.getInitialProps = async (appContext) => {
   if (process.browser) {
     host = location.host;
     cookie = document.cookie;
-    // ReactGA.set({ page: location.pathname }); // Update the user's current page
-    // ReactGA.pageview(location.pathname); // Record a pageview for the given page
   } else {
     const { url } = ctx.req;
     if (url === '/blog/' || url === '/blog') {

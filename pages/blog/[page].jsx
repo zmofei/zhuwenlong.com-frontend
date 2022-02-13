@@ -38,7 +38,6 @@ function Blog(props) {
   const [currentTag, setCurrentTag] = useState(props.data.currentTag);
 
   useEffect(() => {
-    // console.log(tag)
     fetch(`${config.dbHost}/api/blog/tags`)
       .then(r => r.json())
       .then(res => {

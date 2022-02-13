@@ -17,7 +17,6 @@ function Home(props) {
   let heightStyle = { height: 1000 };
 
   // for message
-
   var username = useRef(null);
   var email = useRef(null);
   var message = useRef(null);
@@ -41,7 +40,8 @@ function Home(props) {
   }
 
 
-  const [msgState, setMsgState] = useState(0); // 0: ready 1: sending 2: sended 3: faild
+  const [msgState, setMsgState] = useState(0);
+  // msgState => 0: ready 1: sending 2: sended 3: faild
   // for scroll
   const onClickMore = () => {
     var fromTop = window.scrollY;

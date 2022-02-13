@@ -126,7 +126,6 @@ function Message(props) {
                 })
                 .catch(e => {
                     console.log(e);
-                    // alert(e.response.data.err);
                 })
         }
     }
@@ -142,7 +141,6 @@ function Message(props) {
                 `avatar=${avatar}`,
             ];
 
-            // console.log(1, fetch, `useinfo=${enco(JSON.stringify(userinfo))}`)
             fetch(`${config.dbHost}/api/blog/message`, {
                 method: 'POST',
                 credentials: 'include',
@@ -163,7 +161,6 @@ function Message(props) {
                 })
                 .catch(e => {
                     console.log(e);
-                    // alert(e.response.data.err);
                 })
         }
     }

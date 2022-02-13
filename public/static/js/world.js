@@ -149,7 +149,6 @@ const app = (() => {
       y = y - tips.offsetHeight - 10;
       let _x = x + (document.documentElement.scrollLeft || document.body.scrollLeft) + 'px';
       let _y = y + (document.documentElement.scrollTop || document.body.scrollTop) + 'px';
-      // console.log(y, _y, document.documentElement.scrollTop, document.body.scrollTop)
       tips.style.left = _x;
       tips.style.top = _y;
       content.style.cursor = 'pointer';
@@ -246,7 +245,6 @@ const app = (() => {
   function drawMap() {
     ctxMap.clearRect(0, 0, ctxMap.canvas.width, ctxMap.canvas.height);
     ctxMap.fillStyle = '#87bce1'
-    // console.log(ctxMap.)
     for (let i = 1; i < grid_x; i++) {
       if (grid[i]) {
         for (let j in grid[i]) {
@@ -288,7 +286,6 @@ const app = (() => {
       let y = Math.round(pos[1] * gridHeight + gridWidth / 2.5 / 2);
       ctxPoint.beginPath();
       let grd = ctxPoint.createLinearGradient(x, y, x, y + 5);
-      // console.log(eventX, eventY, pos[0])
       if (eventX === pos[0] && eventY === pos[1]) {
         grd.addColorStop(0, "#3bc705");
         grd.addColorStop(1, "#6ce73c");

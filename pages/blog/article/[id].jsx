@@ -10,16 +10,10 @@ import { connect } from 'react-redux';
 
 import config from '../../../config';
 
-// /static/img/avatar.jpg
 import avatra from '../../../public/static/img/avatar.jpg';
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
-// import hljs from 'highlight.js';
-// import javascript from 'highlight.js/lib/languages/javascript';
 import hljs from 'highlight.js';
-// import javascript from 'highlight.js/lib/languages/javascript';
-// import 'highlight.js/styles/vs2015.css';
-// hljs.registerLanguage('javascript', javascript);
 
 function Article(props) {
   const router = useRouter();
@@ -30,13 +24,11 @@ function Article(props) {
   const titleDom = useRef(null);
 
   useEffect(() => {
-    // hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
   }, []);
 
   async function likeArticle(id) {
     if (isLike) return false;
-    // 
     await fetch(`${config.dbHost}/api/blog/like/${id}`, {
       method: 'POST',
     })
