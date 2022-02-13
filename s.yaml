@@ -6,12 +6,19 @@ vars:
 services:
   fc-zhuwenlong_com_frontend-zhuwenlong_com_frontend:
     component: devsapp/fc
+    actions: # 自定义执行逻辑
+      pre-deploy: # 在deploy之前运行
+        - run: s clean --all
+          path: ./ # 命令行运行的路径
+        - run: npm run build
+          path: ./code # 命令行运行的路径
     props:
       region: ${vars.region}
       service:
         name: zhuwenlong_com_frontend
         description: This is FC service
         internetAccess: true
+        logConfig: auto
       function:
         name: zhuwenlong_com_frontend
         handler: index.handler

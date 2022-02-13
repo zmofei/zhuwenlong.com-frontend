@@ -13,7 +13,19 @@ import config from '../../../config';
 import avatra from '../../../public/static/img/avatar.jpg';
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
-import hljs from 'highlight.js';
+const hljs = require('highlight.js/lib/core');
+hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'));
+hljs.registerLanguage('javascript', require('highlight.js/lib/languages/javascript'));
+hljs.registerLanguage('python', require('highlight.js/lib/languages/python'));
+hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
+hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
+hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
+hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
+hljs.registerLanguage('json', require('highlight.js/lib/languages/json'));
+hljs.registerLanguage('php', require('highlight.js/lib/languages/php'));
+hljs.registerLanguage('sql', require('highlight.js/lib/languages/sql'));
+hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
+hljs.registerLanguage('htmlbars', require('highlight.js/lib/languages/htmlbars'));
 
 function Article(props) {
   const router = useRouter();
@@ -24,6 +36,8 @@ function Article(props) {
   const titleDom = useRef(null);
 
   useEffect(() => {
+    // Using require() here because import() support hasn't landed in Webpack yet
+
     hljs.highlightAll();
   }, []);
 

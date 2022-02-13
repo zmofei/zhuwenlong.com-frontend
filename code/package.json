@@ -23,9 +23,9 @@
     "unfetch": "^4.2.0"
   },
   "scripts": {
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED='0' next",
+    "dev": "next",
     "build": "next build",
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED='0' next start"
+    "start": "next start"
   },
   "repository": {
     "type": "git",
