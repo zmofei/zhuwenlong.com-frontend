@@ -10,7 +10,6 @@ function changePage(page, cb) {
 function pageNumber(props) {
   const pageArr = [];
   const bacicPath = props.bacicPath;
-  const filePath = props.file || bacicPath;
   const search = props.search || '';
   const start = Math.max(1, props.current - 2);
   const end = Math.min(props.total, props.current + 2);

@@ -23,37 +23,14 @@ function Home(props) {
   var message = useRef(null);
   var sendBtn = useRef(null);
   var tips = useRef(null);
-
-  var bgref = useRef(null);
-  var videobgref = useRef(null);
-  var coverref = useRef(null);
-
-  let screenHeight = 0;
-  if (process.browser && bgref) {
-    isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
-    screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
-    heightStyle.height = screenHeight;
-    window.onload = () => {
-      bgref.current.style.height = `${screenHeight}px`;
-      videobgref.current.style.height = `${screenHeight}px`;
-      coverref.current.style.height = `${screenHeight}px`;
-    }
-  }
-
+  var nexpage = useRef(null);
 
   const [msgState, setMsgState] = useState(0);
+  const [screenHeight, setScreenHeight] = useState(1000);
   // msgState => 0: ready 1: sending 2: sended 3: faild
   // for scroll
   const onClickMore = () => {
-    var fromTop = window.scrollY;
-    var loop = setInterval(function () {
-      if ((fromTop += screenHeight / 10) >= screenHeight) {
-        clearInterval(loop);
-        window.scrollTo(0, screenHeight);
-      } else {
-        window.scrollTo(0, fromTop);
-      }
-    }, 16);
+    nexpage && nexpage.current.scrollIntoView()
   }
 
 
@@ -145,6 +122,10 @@ function Home(props) {
       })
     });
 
+    isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
+    const _screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    setScreenHeight(_screenHeight)
+
     return () => {
       _map.destory();
     }
@@ -162,7 +143,7 @@ function Home(props) {
       </Head>
       <Layout nocopyright={true} module="/">
         <div className={CSS.homeBody} >
-          <div className={CSS.videoBgMobile} style={heightStyle} ref={videobgref}></div>
+          <div className={CSS.videoBgMobile} style={{ height: screenHeight }}></div>
           {!isMobile && (
             <video className={CSS.videoBg} id="bgvid" autoPlay loop muted playsInline poster="//cdn.zhuwenlong.com/image/index/cover-820e030cca.jpg">
               <source src="//cdn.zhuwenlong.com/video/bgvideo-0c73e2c57a.mp4" type="video/mp4" />
@@ -171,9 +152,9 @@ function Home(props) {
             </video>
           )}
 
-          <div className={CSS.videobg} style={heightStyle} ref={bgref}></div>
+          <div className={CSS.videobg} style={{ height: screenHeight }}></div>
 
-          <section className={`${CSS.index} ${CSS.indexCover}`} style={heightStyle} ref={coverref}>
+          <section className={`${CSS.index} ${CSS.indexCover}`} style={{ height: screenHeight }}>
             <div className={CSS.title}>
               <svg
                 id="title"
@@ -206,7 +187,7 @@ function Home(props) {
               <Lan en="More" zh="更多" />
             </button>
           </section>
-          <section className={CSS['index-about']}>
+          <section className={CSS['index-about']} ref={nexpage}>
             <h2><Lan en="Who am I" zh="我是谁" /></h2>
             <h3><Lan en="I wish I were an interesting person" zh="我希望我是一个有趣的人" /></h3>
             <div className={CSS['index-about-who']}>

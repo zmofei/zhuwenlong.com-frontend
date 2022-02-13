@@ -98,6 +98,8 @@
   .btn {
     position: absolute;
     bottom: 100px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
     left: 50%;
     width: 160px;
     margin-left: -80px;
@@ -360,12 +362,13 @@
 .btn:after {
   transition: all 0.15s ease-in;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
   content: " ";
   opacity: 0;
+  border-radius: 4px;
   border: 1px solid #fff;
 }
 
@@ -414,11 +417,7 @@
 
 @keyframes titleh2 {
   0% {
-    opacity: 0;
-  }
-
-  80% {
-    opacity: 0;
+    opacity: 0.4;
   }
 
   100% {
@@ -492,6 +491,7 @@
     border: 1px solid #fff;
     color: #fff;
     padding: 10px;
+    border-radius: 4px;
   }
 
   .cover-more {
