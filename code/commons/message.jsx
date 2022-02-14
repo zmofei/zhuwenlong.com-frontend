@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import CSS from './message.module.scss';
 import Cookie from 'js-cookie';
 import fetch from 'isomorphic-unfetch';
@@ -25,6 +26,9 @@ function lanSwitch(obj, lan) {
 }
 
 function Message(props) {
+
+    const router = useRouter();
+    const { locale, locales, defaultLocale } = router;
     let oldMessage = '';
     let oldRepMessage = '';
     if (process.browser) {
@@ -34,7 +38,7 @@ function Message(props) {
 
     if (!Cookie.get('userinfo')) {
         Cookie.set('userinfo', {
-            name: `${lanSwitch({ en: 'Guest', zh: '游客' }, props.lan)}_` + Math.round(Math.random('1') * 10e3),
+            name: `${lanSwitch({ en: 'Guest', zh: '游客' }, locale)}_` + Math.round(Math.random('1') * 10e3),
             isInit: true
         }, { expires: 999999 })
     }
@@ -78,7 +82,7 @@ function Message(props) {
         if (key === 'reset') {
             setUserinfo(info => {
                 const userinfo = {
-                    name: `${lanSwitch({ en: 'Guest', zh: '游客' }, props.lan)}_` + Math.round(Math.random('1') * 10e3),
+                    name: `${lanSwitch({ en: 'Guest', zh: '游客' }, locale)}_` + Math.round(Math.random('1') * 10e3),
                     isInit: true
                 };
                 Cookie.set('userinfo', userinfo, { expires: 999999 })
@@ -97,7 +101,7 @@ function Message(props) {
 
     function repPbulish() {
         if (!repMessage) {
-            alert(lanSwitch({ en: 'Hellooooo!! Say something???', zh: "没写东西，不许你回复！！" }, props.lan));
+            alert(lanSwitch({ en: 'Hellooooo!! Say something???', zh: "没写东西，不许你回复！！" }, locale));
         } else {
             const requestQuery = [
                 `message=${repMessage}`,
@@ -122,7 +126,7 @@ function Message(props) {
                     setRepMessage(() => '');
                     setActiveMessage(() => '');
                     setReplyID(() => '');
-                    alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, props.lan));
+                    alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, locale));
                 })
                 .catch(e => {
                     console.log(e);
@@ -132,7 +136,7 @@ function Message(props) {
 
     function usePbulish() {
         if (!message) {
-            alert(lanSwitch({ en: 'You didn\'t write anything', zh: "你啥都就没写呐" }, props.lan));
+            alert(lanSwitch({ en: 'You didn\'t write anything', zh: "你啥都就没写呐" }, locale));
         } else {
 
             const requestQuery = [
@@ -157,7 +161,7 @@ function Message(props) {
                     setMessage(() => '');
                     localStorage.removeItem('message');
                     localStorage.removeItem('repMessage');
-                    alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, props.lan));
+                    alert(lanSwitch({ en: 'Send Succesfully', zh: "发布成功啦！" }, locale));
                 })
                 .catch(e => {
                     console.log(e);
@@ -182,7 +186,7 @@ function Message(props) {
                 }}>
                     <input
                         type="text"
-                        placeholder={lanSwitch({ en: 'Name', zh: "昵称" }, props.lan)}
+                        placeholder={lanSwitch({ en: 'Name', zh: "昵称" }, locale)}
                         value={userinfo.name}
                         onChange={e => {
                             updateUserinfo('name', e.target.value)
@@ -195,7 +199,7 @@ function Message(props) {
                         } />
                     <input
                         type="text"
-                        placeholder={lanSwitch({ en: 'Email [optional]', zh: "邮箱（选填，用以展示头像和接收回复信息）" }, props.lan)}
+                        placeholder={lanSwitch({ en: 'Email [optional]', zh: "邮箱（选填，用以展示头像和接收回复信息）" }, locale)}
                         value={userinfo.email}
                         onChange={e => {
                             const emailVal = e.target.value;
@@ -217,7 +221,7 @@ function Message(props) {
                         }} />
                     <input
                         type="text"
-                        placeholder={lanSwitch({ en: 'Website [optional]', zh: "网站（选填，友情链接）" }, props.lan)}
+                        placeholder={lanSwitch({ en: 'Website [optional]', zh: "网站（选填，友情链接）" }, locale)}
                         value={userinfo.blog} onChange={e => {
                             updateUserinfo('blog', e.target.value)
                         }} />
@@ -266,7 +270,7 @@ function Message(props) {
                                             setReplyID(() => l._id)
                                         }}
                                     >
-                                        &#xe8af; {lanSwitch({ en: 'Reply', zh: "回复" }, props.lan)}
+                                        &#xe8af; {lanSwitch({ en: 'Reply', zh: "回复" }, locale)}
                                     </div>
                                 </div>
                             </div>
@@ -277,7 +281,7 @@ function Message(props) {
                                 {setUserInfo()}
                                 <textarea
                                     className={CSS.textarea}
-                                    placeholder={lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, props.lan)}
+                                    placeholder={lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, locale)}
                                     onChange={e => {
                                         const value = e.target.value;
                                         localStorage.setItem('repMessage', value);
@@ -289,7 +293,7 @@ function Message(props) {
                                     className={CSS['commend-pub-btn']}
                                     onClick={() => { repPbulish() }}
                                 >
-                                    {lanSwitch({ en: 'Send ', zh: "发布" }, props.lan)}
+                                    {lanSwitch({ en: 'Send ', zh: "发布" }, locale)}
                                 </button>
                             </div>
                         </div>
@@ -331,7 +335,7 @@ function Message(props) {
                             <textarea
                                 className={CSS.textarea}
                                 placeholder={
-                                    lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, props.lan)
+                                    lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, locale)
                                 }
                                 onChange={e => {
                                     const value = e.target.value;
@@ -339,12 +343,12 @@ function Message(props) {
                                     setMessage(() => value)
                                 }} value={message} />
                             <button className={CSS['commend-pub-btn']} onClick={usePbulish}>
-                                {lanSwitch({ en: 'Send', zh: '发布' }, props.lan)}
+                                {lanSwitch({ en: 'Send', zh: '发布' }, locale)}
                             </button>
                         </div>
                     </div>
                     <div style={{ display: active ? 'none' : '' }} className={CSS["commend-pub-text"]} id="commendTips">
-                        {lanSwitch({ en: 'Leave a message', zh: '留言...' }, props.lan)}
+                        {lanSwitch({ en: 'Leave a message', zh: '留言...' }, locale)}
                     </div>
                 </div>
             </div>
@@ -381,6 +385,7 @@ const mapStateToProps = state => {
     return { lan: state.lan };
 };
 
-export default connect(
-    mapStateToProps
-)(Message);
+export default Message
+// connect(
+//     mapStateToProps
+// )(Message);

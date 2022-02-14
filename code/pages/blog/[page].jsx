@@ -30,6 +30,7 @@ function getSearchObj(router) {
 
 function Blog(props) {
   const router = useRouter();
+  const { locale, locales, defaultLocale } = router;
   let currentPage = Number(router.query.page || 1);
   const [tags, setTags] = useState(props.data.tags);
   const [blogLists, setBlogLists] = useState(props.data.blogLists);
@@ -146,7 +147,7 @@ function Blog(props) {
           >
             <div className={CSS["blog-review"]}>
               <Lan en={blog['introductionEn'] || blog['contentEn'] || blog['content']} zh={blog.introduction || blog.content} />...
-                </div>
+            </div>
           </Link>
           {/* <div>
             
@@ -230,7 +231,7 @@ function Blog(props) {
 
   return (
     <Layout
-      title={lan(props.lan, { 'zh': "博客 - 朱文龙(Mofei)的自留地", 'en': 'Blog - Hi! I am Mofei!' })}
+      title={lan(locale, { 'zh': "博客 - 朱文龙(Mofei)的自留地", 'en': 'Blog - Hi! I am Mofei!' })}
       module="/blog"
     >
       <div className={CSS.blogBody}>
@@ -283,4 +284,4 @@ function stateToProps(state) {
   return { lan }
 }
 
-export default connect(stateToProps, null)(Blog);
+export default Blog// connect(stateToProps, null)(Blog);

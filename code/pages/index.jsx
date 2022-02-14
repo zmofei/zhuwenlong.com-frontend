@@ -10,12 +10,17 @@ import Layout from '../commons/layout';
 import config from '../config';
 import Head from 'next/head';
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router'
+
 
 import Copyright from '../commons/copyright';
 
 function Home(props) {
+
+  const router = useRouter();
+  const { locale, locales, defaultLocale } = router;
+
   let isMobile;
-  let heightStyle = { height: 1000 };
 
   // for message
   var username = useRef(null);
@@ -134,11 +139,11 @@ function Home(props) {
   return (
     <>
       <Head>
-        <title>{lan(props.lan, { 'zh': "朱文龙(Mofei)的自留地", 'en': 'Hi! I am Mofei!' })}</title>
+        <title>{lan(locale, { 'zh': "朱文龙(Mofei)的自留地", 'en': 'Hi! I am Mofei!' })}</title>
         <meta charSet="UTF-8" />
-        <meta name="description" content={lan(props.lan, { 'zh': "朱文龙的自留地", 'en': 'Hi! I am Mofei!' })} />
+        <meta name="description" content={lan(locale, { 'zh': "朱文龙的自留地", 'en': 'Hi! I am Mofei!' })} />
         <meta name="keywords" content="朱文龙,Mofei,HTML,CSS,JavaScript" />
-        <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
+        <meta name="author" content={lan(locale, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Layout nocopyright={true} module="/">
@@ -285,4 +290,5 @@ function stateToProps(state) {
   return { lan }
 }
 
-export default connect(stateToProps, null)(Home);
+export default Home
+// connect(stateToProps, null)(Home);

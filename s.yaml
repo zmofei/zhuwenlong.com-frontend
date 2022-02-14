@@ -40,6 +40,7 @@ services:
               - GET
               - POST
               - PUT
+              - HEAD
       customDomains:
         - domainName: auto
           protocol: HTTP

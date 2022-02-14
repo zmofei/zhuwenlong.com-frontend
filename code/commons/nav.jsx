@@ -4,9 +4,13 @@ import styles from './nav.module.scss';
 import logo from '../public/static/img/logo.png';
 import Image from 'next/image'
 import Lan from '../i18n/languageMap.jsx';
-import { connect } from 'react-redux';
+import Cookie from 'js-cookie';
+import { useRouter } from 'next/router'
 
-function nav(props) {
+
+function Nav(props) {
+  const router = useRouter();
+  const { locale, locales, defaultLocale, pathname, asPath, query } = router;
   const navDom = useRef(null);
   const navBtn = useRef(null);
   const onClickMenu = () => {
@@ -66,9 +70,10 @@ function nav(props) {
           {/* <Link href="#" > */}
           <a
             onClick={() => {
-              const targetLan = props.lan === 'en' ? 'zh' : 'en';
-              console.log('@changeLan', targetLan);
-              props.changeLan(targetLan);
+              const targetLan = locale === 'en' ? 'zh' : 'en';
+              // Cookie.set('NEXT_LOCALE', targetLan, { expires: 999999 });
+              router.push({ pathname, query }, asPath, { locale: targetLan })
+
               onClickMenu();
             }}>
             <Lan en="中文" zh="English" />
@@ -76,7 +81,7 @@ function nav(props) {
           {/* </Link> */}
         </li>
         <li>
-          <Link href={`/api/rss?lan=${props.lan}`} >
+          <Link href={`https://www.zhuwenlong.com/api/rss?lan=${locale}`} >
             <a onClick={onClickMenu} target="_blank">
               &#xe905;
             </a>
@@ -103,7 +108,8 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(nav);
+export default Nav
+//  connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(nav);

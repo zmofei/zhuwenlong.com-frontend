@@ -5,8 +5,12 @@ import Layout from '../commons/layout';
 import config from '../config';
 import { connect } from 'react-redux';
 import lan from '../i18n/languagefn.js';
+import { useRouter } from 'next/router'
+
 
 function Links(props) {
+  const router = useRouter();
+  const { locale, locales, defaultLocale } = router;
   const list = props.list;
 
   function getAddone() {
@@ -68,7 +72,7 @@ function Links(props) {
   return (
     <Layout
       module="/links"
-      title={lan(props.lan, { zh: `小伙伴 - 朱文龙的自留地`, en: `Friends - Hi! I am Mofei!` })}
+      title={lan(locale, { zh: `小伙伴 - 朱文龙的自留地`, en: `Friends - Hi! I am Mofei!` })}
     >
       <div className={CSS.labBody}>
         <section className={`${CSS["lab"]}`}>
@@ -92,4 +96,4 @@ function stateToProps(state) {
   return { lan }
 }
 
-export default connect(stateToProps, null)(Links);
+export default Links// connect(stateToProps, null)(Links);

@@ -29,6 +29,7 @@ hljs.registerLanguage('htmlbars', require('highlight.js/lib/languages/htmlbars')
 
 function Article(props) {
   const router = useRouter();
+  const { locale, locales, defaultLocale } = router;
   const { blog } = props;
   const like = blog.like;
 
@@ -56,7 +57,7 @@ function Article(props) {
 
   return (
     <Layout
-      title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
+      title={lan(locale, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
       module="/blog"
     >
       <div className={CSS.articleBody}>
@@ -130,6 +131,7 @@ const mapStateToProps = state => {
   return { lan: state.lan };
 };
 
-export default connect(
-  mapStateToProps
-)(Article);
+export default Article
+// connect(
+//   mapStateToProps
+// )(Article);

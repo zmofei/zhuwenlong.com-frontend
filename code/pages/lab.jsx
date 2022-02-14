@@ -8,8 +8,15 @@ import { connect } from 'react-redux';
 
 import config from '../config';
 
+import { useRouter } from 'next/router'
+
+
+
 
 function Lab(props) {
+
+  const router = useRouter();
+  const { locale, locales, defaultLocale } = router;
 
   const list = props.list;
 
@@ -85,7 +92,7 @@ function Lab(props) {
   return (
     <Layout
       module="/lab"
-      title={lan(props.lan, { zh: `实验室 - 朱文龙的自留地`, en: `Labs - Hi! I am Mofei!` })}
+      title={lan(locale, { zh: `实验室 - 朱文龙的自留地`, en: `Labs - Hi! I am Mofei!` })}
     >
       <div className={CSS.labBody}>
         <section className={`${CSS["lab"]}`}>
@@ -109,4 +116,4 @@ function stateToProps(state) {
   return { lan }
 }
 
-export default connect(stateToProps, null)(Lab);
+export default Lab // connect(stateToProps, null)(Lab);
