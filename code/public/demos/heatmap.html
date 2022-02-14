@@ -1,0 +1,168 @@
+<html>
+
+<head>
+    <style>
+        #bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        canvas {
+            background: grey;
+        }
+        
+        .ol {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        
+        ol {
+            max-width: 400px;
+            margin: 0;
+            padding: 10px;
+            padding-left: 30px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ol">
+
+        <ol>
+            <div>To draw an heat map</div>
+            <li>Step 1: Get Points</li>
+            <li>Step 2: Draw points shadow</li>
+            <li>Step 3: Get the alpha of each pixel</li>
+            <li>Step 4: Prepare the color bar</li>
+            <li>Step 5: Computer each pixel's color based on the alpha and the color bar</li>
+            <li>Step 6: Set the Color</li>
+            <button onclick="showPoints()">Points</button>
+            <button onclick="shadow()">Shadow</button>
+            <button onclick="heatmap()">Heatmap</button>
+            <button onclick="showPointsHeatmap()">Points+Heatmap</button>
+
+        </ol>
+    </div>
+    <canvas id="canvas" width="500px" height="500px" style="width:500px; height:500px;"></canvas>
+    <canvas id="bar" width="500px" height="10px" style="width:500px; height: 10px"></canvas>
+    <script type="text/javascript">
+        //  color bar
+        let barImageData = null;
+        let canvas = document.querySelector('#canvas');
+        canvas.width = document.body.offsetWidth;
+        canvas.height = document.body.offsetHeight;
+        canvas.style.width = document.body.offsetWidth + 'px';
+        canvas.style.height = document.body.offsetHeight + 'px';
+        let ctx = canvas.getContext('2d');
+        let coor = [];
+
+        for (let i = 0; i < 200; i++) {
+            coor.push([Math.random() * ctx.canvas.width, Math.random() * ctx.canvas.height])
+        }
+
+        function drawBar() {
+            let bar = document.querySelector('#bar');
+            let barCtx = bar.getContext('2d');
+            let liner = barCtx.createLinearGradient(0, 0, 500, 0);
+            liner.addColorStop(0, '#4fa701');
+            liner.addColorStop(0.5, 'yellow');
+            liner.addColorStop(1, 'red');
+            barCtx.fillStyle = liner;
+            barCtx.fillRect(0, 0, 500, 10);
+            barImageData = barCtx.getImageData(0, 0, 500, 1);
+        }
+
+        // point
+        function drawPoint() {
+            ctx.beginPath();
+            coor.forEach(c => {
+                ctx.moveTo(c[0], c[1]);
+                ctx.arc(c[0], c[1], 2, 0, Math.PI * 2);
+            });
+            ctx.fillStyle = 'black';
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // shadow
+        function drawShadow() {
+            coor.forEach(c => {
+                ctx.moveTo(c[0] + 10000, c[1]);
+                ctx.arc(c[0] + 10000, c[1], 14, 0, Math.PI * 2);
+
+                ctx.shadowBlur = document.body.offsetWidth / 20;
+                ctx.shadowOffsetX = -10000;
+                ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+            })
+            ctx.fill();
+        }
+
+
+        //
+        function setColor() {
+            let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+            let maxColor = 0;
+            for (var i = 0; i < imageData.data.length; i += 4) {
+                maxColor = Math.max(maxColor, imageData.data[i + 3]);
+            }
+
+            for (var i = 0; i < imageData.data.length; i += 4) {
+                const percent = imageData.data[i + 3] / maxColor;
+                if (percent > 0) {
+                    const barIndex = Math.round(percent * 499) * 4;
+                    imageData.data[i] = barImageData.data[barIndex];
+                    imageData.data[i + 1] = barImageData.data[barIndex + 1];
+                    imageData.data[i + 2] = barImageData.data[barIndex + 2];
+                    imageData.data[i + 3] = 255;
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+
+        drawBar();
+        drawShadow();
+        setColor();
+
+        // step1
+        function showPointsHeatmap() {
+            ctx.beginPath();
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            drawShadow();
+            setColor();
+            drawPoint();
+        }
+
+        function shadow() {
+            ctx.beginPath();
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            drawShadow();
+        }
+
+        function heatmap() {
+            ctx.beginPath();
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            drawShadow();
+            setColor();
+        }
+
+        function showPoints() {
+            ctx.beginPath();
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            drawPoint();
+        }
+    </script>
+</body>
+
+</html>
