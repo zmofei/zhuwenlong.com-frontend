@@ -8,10 +8,11 @@ services:
     component: devsapp/fc
     actions: # 自定义执行逻辑
       pre-deploy: # 在deploy之前运行
-        - run: s clean --all
-          path: ./ # 命令行运行的路径
         - run: npm run build
           path: ./code # 命令行运行的路径
+        - run: s build --use-docker --dockerfile ./Dockerfile
+          path: ./code # 命令行运行的路径
+        #  
     props:
       region: ${vars.region}
       service:
@@ -24,8 +25,11 @@ services:
         handler: index.handler
         timeout: 120
         memorySize: 1024
-        runtime: custom
-        instanceConcurrency: 20
+        runtime: custom-container
+        customContainerConfig:
+          image: registry.cn-hangzhou.aliyuncs.com/zhuwenlong_com/zhuwenlong_com:v1.0 # 需要换成自己的registry地址
+          accelerationType: Default
+        instanceConcurrency: 100
         codeUri: ./code
       triggers:
         - name: httpTrigger
