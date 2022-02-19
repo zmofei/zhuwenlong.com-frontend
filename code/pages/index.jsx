@@ -140,6 +140,8 @@ function Home(props) {
         <meta name="keywords" content="朱文龙,Mofei,HTML,CSS,JavaScript" />
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.zhuwenlong.com/" />
+        <link rel="alternate" hrefLang="en" href="https://www.himofei.com/" />
       </Head>
       <Layout nocopyright={true} module="/">
         <div className={CSS.homeBody} >

@@ -17,6 +17,8 @@ function Layout(props) {
         <meta name="author" content={lan(props.lan, { 'zh': "朱文龙", 'en': 'Mofei Zhu' })} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" type="image/x-icon" href="https://cdn.zhuwenlong.com/upload/image/logo_128.ico" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.zhuwenlong.com/" />
+        <link rel="alternate" hrefLang="en" href="https://www.himofei.com/" />
       </Head>
       <Nav module={props.module} />
       {props.children}
