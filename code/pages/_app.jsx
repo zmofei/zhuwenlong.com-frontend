@@ -55,13 +55,6 @@ MyApp.getInitialProps = async (appContext) => {
     lan = 'en';
   };
 
-  if (cookie) {
-    let lans = cookie.match(/lan=(\w+)/);
-    if (lans && lans.length >= 2) {
-      lan = lans[1];
-    }
-  }
-
   appProps.lanStr = lan;
   return { ...appProps }
 }

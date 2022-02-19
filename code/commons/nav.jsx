@@ -63,17 +63,12 @@ function nav(props) {
           </Link>
         </li>
         <li>
-          {/* <Link href="#" > */}
-          <a
-            onClick={() => {
-              const targetLan = props.lan === 'en' ? 'zh' : 'en';
-              console.log('@changeLan', targetLan);
-              props.changeLan(targetLan);
-              onClickMenu();
-            }}>
+          <a onClick={() => {
+            const newLocation = `https://www.${props.lan !== 'zh' ? 'zhuwenlong.com' : 'himofei.com'}${location.pathname}${location.search}${location.hash}`
+            location.href = newLocation
+          }}>
             <Lan en="中文" zh="English" />
           </a>
-          {/* </Link> */}
         </li>
         <li>
           <Link href={`/api/rss?lan=${props.lan}`} >
