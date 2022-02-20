@@ -2,7 +2,7 @@ import Cookie from 'js-cookie';
 let defaultLan = Cookie.get('lan') || 'zh';
 
 if (!defaultLan) {
-  if (process.browser) {
+  if (typeof window !== "undefined") {
     defaultLan = window.location.hostname.indexOf('himofei.com') !== -1 ? 'en' : 'zh';
   }
 }

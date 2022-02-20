@@ -27,7 +27,7 @@ function lanSwitch(obj, lan) {
 function Message(props) {
     let oldMessage = '';
     let oldRepMessage = '';
-    if (process.browser) {
+    if (typeof window !== "undefined") {
         oldMessage = localStorage.getItem('message') || '';
         oldRepMessage = localStorage.getItem('repMessage') || '';
     }

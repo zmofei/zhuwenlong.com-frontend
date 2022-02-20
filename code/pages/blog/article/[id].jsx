@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Layout from '../../../commons/layout';
 import lan from '../../../i18n/languagefn.js';
 import { connect } from 'react-redux';
+import Cookie from 'js-cookie';
 
 import config from '../../../config';
 
@@ -29,26 +30,50 @@ hljs.registerLanguage('htmlbars', require('highlight.js/lib/languages/htmlbars')
 
 function Article(props) {
   const router = useRouter();
-  const { blog } = props;
-  const like = blog.like;
+  const blogId = router.query.id;
 
+  const { like } = props.blog;
+  const [blog, setBlog] = useState(props.blog);
+  const [likeAnimation, setLikeAnimation] = useState(false);
+
+  const initLikeCount = Number(Cookie.get(`article-${blogId}-like`) || 0)
   const [isLike, setIsLike] = useState(false);
+  const [selfLikeCount, setSelfLikecount] = useState(0);
+  const [renderMessage, setRenderMessage] = useState(false);
+
   const titleDom = useRef(null);
 
   useEffect(() => {
-    // Using require() here because import() support hasn't landed in Webpack yet
-
+    setIsLike(initLikeCount > 0);
+    setSelfLikecount(initLikeCount);
+    setRenderMessage(true);
     hljs.highlightAll();
   }, []);
 
   async function likeArticle(id) {
-    if (isLike) return false;
-    await fetch(`${config.dbHost}/api/blog/like/${id}`, {
-      method: 'POST',
-    })
-      .then(() => {
-        setIsLike(() => true)
-      })
+    if (likeAnimation) return false;
+
+    // 
+    setIsLike(() => true)
+    const oldBlog = { ...blog }
+    oldBlog.like += 1
+    setBlog(oldBlog)
+
+    setLikeAnimation(() => true)
+    setTimeout(() => {
+      setLikeAnimation(() => false)
+    }, 1000)
+
+    //
+    if (selfLikeCount < 10) {
+      setSelfLikecount(selfLikeCount + 1)
+      await fetch(`${config.dbHost}/api/blog/like/${id}`, {
+        method: 'POST',
+      });
+
+      Cookie.set(`article-${blogId}-like`, selfLikeCount + 1, { expires: 999999 })
+    }
+
   }
 
   const zhTtitle = blog.title;
@@ -96,23 +121,40 @@ function Article(props) {
             </section>
             <section className={CSS["article-info"]}>
               <div className={CSS["article-fns"]}>
-                <div
-                  className={`${CSS["article-info-makegood"]} ${CSS["article-fns-block"]} ${isLike ? CSS.active : ''}`}
-                  onClick={() => { likeArticle(blog._id) }}>&#xe903;</div>
+                {typeof window !== undefined && <button
+                  className={`${CSS["like-btn"]} ${(likeAnimation ? CSS["like-btn-do-anim"] : '')} ${(isLike ? CSS["like-btn-active"] : '')}`}
+                  onClick={() => { likeArticle(blog._id) }}>
+                  <span className={CSS["like-btn-icon"]}>&#xe903;</span>
+                  <div className={CSS["like-btn-selflikecount"]}>
+                    +{selfLikeCount}
+                  </div>
+                  <div className={CSS["like-btn-animation"]}>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                    <span className={CSS["like-btn-animation-item"]}></span>
+                  </div>
+                </button>}
               </div>
-              <span className={CSS["article-info-icon"]}>&#xe900;</span>
-              <span>{blog.visited}</span>
-              <span className={CSS["article-info-icon"]}>&nbsp;&#xe903;</span>
-              <span className={CSS["count"]} id="goodCount">{like}</span>
-              <span className={CSS["article-info-icon"]}>&nbsp;&#xe902;</span>
-              <span>{blog.comment}</span>
+              <div className={CSS["article-info-count"]}>
+                <span className={CSS["article-info-icon"]}>&#xe900;</span>
+                <span>{blog.visited}</span>
+                <span className={CSS["article-info-icon"]}>&nbsp;&#xe903;</span>
+                <span className={CSS["count"]} id="goodCount">{like}</span>
+                <span className={CSS["article-info-icon"]}>&nbsp;&#xe902;</span>
+                <span>{blog.comment}</span>
+              </div>
             </section>
           </section>
         </section>
       </div>
       <section className={CSS.message}>
         <div className={CSS.messageBox}>
-          {process.browser && <Message id={router.query.id} />}
+          {renderMessage && <Message id={router.query.id} />}
         </div>
       </section>
     </Layout>
@@ -121,6 +163,11 @@ function Article(props) {
 
 export async function getServerSideProps(ctx) {
   const { id } = ctx.query;
+  if (!id) {
+    return {
+      notFound: true,
+    }
+  }
   const res = await fetch(`${config.dbHost}/api/blog/article/${id}`)
     .then(r => r.json())
   return { props: { blog: res.data } }

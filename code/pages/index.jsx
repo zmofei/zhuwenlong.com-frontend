@@ -15,7 +15,6 @@ import Copyright from '../commons/copyright';
 
 function Home(props) {
   let isMobile;
-  let heightStyle = { height: 1000 };
 
   // for message
   var username = useRef(null);

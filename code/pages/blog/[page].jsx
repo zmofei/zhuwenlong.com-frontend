@@ -132,21 +132,25 @@ function Blog(props) {
     if (blogLists && blogLists.length > 0) {
       const blogDom = blogLists.map(blog => (
         <div key={`blog_${blog._id}`} className={CSS[`blog-block`]}>
-          <div className={CSS['blog-cover']}>
-            {blog.cover && <img src={blog.cover} />}
-          </div>
+          <Link
+            href={`/blog/article/${blog._id}`}
+            passHref
+          >
+            <div className={CSS['blog-cover']}>
+              {blog.cover && <img src={blog.cover} />}
+            </div>
+          </Link>
           {getBlogClass(blog.classid)}
           <Link
             href={`/blog/article/${blog._id}`}
+            passHref
           >
-            <h2 className={CSS["blog-list-title"]}><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
-          </Link>
-          <Link
-            href={`/blog/article/${blog._id}`}
-          >
-            <div className={CSS["blog-review"]}>
-              <Lan en={blog['introductionEn'] || blog['contentEn'] || blog['content']} zh={blog.introduction || blog.content} />...
-                </div>
+            <div>
+              <h2 className={CSS["blog-list-title"]}><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
+              <div className={CSS["blog-review"]}>
+                <Lan en={blog['introductionEn'] || blog['contentEn'] || blog['content']} zh={blog.introduction || blog.content} />...
+              </div>
+            </div>
           </Link>
           {/* <div>
             
