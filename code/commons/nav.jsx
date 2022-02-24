@@ -29,8 +29,8 @@ function nav(props) {
       <ul className={styles.nav} ref={navDom} >
         <li>
           <Link href="/" >
-            <a onClick={onClickMenu}  >
-              <Lan en="Index" zh="首页" className={module === '/' ? styles.active : ''} />
+            <a onClick={onClickMenu} className={module === '/' ? styles.active : ''} >
+              <Lan en="Index" zh="首页" />
             </a>
           </Link>
         </li>

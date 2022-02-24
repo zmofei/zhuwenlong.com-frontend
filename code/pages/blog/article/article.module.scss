@@ -6,6 +6,18 @@
   padding: 50px 20px 0 20px;
 }
 
+.readBar {
+  height: 4px;
+  width: 100%;
+  background: #ef9374;
+  position: fixed;
+  top: 46px;
+  left: 0;
+  right: 0;
+  z-index: 100001;
+  transition: all ease-in 0.03s;
+}
+
 .articleContent {
   max-width: 1200px;
   margin: 0 auto;
@@ -54,8 +66,6 @@
   //   color: #999;
   // }
 }
-
-
 
 .article-content,
 .article-info,

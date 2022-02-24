@@ -196,7 +196,7 @@ function Home(props) {
                 <div className={CSS.img}></div>
                 <p><Lan en="Mofei Zhu (朱文龙)" zh="朱文龙（Mofei Zhu）" /></p>
                 <p><Lan en="Born in 1989 AD, latitude 32.6167° longitude 116.9833°, Earth, Milky Way. Homo sapiens, Homo, Hominidae, Primates, Mammalia." zh="高级动物，人科，人属，智人种，公元1989年诞生于银河系-地球（北纬32.6167°，东经116.9833°）。" /></p>
-                <p><Lan en="Optimistic, Adorable, Passionate, Mysterious and Charming, Tough yet soft, Ambitious, typical Scorpio." zh="性情温和，贱萌，脑袋中无时不刻充斥着奇怪的想法，爱憎分明，典型天蝎气质。" /></p>
+                <p><Lan en="Optimistic, Adorable, Passionate, Mysterious and Charming, Tough yet soft, Ambitious, typical Scorpio." zh="性情温和，脑袋中无时不刻充斥着奇怪的想法，爱憎分明，典型天蝎气质。" /></p>
               </div>
               <div className={`${CSS['index-about-block']} ${CSS['index-about-work']}`}>
                 <div className={CSS.img}></div>

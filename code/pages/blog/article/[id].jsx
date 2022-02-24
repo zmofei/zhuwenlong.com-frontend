@@ -31,8 +31,6 @@ hljs.registerLanguage('htmlbars', require('highlight.js/lib/languages/htmlbars')
 function Article(props) {
   const router = useRouter();
   const blogId = router.query.id;
-
-  const { like } = props.blog;
   const [blog, setBlog] = useState(props.blog);
   const [likeAnimation, setLikeAnimation] = useState(false);
 
@@ -40,14 +38,36 @@ function Article(props) {
   const [isLike, setIsLike] = useState(false);
   const [selfLikeCount, setSelfLikecount] = useState(0);
   const [renderMessage, setRenderMessage] = useState(false);
+  const [remindReadPercentage, setRemindReadPercentage] = useState(100);
 
   const titleDom = useRef(null);
+  const articleBox = useRef(null);
+
+
 
   useEffect(() => {
     setIsLike(initLikeCount > 0);
     setSelfLikecount(initLikeCount);
     setRenderMessage(true);
     hljs.highlightAll();
+
+
+    // 
+    const articleScrollAbleHeight = articleBox.current.scrollHeight - window.innerHeight;
+    const undateScroll = () => {
+      const currentProgress = window.scrollY;
+      const precent = Math.min(1, currentProgress / articleScrollAbleHeight);
+      console.log(1 - precent, currentProgress, articleScrollAbleHeight)
+      setRemindReadPercentage((1 - precent) * 100)
+    }
+    window.addEventListener('scroll', undateScroll)
+
+    // 
+    console.log('222', articleBox.current.scrollHeight)
+
+    return () => {
+      window.removeEventListener('scroll', undateScroll)
+    }
   }, []);
 
   async function likeArticle(id) {
@@ -84,7 +104,8 @@ function Article(props) {
       title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
       module="/blog"
     >
-      <div className={CSS.articleBody}>
+      <div className={CSS.articleBody} ref={articleBox} >
+        <div className={CSS.readBar} style={{ transform: `translate(-${remindReadPercentage}%, 0)` }}></div>
         <section className={CSS.blog}>
           <section className={CSS.article}>
             <section className={CSS["article-content"]}>
@@ -144,7 +165,7 @@ function Article(props) {
                 <span className={CSS["article-info-icon"]}>&#xe900;</span>
                 <span>{blog.visited}</span>
                 <span className={CSS["article-info-icon"]}>&nbsp;&#xe903;</span>
-                <span className={CSS["count"]} id="goodCount">{like}</span>
+                <span className={CSS["count"]} id="goodCount">{blog.like}</span>
                 <span className={CSS["article-info-icon"]}>&nbsp;&#xe902;</span>
                 <span>{blog.comment}</span>
               </div>
