@@ -46,6 +46,7 @@ function Message(props) {
     const [active, setActive] = useState(false);
     const [message, setMessage] = useState(oldMessage);
     const [avatar, setAvatra] = useState(`//avatar.zhuwenlong.com/avatar/${(userinfo && userinfo.email) ? md5.hash(userinfo.email) : ''}`);
+    const [showMessage, setShowMessage] = useState(false)
 
     let hasInitData = props.initialData;
     //
@@ -61,8 +62,8 @@ function Message(props) {
     const [replyID, setReplyID] = useState(null);
     const [repMessage, setRepMessage] = useState(oldRepMessage);
 
-
     useEffect(() => {
+        setShowMessage(true)
         getListByID(props.id, page, rst => {
             console.log(rst);
             setmessageList(() => rst.list);
@@ -274,7 +275,7 @@ function Message(props) {
                                 dangerouslySetInnerHTML={{ __html: (l.replyTxt || '') + l.content }}></div>
                             <div className={CSS["commend-input-box"]}
                                 style={{ display: replyID === l._id ? 'block' : 'none' }}>
-                                {setUserInfo()}
+                                {showMessage && setUserInfo()}
                                 <textarea
                                     className={CSS.textarea}
                                     placeholder={lanSwitch({ en: 'Let\'s write something (👻 we are support MarkDown)', zh: '写点什么吧（ 👻支持MarkDown哦 )' }, props.lan)}
@@ -315,7 +316,7 @@ function Message(props) {
         }
     }
 
-    const commentDom = process.browser ? (
+    const commentDom = showMessage ? (
         <div className={CSS["commend-pub"]} onClick={() => { setActive(() => true) }}>
             <div className={CSS["commend-pub-info"]}>
                 <div className={CSS["commend-avatar"]}>

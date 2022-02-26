@@ -4,7 +4,7 @@ function CopyRight(props) {
     return (
         <div className={`${styles.copyright} ${props.className}`}>
             <div>
-                <span>(C) 2010-2020 Code & Design by </span>
+                <span>(C) 2010-2022 Code & Design by </span>
                 <a href="https://github.com/zmofei/" target="_blank" rel="noopener noreferrer" >Mofei</a>
                 <div>
                     <span> Powered by </span>

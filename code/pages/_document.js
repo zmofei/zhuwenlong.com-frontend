@@ -4,7 +4,7 @@ class MyDocument extends Document {
     render() {
         const isEng = this.props.__NEXT_DATA__.props.lanStr === 'en';
         const GID = 'G-TDFKD4X8PR'; //isEng ? 'G-7CETM03NTR' : 'G-TDFKD4X8PR'
-        const BID = 'fd40bbc7c0543c608930f67616c6aecb' //isEng ? '6a6fda2e8bf81ade13dd6d2b3cb9ec41' : 'fd40bbc7c0543c608930f67616c6aecb'
+        // const BID = 'fd40bbc7c0543c608930f67616c6aecb' //isEng ? '6a6fda2e8bf81ade13dd6d2b3cb9ec41' : 'fd40bbc7c0543c608930f67616c6aecb'
         return (
             <Html>
                 <Head>
@@ -24,19 +24,7 @@ class MyDocument extends Document {
                             `,
                         }}
                     />
-                    <script
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                            var _hmt = _hmt || [];
-                            (function() {
-                                var hm = document.createElement("script");
-                                hm.src = "https://hm.baidu.com/hm.js?${BID}";
-                                var s = document.getElementsByTagName("script")[0]; 
-                                s.parentNode.insertBefore(hm, s);
-                            })();
-                            `,
-                        }}
-                    />
+                    
 
                 </Head>
                 <body>

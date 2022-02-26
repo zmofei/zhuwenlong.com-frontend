@@ -57,13 +57,11 @@ function Article(props) {
     const undateScroll = () => {
       const currentProgress = window.scrollY;
       const precent = Math.min(1, currentProgress / articleScrollAbleHeight);
-      console.log(1 - precent, currentProgress, articleScrollAbleHeight)
       setRemindReadPercentage((1 - precent) * 100)
     }
     window.addEventListener('scroll', undateScroll)
 
     // 
-    console.log('222', articleBox.current.scrollHeight)
 
     return () => {
       window.removeEventListener('scroll', undateScroll)

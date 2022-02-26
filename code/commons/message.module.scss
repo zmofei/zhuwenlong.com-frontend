@@ -13,11 +13,11 @@
     }
     .commend-pub {
         &.commendPlaceholder {
-            .commend-avatar-img,
-            .placeHolerName,
-            .placeHolerTxt {
-                @extend .animated-background;
-            }
+            // .commend-avatar-img,
+            // .placeHolerName,
+            // .placeHolerTxt {
+            //     @extend .animated-background;
+            // }
             .commend-avatar-img {
                 width: 40px;
                 height: 40px;

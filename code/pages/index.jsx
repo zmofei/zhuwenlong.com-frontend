@@ -201,8 +201,8 @@ function Home(props) {
               <div className={`${CSS['index-about-block']} ${CSS['index-about-work']}`}>
                 <div className={CSS.img}></div>
                 <p><Lan en="Computer & Program fans" zh="与时俱进的电脑迷、程序控" /></p>
-                <p><Lan en="Start Front-End in 2010, move to Chinese biggest IT company Baidu in 2014 to be an excellent Full Stack engineer. Start a new career at Mapbox in 2018 ." zh="2010年接触前端，10-14年在上海易班刷了4年副本，14-18年坐标北京百度，目前带着走向世界的梦想在Mapbox打拼" /></p>
-                <p><Lan en="Work with HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, MONGODB, MySQL, REDIS, LINUX, AWS, etc." zh="已习得技能 HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, MONGODB, REDIS, LINUX等" /></p>
+                <p><Lan en="Start Front-End in 2010, move to Chinese biggest IT company Baidu in 2014 to be an excellent Full Stack engineer. Start a new career at Mapbox in 2018 ." zh="2010年接触前端，2010-2014年在上海易班刷了4年副本，2014-2018年混迹于坐标北京百度，2018-今 带着走向世界的梦想在Mapbox打拼" /></p>
+                <p><Lan en="Work with HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, MONGODB, MySQL, DYNAMODB, REDIS, LINUX, AWS, AIRFLOW, PYTHON, etc." zh="已习得技能 HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, PYTHON, MONGODB, DYMANODB, REDIS, AIRFLOW, LINUX等" /></p>
               </div>
               <div className={`${CSS['index-about-block']} ${CSS['index-about-dream']}`}>
                 <div className={CSS.img}></div>
