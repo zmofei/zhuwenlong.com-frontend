@@ -38,6 +38,7 @@ services:
           accelerationType: Default
         instanceConcurrency: 100
         codeUri: ./
+        environmentVariables: ${vars.region}
       triggers:
         - name: httpTrigger
           type: http
