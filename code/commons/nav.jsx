@@ -17,6 +17,8 @@ function nav(props) {
 
   const { module } = props;
 
+  console.log(module)
+
   return (
     <div className={`${styles.head} ${(props.path === '/' ? styles.index : styles.dark)}`}>
       <div className={styles.logo}>
@@ -41,6 +43,13 @@ function nav(props) {
             </a>
           </Link>
         </li>
+        {/* <li>
+          <Link href="/life/1" >
+            <a onClick={onClickMenu} className={module === '/life' ? styles.active : ''}>
+              <Lan en="Life" zh="我的世界" />
+            </a>
+          </Link>
+        </li> */}
         <li>
           <Link href="/lab">
             <a onClick={onClickMenu} className={module === '/lab' ? styles.active : ''}>
