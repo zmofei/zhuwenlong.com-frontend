@@ -152,9 +152,6 @@ function Blog(props) {
               </div>
             </div>
           </Link>
-          {/* <div>
-            
-          </div> */}
           <div className={CSS["blog-info"]}>
             <div className={CSS["blog-time"]}>
               <span>&#xe904;</span>
@@ -173,30 +170,6 @@ function Blog(props) {
             </div>
           </div>
           <div>
-            {/* 
-            <Link
-              href={`/blog/article/${blog._id}`}
-            >
-              <a>
-                <div className={CSS["blog-review"]}>
-                  <Lan en={blog['contentEn'] || blog['content']} zh={blog.content} />...
-                </div>
-              </a>
-            </Link>
-            <div className={CSS["blog-info"]}>
-              <div className={CSS["blog-time"]}>
-                <span>&#xe904;</span>
-                <span>{moment(blog.pubtime).format('YYYY-MM-DD HH:mm:ss')}</span>
-              </div>
-              <div className={CSS["blog-read"]}>
-                <span>&#xe900; </span>
-                <span>{blog.visited} </span>
-                <span>&#xe903; </span>
-                <span>{blog.like} </span>
-                <span>&#xe902; </span>
-                <span>{blog.comment}</span>
-              </div>
-            </div> */}
           </div>
         </div>
       ));
