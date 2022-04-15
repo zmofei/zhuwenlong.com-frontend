@@ -137,7 +137,7 @@ function Blog(props) {
             passHref
           >
             <div className={CSS['blog-cover']}>
-              {blog.cover && <img src={blog.cover} />}
+              <iframe src="//player.bilibili.com/player.html?aid=467256321&bvid=BV1TL411P7Y5&cid=549928159&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowFullScreen="true"> </iframe>
             </div>
           </Link>
           {getBlogClass(blog.classid)}
@@ -145,13 +145,11 @@ function Blog(props) {
             href={`/blog/article/${blog._id}`}
             passHref
           >
-            <div>
-              <h2 className={CSS["blog-list-title"]}><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
-              <div className={CSS["blog-review"]}>
-                <Lan en={blog['introductionEn'] || blog['contentEn'] || blog['content']} zh={blog.introduction || blog.content} />...
-              </div>
-            </div>
+            <iframe src="//player.bilibili.com/player.html?aid=467256321&bvid=BV1TL411P7Y5&cid=549928159&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowFullScreen="true"> </iframe>
           </Link>
+          {/* <div>
+            
+          </div> */}
           <div className={CSS["blog-info"]}>
             <div className={CSS["blog-time"]}>
               <span>&#xe904;</span>
@@ -168,8 +166,6 @@ function Blog(props) {
               <span>&#xe902; </span>
               <span>{blog.comment}</span>
             </div>
-          </div>
-          <div>
           </div>
         </div>
       ));
@@ -207,8 +203,8 @@ function Blog(props) {
 
   return (
     <Layout
-      title={lan(props.lan, { 'zh': "博客 - 朱文龙(Mofei)的自留地", 'en': 'Blog - Hi! I am Mofei!' })}
-      module="/blog"
+      title={lan(props.lan, { 'zh': "我的世界 - 朱文龙(Mofei)的自留地", 'en': 'Life - Hi! I am Mofei!' })}
+      module="/life"
     >
       <div className={CSS.blogBody}>
         <div className={CSS.blogContent}>

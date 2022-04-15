@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch';
 import Lan from '../i18n/languageMap.jsx';
 import Layout from '../commons/layout';
 import config from '../config';
+import Cookie from 'js-cookie';
 
 const id = '000000000000000000000000';
 
@@ -14,18 +15,25 @@ function MessagePage(props) {
 
 
   useEffect(() => {
-    fetch(`https://api.github.com/users/zmofei`)
-      .then(r => r.json())
-      .then(res => {
-        const { followers, following, public_repos } = res
-        setGithub(() => {
-          return {
-            followers,
-            following,
-            public_repos
-          }
-        })
-      });
+    let githubInfo;
+    try {
+      githubInfo = JSON.parse(Cookie.get('github-info'))
+    } catch (e) { }
+
+    if (githubInfo) {
+      setGithub(githubInfo)
+    } else {
+      // const githubInfo = Cookie.get('github-info')
+      fetch(`https://api.github.com/users/zmofei`)
+        .then(r => r.json())
+        .then(res => {
+          const { followers, following, public_repos } = res
+          const githubInfo = { followers, following, public_repos }
+          Cookie.set('github-info', JSON.stringify(githubInfo), { expires: 1 })
+          setGithub(githubInfo)
+        });
+    }
+
   }, []);
 
   function getMessage() {

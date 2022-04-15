@@ -15,7 +15,6 @@ import Copyright from '../commons/copyright';
 
 function Home(props) {
   let isMobile;
-  let heightStyle = { height: 1000 };
 
   // for message
   var username = useRef(null);
@@ -197,13 +196,13 @@ function Home(props) {
                 <div className={CSS.img}></div>
                 <p><Lan en="Mofei Zhu (朱文龙)" zh="朱文龙（Mofei Zhu）" /></p>
                 <p><Lan en="Born in 1989 AD, latitude 32.6167° longitude 116.9833°, Earth, Milky Way. Homo sapiens, Homo, Hominidae, Primates, Mammalia." zh="高级动物，人科，人属，智人种，公元1989年诞生于银河系-地球（北纬32.6167°，东经116.9833°）。" /></p>
-                <p><Lan en="Optimistic, Adorable, Passionate, Mysterious and Charming, Tough yet soft, Ambitious, typical Scorpio." zh="性情温和，贱萌，脑袋中无时不刻充斥着奇怪的想法，爱憎分明，典型天蝎气质。" /></p>
+                <p><Lan en="Optimistic, Adorable, Passionate, Mysterious and Charming, Tough yet soft, Ambitious, typical Scorpio." zh="性情温和，脑袋中无时不刻充斥着奇怪的想法，爱憎分明，典型天蝎气质。" /></p>
               </div>
               <div className={`${CSS['index-about-block']} ${CSS['index-about-work']}`}>
                 <div className={CSS.img}></div>
                 <p><Lan en="Computer & Program fans" zh="与时俱进的电脑迷、程序控" /></p>
-                <p><Lan en="Start Front-End in 2010, move to Chinese biggest IT company Baidu in 2014 to be an excellent Full Stack engineer. Start a new career at Mapbox in 2018 ." zh="2010年接触前端，10-14年在上海易班刷了4年副本，14-18年坐标北京百度，目前带着走向世界的梦想在Mapbox打拼" /></p>
-                <p><Lan en="Work with HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, MONGODB, MySQL, REDIS, LINUX, AWS, etc." zh="已习得技能 HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, MONGODB, REDIS, LINUX等" /></p>
+                <p><Lan en="Start Front-End in 2010, move to Chinese biggest IT company Baidu in 2014 to be an excellent Full Stack engineer. Start a new career at Mapbox in 2018 ." zh="2010年接触前端，2010-2014年在上海易班刷了4年副本，2014-2018年混迹于坐标北京百度，2018-今 带着走向世界的梦想在Mapbox打拼" /></p>
+                <p><Lan en="Work with HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, MONGODB, MySQL, DYNAMODB, REDIS, LINUX, AWS, AIRFLOW, PYTHON, etc." zh="已习得技能 HTML(5), CSS(3), JAVASCRIPT, NODE.JS, PHP, PYTHON, MONGODB, DYMANODB, REDIS, AIRFLOW, LINUX等" /></p>
               </div>
               <div className={`${CSS['index-about-block']} ${CSS['index-about-dream']}`}>
                 <div className={CSS.img}></div>

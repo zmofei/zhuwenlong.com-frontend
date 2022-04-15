@@ -30,7 +30,7 @@
   }
 
   h2 {
-    margin: 0.5em 0 0.4em;
+    margin: 1.618em 0 0.618em;
     font-size: 1.5em;
     line-height: 1.25em;
     font-weight: 600;
@@ -59,8 +59,8 @@
     max-width: 1000px;
 
     img {
-      max-width: 1000px;
-      max-width: 120%;
+      // max-width: 1000px;
+      max-width: 100%;
       transform: translate(-50%);
       position: relative;
       margin: 1.3em auto;

@@ -3,16 +3,23 @@ name: transform_fun
 access: default
 vars:
   region: cn-hangzhou
+  environmentVariables:
+    MysqlHost: xxxx #Mysql 数据库地址
+    MysqlUser: xxxx # MySQL 数据库用户名
+    MysqlDB: xxxx # MySQL 数据库DB名称
+    MysqlPwd: xxxx # MySQL 数据库密码
+    EmailUser: xxxx # 邮件系统用户名（用来发送留言回复等email）
+    EmailPwd: xxxx # 邮件系统密码
 services:
   fc-zhuwenlong_com_frontend-zhuwenlong_com_frontend:
     component: devsapp/fc
     actions: # 自定义执行逻辑
       pre-deploy: # 在deploy之前运行
         - run: npm run build
-          path: ./code # 命令行运行的路径
+          path: ./ # 命令行运行的路径
         - run: s build --use-docker --dockerfile ./Dockerfile
-          path: ./code # 命令行运行的路径
-        #  
+          path: ./ # 命令行运行的路径
+        #
     props:
       region: ${vars.region}
       service:
@@ -30,7 +37,8 @@ services:
           image: registry.cn-hangzhou.aliyuncs.com/zhuwenlong_com/zhuwenlong_com:v1.0 # 需要换成自己的registry地址
           accelerationType: Default
         instanceConcurrency: 100
-        codeUri: ./code
+        codeUri: ./
+        environmentVariables: ${vars.region}
       triggers:
         - name: httpTrigger
           type: http

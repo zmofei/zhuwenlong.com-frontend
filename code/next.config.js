@@ -5,8 +5,9 @@ module.exports = {
     swcMinify: true,
     images: {
         disableStaticImages: true,
+        formats: ['image/avif', 'image/webp'],
     },
     experimental: {
         outputStandalone: true,
-    },
+    }
 }

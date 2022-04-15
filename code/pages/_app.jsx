@@ -34,7 +34,7 @@ MyApp.getInitialProps = async (appContext) => {
   let host;
   let cookie;
   const appProps = await App.getInitialProps(appContext);
-  if (process.browser) {
+  if (typeof window !== "undefined") {
     host = location.host;
     cookie = document.cookie;
   } else {
