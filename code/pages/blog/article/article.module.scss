@@ -56,15 +56,6 @@
 .article-info {
   max-width: 1000px;
   margin: 0 auto;
-  font-family: "icomoon";
-
-
-
-  // span {
-  //   height: 60px;
-  //   line-height: 60px;
-  //   color: #999;
-  // }
 }
 
 .article-content,
@@ -146,7 +137,6 @@ $secondary-color: red;
 .like-btn {
   $iconWidth: 60px;
 
-  font-family: 'icomoon';
   position: relative;
   border: none;
   background: white;
@@ -175,7 +165,6 @@ $secondary-color: red;
     width: $iconWidth * 0.618;
     height: $iconWidth * 0.618;
     line-height: $iconWidth * 0.618;
-    font-family: Arial, Helvetica, sans-serif;
   }
 
   &-icon {

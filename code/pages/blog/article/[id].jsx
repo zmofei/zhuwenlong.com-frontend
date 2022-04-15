@@ -62,7 +62,6 @@ function Article(props) {
     window.addEventListener('scroll', undateScroll)
 
     // 
-
     return () => {
       window.removeEventListener('scroll', undateScroll)
     }

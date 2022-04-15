@@ -13,11 +13,6 @@
     }
     .commend-pub {
         &.commendPlaceholder {
-            // .commend-avatar-img,
-            // .placeHolerName,
-            // .placeHolerTxt {
-            //     @extend .animated-background;
-            // }
             .commend-avatar-img {
                 width: 40px;
                 height: 40px;
@@ -77,7 +72,6 @@
     .commend-pub-uname {
         height: 30px;
         margin-left: 5px;
-        font-family: "icomoon";
         line-height: 30px;
         font-size: 20px;
         font-size: 14px;
@@ -188,7 +182,6 @@
     }
     .commend-action {
         margin-top: 10px;
-        font-family: 'icomoon';
         overflow: hidden;
         color: #999;
     }
@@ -218,7 +211,6 @@
     }
     .commend-replay {
         display: none;
-        font-family: "icomoon";
         cursor: pointer;
         float: right;
         &:hover {

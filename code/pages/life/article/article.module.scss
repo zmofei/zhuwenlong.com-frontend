@@ -56,15 +56,6 @@
 .article-info {
   max-width: 1000px;
   margin: 0 auto;
-  font-family: "icomoon";
-
-
-
-  // span {
-  //   height: 60px;
-  //   line-height: 60px;
-  //   color: #999;
-  // }
 }
 
 .article-content,
@@ -101,7 +92,6 @@
 $secondary-color: red;
 
 // Like it button
-// 
 .like-btn-do-anim {
 
   .like-btn-selflikecount {
@@ -145,8 +135,6 @@ $secondary-color: red;
 // place holder for animation
 .like-btn {
   $iconWidth: 60px;
-
-  font-family: 'icomoon';
   position: relative;
   border: none;
   background: white;
@@ -175,7 +163,6 @@ $secondary-color: red;
     width: $iconWidth * 0.618;
     height: $iconWidth * 0.618;
     line-height: $iconWidth * 0.618;
-    font-family: Arial, Helvetica, sans-serif;
   }
 
   &-icon {
@@ -189,11 +176,6 @@ $secondary-color: red;
     top: 0;
     border-width: 1px;
     border: 0.5px solid #ccc;
-
-    // box-shadow: 0 0 50px change-color($secondary-color, $alpha: 0.2);
-    // color: #f15623;
-
-    // border: 0.5px solid #f15623;
   }
 
   &-animation {
@@ -216,7 +198,6 @@ $secondary-color: red;
       right: 0;
       bottom: 0;
       opacity: 0;
-      // background-color: red;
 
       &:nth-child(0) {
         transform: rotate(0deg);
