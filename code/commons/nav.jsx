@@ -72,6 +72,13 @@ function nav(props) {
           </Link>
         </li>
         <li>
+          <Link href="https://fantastical.app/mofei/friend" >
+            <a onClick={onClickMenu} className={module === '/meet' ? styles.active : ''}>
+              <Lan en="Meet Mofei" zh="约我" />
+            </a>
+          </Link>
+        </li>
+        <li>
           <a onClick={() => {
             const newLocation = `https://www.${props.lan !== 'zh' ? 'zhuwenlong.com' : 'himofei.com'}${location.pathname}${location.search}${location.hash}`
             location.href = newLocation
