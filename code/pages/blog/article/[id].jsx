@@ -36,9 +36,10 @@ function Article(props) {
 
   const initLikeCount = Number(Cookie.get(`article-${blogId}-like`) || 0)
   const [isLike, setIsLike] = useState(false);
-  const [selfLikeCount, setSelfLikecount] = useState(0);
+  const [selfLikeCount, setSelfLikeCount] = useState(0);
   const [renderMessage, setRenderMessage] = useState(false);
   const [remindReadPercentage, setRemindReadPercentage] = useState(100);
+  const [likeEmoji, setLikeEmoji] = useState('')
 
   const titleDom = useRef(null);
   const articleBox = useRef(null);
@@ -47,9 +48,14 @@ function Article(props) {
 
   useEffect(() => {
     setIsLike(initLikeCount > 0);
-    setSelfLikecount(initLikeCount);
+    setSelfLikeCount(initLikeCount);
     setRenderMessage(true);
     hljs.highlightAll();
+
+    // 
+    const likeEmojis = ['👏🏻', '🙌🏻', '👍🏻', '💥', '🤟🏻']
+    const likeEmoji = likeEmojis[Math.floor(Math.random() * likeEmojis.length)]
+    setLikeEmoji(likeEmoji)
 
 
     // 
@@ -83,18 +89,22 @@ function Article(props) {
 
     //
     if (selfLikeCount < 10) {
-      setSelfLikecount(selfLikeCount + 1)
+      setSelfLikeCount(selfLikeCount + 1)
       await fetch(`${config.dbHost}/api/blog/like/${id}`, {
         method: 'POST',
       });
 
       Cookie.set(`article-${blogId}-like`, selfLikeCount + 1, { expires: 999999 })
+    }else{
+      setSelfLikeCount(`MAX`)
     }
 
   }
 
   const zhTtitle = blog.title;
   const enTitle = blog['title-en'] || blog['title'];
+
+
 
   return (
     <Layout
@@ -139,24 +149,26 @@ function Article(props) {
             </section>
             <section className={CSS["article-info"]}>
               <div className={CSS["article-fns"]}>
-                {typeof window !== undefined && <button
-                  className={`${CSS["like-btn"]} ${(likeAnimation ? CSS["like-btn-do-anim"] : '')} ${(isLike ? CSS["like-btn-active"] : '')}`}
-                  onClick={() => { likeArticle(blog._id) }}>
-                  <span className={CSS["like-btn-icon"]}>&#xe903;</span>
-                  <div className={CSS["like-btn-selflikecount"]}>
-                    +{selfLikeCount}
-                  </div>
-                  <div className={CSS["like-btn-animation"]}>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                  </div>
-                </button>}
+                {typeof window !== undefined && (
+                  <button
+                    className={`${CSS["like-btn"]} ${(likeAnimation ? CSS["like-btn-do-anim"] : '')} ${(isLike ? CSS["like-btn-active"] : '')}`}
+                    onClick={() => { likeArticle(blog._id) }}>
+                    <span className={CSS["like-btn-icon"]}>{likeEmoji}</span>
+                    <div className={CSS["like-btn-selflikecount"]}>
+                      +{selfLikeCount}
+                    </div>
+                    <div className={CSS["like-btn-animation"]}>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                    </div>
+                  </button>
+                )}
               </div>
               <div className={CSS["article-info-count"]}>
                 <span className={CSS["article-info-icon"]}>&#xe900;</span>
