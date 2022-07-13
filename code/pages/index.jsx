@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import CSS from './index.module.scss';
 import Image from 'next/image'
 import logo from '../public/static/img/index/logo.png';
-import world from '../public/static/js/world.js';
 import fetch from 'isomorphic-unfetch'
 import Lan from '../i18n/languageMap.jsx';
 import lan from '../i18n/languagefn.js';
@@ -14,7 +13,7 @@ import { connect } from 'react-redux';
 import Copyright from '../commons/copyright';
 
 function Home(props) {
-  let isMobile;
+  // let isMobile;
 
   // for message
   var username = useRef(null);
@@ -22,14 +21,17 @@ function Home(props) {
   var message = useRef(null);
   var sendBtn = useRef(null);
   var tips = useRef(null);
-  var nexpage = useRef(null);
+  var nextPage = useRef(null);
 
   const [msgState, setMsgState] = useState(0);
   const [screenHeight, setScreenHeight] = useState(1000);
+  const [mapInteraction, setMapInteraction] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isInit, setIsInit] = useState(false);
   // msgState => 0: ready 1: sending 2: sended 3: faild
   // for scroll
   const onClickMore = () => {
-    nexpage && nexpage.current.scrollIntoView()
+    nextPage && nextPage.current.scrollIntoView()
   }
 
 
@@ -76,58 +78,123 @@ function Home(props) {
     })
   }
 
+  useEffect(() => {
+
+    if (!isInit) {
+      return false
+    }
+
+    // init map
+    mapboxgl.accessToken = 'pk.eyJ1IjoibW9mZWkiLCJhIjoiY2w1Z3Z6OWw1MDNlaDNjcXpqMjZsMG5oZCJ9.nqfToaqgxmm3jbJzu6bK6Q';
+    const map = new mapboxgl.Map({
+      container: 'mapbox',
+      zoom: isMobile ? 1.5 : 3.5,
+      // hash:true,
+      center: [121, 31],
+      pitch: 45,
+      style: 'mapbox://styles/mofei/cl5hjzmdt000615mibhmjd3yj',
+      projection: 'globe', // Display the map as a globe
+    });
+
+    map.on('style.load', () => {
+      map.setFog({}); // Set the default atmosphere style
+    });
+
+    // The following values can be changed to control rotation speed:
+
+    // At low zooms, complete a revolution every two minutes.
+    const secondsPerRevolution = 200;
+    // Above zoom level 5, do not rotate.
+    const maxSpinZoom = 5;
+    // Rotate at intermediate speeds between zoom levels 3 and 5.
+    const slowSpinZoom = 3;
+
+    let userInteracting = false;
+    let spinEnabled = true;
+
+    function spinGlobe() {
+      const zoom = map.getZoom();
+      if (spinEnabled && !userInteracting && zoom < maxSpinZoom) {
+        let distancePerSecond = 360 / secondsPerRevolution;
+        if (zoom > slowSpinZoom) {
+          // Slow spinning at higher zooms
+          const zoomDif =
+            (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom);
+          distancePerSecond *= zoomDif;
+        }
+        const center = map.getCenter();
+        center.lng -= distancePerSecond;
+        // Smoothly animate the map over one second.
+        // When this animation is complete, it calls a 'moveend' event.
+        map.easeTo({ center, duration: 1000, easing: (n) => n });
+      }
+    }
+
+
+    // Pause spinning on interaction
+    map.on('mousedown', () => {
+      console.log('mousedown')
+      userInteracting = true;
+    });
+
+    // Restart spinning the globe when interaction is complete
+    map.on('mouseup', () => {
+      console.log('mouseup')
+      userInteracting = false;
+      spinGlobe();
+    });
+
+    // These events account for cases where the mouse has moved
+    // off the map, so 'mouseup' will not be fired.
+    map.on('dragend', () => {
+      console.log('dragend')
+      userInteracting = false;
+      spinGlobe();
+    });
+
+    map.on('pitchend', () => {
+      console.log('pitchend')
+      userInteracting = false;
+      spinGlobe();
+    });
+    map.on('rotateend', () => {
+      console.log('rotateend')
+      userInteracting = false;
+      spinGlobe();
+    });
+
+    map.on('touchstart', () => {
+      console.log('mousedown')
+      userInteracting = true;
+    });
+
+    map.on('touchend', () => {
+      userInteracting = false;
+      spinGlobe();
+    });
+
+    // When animation is complete, start spinning if there is no ongoing interaction
+
+
+    map.on('moveend', () => {
+      console.log('moveend')
+      spinGlobe();
+    });
+
+    spinGlobe();
+    return () => {
+      map.remove()
+    }
+  }, [isInit])
+
 
   // for map
   useEffect(() => {
-    // init map
-    let _map = new world('map');
-
-    let mapData = [
-      [110, 19, '北京'],
-      [108, 29, '香港'],
-      [114, 25, '上海'],
-      [106, 37, 'Phuket Island'],
-      [101, 19, '敦煌'],
-      [111, 24, '黄山'],
-      [111, 24, '马鞍山'],
-      [111, 24, '合肥'],
-      [111, 24, '淮南'],
-      [112, 25, '南京'],
-      [107, 28, '深圳'],
-      [107, 28, '广州'],
-      [107, 28, '佛山'],
-      [96, 24, '古格王朝'],
-      [100, 26, '拉萨'],
-      [104, 21, '西宁'],
-      [114, 37, 'Semporna [18/03/02 6-days]'],
-      [135, 60, 'Auckland'],
-      [135, 60, 'Waitomo'],
-      [135, 60, 'Matamata'],
-      [132, 62, 'Christchurch'],
-      [131, 62, 'FOX GLACIER'],
-      [131, 63, 'Wanaka'],
-      [131, 63, 'Queenstown'],
-      [131, 63, 'Dunedin'],
-      [130, 63, 'Te Anau'],
-      [28, 19, 'Washington, DC [18/03/24 8-days]'],
-      [8, 21, 'San Francisco [18/04/01]'],
-      [106, 33, 'Bangkok'],
-      [10, 24, 'Los Angeles'],
-      [96, 17, '新疆 [2019/10]']
-    ]
-    mapData.forEach(d => {
-      _map.add([d[0], d[1]], {
-        title: d[2]
-      })
-    });
-
-    isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
+    let _isMobile = !!((document.body.clientWidth || document.documentElement.clientWidth) < 800);
     const _screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
     setScreenHeight(_screenHeight)
-
-    return () => {
-      _map.destory();
-    }
+    setIsMobile(_isMobile)
+    setIsInit(true)
   }, [])
 
   return (
@@ -156,39 +223,32 @@ function Home(props) {
           <div className={CSS.videobg} style={{ height: screenHeight }}></div>
 
           <section className={`${CSS.index} ${CSS.indexCover}`} style={{ height: screenHeight }}>
-            <div className={CSS.title}>
-              <svg
-                id="title"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink='http://www.w3.org/1999/xlink'
-                x="0px"
-                y="0px"
-                viewBox="50 40 950 160"
-                enableBackground="new 50 40 950 160"
-                xmlSpace="preserve" >
-                <g>
-                  <path d="M139.8,155.7V51.1h7.1v104.6H139.8z"></path>
-                  <path d="M216.2,155.7l41.5-104.6h8.8l40.9,104.6h-8.1l-13.4-33.5h-48.3l-13.4,33.5H216.2zM283.2,115.5l-21.5-56.3l-22,56.3H283.2z"></path>
-                  <path d="M320.1,155.7V51.1h11.1l38.3,95.8l38.1-95.8h11.1v104.6h-7.1V59.2l-39,96.5h-6.5l-39-96.5v96.5H320.1z"></path>
-                  <path d="M497.7,155.7V51.1h11.1l38.3,95.8l38.1-95.8h11.1v104.6h-7.1V59.2l-39,96.5h-6.5l-39-96.5v96.5H497.7z"></path>
-                  <path d="M625.9,142.3c-8.5-9.8-12.7-22.7-12.7-38.8c0-16.7,4.2-30,12.7-40c8.5-10,19.8-15,33.9-15c14.1,0,25.4,5,33.9,15c8.5,10,12.7,23.3,12.7,40c0,16.1-4.2,29-12.7,38.8c-8.5,9.8-19.8,14.6-33.9,14.6C645.7,156.9,634.4,152,625.9,142.3zM688.6,137.5c7.2-8.5,10.8-19.8,10.8-34c0-14.6-3.6-26.3-10.8-35.1c-7.2-8.8-16.8-13.2-28.8-13.2s-21.6,4.4-28.8,13.2c-7.2,8.8-10.8,20.5-10.8,35.1c0,14.2,3.6,25.6,10.8,34c7.2,8.6,16.8,12.9,28.8,12.9S681.4,146.1,688.6,137.5z"></path>
-                  <path d="M723.3,155.7V51.1H788V58h-57.7v40.2h51v6.5h-51v51H723.3z"></path>
-                  <path d="M800.4,155.7V51.1h68.3V58h-61.2v40.2h55.9v6.5h-55.9V149h61.2v6.7H800.4z"></path>
-                  <path d="M881.9,155.7V51.1h7.1v104.6H881.9z"></path>
-                </g>
-              </svg>
-              <h2>
-                <span><Lan en="Open a coffee shop," zh="开一家有故事的咖啡店，" /></span>
-                <span><Lan en="Travel around the world," zh="讲述着我环游世界的故事，" /></span>
-                <span><Lan en="This should be my life." zh="这才应该是我的生活。" /></span>
-              </h2>
-            </div>
+            {isInit && (
+              <div className={CSS.title}>
+                <svg id="title" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.96 74">
+                  <path d="M14.91,4.05V73H0V4.05Z" />
+                  <path className={CSS.red} d="M26.24,29.66A130.3,130.3,0,0,0,31,0H46.06c-.77,9.61-4,21.55-8.28,29.66Z" />
+                  <path d="M115.09,47.14c0-11.77.18-25,.48-32.75h-.47C111.86,28.46,105,51.43,98.35,73H85.66c-5-18.86-12.16-45-15.18-58.8H70c.59,8.09.88,22.28.88,34.1V73H57.3V4.05H79.49c5.37,18,11.4,40.62,13.47,50.89h.11c1.69-9.06,9.26-33.22,15-50.89h21.39V73H115.09Z" />
+                  <path d="M227.88,47.14c0-11.77.19-25,.49-32.75h-.47c-3.24,14.07-10.14,37-16.75,58.61h-12.7c-5-18.86-12.15-45-15.18-58.8h-.46c.59,8.09.88,22.28.88,34.1V73H170.1V4.05h22.18c5.38,18,11.4,40.62,13.48,50.89h.11c1.69-9.06,9.26-33.22,15-50.89h21.38V73H227.88Z" />
+                  <path d="M322.17,38.29c0,19.19-11.53,35.71-33.92,35.71-21.64,0-33-15.72-33-35.47,0-20.07,12.51-35.48,33.92-35.48C309.38,3.05,322.17,17.18,322.17,38.29Zm-51.49-.06c0,13.46,5.91,23.64,18.14,23.64,13.25,0,17.95-11.1,17.95-23.39,0-13-5.34-23.3-18.19-23.3C276.12,15.18,270.68,24.8,270.68,38.23Z" />
+                  <path d="M335.2,4.05h48.12V16.27H349.75v16.9H381.2V45.38H349.75V73H335.2Z" />
+                  <path d="M441.84,43.26h-33V60.78h36.38L443.47,73H394.4V4.05h48.89V16.27H408.86V31h33Z" />
+                  <path d="M470.8,4.05V73H455.9V4.05Z" />
+                  <circle className={CSS.red} cx="485" cy="61" r="12" />
+                  {/* <line className="red-dot" x1="498.95" y1="59.99" x2="498.95" y2="59.99" stroke="#FF5851" class="red-dot" strokeWidth={1} strokeLinecap="round" /> */}
+                </svg>
+                <h2>
+                  <span><Lan en="Open a coffee shop," zh="开一家有故事的咖啡店，" /></span>
+                  <span><Lan en="Travel around the world," zh="讲述着我环游世界的故事，" /></span>
+                  <span><Lan en="This should be my life." zh="这才应该是我的生活。" /></span>
+                </h2>
+              </div>
+            )}
             <button className={`${CSS.btn} ${CSS['cover-more']}`} id="More" onClick={onClickMore}>
               <Lan en="More" zh="更多" />
             </button>
           </section>
-          <section className={CSS['index-about']} ref={nexpage}>
+          <section className={CSS['index-about']} ref={nextPage}>
             <h2><Lan en="Who am I" zh="我是谁" /></h2>
             <h3><Lan en="I wish I were an interesting person" zh="我希望我是一个有趣的人" /></h3>
             <div className={CSS['index-about-who']}>
@@ -212,10 +272,37 @@ function Home(props) {
               </div>
             </div>
           </section>
-          <section className={CSS['index-travel']}>
+          <section className={CSS['index-travel']} style={{ height: isMobile ? 400 : 900 }} id="map">
             <h2><Lan en="Travel around the world" zh="环游世界" /></h2>
-            <h3><Lan en="Exploration is one of my life goals and also my belief" zh="探索，是我的人生目标之一，也是我的信仰" /></h3>
-            <div className={CSS['index-travel-world']} id="map"></div>
+            <h3><Lan en="Exploration is one of my life goals and also my belief" zh="探索 -- 是人生目标，也是信仰" /></h3>
+            {!mapInteraction && (<div onClick={() => {
+              if (isMobile) {
+                setMapInteraction(true)
+              }
+            }} onDoubleClick={() => {
+              setMapInteraction(true)
+            }} className={CSS['index-travel-world-mask']}></div>)}
+            <div className={CSS['index-travel-world-mask-tips']}>
+              {!mapInteraction && (
+                <span className={CSS['index-travel-world-mask-tips-text']} onClick={() => {
+                  setMapInteraction(true)
+                }}>
+                  <span>
+                    <svg className={CSS['svg-animate']} t="1657604976321" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10220" width="20" height="20"><path d="M620.48 933.376l86.144-202.752 206.208 193.344L960 873.6l-206.272-193.344 196.864-99.072L436.16 424.256 620.48 933.376zM485.824 224.256c0 24.832-20.032 44.928-44.8 44.928l0 0c-24.832 0-44.928-20.096-44.928-44.928L396.096 108.864C396.032 84.032 416.128 64 441.024 64l0 0c24.768 0 44.8 20.032 44.8 44.864L485.824 224.256zM310.464 261.312c17.536 17.472 17.536 45.888 0 63.424l0 0c-17.472 17.472-45.952 17.472-63.424 0L165.44 243.136c-17.472-17.472-17.472-45.888 0-63.36l0 0c17.536-17.536 45.952-17.536 63.424 0L310.464 261.312zM555.264 244.352c-17.472 17.536-17.472 45.952 0 63.488l0 0c17.472 17.472 45.952 17.472 63.488 0l81.472-81.6c17.536-17.472 17.536-45.952 0-63.424l0 0c-17.472-17.536-45.888-17.536-63.36 0L555.264 244.352zM224.256 400.768c24.768 0 44.864 20.032 44.864 44.864l0 0c0 24.768-20.032 44.864-44.864 44.864L108.864 490.432C84.032 490.432 64 470.4 64 445.568l0 0c0-24.768 20.032-44.8 44.864-44.8L224.256 400.768 224.256 400.768zM278.208 556.8C295.68 539.328 324.096 539.328 341.632 556.928l0 0c17.536 17.408 17.536 45.888 0.064 63.36l-81.6 81.536c-17.472 17.536-45.952 17.536-63.424 0l0 0c-17.536-17.536-17.536-45.952 0-63.424L278.208 556.8z" p-id="10221" fill="#ffffff"></path></svg>
+                  </span>
+                  <span>{isMobile ? '点击' : '双击'}地球打开交互</span>
+                </span>
+              )}
+              {mapInteraction && (
+                <span className={CSS['index-travel-world-mask-tips-text']} onClick={() => {
+                  setMapInteraction(false)
+                }}>
+                  <svg t="1657605481248" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14304" width="20" height="20"><path d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z" p-id="14305" fill="#ffffff"></path><path d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z" p-id="14306" fill="#ffffff"></path></svg>
+                  <span>关闭地球交互</span>
+                </span>
+              )}
+            </div>
+            <div className={CSS['index-travel-world']} id="mapbox"></div>
           </section>
           <section className={CSS['index-coffee']}>
             <h2><Lan en="A Dream follower" zh="一个追梦者" /></h2>

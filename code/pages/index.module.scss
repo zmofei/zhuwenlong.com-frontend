@@ -63,7 +63,7 @@
     margin-top: -280px;
     position: absolute;
     top: 55%;
-    animation: titlepos 1s ease-in;
+    // animation: title-show 1s ease-in;
   }
 
   svg {
@@ -71,12 +71,38 @@
     margin: 0 auto;
     margin-left: 20px;
 
-    path {
-      fill: rgba(0, 0, 0, 0);
+    path,
+    .red {
+      fill: white;
       stroke: #fff;
+      fill-opacity: 0;
       stroke-dasharray: 0;
       stroke-dashoffset: 0;
-      animation: title 4s ease-in forwards;
+      animation: title 3s ease-in forwards;
+    }
+
+    .red {
+      stroke: #FF5851;
+      fill: #FF5851;
+    }
+
+  }
+
+  @keyframes red-dot-grow {
+    0% {
+      stroke-width: 0px;
+    }
+
+    15% {
+      stroke-width: 0px;
+    }
+
+    20% {
+      stroke-width: 22px;
+    }
+
+    100% {
+      stroke-width: 22px;
     }
   }
 
@@ -110,7 +136,7 @@
 .index-about {
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  padding: 40px 0 80px;
+  padding: 40px 0 0px;
 
   p {
     margin: 8px;
@@ -183,16 +209,94 @@
 }
 
 .index-travel {
-  background: #4a6ebc;
+  // background: #4a6ebc;
+  background: rgba(255, 255, 255, 0.9);
+  padding-top: 50px;
   overflow: hidden;
   color: #fff;
+  position: relative;
+
+  h2,
+  h3 {
+    box-sizing: border-box;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    position: absolute;
+
+    margin: 0;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+  }
+
+  h2 {
+    // padding-top: 20px;
+    height: 90px;
+    line-height: 90px;
+  }
+
+  h3 {
+    top: 140px;
+    height: 40px;
+  }
+
+  .index-travel-world-mask {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .index-travel-world-mask-tips {
+    position: absolute;
+    // bottom: 8px;
+    top: 190px;
+    // left: 0;
+    height: 30px;
+    right: 10px;
+    z-index: 1000;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+
+    .index-travel-world-mask-tips {
+      cursor: pointer;
+    }
+
+    svg {
+      vertical-align: middle;
+      margin-right: 5px;
+
+    }
+
+    .svg-animate {
+      animation: blinker 1.5s linear infinite;
+    }
+
+    @keyframes blinker {
+      50% {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  .index-travel-world {
+    margin: 0px 0;
+    padding: 0 10px;
+    position: absolute;
+    top: 49px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // height: 900px;
+    box-sizing: border-box;
+  }
 }
 
-.index-travel-world {
-  margin: 40px 0;
-  padding: 0 10px;
-  box-sizing: border-box;
-}
+
 
 .index-coffee {
   padding: 20px 0 80px;
@@ -390,26 +494,32 @@
     stroke-dashoffset: 1000;
   }
 
-  80% {
-    stroke-dashoffset: 0;
-    fill: rgba(0, 0, 0, 0);
+  50% {
+    fill-opacity: 0;
   }
+
+  90% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0.8;
+  }
+
 
   100% {
     stroke-dasharray: 1000;
     stroke-dashoffset: 0;
-    fill: rgba(0, 0, 0, 0.2);
+    // stroke-width: 0;
+    stroke-opacity: 1;
+    fill-opacity: 1;
   }
 }
 
-@keyframes titlepos {
+@keyframes title-show {
   0% {
-    margin-top: -250px;
     opacity: 0;
   }
 
   100% {
-    margin-top: -280px;
+    // margin-top: -280px;
     opacity: 1;
   }
 }
@@ -430,24 +540,6 @@
 }
 
 @media (max-width: 800px) {
-  @keyframes title {
-    0% {
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-    }
-
-    80% {
-      stroke-dashoffset: 0;
-      fill: rgba(255, 255, 255, 0);
-    }
-
-    100% {
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 0;
-      fill: rgba(255, 255, 255, 1);
-    }
-  }
-
   .homeBody {
     p {
       font-size: 12px !important;
@@ -543,6 +635,34 @@
   .index-about-dream:hover .img {
     background: url("/static/img/index/dream.gif") no-repeat center;
     background-size: contain;
+  }
+
+  .index-travel {
+    h2 {
+      margin: 0;
+      height: 60px;
+      line-height: 60px;
+    }
+
+    h3 {
+      top: 110px;
+      margin: 0;
+    }
+
+    position: relative;
+
+    .index-travel-world-mask-tips {
+      font-size: 12px;
+      position: absolute;
+      bottom: 5px;
+      top: auto;
+      // left: 0;
+      height: 30px;
+      right: 40px;
+      z-index: 1000;
+      text-align: center;
+      line-height: 30px;
+    }
   }
 
   .index-content-box {
