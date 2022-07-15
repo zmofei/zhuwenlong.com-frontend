@@ -136,7 +136,7 @@
 .index-about {
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  padding: 40px 0 0px;
+  padding: 40px 0 40px 0px;
 
   p {
     margin: 8px;
@@ -209,9 +209,7 @@
 }
 
 .index-travel {
-  // background: #4a6ebc;
-  background: rgba(255, 255, 255, 0.9);
-  padding-top: 50px;
+  background: #304065;
   overflow: hidden;
   color: #fff;
   position: relative;
@@ -236,13 +234,13 @@
   }
 
   h3 {
-    top: 140px;
+    top: 90px;
     height: 40px;
   }
 
   .index-travel-world-mask {
     position: absolute;
-    top: 50px;
+    top: 0px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -253,7 +251,7 @@
   .index-travel-world-mask-tips {
     position: absolute;
     // bottom: 8px;
-    top: 190px;
+    top: 140px;
     // left: 0;
     height: 30px;
     right: 10px;
@@ -287,7 +285,7 @@
     margin: 0px 0;
     padding: 0 10px;
     position: absolute;
-    top: 49px;
+    top: 0px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -645,7 +643,7 @@
     }
 
     h3 {
-      top: 110px;
+      top: 60px;
       margin: 0;
     }
 
