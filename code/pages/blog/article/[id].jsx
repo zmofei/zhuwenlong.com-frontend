@@ -9,9 +9,12 @@ import lan from '../../../i18n/languagefn.js';
 import { connect } from 'react-redux';
 import Cookie from 'js-cookie';
 
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
+
 import config from '../../../config';
 
-import avatra from '../../../public/static/img/avatar.jpg';
+import avatar from '../../../public/static/img/avatar.jpg';
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
 const hljs = require('highlight.js/lib/core');
@@ -43,15 +46,25 @@ function Article(props) {
 
   const titleDom = useRef(null);
   const articleBox = useRef(null);
+  const contextBox = useRef(null);
 
+  useEffect(() => {
+    // 
+    const videoInstalled = contextBox.current.dataset.videoReady;
+    if (!videoInstalled && contextBox) {
+      for (let video of contextBox.current.querySelectorAll('video')) {
+        videojs(video.id, { controls: true, preload: 'auto' });
+      }
+      contextBox.current.dataset.videoReady = true
+    }
 
+  }, [contextBox])
 
   useEffect(() => {
     setIsLike(initLikeCount > 0);
     setSelfLikeCount(initLikeCount);
     setRenderMessage(true);
     hljs.highlightAll();
-
     // 
     const likeEmojis = ['👏🏻', '🙌🏻', '👍🏻', '💥', '🤟🏻']
     const likeEmoji = likeEmojis[Math.floor(Math.random() * likeEmojis.length)]
@@ -60,17 +73,18 @@ function Article(props) {
 
     // 
     const articleScrollAbleHeight = articleBox.current.scrollHeight - window.innerHeight;
-    const undateScroll = () => {
+    const updateScroll = () => {
       const currentProgress = window.scrollY;
-      const precent = Math.min(1, currentProgress / articleScrollAbleHeight);
-      setRemindReadPercentage((1 - precent) * 100)
+      const percent = Math.min(1, currentProgress / articleScrollAbleHeight);
+      setRemindReadPercentage((1 - percent) * 100)
     }
-    window.addEventListener('scroll', undateScroll)
+    window.addEventListener('scroll', updateScroll)
 
     // 
     return () => {
-      window.removeEventListener('scroll', undateScroll)
+      window.removeEventListener('scroll', updateScroll)
     }
+
   }, []);
 
   async function likeArticle(id) {
@@ -95,20 +109,20 @@ function Article(props) {
       });
 
       Cookie.set(`article-${blogId}-like`, selfLikeCount + 1, { expires: 999999 })
-    }else{
+    } else {
       setSelfLikeCount(`MAX`)
     }
 
   }
 
-  const zhTtitle = blog.title;
+  const zhTitle = blog.title;
   const enTitle = blog['title-en'] || blog['title'];
 
 
 
   return (
     <Layout
-      title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
+      title={lan(props.lan, { zh: `${zhTitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
       module="/blog"
     >
       <div className={CSS.articleBody} ref={articleBox} >
@@ -120,7 +134,7 @@ function Article(props) {
                 <Lan en={enTitle} zh={blog.title} />
               </h1>
               <div className={`${CSS["commend-user"]} ${CSS["article-pubinfo"]}`}>
-                <div className={CSS["commend-avatar"]}><img src={avatra} alt="avatar" /></div>
+                <div className={CSS["commend-avatar"]}><img src={avatar} alt="avatar" /></div>
                 <div className={CSS["commend-info"]}>
                   <div className={CSS["commend-name"]}>
                     <Link href="/">
@@ -132,7 +146,10 @@ function Article(props) {
                   </div>
                 </div>
               </div>
-              <div className={CSS["blog-content"]}>
+              <div className={CSS["blog-content"]} ref={contextBox}>
+                {/* <video id="vid2" className="video-js vjs-fluid vjs-big-play-centered">
+                  <source src="//cdn.zhuwenlong.com/upload/video/liyang-20220805-20220807.mp4" />
+                </video> */}
                 <Lan
                   en={<div dangerouslySetInnerHTML={{ __html: blog['html-en'] || blog.html }} />}
                   zh={<div dangerouslySetInnerHTML={{ __html: blog.html }} />} />

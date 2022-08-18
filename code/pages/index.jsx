@@ -106,14 +106,13 @@ function Home(props) {
     // return false
     // show map
     if (!isInit) {
-      return false
+      return () => { }
     }
-    console.log('show map')
     // init map
     mapboxgl.accessToken = 'pk.eyJ1IjoibW9mZWkiLCJhIjoiY2w1Z3Z6OWw1MDNlaDNjcXpqMjZsMG5oZCJ9.nqfToaqgxmm3jbJzu6bK6Q';
     const map = new mapboxgl.Map({
       container: 'mapbox',
-      zoom: isMobile ? 1.5 : 3.5,
+      zoom: isMobile ? 2.5 : 3.5,
       // hash:true,
       center: [121, 31],
       pitch: 45,
@@ -151,13 +150,11 @@ function Home(props) {
 
     // Pause spinning on interaction
     map.on('mousedown', () => {
-      console.log('mousedown')
       userInteracting = true;
     });
 
     // Restart spinning the globe when interaction is complete
     map.on('mouseup', () => {
-      console.log('mouseup')
       userInteracting = false;
       spinGlobe();
     });
@@ -165,24 +162,20 @@ function Home(props) {
     // These events account for cases where the mouse has moved
     // off the map, so 'mouseup' will not be fired.
     map.on('dragend', () => {
-      console.log('dragend')
       userInteracting = false;
       spinGlobe();
     });
 
     map.on('pitchend', () => {
-      console.log('pitchend')
       userInteracting = false;
       spinGlobe();
     });
     map.on('rotateend', () => {
-      console.log('rotateend')
       userInteracting = false;
       spinGlobe();
     });
 
     map.on('touchstart', () => {
-      console.log('mousedown')
       userInteracting = true;
     });
 
@@ -193,7 +186,6 @@ function Home(props) {
 
     // When animation is complete, start spinning if there is no ongoing interaction
     map.on('moveend', () => {
-      console.log('moveend')
       spinGlobe();
     });
 

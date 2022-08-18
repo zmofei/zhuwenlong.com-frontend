@@ -1,4 +1,6 @@
 import styles from './copyright.module.scss';
+import lan from '../i18n/languagefn.js';
+import { connect } from 'react-redux';
 
 function CopyRight(props) {
     return (
@@ -11,11 +13,18 @@ function CopyRight(props) {
                     <a href="https://github.com/zmofei/dufing" target="_blank" rel="noopener noreferrer" >Dufing</a> (2010-2020) & Express
                 </div>
                 <div>
-                    IPC证：<a href="http://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" >沪ICP备2022019571号-1</a>
+                    IPC证：<a href="http://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" >沪ICP备2022019571号-{lan(props.lan, {
+                        'zh': "1", 'en': '2'
+                    })}</a>
                 </div>
             </div>
         </div>
     )
 }
 
-export default CopyRight;
+function stateToProps(state) {
+    const lan = state.lan;
+    return { lan }
+}
+
+export default connect(stateToProps, null)(CopyRight);
