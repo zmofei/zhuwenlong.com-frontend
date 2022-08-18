@@ -107,7 +107,7 @@ function Message(props) {
                 `replyID=${replyID}`,
             ];
 
-            fetch(`${config.dbHost}/api/blog/message`, {
+            fetch(`/api/blog/message`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -142,7 +142,7 @@ function Message(props) {
                 `avatar=${avatar}`,
             ];
 
-            fetch(`${config.dbHost}/api/blog/message`, {
+            fetch(`/api/blog/message`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
