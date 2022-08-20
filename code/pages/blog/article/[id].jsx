@@ -51,11 +51,22 @@ function Article(props) {
   useEffect(() => {
     // 
     const videoInstalled = contextBox.current.dataset.videoReady;
+    const players = []
     if (!videoInstalled && contextBox) {
       for (let video of contextBox.current.querySelectorAll('video')) {
-        videojs(video.id, { controls: true, preload: 'auto' });
+        players.push(videojs(video.id, { controls: true, preload: 'auto' }));
       }
       contextBox.current.dataset.videoReady = true
+    }
+
+    return () => {
+      let player = players.pop();
+      while (player) {
+        contextBox.current = null
+        player.dispose();
+        player = players.pop()
+      }
+      console.log(players)
     }
 
   }, [contextBox])
