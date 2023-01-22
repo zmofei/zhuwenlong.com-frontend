@@ -1,0 +1,41 @@
+.related_article {
+    border-top: 1px solid #f4f4f4;
+    padding: 20px 0 10px 0;
+
+    .title {
+        font-weight: bold;
+        color: #333;
+        font-size: 1.1em;
+    }
+
+    ul {
+        // margin-top: 5px;
+        padding-left: 20px;
+
+        li {
+            display: list-item;
+            list-style-type: "📄";
+            padding-inline-start: 1ch;
+            padding: 0.2em 0.5em;
+        }
+
+    }
+
+    a {
+        color: #f15623;
+        text-decoration: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .related_article {
+        ul {
+
+
+            li {
+
+                font-size: 14px;
+            }
+        }
+    }
+}

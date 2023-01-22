@@ -113,6 +113,7 @@ function Home(props) {
     const map = new mapboxgl.Map({
       container: 'mapbox',
       zoom: isMobile ? 2.5 : 3.5,
+      maxZoom: 6,
       // hash:true,
       center: [121, 31],
       pitch: 45,

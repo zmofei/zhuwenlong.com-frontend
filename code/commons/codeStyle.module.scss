@@ -55,14 +55,14 @@
 
   p {
     word-break: break-all;
-    margin: 0 0 1.5em;
+    margin: 0 0 1em;
     max-width: 1000px;
 
     img {
       max-width: 100%;
       transform: translate(-50%);
       position: relative;
-      margin: 1.3em auto;
+      // margin: 1.3em auto;
       left: 50%;
     }
   }
@@ -135,12 +135,45 @@
   @media (max-width: 800px) {
     p {
       word-break: break-all;
-      margin: 0 0 1.5em;
+      margin: 0 0 1em;
       max-width: 1000px;
 
       img {
         max-width: 100%;
       }
+    }
+
+
+    h1 {
+      font-size: 1.5em;
+      font-weight: 600;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #e3e9ed;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin: 1em 0 0.618em;
+      font-size: 1.5em;
+      line-height: 1.25em;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1.2em;
+      margin: 0.5em 0 0.2em;
+    }
+
+    h4 {
+      font-size: 1.1em;
+    }
+
+    h5 {
+      font-size: 1.075em;
+    }
+
+    h6 {
+      font-size: 1em;
     }
   }
 }
