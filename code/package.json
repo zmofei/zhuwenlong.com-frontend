@@ -4,7 +4,6 @@
   "description": "![CDState](https://github.com/zmofei/zhuwenlong.com-frontend/workflows/CD/badge.svg)",
   "main": "index.js",
   "dependencies": {
-    "eslint-config-next": "^13.1.4",
     "highlight.js": "^10.7.2",
     "history": "^4.10.1",
     "isomorphic-unfetch": "^3.1.0",
@@ -41,6 +40,7 @@
   },
   "homepage": "https://github.com/zmofei/zhuwenlong.com-frontend#readme",
   "devDependencies": {
+    "eslint-config-next": "^13.1.4",
     "video.js": "^7.20.2"
   }
 }
