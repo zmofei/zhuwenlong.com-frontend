@@ -257,8 +257,8 @@ function Message(props) {
                                     {l.blog ?
                                         <Link
                                             href={`/api/jump?url=${l.blog.indexOf('http') !== -1 ? l.blog : `http://${l.blog}`}`}
-                                        >
-                                            <a target="_blank">{l.name}&nbsp;</a>
+                                            target="_blank">
+                                            {l.name}&nbsp;
                                         </Link> : <span>{l.name} </span>
                                     }
                                     <span className={CSS["commend-time"]}>
@@ -298,8 +298,8 @@ function Message(props) {
                             </div>
                         </div>
                     </div>
-                )
-            })
+                );
+            });
         } else {
             const placeHoler = new Array(4).fill(0);
             return placeHoler.map((v, index) =>
