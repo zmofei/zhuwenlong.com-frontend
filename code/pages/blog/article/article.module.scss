@@ -56,20 +56,12 @@
 .article-info {
   max-width: 1000px;
   margin: 0 auto;
-  font-family: "icomoon";
-
-
-
-  // span {
-  //   height: 60px;
-  //   line-height: 60px;
-  //   color: #999;
-  // }
 }
 
 .article-content,
 .article-info,
-.article-tags {
+.article-tags,
+.wechat {
   max-width: 1000px;
   margin: 0 auto;
   background: white;
@@ -95,6 +87,7 @@
 }
 
 .article-fns {
+  margin-top: 10px;
   text-align: center;
 }
 
@@ -146,7 +139,6 @@ $secondary-color: red;
 .like-btn {
   $iconWidth: 60px;
 
-  font-family: 'icomoon';
   position: relative;
   border: none;
   background: white;
@@ -175,7 +167,6 @@ $secondary-color: red;
     width: $iconWidth * 0.618;
     height: $iconWidth * 0.618;
     line-height: $iconWidth * 0.618;
-    font-family: Arial, Helvetica, sans-serif;
   }
 
   &-icon {
@@ -364,5 +355,32 @@ $secondary-color: red;
   .messageBox {
     max-width: 1000px;
     margin: 0 auto;
+  }
+}
+
+.wechat {
+  border-top: 1px dashed #f4f4f4;
+  border-bottom: 1px dashed #f4f4f4;
+  text-align: center;
+  margin: 10px auto;
+  padding: 10px 0;
+
+  p {
+    margin: 3px;
+    line-height: 20px;
+  }
+
+  .wechat_txt {
+    font-size: 14px;
+  }
+
+  img {
+    width: 43px * 3;
+  }
+}
+
+@media (max-width: 800px) {
+  .article-content {
+    font-size: 14px;
   }
 }

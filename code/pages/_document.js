@@ -24,8 +24,9 @@ class MyDocument extends Document {
                             `,
                         }}
                     />
-                    
 
+                    <script src='/static/js/mapbox-gl-2.9.1.js'></script>
+                    <link href='/static/css/mapbox-gl-2.9.1.css' rel='stylesheet' />
                 </Head>
                 <body>
                     <Main />

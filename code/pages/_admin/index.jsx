@@ -17,15 +17,23 @@ async function retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
     const items = pasteEvent.clipboardData.items;
 
     for (let i = 0; i < items.length; i++) {
+        const type = items[i].type
+        const allowedType = {
+            "image/gif": "gif",
+            "image/jpeg": "jpg",
+            "image/png": "png",
+            "image/svg+xml": "svg"
+        }
+
         // Skip content if not image
-        if (items[i].type.indexOf("image") == -1) continue;
+        const fileExtension = allowedType[type]
+        if (!fileExtension) continue;
         // Retrieve image on clipboard as blob
         const blob = items[i].getAsFile();
 
 
         var fd = new FormData();
-        fd.append('image', blob, 'png');
-
+        fd.append('image', blob, fileExtension);
         fetch(`${dbHost}/api/_admin/upload-image`, {
             method: 'POST',
             body: fd
@@ -33,7 +41,6 @@ async function retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
             .then(res => res.json())
             .then(({ url }) => {
                 callback(url)
-
             })
     }
 }

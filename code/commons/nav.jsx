@@ -17,8 +17,6 @@ function nav(props) {
 
   const { module } = props;
 
-  console.log(module)
-
   return (
     <div className={`${styles.head} ${(props.path === '/' ? styles.index : styles.dark)}`}>
       <div className={styles.logo}>
@@ -72,6 +70,13 @@ function nav(props) {
           </Link>
         </li>
         <li>
+          <Link href="https://fantastical.app/mofei/friend" >
+            <a onClick={onClickMenu} className={module === '/meet' ? styles.active : ''}>
+              <Lan en="Meet Mofei" zh="约我" />
+            </a>
+          </Link>
+        </li>
+        <li>
           <a onClick={() => {
             const newLocation = `https://www.${props.lan !== 'zh' ? 'zhuwenlong.com' : 'himofei.com'}${location.pathname}${location.search}${location.hash}`
             location.href = newLocation
@@ -99,7 +104,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   changeLan: (lan) => {
-    console.log('changeLan', lan)
     dispatch({
       type: 'SET_LANGUAGE',
       lan

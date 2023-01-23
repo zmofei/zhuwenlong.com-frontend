@@ -7,7 +7,5 @@ module.exports = {
         disableStaticImages: true,
         formats: ['image/avif', 'image/webp'],
     },
-    experimental: {
-        outputStandalone: true,
-    }
+    output: 'standalone',
 }

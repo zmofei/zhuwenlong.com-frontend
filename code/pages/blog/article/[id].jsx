@@ -3,15 +3,18 @@ import Link from 'next/link';
 import CSS from './article.module.scss';
 import fetch from 'isomorphic-unfetch'
 import moment from 'moment';
-import { useRouter } from 'next/router'
 import Layout from '../../../commons/layout';
 import lan from '../../../i18n/languagefn.js';
+import RelatedArticle from '../../../commons/related_article';
 import { connect } from 'react-redux';
 import Cookie from 'js-cookie';
 
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
+
 import config from '../../../config';
 
-import avatra from '../../../public/static/img/avatar.jpg';
+import avatar from '../../../public/static/img/avatar.jpg';
 import Message from '../../../commons/message.jsx';
 import Lan from '../../../i18n/languageMap.jsx';
 const hljs = require('highlight.js/lib/core');
@@ -29,53 +32,79 @@ hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescri
 hljs.registerLanguage('htmlbars', require('highlight.js/lib/languages/htmlbars'));
 
 function Article(props) {
-  const router = useRouter();
-  const blogId = router.query.id;
-  const [blog, setBlog] = useState(props.blog);
-  const [likeAnimation, setLikeAnimation] = useState(false);
 
-  const initLikeCount = Number(Cookie.get(`article-${blogId}-like`) || 0)
-  const [isLike, setIsLike] = useState(false);
-  const [selfLikeCount, setSelfLikecount] = useState(0);
-  const [renderMessage, setRenderMessage] = useState(false);
-  const [remindReadPercentage, setRemindReadPercentage] = useState(100);
-
-  const titleDom = useRef(null);
-  const articleBox = useRef(null);
-
-
+  const [likeCount, setLikeCount] = useState(props.blog.like);
 
   useEffect(() => {
+    console.log(props.blog)
+    setLikeCount(props.blog.like)
+
+    const initLikeCount = Number(Cookie.get(`article-${props.blog._id}-like`) || 0)
     setIsLike(initLikeCount > 0);
-    setSelfLikecount(initLikeCount);
+    setSelfLikeCount(initLikeCount);
     setRenderMessage(true);
     hljs.highlightAll();
+    // 
+    const likeEmojis = ['👏🏻', '🙌🏻', '👍🏻', '💥', '🤟🏻']
+    const likeEmoji = likeEmojis[Math.floor(Math.random() * likeEmojis.length)]
+    setLikeEmoji(likeEmoji)
 
 
     // 
     const articleScrollAbleHeight = articleBox.current.scrollHeight - window.innerHeight;
-    const undateScroll = () => {
+    const updateScroll = () => {
       const currentProgress = window.scrollY;
-      const precent = Math.min(1, currentProgress / articleScrollAbleHeight);
-      setRemindReadPercentage((1 - precent) * 100)
+      const percent = Math.min(1, currentProgress / articleScrollAbleHeight);
+      setRemindReadPercentage((1 - percent) * 100)
     }
-    window.addEventListener('scroll', undateScroll)
+    window.addEventListener('scroll', updateScroll)
 
     // 
+    return () => {
+      window.removeEventListener('scroll', updateScroll)
+    }
+  }, [props.blog])
+
+  const [likeAnimation, setLikeAnimation] = useState(false);
+  const [isLike, setIsLike] = useState(false);
+  const [selfLikeCount, setSelfLikeCount] = useState(0);
+  const [renderMessage, setRenderMessage] = useState(false);
+  const [remindReadPercentage, setRemindReadPercentage] = useState(100);
+  const [likeEmoji, setLikeEmoji] = useState('')
+
+  const titleDom = useRef(null);
+  const articleBox = useRef(null);
+  const contextBox = useRef(null);
+
+  useEffect(() => {
+    // 
+    const videoInstalled = contextBox.current.dataset.videoReady;
+    const players = []
+    if (!videoInstalled && contextBox) {
+      for (let video of contextBox.current.querySelectorAll('video')) {
+        players.push(videojs(video.id, { controls: true, preload: 'auto' }));
+      }
+      contextBox.current.dataset.videoReady = true
+    }
 
     return () => {
-      window.removeEventListener('scroll', undateScroll)
+      let player = players.pop();
+      while (player) {
+        contextBox.current = null
+        player.dispose();
+        player = players.pop()
+      }
+      console.log(players)
     }
-  }, []);
+
+  }, [contextBox])
 
   async function likeArticle(id) {
     if (likeAnimation) return false;
 
     // 
     setIsLike(() => true)
-    const oldBlog = { ...blog }
-    oldBlog.like += 1
-    setBlog(oldBlog)
+    setLikeCount(likeCount + 1)
 
     setLikeAnimation(() => true)
     setTimeout(() => {
@@ -84,22 +113,26 @@ function Article(props) {
 
     //
     if (selfLikeCount < 10) {
-      setSelfLikecount(selfLikeCount + 1)
+      setSelfLikeCount(selfLikeCount + 1)
       await fetch(`${config.dbHost}/api/blog/like/${id}`, {
         method: 'POST',
       });
 
-      Cookie.set(`article-${blogId}-like`, selfLikeCount + 1, { expires: 999999 })
+      Cookie.set(`article-${props.blog._id}-like`, selfLikeCount + 1, { expires: 999999 })
+    } else {
+      setSelfLikeCount(`MAX`)
     }
 
   }
 
-  const zhTtitle = blog.title;
-  const enTitle = blog['title-en'] || blog['title'];
+  const zhTitle = props.blog.title;
+  const enTitle = props.blog['title-en'] || props.blog['title'];
+
+
 
   return (
     <Layout
-      title={lan(props.lan, { zh: `${zhTtitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
+      title={lan(props.lan, { zh: `${zhTitle} - 朱文龙的自留地`, en: `${enTitle} - Hi! I am Mofei!` })}
       module="/blog"
     >
       <div className={CSS.articleBody} ref={articleBox} >
@@ -108,10 +141,10 @@ function Article(props) {
           <section className={CSS.article}>
             <section className={CSS["article-content"]}>
               <h1 ref={titleDom}>
-                <Lan en={enTitle} zh={blog.title} />
+                <Lan en={enTitle} zh={props.blog.title} />
               </h1>
               <div className={`${CSS["commend-user"]} ${CSS["article-pubinfo"]}`}>
-                <div className={CSS["commend-avatar"]}><img src={avatra} alt="avatar" /></div>
+                <div className={CSS["commend-avatar"]}><img src={avatar} alt="avatar" /></div>
                 <div className={CSS["commend-info"]}>
                   <div className={CSS["commend-name"]}>
                     <Link href="/">
@@ -119,18 +152,32 @@ function Article(props) {
                     </Link>
                   </div>
                   <div className={CSS["commend-time"]}>
-                    <time>{moment(blog.pubtime).format('YYYY-MM-DD HH:mm:ss')}</time>
+                    <time>{moment(props.blog.pubtime).format('YYYY-MM-DD HH:mm:ss')}</time>
                   </div>
                 </div>
               </div>
-              <div className={CSS["blog-content"]}>
+              <div className={CSS["blog-content"]} ref={contextBox}>
+                {/* <video id="vid2" className="video-js vjs-fluid vjs-big-play-centered">
+                  <source src="//cdn.zhuwenlong.com/upload/video/liyang-20220805-20220807.mp4" />
+                </video> */}
                 <Lan
-                  en={<div dangerouslySetInnerHTML={{ __html: blog['html-en'] || blog.html }} />}
-                  zh={<div dangerouslySetInnerHTML={{ __html: blog.html }} />} />
+                  en={<div dangerouslySetInnerHTML={{ __html: props.blog['html-en'] || props.blog.html }} />}
+                  zh={<div dangerouslySetInnerHTML={{ __html: props.blog.html }} />} />
               </div>
             </section>
+            {props.lan === 'zh' && (
+              <section className={CSS["wechat"]}>
+                <div>
+                  <img src="https://cdn.zhuwenlong.com/static/upload/2022-7/af0ff932f687b72703e5246c850ff6f0.jpg" />
+                </div>
+                <div className={CSS["wechat_txt"]}>
+                  <p>HI 我是Mofei</p>
+                  <p>扫码关注我的公众号</p>
+                </div>
+              </section>
+            )}
             <section className={CSS["article-tags"]}>
-              {blog.classid && blog.classid.map(klass => <Link key={`class_${klass.classid}`}
+              {props.blog.classid && props.blog.classid.map(klass => <Link key={`class_${klass.classid}`}
                 href={`/blog/1?tags=${klass.classid}`}
               >
                 <a>
@@ -140,32 +187,39 @@ function Article(props) {
             </section>
             <section className={CSS["article-info"]}>
               <div className={CSS["article-fns"]}>
-                {typeof window !== undefined && <button
-                  className={`${CSS["like-btn"]} ${(likeAnimation ? CSS["like-btn-do-anim"] : '')} ${(isLike ? CSS["like-btn-active"] : '')}`}
-                  onClick={() => { likeArticle(blog._id) }}>
-                  <span className={CSS["like-btn-icon"]}>&#xe903;</span>
-                  <div className={CSS["like-btn-selflikecount"]}>
-                    +{selfLikeCount}
-                  </div>
-                  <div className={CSS["like-btn-animation"]}>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                    <span className={CSS["like-btn-animation-item"]}></span>
-                  </div>
-                </button>}
+                {typeof window !== undefined && (
+                  <button
+                    className={`${CSS["like-btn"]} ${(likeAnimation ? CSS["like-btn-do-anim"] : '')} ${(isLike ? CSS["like-btn-active"] : '')}`}
+                    onClick={() => { likeArticle(props.blog._id) }}>
+                    <span className={CSS["like-btn-icon"]}>{likeEmoji}</span>
+                    <div className={CSS["like-btn-selflikecount"]}>
+                      +{selfLikeCount}
+                    </div>
+                    <div className={CSS["like-btn-animation"]}>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                      <span className={CSS["like-btn-animation-item"]}></span>
+                    </div>
+                  </button>
+                )}
               </div>
               <div className={CSS["article-info-count"]}>
                 <span className={CSS["article-info-icon"]}>&#xe900;</span>
-                <span>{blog.visited}</span>
+                <span>{props.blog.visited}</span>
                 <span className={CSS["article-info-icon"]}>&nbsp;&#xe903;</span>
-                <span className={CSS["count"]} id="goodCount">{blog.like}</span>
+                <span className={CSS["count"]} id="goodCount">{likeCount}</span>
                 <span className={CSS["article-info-icon"]}>&nbsp;&#xe902;</span>
-                <span>{blog.comment}</span>
+                <span>{props.blog.comment}</span>
+              </div>
+              <div>
+                {
+                  props.lan === 'zh' && <RelatedArticle blogid={props.blog._id} />
+                }
               </div>
             </section>
           </section>
@@ -173,7 +227,7 @@ function Article(props) {
       </div>
       <section className={CSS.message}>
         <div className={CSS.messageBox}>
-          {renderMessage && <Message id={router.query.id} />}
+          {renderMessage && <Message key={props.blog._id} id={props.blog._id} />}
         </div>
       </section>
     </Layout>

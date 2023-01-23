@@ -41,6 +41,8 @@ function Message(props) {
 
     const messageBox = useRef(null);
 
+
+
     const [userinfo, setUserinfo] = useState(Cookie.getJSON('userinfo') || {});
     const [changingUserinfo, setChangingUserinfo] = useState(false);
     const [active, setActive] = useState(false);
@@ -107,7 +109,7 @@ function Message(props) {
                 `replyID=${replyID}`,
             ];
 
-            fetch(`${config.dbHost}/api/blog/message`, {
+            fetch(`/api/blog/message`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -142,7 +144,7 @@ function Message(props) {
                 `avatar=${avatar}`,
             ];
 
-            fetch(`${config.dbHost}/api/blog/message`, {
+            fetch(`/api/blog/message`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -229,6 +231,7 @@ function Message(props) {
 
     function getMessageList() {
         if (messageList && messageList.length >= 0) {
+            console.log('22323', messageList)
             return messageList.map(l => {
                 return (
                     <div key={`comment_${l._id}`}
@@ -351,6 +354,8 @@ function Message(props) {
             </div>
         </div>
     ) : '';
+
+
 
     return (
         <>
