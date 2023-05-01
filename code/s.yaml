@@ -3,13 +3,6 @@ name: transform_fun
 access: default
 vars:
   region: cn-hangzhou
-  environmentVariables:
-    MysqlHost: xxxx #Mysql 数据库地址
-    MysqlUser: xxxx # MySQL 数据库用户名
-    MysqlDB: xxxx # MySQL 数据库DB名称
-    MysqlPwd: xxxx # MySQL 数据库密码
-    EmailUser: xxxx # 邮件系统用户名（用来发送留言回复等email）
-    EmailPwd: xxxx # 邮件系统密码
 services:
   fc-zhuwenlong_com_frontend-zhuwenlong_com_frontend:
     component: devsapp/fc
@@ -26,7 +19,6 @@ services:
         name: zhuwenlong_com_frontend
         description: This is FC service
         internetAccess: true
-        logConfig: auto
       function:
         name: zhuwenlong_com_frontend
         handler: index.handler
@@ -34,11 +26,10 @@ services:
         memorySize: 1024
         runtime: custom-container
         customContainerConfig:
-          image: registry.cn-hangzhou.aliyuncs.com/zhuwenlong_com/zhuwenlong_com:v1.0 # 需要换成自己的registry地址
+          image: registry.cn-hangzhou.aliyuncs.com/zhuwenlong_com/zhuwenlong_com:v1.2 # 需要换成自己的registry地址
           accelerationType: Default
         instanceConcurrency: 100
         codeUri: ./
-        environmentVariables: ${vars.region}
       triggers:
         - name: httpTrigger
           type: http

@@ -1,4 +1,4 @@
- // http funciton
+ // http function
  function http(obj) {
    var url = obj.url;
    var method = obj.method || 'get';

@@ -4,6 +4,7 @@
   "description": "![CDState](https://github.com/zmofei/zhuwenlong.com-frontend/workflows/CD/badge.svg)",
   "main": "index.js",
   "dependencies": {
+    "@next/swc-darwin-arm64": "^13.3.2",
     "eslint-config-next": "^13.3.2",
     "highlight.js": "^10.7.2",
     "history": "^4.10.1",

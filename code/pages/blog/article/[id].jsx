@@ -36,7 +36,6 @@ function Article(props) {
   const [likeCount, setLikeCount] = useState(props.blog.like);
 
   useEffect(() => {
-    console.log(props.blog)
     setLikeCount(props.blog.like)
 
     const initLikeCount = Number(Cookie.get(`article-${props.blog._id}-like`) || 0)
@@ -94,7 +93,6 @@ function Article(props) {
         player.dispose();
         player = players.pop()
       }
-      console.log(players)
     }
 
   }, [contextBox])

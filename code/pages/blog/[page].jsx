@@ -236,7 +236,6 @@ export async function getServerSideProps(ctx) {
     fetch(`${config.dbHost}/api/blog/tags`),
     fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}&pagesize=12`)
   ]).then(([tags, lists]) => {
-    console.log(lists)
     return Promise.all([tags.json(), lists.json()]);
   }).then(([tags, lists]) => {
     ret.tags = tags.list;
