@@ -15,7 +15,6 @@ function getListByID(id, page, callback) {
     fetch(`${config.dbHost}/api/blog/messagelist?id=${id}&pageNumber=20&page=${page.current}`)
         .then(r => r.json())
         .then(res => {
-            console.log(res);
             callback(res || [])
         })
 }
@@ -67,7 +66,6 @@ function Message(props) {
     useEffect(() => {
         setShowMessage(true)
         getListByID(props.id, page, rst => {
-            console.log(rst);
             setmessageList(() => rst.list);
             setPage(page => {
                 return Object.assign({}, page, { total: Math.ceil(rst.page.total / 20) });
@@ -231,7 +229,6 @@ function Message(props) {
 
     function getMessageList() {
         if (messageList && messageList.length >= 0) {
-            console.log('22323', messageList)
             return messageList.map(l => {
                 return (
                     <div key={`comment_${l._id}`}
@@ -257,8 +254,8 @@ function Message(props) {
                                     {l.blog ?
                                         <Link
                                             href={`/api/jump?url=${l.blog.indexOf('http') !== -1 ? l.blog : `http://${l.blog}`}`}
-                                        >
-                                            <a target="_blank">{l.name}&nbsp;</a>
+                                            target="_blank">
+                                            {l.name}&nbsp;
                                         </Link> : <span>{l.name} </span>
                                     }
                                     <span className={CSS["commend-time"]}>
@@ -298,8 +295,8 @@ function Message(props) {
                             </div>
                         </div>
                     </div>
-                )
-            })
+                );
+            });
         } else {
             const placeHoler = new Array(4).fill(0);
             return placeHoler.map((v, index) =>

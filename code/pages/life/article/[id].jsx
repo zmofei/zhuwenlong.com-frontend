@@ -115,7 +115,7 @@ function Article(props) {
                 <div className={CSS["commend-info"]}>
                   <div className={CSS["commend-name"]}>
                     <Link href="/">
-                      <a>Mofei Zhu</a>
+                      Mofei Zhu
                     </Link>
                   </div>
                   <div className={CSS["commend-time"]}>
@@ -133,9 +133,9 @@ function Article(props) {
               {blog.classid && blog.classid.map(klass => <Link key={`class_${klass.classid}`}
                 href={`/blog/1?tags=${klass.classid}`}
               >
-                <a>
-                  <Lan en={klass['classname-en'] || klass['classname']} zh={klass.classname} />
-                </a>
+
+                <Lan en={klass['classname-en'] || klass['classname']} zh={klass.classname} />
+
               </Link>)}
             </section>
             <section className={CSS["article-info"]}>
@@ -177,7 +177,7 @@ function Article(props) {
         </div>
       </section>
     </Layout>
-  )
+  );
 }
 
 export async function getServerSideProps(ctx) {

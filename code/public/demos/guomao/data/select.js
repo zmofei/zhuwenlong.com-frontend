@@ -13,7 +13,6 @@ fs.readFile('./zuobiao_local.json',function(err,data){
             var x = json[i].geo[j][0] 
             var y = json[i].geo[j][1] 
             if(x>=lt[0] && x<=rb[0] && y<=lt[1] && y>=rb[1]){
-                console.log(x,y)
                 isDel = false;
                 break;
             }
@@ -24,5 +23,4 @@ fs.readFile('./zuobiao_local.json',function(err,data){
     }
 
     fs.writeFile('newLoc',JSON.stringify(newLoc),function(){})
-    console.log(newLoc)
 })

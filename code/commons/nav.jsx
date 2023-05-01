@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useRef } from "react";
 import styles from './nav.module.scss';
 import logo from '../public/static/img/logo.png';
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Lan from '../i18n/languageMap.jsx';
 import { connect } from 'react-redux';
 
@@ -28,52 +28,53 @@ function nav(props) {
       <button className={styles['global-nav-btn']} id="navTar" onClick={onClickMenu} ref={navBtn} />
       <ul className={styles.nav} ref={navDom} >
         <li>
-          <Link href="/" >
-            <a onClick={onClickMenu} className={module === '/' ? styles.active : ''} >
-              <Lan en="Index" zh="首页" />
-            </a>
+          <Link
+            href="/"
+            onClick={onClickMenu}
+            className={module === '/' ? styles.active : ''}>
+            <Lan en="Index" zh="首页" />
           </Link>
         </li>
         <li>
-          <Link href="/blog/1" >
-            <a onClick={onClickMenu} className={module === '/blog' ? styles.active : ''}>
-              <Lan en="Blog" zh="博客" />
-            </a>
-          </Link>
-        </li>
-        {/* <li>
-          <Link href="/life/1" >
-            <a onClick={onClickMenu} className={module === '/life' ? styles.active : ''}>
-              <Lan en="Life" zh="我的世界" />
-            </a>
-          </Link>
-        </li> */}
-        <li>
-          <Link href="/lab">
-            <a onClick={onClickMenu} className={module === '/lab' ? styles.active : ''}>
-              <Lan en="Lab" zh="实验室" />
-            </a>
+          <Link
+            href="/blog/1"
+            onClick={onClickMenu}
+            className={module === '/blog' ? styles.active : ''}>
+            <Lan en="Blog" zh="博客" />
           </Link>
         </li>
         <li>
-          <Link href="/message"  >
-            <a onClick={onClickMenu} className={module === '/message' ? styles.active : ''}>
-              <Lan en="Message" zh="留言" />
-            </a>
+          <Link
+            href="/lab"
+            onClick={onClickMenu}
+            className={module === '/lab' ? styles.active : ''}>
+            <Lan en="Lab" zh="实验室" />
           </Link>
         </li>
         <li>
-          <Link href="/links" >
-            <a onClick={onClickMenu} className={module === '/links' ? styles.active : ''}>
-              <Lan en="Friends" zh="小伙伴" />
-            </a>
+          <Link
+            href="/message"
+            onClick={onClickMenu}
+            className={module === '/message' ? styles.active : ''}>
+            <Lan en="Message" zh="留言" />
           </Link>
         </li>
         <li>
-          <Link href="https://fantastical.app/mofei/friend" >
-            <a onClick={onClickMenu} className={module === '/meet' ? styles.active : ''}>
-              <Lan en="Meet Mofei" zh="约我" />
-            </a>
+          <Link
+            href="/links"
+            onClick={onClickMenu}
+            className={module === '/links' ? styles.active : ''}>
+            <Lan en="Friends" zh="小伙伴" />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://fantastical.app/mofei/friend"
+            onClick={onClickMenu}
+            className={module === '/meet' ? styles.active : ''}>
+
+            <Lan en="Meet Mofei" zh="约我" />
+
           </Link>
         </li>
         <li>
@@ -85,15 +86,11 @@ function nav(props) {
           </a>
         </li>
         <li>
-          <Link href={`/api/rss?lan=${props.lan}`} >
-            <a onClick={onClickMenu} target="_blank">
-              &#xe905;
-            </a>
-          </Link>
+          <Link href={`/api/rss?lan=${props.lan}`} onClick={onClickMenu} target="_blank"> &#xe905; </Link>
         </li>
       </ul>
     </div >
-  )
+  );
 }
 
 

@@ -70,33 +70,31 @@ function Blog(props) {
   function getSubNav() {
     if (tags && tags.length > 0) {
       return tags.map((t, index) => (
-        <Link
+        (<Link
           key={t.classid + Math.random()}
           href={'/blog/1' + (t.classid ? `?tags=${t.classid}` : '')}
-        >
-          <a
-            className={currentTag ? Number(currentTag) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}
-            onClick={() => {
-              setCurrentTag(t.classid);
-            }}
-          >
-            <span className={CSS.subNavIcon}>&#xe901;</span>
-            <span><Lan en={t['classname-en'] || t['classname']} zh={t.classname} /></span>
-            <span className={CSS.subNavCount}>{t.classcount}</span>
-          </a>
-        </Link>
-      ))
+          className={currentTag ? Number(currentTag) === t.classid ? CSS.active : '' : index === 0 ? CSS.active : ''}
+          onClick={() => {
+            setCurrentTag(t.classid);
+          }}>
+
+          <span className={CSS.subNavIcon}>&#xe901;</span>
+          <span><Lan en={t['classname-en'] || t['classname']} zh={t.classname} /></span>
+          <span className={CSS.subNavCount}>{t.classcount}</span>
+
+        </Link>)
+      ));
     } else {
       const placeHoler = new Array(2).fill(0);
       return placeHoler.map((v, index) =>
         <Link key={index} href="#">
-          <a>
-            <span className={CSS.placeholdIcon}></span>
-            <span className={CSS.placeholdTxt}></span>
-            <span className={CSS.placeholdNumber}></span>
-          </a>
+
+          <span className={CSS.placeholdIcon}></span>
+          <span className={CSS.placeholdTxt}></span>
+          <span className={CSS.placeholdNumber}></span>
+
         </Link>
-      )
+      );
     }
   }
 
@@ -107,22 +105,23 @@ function Blog(props) {
           {
             classinfo.map(info => (
               info && (
-                <Link key={`blogclass_${info.classid}`}
+                (<Link
+                  key={`blogclass_${info.classid}`}
                   href={`/blog/1?tags=${info.classid}`}
-                >
-                  <a onClick={
+                  onClick={
                     () => {
                       setCurrentTag(info.classid);
                     }
                   }>
-                    <Lan en={info['classname-en'] || info['classname']} zh={info.classname} />
-                  </a>
-                </Link>
+
+                  <Lan en={info['classname-en'] || info['classname']} zh={info.classname} />
+
+                </Link>)
               )
             ))
           }
         </div >
-      )
+      );
     } else {
       return '';
     }
@@ -132,19 +131,13 @@ function Blog(props) {
     if (blogLists && blogLists.length > 0) {
       const blogDom = blogLists.map(blog => (
         <div key={`blog_${blog._id}`} className={CSS[`blog-block`]}>
-          <Link
-            href={`/blog/article/${blog._id}`}
-            passHref
-          >
+          <Link href={`/blog/article/${blog._id}`} passHref legacyBehavior>
             <div className={CSS['blog-cover']}>
               {blog.cover && <img src={blog.cover} />}
             </div>
           </Link>
           {getBlogClass(blog.classid)}
-          <Link
-            href={`/blog/article/${blog._id}`}
-            passHref
-          >
+          <Link href={`/blog/article/${blog._id}`} passHref legacyBehavior>
             <div>
               <h2 className={CSS["blog-list-title"]}><Lan en={blog['title-en'] || blog['title']} zh={blog.title} /></h2>
               <div className={CSS["blog-review"]}>
@@ -243,7 +236,6 @@ export async function getServerSideProps(ctx) {
     fetch(`${config.dbHost}/api/blog/tags`),
     fetch(`${config.dbHost}/api/blog/lists?page=${page || 1}&tags=${currentTag ? currentTag : ''}&pagesize=12`)
   ]).then(([tags, lists]) => {
-    console.log(lists)
     return Promise.all([tags.json(), lists.json()]);
   }).then(([tags, lists]) => {
     ret.tags = tags.list;

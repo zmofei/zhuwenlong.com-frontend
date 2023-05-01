@@ -36,7 +36,6 @@ function Article(props) {
   const [likeCount, setLikeCount] = useState(props.blog.like);
 
   useEffect(() => {
-    console.log(props.blog)
     setLikeCount(props.blog.like)
 
     const initLikeCount = Number(Cookie.get(`article-${props.blog._id}-like`) || 0)
@@ -94,7 +93,6 @@ function Article(props) {
         player.dispose();
         player = players.pop()
       }
-      console.log(players)
     }
 
   }, [contextBox])
@@ -148,7 +146,7 @@ function Article(props) {
                 <div className={CSS["commend-info"]}>
                   <div className={CSS["commend-name"]}>
                     <Link href="/">
-                      <a>Mofei Zhu</a>
+                      Mofei Zhu
                     </Link>
                   </div>
                   <div className={CSS["commend-time"]}>
@@ -180,9 +178,9 @@ function Article(props) {
               {props.blog.classid && props.blog.classid.map(klass => <Link key={`class_${klass.classid}`}
                 href={`/blog/1?tags=${klass.classid}`}
               >
-                <a>
-                  <Lan en={klass['classname-en'] || klass['classname']} zh={klass.classname} />
-                </a>
+
+                <Lan en={klass['classname-en'] || klass['classname']} zh={klass.classname} />
+
               </Link>)}
             </section>
             <section className={CSS["article-info"]}>
@@ -231,7 +229,7 @@ function Article(props) {
         </div>
       </section>
     </Layout>
-  )
+  );
 }
 
 export async function getServerSideProps(ctx) {

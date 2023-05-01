@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import CSS from './index.module.scss';
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import logo from '../public/static/img/index/logo.png';
 import fetch from 'isomorphic-unfetch'
 import Lan from '../i18n/languageMap.jsx';
