@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useRef } from "react";
 import styles from './nav.module.scss';
 import logo from '../public/static/img/logo.png';
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Lan from '../i18n/languageMap.jsx';
 import { connect } from 'react-redux';
 
