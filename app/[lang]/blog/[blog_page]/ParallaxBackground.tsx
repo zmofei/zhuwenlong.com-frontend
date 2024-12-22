@@ -6,7 +6,6 @@ import { useRef } from 'react';
 
 
 export default function ParallaxBackground({ blog }: { blog: any }) {
-    console.log(blog)
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -23,6 +22,8 @@ export default function ParallaxBackground({ blog }: { blog: any }) {
         <motion.div className="w-full relative overflow-hidden  
             h-56 
             md:h-96
+            bg-slate-700 
+            bg-opacity-50
             "
             initial={{ scale: 1 }} // 初始状态
             whileHover={{
@@ -40,9 +41,10 @@ export default function ParallaxBackground({ blog }: { blog: any }) {
                     backgroundSize: `${blog.cover ? 'cover' : 'contain'}`,
                     backgroundPosition: "center center",
                     backgroundRepeat: "no-repeat",
+                    backgroundOrigin: "padding-box",
                     translateY: backgroundPosition,
+                    margin: blog.cover ? 0 : "60px",
                 }}
-
             />
         </motion.div>
     );

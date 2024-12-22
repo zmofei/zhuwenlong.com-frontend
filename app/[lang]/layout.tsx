@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import { use } from "react"
 import "../globals.css";
 import Nav from '@/components/Common/Nav'
+import { LanguageProvider } from "@/components/Context/LanguageContext";
 import CustomCursor from "@/components/util/Mouse";
 import type { Metadata, ResolvingMetadata } from 'next'
 import { title } from "process";
@@ -21,6 +22,7 @@ export default function RootLayout(params: Readonly<{
 }>) {
   const { children } = params
   const { lang } = use(params.params)
+
   return (
     <html lang={lang}>
       <head>
@@ -31,9 +33,11 @@ export default function RootLayout(params: Readonly<{
       <body
         className={`antialiased`}
       >
-        <CustomCursor />
-        <Nav lang={lang} />
-        {children}
+        <LanguageProvider defaultLang={lang}>
+          <CustomCursor />
+          <Nav lang={lang} />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

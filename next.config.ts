@@ -20,20 +20,24 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return [
-      // {
-      //   source: '/api/:path*',
-      //   destination: 'https://www.zhuwenlong.com/api/:path*' // Proxy to Backend
-      // },
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:3001/api/:path*' // Proxy to Backend
-      },
-      {
-        source: '/api/finshare/wall/:path*',
-        destination: 'https://www.finshare.fi/api/finshare/wall/:path*' // Proxy to Backend
-      }
-    ]
+    if (process.env.NODE_ENV === "development") {
+      return [
+        // {
+        //   source: '/api/:path*',
+        //   destination: 'https://www.zhuwenlong.com/api/:path*' // Proxy to Backend
+        // },
+        {
+          source: '/api/:path*',
+          destination: 'https://www.mofei.life/api/:path*' // Proxy to Backend
+        },
+        {
+          source: '/api/finshare/wall/:path*',
+          destination: 'https://www.finshare.fi/api/finshare/wall/:path*' // Proxy to Backend
+        }
+      ]
+    } else {
+      return []
+    }
   }
 };
 

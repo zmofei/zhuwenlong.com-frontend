@@ -1,7 +1,7 @@
 "use client"
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { motion } from "motion/react"
+import { motion, AnimatePresence } from "motion/react"
 import Pagination from '@/components/Common/Pagination';
 import Foot from '@/components/Common/Foot';
 import { useEffect, useRef, useState, use } from 'react';
@@ -19,38 +19,116 @@ export default function Home({ params }: { params: any }) {
 
   const [blogList, setBlogList] = useState([])
   const [totalPages, setTotalPages] = useState(1)
+  const [blogPage, setMessagePage] = useState(blog_page)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const messageArea = useRef<HTMLDivElement>(null)
+
+  const baseURL = '/blog/'
 
   useEffect(() => {
-    fetchBlogList(blog_page, lang).then((res) => {
+    setIsLoading(true)
+    fetchBlogList(blogPage, lang).then((res) => {
       setBlogList(res.data)
       const totalCount = res.count
       const pageSize = 12
       setTotalPages(Math.ceil(totalCount / pageSize))
+      setIsLoading(false)
     })
-  }, [blog_page, lang])
+  }, [blogPage, lang])
 
   return (
     <>
       <div className=' container max-w-[2000px] m-auto'>
         <BlogBannerTitle lang={lang} />
       </div >
-      <div className='grid  text-black bg-none mt-10 gap-x-6 container max-w-[2000px] m-auto min-h-lvh
+      <div ref={messageArea} className='relative -top-20 invisible'></div>
+      <div
+        className='grid  text-black bg-none mt-10 gap-x-6 container max-w-[2000px] m-auto min-h-lvh
         grid-cols-1 px-5 gap-y-10
         md:grid-cols-2 md:px-10 md:gap-y-20
         lg:grid-cols-3 
       '>
-        {blogList.map((blog: any, index: number) => {
+        {isLoading && ([...Array(12)].map((_, index) => {
           return (
-            <Link href={`/blog/article/${blog._id}`} target='_blank'>
+            <AnimatePresence>
               <motion.div
                 key={index}
-                className=''
                 initial={{ opacity: 0, y: 50 }} // 初始透明度和位置
                 animate={{ opacity: 1, y: 0 }} // 动画结束时恢复正常
+                exit={{ opacity: 0, y: 50 }} // 动画结束时恢复正常
                 transition={{
                   duration: 0.2, // 动画时长
                   delay: index * 0.1, // 根据索引延迟
                 }}
+              >
+                {/* <div className='bg-gray-200 h-6 w-1/2 mt-3 rounded-lg'></div> */}
+                <motion.div
+                  className='w-full relative overflow-hidden bg-slate-700 
+                  h-56 
+                  md:h-96
+                '
+                  animate={{ opacity: 0.5 }}
+                  initial={{ opacity: 0.3 }}
+                  transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+                />
+                <motion.div
+                  className='
+                  mt-2
+                  md:mt-4
+                  bg-slate-700 h-6 w-1/2'
+                  initial={{ opacity: 0.3, }} // 标题初始位置
+                  animate={{ opacity: 0.5, }} // 标题淡入和上滑
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    repeatType: 'reverse'
+                  }}
+                />
+                <motion.div
+                  className='
+                  mt-2
+                  md:mt-4
+                  bg-slate-700 h-6 w-full'
+                  initial={{ opacity: 0.3, }} // 标题初始位置
+                  animate={{ opacity: 0.5, }} // 标题淡入和上滑
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    repeatType: 'reverse'
+                  }}
+                />
+                <motion.div
+                  className='
+                  mt-2
+                  md:mt-4
+                  bg-slate-700 h-6 w-full'
+                  initial={{ opacity: 0.3, }} // 标题初始位置
+                  animate={{ opacity: 0.5, }} // 标题淡入和上滑
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    repeatType: 'reverse'
+                  }}
+                />
+
+              </motion.div>
+            </AnimatePresence>
+          )
+        }))
+        }
+
+        {blogList.map((blog: any, index: number) => {
+          return (
+            <Link href={`/blog/article/${blog._id}`} target='_blank'>
+              <div
+                key={index}
+              // initial={{ opacity: 0, y: 50 }} // 初始透明度和位置
+              // animate={{ opacity: 1, y: 0 }} // 动画结束时恢复正常
+              // transition={{
+              //   duration: 0.2, // 动画时长
+              //   delay: index * 0.1, // 根据索引延迟
+              // }}
               >
                 <ParallaxBackground blog={blog} />
                 <motion.div
@@ -80,15 +158,20 @@ export default function Home({ params }: { params: any }) {
                 >
                   {blog.introduction}
                 </motion.div>
-              </motion.div>
+              </div>
             </Link>
           )
         })}
       </div>
 
       {totalPages > 1 && (<div className='py-8 mt-10'>
-        <Pagination lang={lang} currentPage={Number(blog_page)} totalPages={totalPages} baseURL='/blog/' onPageChange={(page: number) => {
-          console.log('page', page)
+        <Pagination lang={lang} currentPage={Number(blog_page)} totalPages={totalPages} baseURL={baseURL} onPageChange={(page: number) => {
+          history.pushState({}, '', `${baseURL}${page}`)
+          setMessagePage(page)
+          messageArea.current && messageArea.current.scrollIntoView({
+            behavior: 'smooth', // 平滑滚动
+            block: 'start',     // 元素滚动到视口顶部
+          });
         }}
         />
       </div>)}

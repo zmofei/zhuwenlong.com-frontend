@@ -92,7 +92,7 @@ export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', 
                   initial={{ opacity: 0, translateY: 20 }}
                 >{BlogCommentPrompts[blogCommentPromptIndex][lang]}</motion.h3>
               </motion.div>
-              <Comments message_id={blog_id} singlePageMode={true} />
+              <Comments lang={lang} message_id={blog_id} singlePageMode={true} />
             </div>
           </>
         )}
