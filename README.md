@@ -1,41 +1,36 @@
-# My blog
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-https://www.zhuwenlong.com
+## Getting Started
 
-## 如何部署
-
-### 1. 配置
-
-* 将目录中的`code/s.example.yaml`文件复制为`code/s.yaml`
-* 修改`code/s.yaml`的敏感信息，如将 `environmentVariables` 中的 `xxxx` 修改为真实参数：
+First, run the development server:
 
 ```bash
-environmentVariables:
-    MysqlHost: xxxx #Mysql 数据库地址
-    MysqlUser: xxxx # MySQL 数据库用户名
-    MysqlDB: xxxx # MySQL 数据库DB名称
-    MysqlPwd: xxxx # MySQL 数据库密码
-    EmailUser: xxxx # 邮件系统用户名（用来发送留言回复等email）
-    EmailPwd: xxxx # 邮件系统密码
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### 2. 安装依赖
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-cd code
-npm install
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### 3. 部署到阿里云函数计算
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```
-s deploy
-```
+## Learn More
 
-## 如何本地测试
+To learn more about Next.js, take a look at the following resources:
 
-Run the commend below, and open a browser to make sure the site works.
-If you don't have the `s` (i.e. serverless devs tool), follow [this doc](https://github.com/Serverless-Devs/Serverless-Devs#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B) to install it.
-```
-s local start --custom-domain auto
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
