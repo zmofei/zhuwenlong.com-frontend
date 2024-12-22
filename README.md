@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My blog
 
-## Getting Started
+这是[我的博客](https://www.mofei.life)的前端代码，使用了Next.js
 
-First, run the development server:
+
+## 如何部署(默认部署在aliyun函数计算)
+
+### 1. 安装依赖
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. 部署到阿里云函数计算
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+请参考 https://docs.serverless-devs.com/ 官网，修改 `s.yaml` 中的必要信息
 
-## Learn More
+```
+s deploy
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 如何本地测试
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Run the commend below, and open a browser to make sure the site works.
+If you don't have the `s` (i.e. serverless devs tool), follow [this doc](https://github.com/Serverless-Devs/Serverless-Devs#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B) to install it.
+```
+s local start --custom-domain auto
+```
