@@ -216,7 +216,7 @@ export default function Home({ params }: { params: any }) {
         />
       </div>)}
 
-      <div className='mt-24'>
+      <div className='mt-10 md:mt-24'>
         <Foot />
       </div>
     </>
