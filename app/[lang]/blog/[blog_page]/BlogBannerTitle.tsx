@@ -40,7 +40,7 @@ export default function BlogBannerTitle(params: { lang: 'zh' | 'en' }) {
 
     return (
         <>
-            <div className=' container max-w-[2000px] m-auto'>
+            <div className=' container max-w-[2000px] m-auto overflow-x-hidden'>
                 <div className='overflow-hidden font-extrabold'>
                     <motion.h1 className={`w-full font-extrabold  text-white leading-snug
                         ml-5 mt-20  ${(lang == 'zh' ? 'text-5xl' : 'text-4xl')}
