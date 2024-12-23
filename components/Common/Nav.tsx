@@ -43,7 +43,7 @@ function Nav({ lang }: { lang: string }) {
 
     return (
         <div ref={scope} >
-            <div className="fixed z-10 w-full h-16 backdrop-blur-lg bg-black/20 2xl:hidden" />
+            <div className="fixed z-10 w-full h-20 backdrop-blur-lg bg-black/20 2xl:hidden" />
             <motion.div
                 className="fixed z-40
                     left-5 top-5
