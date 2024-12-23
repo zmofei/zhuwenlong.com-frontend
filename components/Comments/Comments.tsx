@@ -28,6 +28,7 @@ export default function Comments(params: any) {
     const [hashemail, setHashemail] = useState('')
     const [website, setWebsite] = useState('')
     const [freshId, setFreshId] = useState(0)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const email = localStorage.getItem('email') || ''
@@ -42,11 +43,13 @@ export default function Comments(params: any) {
     }, [])
 
     useEffect(() => {
+        setIsLoading(true)
         fetchMessageList(message_id, messagePage).then((res) => {
             setBlogList(res.data)
             const totalCount = res.count
             const pageSize = 10
             setTotalPages(Math.ceil(totalCount / pageSize))
+            setIsLoading(false)
         })
     }, [message_id, messagePage, lang, freshId])
 
@@ -114,11 +117,63 @@ export default function Comments(params: any) {
 
     }
 
-    console.log('messageInput', messageInput, typeof messageInput)
-    console.log("lang", lang);
+    const chineseMessages = [
+        "今天有什么好玩的事？",
+        "给我点灵感吧！",
+        "世界那么大，你想说点什么？",
+        "你的留言会被认真对待（真的）",
+        "嘿，说句话呗！",
+        "你的一小步，我的一大步！",
+        "别害羞，尽管说！",
+        "留言区已经准备好了，快点开聊！",
+        "输入点内容吧，我保证不挑剔。",
+        "听说在这里留言会很酷。"
+    ];
+
+    const englishMessages = [
+        "What's on your mind today?",
+        "Give me some inspiration!",
+        "The world is big, say something!",
+        "Your comment will be taken seriously (really).",
+        "Hey, say something!",
+        "One small comment from you, one giant leap for us!",
+        "Don't be shy, just type away!",
+        "The comment section is ready, start chatting!",
+        "Write something, I won't judge.",
+        "I heard leaving a comment here is pretty cool."
+    ];
+
+    function getRelativeTime(timestamp: string, lang = 'en') {
+        const now = Date.now();
+        const diff = now - new Date(timestamp).getTime();
+        const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' });
+
+
+        const seconds = Math.floor(diff / 1000);
+        if (seconds < 60) return rtf.format(-seconds, 'second');
+
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return rtf.format(-minutes, 'minute');
+
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return rtf.format(-hours, 'hour');
+
+        const days = Math.floor(hours / 24);
+        if (days < 30) return rtf.format(-days, 'day');
+
+        const months = Math.floor(days / 30);
+        if (months < 12) return rtf.format(-months, 'month');
+
+        const years = Math.floor(months / 12);
+        return rtf.format(-years, 'year');
+    }
+
+    const [chineseMessagesIndex, setChineseMessagesIndex] = useState(Math.floor(Math.random() * chineseMessages.length));
+    const [englishMessagesIndex, setEnglishMessagesIndex] = useState(Math.floor(Math.random() * englishMessages.length));
 
     return (
         <>
+            {/* Post */}
             <motion.div className=''
                 initial={{ opacity: 0, translateY: 50, }}
                 animate={{ opacity: 1, translateY: 0 }}
@@ -224,31 +279,89 @@ export default function Comments(params: any) {
                             </div>
                             <div className='mb-2 relative' >
                                 <div contentEditable translate='no' className='outline-none py-2' ref={editableDivRef} onPaste={handlePaste} onInput={handleInput} />
-                                <div className='absolute top-0 left-0 py-2 pointer-events-none'>{(
+                                <div className='absolute top-0 left-0 py-2 pointer-events-none text-gray-500'>{(
                                     messageInput !== '' && messageInput !== '\n'
-                                ) ? '' : '说些什么吧'}</div>
+                                ) ? '' : (
+                                    lang == 'zh' ? chineseMessages[chineseMessagesIndex] : englishMessages[englishMessagesIndex]
+                                )}</div>
                             </div>
                             <div>
                                 <button className=' p-2 px-6 border-blue-100 border rounded-md text-sm '
                                     onClick={() => {
                                         handleSubmit()
                                         console.log('messageInput', messageInput)
-                                    }}>提交</button>
+                                    }}>{
+                                        lang == 'zh' ? '发送' : 'Send'
+                                    }
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </motion.div>
 
+            {/* List */}
             <div className='container max-w-[2000px] m-auto' ref={messageArea}>
                 <motion.div className=''
                     initial={{ opacity: 0, translateY: 200 }}
                     animate={{ opacity: 1, translateY: 0 }}
                     transition={{ duration: 1.4 }}
                 >
+                    {isLoading && ([...Array(10)].map((_, index) => {
+                        return (<motion.div className='
+                            mt-5
+                            md:mt-10
+                            ' key={`${index}_loading`}
+                            initial={{ opacity: 0, translateY: 50, }}
+                            whileInView={{ opacity: 1, translateY: 0 }}
+                            transition={{ duration: 0.5, type: 'spring', bounce: 0.2, }}
+                        >
+                            {/* <motion.div
+                  className='w-full relative overflow-hidden bg-slate-700 
+                  h-56 
+                  md:h-96
+                '
+                  animate={{ opacity: 0.5 }}
+                  initial={{ opacity: 0.3 }}
+                  transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+                /> */}
+                            <div className='bg-gray-800 rounded-lg shadow-lg break-all
+                                text-base
+                                md:text-xl
+                                py-2
+                                flex  
+                            '>
+                                <motion.div className='mt-2 ml-2 mr-2
+                                w-10 h-10 
+                                md:w-20 md:h-20 md:mt-10 md:ml-10 bg-slate-700 rounded-md'
+                                    animate={{ opacity: 0.5 }}
+                                    initial={{ opacity: 0.3 }}
+                                    transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }} />
+                                <div className='
+                                    flex-1 
+                                    p-2
+                                    md:p-10 md:pl-4
+                                    text-base
+                                '>
+                                    <motion.h2 className='font-extrabold bg-slate-700 w-32 inline-block h-4 md:h-6 rounded-md'
+                                        animate={{ opacity: 0.5 }}
+                                        initial={{ opacity: 0.3 }}
+                                        transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+                                    />
+                                    <motion.div className='mt-2 bg-slate-700 w-full inline-block h-4 md:h-6 rounded-md'
+                                        animate={{ opacity: 0.5 }}
+                                        initial={{ opacity: 0.3 }}
+                                        transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }} />
+                                    <motion.h2 className='mt-2 md:mt-4 font-extrabold bg-slate-700 w-32 inline-block h-4 md:h-6 rounded-md' animate={{ opacity: 0.5 }}
+                                        initial={{ opacity: 0.3 }}
+                                        transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }} />
+                                </div>
+                            </div>
+                        </motion.div>)
+                    }))}
+
                     {
                         blogList.map((blog: any, index: number) => {
-                            // console.log('blog', blog)
                             return (
                                 <motion.div className='
                                     mt-5
@@ -290,6 +403,19 @@ export default function Comments(params: any) {
                                                 ) : ''}
                                             </h2>
                                             <div className='mt-2' dangerouslySetInnerHTML={{ __html: blog.content }} />
+                                            <div className='mt-2 text-gray-500' title={new Date(blog.time).toLocaleDateString(
+                                                lang == 'zh' ? 'zh-CN' : 'en-US'
+                                                , {
+                                                    weekday: "short",
+                                                    year: "numeric",
+                                                    month: "short",
+                                                    day: "numeric",
+                                                    hour: "numeric",
+                                                    minute: "numeric",
+                                                })}>
+                                                {getRelativeTime(blog.time, lang == 'zh' ? 'zh-CN' : 'en-US')}
+
+                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>

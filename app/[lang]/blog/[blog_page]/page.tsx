@@ -12,6 +12,30 @@ import { fetchBlogList } from '@/app/actions/blog'
 import ParallaxBackground from './ParallaxBackground'
 import BlogBannerTitle from './BlogBannerTitle'
 
+function getRelativeTime(timestamp: string, lang = 'en') {
+  const now = Date.now();
+  const diff = now - new Date(timestamp).getTime();
+  const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' });
+
+
+  const seconds = Math.floor(diff / 1000);
+  if (seconds < 60) return rtf.format(-seconds, 'second');
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return rtf.format(-minutes, 'minute');
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return rtf.format(-hours, 'hour');
+
+  const days = Math.floor(hours / 24);
+  if (days < 30) return rtf.format(-days, 'day');
+
+  const months = Math.floor(days / 30);
+  if (months < 12) return rtf.format(-months, 'month');
+
+  const years = Math.floor(months / 12);
+  return rtf.format(-years, 'year');
+}
 
 export default function Home({ params }: { params: any }) {
 
@@ -120,15 +144,9 @@ export default function Home({ params }: { params: any }) {
 
         {blogList.map((blog: any, index: number) => {
           return (
-            <Link href={`/blog/article/${blog._id}`} target='_blank'>
+            <Link href={`/blog/article/${blog._id}`} target='_blank' className='relative'>
               <div
                 key={index}
-              // initial={{ opacity: 0, y: 50 }} // 初始透明度和位置
-              // animate={{ opacity: 1, y: 0 }} // 动画结束时恢复正常
-              // transition={{
-              //   duration: 0.2, // 动画时长
-              //   delay: index * 0.1, // 根据索引延迟
-              // }}
               >
                 <ParallaxBackground blog={blog} />
                 <motion.div
@@ -157,6 +175,28 @@ export default function Home({ params }: { params: any }) {
                   }}
                 >
                   {blog.introduction}
+                </motion.div>
+                {/* <div className='mt-2' dangerouslySetInnerHTML={{ __html: blog.content }} /> */}
+                <div className=' invisible mt-2 '>{getRelativeTime(blog.pubtime, lang == 'zh' ? 'zh-CN' : 'en-US')}</div>
+                <motion.div className='mt-2 text-gray-500 absolute bottom-0'
+                  initial={{ opacity: 0, x: -200 }} // 介绍初始位置
+                  animate={{ opacity: 1, x: 0 }} // 介绍淡入和上滑
+                  exit={{ opacity: 0, x: 200 }} // 介绍淡出和下滑
+                  transition={{
+                    duration: 0.2,
+                    delay: 0.5 + index * 0.1, // 延迟时间稍微不同
+                  }}
+                  title={new Date(blog.pubtime).toLocaleDateString(
+                    lang == 'zh' ? 'zh-CN' : 'en-US'
+                    , {
+                      weekday: "short",
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}>
+                  {getRelativeTime(blog.pubtime, lang == 'zh' ? 'zh-CN' : 'en-US')}
                 </motion.div>
               </div>
             </Link>
