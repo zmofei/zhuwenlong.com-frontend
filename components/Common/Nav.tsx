@@ -8,13 +8,12 @@ function useMenuAnimation(isOpen: boolean) {
     const [scope, animate] = useAnimate();
 
     useEffect(() => {
-        console.log(isOpen)
         const menuAnimations: AnimationSequence = isOpen
             ? [
                 [
                     "nav",
                     { transform: "translateX(0%)" },
-                    { ease: [0.08, 0.65, 0.53, 0.96], duration: 0.6 }
+                    { ease: [0.08, 0.65, 0.53, 0.96], duration: 0.4 }
                 ],
                 [
                     "li",
@@ -44,23 +43,32 @@ function Nav({ lang }: { lang: string }) {
 
     return (
         <div ref={scope} >
-            <div className="fixed z-40
-            left-5 top-5
-            md:left-10  md:top-10">
+            <div className="fixed z-10 w-full h-16 backdrop-blur-lg bg-black/20 2xl:hidden" />
+            <motion.div
+                className="fixed z-40
+                    left-5 top-5
+                    md:left-10  md:top-10"
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1, transition: { type: "spring", damping: 10, stiffness: 200 } }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", }}
+            >
                 <a className="flex" href="/">
                     <img src="/img/mofei-logo.svg" alt="嘿, 我是Mofei!" className="h-8 md:h-10" />
                 </a>
-            </div>
+            </motion.div>
 
 
             <motion.div
                 layout
-                initial={{ backgroundColor: show ? "#ff5555" : '' }}
+                initial={{ backgroundColor: show ? "#ff5555" : '', scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1, transition: { type: "spring", damping: 10, stiffness: 200 } }}
                 whileHover={{ scale: 1.2, backgroundColor: "#ff5555", rotate: 3 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", damping: 17, stiffness: 200 }}
                 className={`fixed rounded-full p-2 px-4 z-40 ${(show ? "bg-[#ff5555]" : "")} cursor-pointer
-                    right-5 top-5 text-xl  -mr-4 
+                    right-5 top-3 text-xl  -mr-4 
                     md:right-10 md:top-10 md:text-2xl md:-mr-2 
                 `}
                 onClick={() => {

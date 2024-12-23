@@ -134,11 +134,8 @@ export default function Comments(params: any) {
         "What's on your mind today?",
         "Give me some inspiration!",
         "The world is big, say something!",
-        "Your comment will be taken seriously (really).",
         "Hey, say something!",
-        "One small comment from you, one giant leap for us!",
         "Don't be shy, just type away!",
-        "The comment section is ready, start chatting!",
         "Write something, I won't judge.",
         "I heard leaving a comment here is pretty cool."
     ];
@@ -173,14 +170,16 @@ export default function Comments(params: any) {
 
     return (
         <>
+
             {/* Post */}
-            <motion.div className=''
+            <motion.div className='relative'
                 initial={{ opacity: 0, translateY: 50, }}
                 animate={{ opacity: 1, translateY: 0 }}
                 whileInView={{ opacity: 1, translateY: 0 }}
                 transition={{ duration: 0.5, type: 'spring', bounce: 0.2, delay: 0.5 }}
 
             >
+                <div className='w-0 h-0 absolute -top-20 md:-top-32 left-0 overflow-hidden invisible' ref={messageArea}></div>
                 <div className='bg-gray-800 mt-10 rounded-lg shadow-lg break-all text-base overflow-hidden relative border border-gray-600 focus:border-blue-800'>
                     <div className='bg-gray-800 rounded-lg shadow-lg break-all text-base md:text-xl py-2 flex  '>
                         <div className='w-10 h-10 md:w-20 md:h-20 mt-2 ml-2 md:mt-5 md:ml-10 mr-2'>
@@ -279,7 +278,7 @@ export default function Comments(params: any) {
                             </div>
                             <div className='mb-2 relative' >
                                 <div contentEditable translate='no' className='outline-none py-2' ref={editableDivRef} onPaste={handlePaste} onInput={handleInput} />
-                                <div className='absolute top-0 left-0 py-2 pointer-events-none text-gray-500'>{(
+                                <div className='absolute top-0 left-0 py-2 pointer-events-none text-gray-500 truncate w-full'>{(
                                     messageInput !== '' && messageInput !== '\n'
                                 ) ? '' : (
                                     lang == 'zh' ? chineseMessages[chineseMessagesIndex] : englishMessages[englishMessagesIndex]
@@ -301,7 +300,7 @@ export default function Comments(params: any) {
             </motion.div>
 
             {/* List */}
-            <div className='container max-w-[2000px] m-auto' ref={messageArea}>
+            <div className='container max-w-[2000px] m-auto'>
                 <motion.div className=''
                     initial={{ opacity: 0, translateY: 200 }}
                     animate={{ opacity: 1, translateY: 0 }}
