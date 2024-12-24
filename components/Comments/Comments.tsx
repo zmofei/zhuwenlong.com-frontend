@@ -7,7 +7,29 @@ import { useEffect, useState, use, useRef } from 'react';
 
 import { fetchMessageList, getToken, postMessage } from '@/app/actions/blog'
 
+import { HomeIcon } from '@heroicons/react/24/outline'
 
+const updateLinks = (htmlContent: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+
+    // 修改所有 <a> 的属性
+    doc.querySelectorAll('a').forEach((a) => {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer'); // 添加安全属性
+        a.style.color = '#ff6b6b'; // 浅红色
+
+        // 添加新窗口图标
+        const icon = document.createElement('span');
+        icon.style.marginLeft = '4px';
+        icon.style.fontSize = '0.5em';
+        icon.style.color = '#ff6b6b';
+        icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 inline-block align-top"><path fill-rule="evenodd" d="M15.75 2.25H21a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V4.81L8.03 17.03a.75.75 0 0 1-1.06-1.06L19.19 3.75h-3.44a.75.75 0 0 1 0-1.5Zm-10.5 4.5a1.5 1.5 0 0 0-1.5 1.5v10.5a1.5 1.5 0 0 0 1.5 1.5h10.5a1.5 1.5 0 0 0 1.5-1.5V10.5a.75.75 0 0 1 1.5 0v8.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V8.25a3 3 0 0 1 3-3h8.25a.75.75 0 0 1 0 1.5H5.25Z" clip-rule="evenodd" /></svg>'; // 使用 Unicode 符号
+        a.appendChild(icon);
+    });
+
+    return doc.body.innerHTML; // 返回修改后的 HTML
+};
 
 export default function Comments(params: any) {
 
@@ -315,15 +337,7 @@ export default function Comments(params: any) {
                             whileInView={{ opacity: 1, translateY: 0 }}
                             transition={{ duration: 0.5, type: 'spring', bounce: 0.2, }}
                         >
-                            {/* <motion.div
-                  className='w-full relative overflow-hidden bg-slate-700 
-                  h-56 
-                  md:h-96
-                '
-                  animate={{ opacity: 0.5 }}
-                  initial={{ opacity: 0.3 }}
-                  transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-                /> */}
+
                             <div className='bg-gray-800 rounded-lg shadow-lg break-all
                                 text-base
                                 md:text-xl
@@ -397,11 +411,15 @@ export default function Comments(params: any) {
                                                     <a
                                                         href={blog.blog.startsWith('http://') || blog.blog.startsWith('https://') ? blog.blog : `https://${blog.blog}`}
                                                         target='_blank'
-                                                        className="text-[#f05a54] underline ml-2"
-                                                    >@{lang == 'zh' ? "主页" : "Homepage"}</a>
+                                                        className="text-[#f05a54] underline ml-1"
+                                                    ><HomeIcon className='inline-block size-5' /></a>
                                                 ) : ''}
                                             </h2>
-                                            <div className='mt-2' dangerouslySetInnerHTML={{ __html: blog.content }} />
+                                            <div className='mt-2' dangerouslySetInnerHTML={{
+                                                __html: updateLinks(
+                                                    lang == 'zh' ? (blog.translate_zh || blog.content) : (blog.translate_en || blog.content)
+                                                )
+                                            }} />
                                             <div className='mt-2 text-gray-500' title={new Date(blog.time).toLocaleDateString(
                                                 lang == 'zh' ? 'zh-CN' : 'en-US'
                                                 , {

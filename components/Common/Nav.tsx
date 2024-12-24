@@ -43,7 +43,7 @@ function Nav({ lang }: { lang: string }) {
 
     return (
         <div ref={scope} >
-            <div className="fixed z-10 w-full h-20 backdrop-blur-lg bg-black/20 2xl:hidden" />
+            <div className="fixed z-10 w-full h-20 backdrop-blur-lg bg-black/20 2xl:hidden top-0" />
             <motion.div
                 className="fixed z-40
                     left-5 top-5
@@ -67,7 +67,8 @@ function Nav({ lang }: { lang: string }) {
                 whileHover={{ scale: 1.2, backgroundColor: "#ff5555", rotate: 3 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", damping: 17, stiffness: 200 }}
-                className={`fixed rounded-full p-2 px-4 z-40 ${(show ? "bg-[#ff5555]" : "")} cursor-pointer
+                className={`fixed rounded-full p-2 px-4 z-40 
+                    ${(show ? "bg-[#ff5555]" : "")} cursor-pointer
                     right-5 top-3 text-xl  -mr-4 
                     md:right-10 md:top-10 md:text-2xl md:-mr-2 
                 `}

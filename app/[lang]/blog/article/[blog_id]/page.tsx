@@ -7,19 +7,6 @@ import { fetchBlogContent } from '@/app/actions/blog'
 import Foot from '@/components/Common/Foot';
 import Comments from '@/components/Comments/Comments';
 
-import type { Metadata, ResolvingMetadata } from 'next'
-type Props = {
-  params: Promise<{ lang: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
-// export async function generateMetadata(params: Props): Promise<Metadata> {
-//   const { lang } = await params.params
-//   return {
-//     title: lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!',
-//   }
-// }
-
 
 const BlogCommentPrompts = [
   { "zh": "这篇文章花了不少心思写，希望能听听你的看法！", "en": "I put a lot of thought into this post—would love to hear your thoughts!" },
@@ -42,24 +29,71 @@ export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', 
   const [blogContent, setBlogContent] = useState<any>(null)
 
   const [blogCommentPromptIndex, setBlogCommentPromptIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setBlogCommentPromptIndex(Math.floor(Math.random() * BlogCommentPrompts.length))
   }, [])
 
   useEffect(() => {
+    setIsLoading(true)
     fetchBlogContent(blog_id, lang).then((res) => {
-      console.log(res)
       setBlogContent(res)
+      setIsLoading(false)
     })
   }, [lang, blog_id])
 
   return (
     <>
+      <title>{blogContent?.title}</title>
+
       <div className='min-h-screen
       mt-20 px-5 
       md:mt-32 md:px-10 
       '>
+        {isLoading && (
+          <>
+            <motion.div
+              className='max-w-7xl mx-auto shadow-lg font-extrabold text-transparent 
+              text-3xl 
+              md:text-5xl 
+              h-10 bg-slate-700 
+              rounded-lg'
+
+              animate={{ opacity: 0.5 }}
+              initial={{ opacity: 0.3 }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+            />
+
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-10  rounded-lg'
+              animate={{ opacity: 0.5 }}
+              initial={{ opacity: 0.3 }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+            />
+
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg'
+              animate={{ opacity: 0.5 }}
+              initial={{ opacity: 0.3 }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+            />
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg'
+              animate={{ opacity: 0.5 }}
+              initial={{ opacity: 0.3 }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+            />
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg'
+              animate={{ opacity: 0.5 }}
+              initial={{ opacity: 0.3 }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+            />
+            <motion.div className='max-w-7xl overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg w-1/6'
+              animate={{ opacity: 0.5 }}
+              initial={{ opacity: 0.3 }}
+              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+            />
+          </>
+
+        )}
         {blogContent && (
           <>
             <motion.div className='
@@ -83,8 +117,9 @@ export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', 
             </motion.div>
             {/* Comments */}
             <div className='max-w-7xl mx-auto 
-        mt-5 text-xl 
-        md:mt-18 md:text-3xl '>
+              mt-5 text-xl 
+              md:mt-18 md:text-3xl
+            '>
               <motion.div>
                 <motion.h3
                   className='font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#a1c4fd] to-[#c2e9fb] '
