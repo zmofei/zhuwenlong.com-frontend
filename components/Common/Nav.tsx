@@ -47,7 +47,7 @@ function Nav({ lang }: { lang: string }) {
             <motion.div
                 className="fixed z-40
                     left-5 top-5
-                    md:left-10  md:top-10"
+                    2xl:left-10  2xl:top-10"
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1, transition: { type: "spring", damping: 10, stiffness: 200 } }}
                 whileHover={{ scale: 1.1 }}
@@ -70,7 +70,7 @@ function Nav({ lang }: { lang: string }) {
                 className={`fixed rounded-full p-2 px-4 z-40 
                     ${(show ? "bg-[#ff5555]" : "")} cursor-pointer
                     right-5 top-3 text-xl  -mr-4 
-                    md:right-10 md:top-10 md:text-2xl md:-mr-2 
+                    2xl:right-10 2xl:top-10 md:text-2xl md:-mr-2 
                 `}
                 onClick={() => {
                     setShow(!show)
