@@ -1,0 +1,22 @@
+name: Serverless Devs Project CI/CD
+
+on:
+  push:
+    branches: 
+      - release/aliyun
+
+jobs:
+  serverless-devs-cd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+      - run: npm install
+      - run: npm install -g @serverless-devs/s
+      # 默认密钥配置指令是阿里云密钥配置指令，更多可以参考：
+      # 如何通过Github Action使用Serverless Devs做CI/CD：https://github.com/Serverless-Devs/website/blob/master/blog/zh-cn/serverless-devs-ci-cd-github-action-usage.md
+      - run: s config add --AccountID ${{secrets.AccountID}} --AccessKeyID ${{secrets.AccessKeyID}} --AccessKeySecret ${{secrets.AccessKeySecret}} -a cffa
+      - run: s deploy -y
