@@ -384,7 +384,7 @@ export default function Comments(params: any) {
                                     whileInView={{ opacity: 1, translateY: 0 }}
                                     transition={{ duration: 0.5, type: 'spring', bounce: 0.2, }}
                                 >
-                                    <div className='bg-gray-800 rounded-lg shadow-lg break-all
+                                    <div className='bg-gray-800 rounded-lg shadow-lg
                                         text-base
                                         md:text-xl
                                         py-2

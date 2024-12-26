@@ -131,17 +131,17 @@ export default function BlogBannerTitle(params: { lang: 'zh' | 'en' }) {
 
                 <div>
                     {TitleIndex !== TitleList.length - 1 && (<div className='box-border 2xl:top-20 invisible
-          ml-5 mt-2
-          2xl:ml-10 2xl:mt-4 
+                    ml-5 mt-2
+                    xl:ml-10
           '><Lan lang={lang} candidate={{
                             "zh": "*只要心怀梦想，写下的每个字都能点亮世界，哪怕只是开始，也是在书写属于自己的奇迹。",
                             "en": "*As long as you have a dream, every word you write can light up the world. "
                         }} /></div>)}
                     {TitleIndex === TitleList.length - 1 &&
                         (<motion.div className=' box-border 2xl:top-20
-              ml-5 mt-2
-              2xl:ml-10 2xl:mt-4
-              '
+                                ml-5 mt-2
+                                md:ml-10
+                            '
                             initial={{ opacity: 0, translateX: -100 }}
                             animate={{ opacity: 1, translateX: 0 }}
                             transition={{
