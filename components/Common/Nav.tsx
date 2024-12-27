@@ -60,7 +60,7 @@ function Nav({ lang }: { lang: string }) {
             </motion.div>
 
 
-            <motion.div
+            <motion.button
                 layout
                 initial={{ backgroundColor: show ? "#ff5555" : '', scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1, transition: { type: "spring", damping: 10, stiffness: 200 } }}
@@ -68,7 +68,7 @@ function Nav({ lang }: { lang: string }) {
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", damping: 17, stiffness: 200 }}
                 className={`fixed rounded-full p-2 px-4 z-40 
-                    ${(show ? "bg-[#ff5555]" : "")} cursor-pointer
+                    ${(show ? "bg-[#ff5555]" : "")}
                     right-5 top-3 text-xl  -mr-4 
                     2xl:right-10 2xl:top-10 md:text-2xl md:-mr-2 
                 `}
@@ -77,7 +77,7 @@ function Nav({ lang }: { lang: string }) {
                 }}
             >
                 {lang == 'zh' ? (show ? "关闭" : "菜单") : (show ? "Close" : "Menu")}
-            </motion.div>
+            </motion.button>
 
             <nav className="fixed top-0 right-0 bottom-0 will-change-transform translate-x-full z-30">
                 <ul className=" bg-[#ff5555] h-full text-right pl-20 

@@ -90,6 +90,7 @@ const CustomCursor = () => {
             <motion.div
                 ref={cursorRef}
                 animate={{ scale: isEnlarged ? 1.5 : 1, opacity: cursorOpacity }}
+                transition={{ type: "spring", damping: 10, stiffness: 200, duration: 0.3 }}
                 style={{
                     translateX: cursorX - cursorSize / 2,
                     translateY: cursorY - cursorSize / 2,
@@ -97,13 +98,13 @@ const CustomCursor = () => {
                 className={`
                     hidden md:block
                     opacity-0
-                    fixed top-0 left-0 w-[30px] h-[30px] bg-white rounded-full pointer-events-none z-[100] 
+                    fixed top-0 left-0 w-[20px] h-[20px] bg-white rounded-full pointer-events-none z-[100] 
                     scale-100 mix-blend-difference transition-opacity duration-1000`}
             />
 
             {/* 全局样式 */}
             <style jsx global>{`
-        *,a,button {
+        *,a,button,div {
           cursor: none;
         }`}</style>
         </>
