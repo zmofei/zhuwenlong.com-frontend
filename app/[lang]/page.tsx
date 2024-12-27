@@ -18,8 +18,8 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
   const [mapInteracting, setMapInteracting] = useState(false);
 
   const mapTitleVariants = {
-    visible: { transform: "translateY(0)" },
-    hidden: { transform: "translateY(20px)" },
+    visible: { transform: "translateY(20px)" },
+    hidden: { transform: "translateY(0px)" },
   };
 
   const scrollTar = useRef(null);
@@ -86,7 +86,7 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
             text-xl 
             md:text-4xl '>
             <motion.div
-              className={`z-20 pt-10 md:pt-60 relative leading-loose text-center `}
+              className={`z-20 pt-10 md:pt-20 2xl:pt-60 relative leading-loose text-center `}
               layout
               initial={{ opacity: 0, }} // 初始状态
               whileInView={{ opacity: 1, }} // 在视口内时触发动画
