@@ -43,7 +43,13 @@ function Nav({ lang }: { lang: string }) {
 
     return (
         <div ref={scope} >
-            <div className="fixed z-10 w-full h-20 backdrop-blur-lg bg-black/20 2xl:hidden top-0" />
+            <div className="fixed z-10 w-full h-20 2xl:h-32 top-0 backdrop-blur-sm "
+                style={{
+                    backgroundImage: 'radial-gradient(transparent 1px, #000000 1px)',
+                    backgroundSize: '4px 4px',
+                    // backdropFilter: 'blur(3px)',
+                    mask: 'linear-gradient(rgb(0, 0, 0) 70%, rgba(0, 0, 0, 0) 100%)',
+                }} />
             <motion.div
                 className="fixed z-40
                     left-5 top-5

@@ -57,40 +57,41 @@ export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', 
               className='max-w-7xl mx-auto shadow-lg font-extrabold text-transparent 
               text-3xl 
               md:text-5xl 
-              h-10 bg-slate-700 
+              h-10 md:h-20 bg-slate-700 
               rounded-lg'
-
               animate={{ opacity: 0.5 }}
               initial={{ opacity: 0.3 }}
               transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
             />
 
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-10  rounded-lg'
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-10  rounded-lg'
               animate={{ opacity: 0.5 }}
               initial={{ opacity: 0.3 }}
               transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
             />
 
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg'
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg'
               animate={{ opacity: 0.5 }}
               initial={{ opacity: 0.3 }}
               transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
             />
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg'
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg'
               animate={{ opacity: 0.5 }}
               initial={{ opacity: 0.3 }}
               transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
             />
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg'
+            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg'
               animate={{ opacity: 0.5 }}
               initial={{ opacity: 0.3 }}
               transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
             />
-            <motion.div className='max-w-7xl overflow-y-auto h-6 bg-slate-700 mt-2  rounded-lg w-1/6'
-              animate={{ opacity: 0.5 }}
-              initial={{ opacity: 0.3 }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-            />
+            <div className='max-w-7xl mx-auto'>
+              <motion.div className='max-w-7xl overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg w-1/6 md:w-1/3 mb-10'
+                animate={{ opacity: 0.5 }}
+                initial={{ opacity: 0.3 }}
+                transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+              />
+            </div>
           </>
 
         )}
