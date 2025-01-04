@@ -106,6 +106,7 @@ function Nav({ lang }: { lang: string }) {
                             } else {
                                 location.href = location.href.replace('/en', '/zh')
                             }
+                            document.cookie = `lang=${lang == 'zh' ? 'en' : 'zh'}; path=/; max-age=${3600 * 24 * 365 * 10}`;
                         }}>{lang == 'zh' ? 'English' : '中文'}</motion.a>
                     </li>
                 </ul>
