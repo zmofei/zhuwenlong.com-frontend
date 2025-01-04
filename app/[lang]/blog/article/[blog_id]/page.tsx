@@ -30,6 +30,7 @@ export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', 
 
   const [blogCommentPromptIndex, setBlogCommentPromptIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [jsonLdData, setJsonLdData] = useState<any>(null)
 
   useEffect(() => {
     setBlogCommentPromptIndex(Math.floor(Math.random() * BlogCommentPrompts.length))
@@ -43,9 +44,58 @@ export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', 
     })
   }, [lang, blog_id])
 
+  useEffect(() => {
+    if (!blogContent) return
+    const _jsonLdData = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://www.mofei.life/${lang}/blog/article/${blogContent._id}`
+      },
+      "headline": blogContent.title,
+      "description": blogContent.introduction,
+      "image": blogContent.cover,
+      "author": {
+        "@type": "Person",
+        "name": "Mofei Zhu",
+        "alternateName": "朱文龙",
+        "url": "https://www.mofei.life",
+        "description": "Mofei Zhu, a software engineer from China, sharing life and work experiences in Finland, exploring tech, family, and cultural adventures.",
+        "sameAs": [
+          "https://www.instagram.com/zhu_wenlong",
+          "https://github.com/zmofei"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Mofei Zhu",
+        "alternateName": "朱文龙",
+        "url": "https://www.mofei.life",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.mofei.life/img/mofei-logo_500_500.svg"
+        }
+      },
+      "datePublished": blogContent.pubtime,
+      "dateModified": blogContent.pubtime,
+      "keywords": blogContent.keywords
+    };
+    console.log(_jsonLdData)
+    setJsonLdData(_jsonLdData)
+  }, [blogContent])
+
+
+
   return (
     <>
-      <title>{blogContent?.title}</title>
+      {/* Add JSON-LD to your page */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+      />
+      {/* ... */}
+      <title key="title">{blogContent?.title}</title>
 
       <div className='min-h-screen
       mt-20 px-5 
