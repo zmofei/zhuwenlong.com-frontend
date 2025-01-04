@@ -1,5 +1,14 @@
 const API_URL = '/api';
 
+export async function fetchSiteMap(basicUrl = 'https://www.mofei.life') {
+    const URL = `${basicUrl}${API_URL}/blog/sitemap`;
+    const res = await fetch(URL)
+    if (!res.ok) {
+        throw new Error('Failed to fetch user');
+    }
+    return res.json();
+}
+
 export async function fetchBlogList(page = 1, lang = 'en') {
     const URL = `${API_URL}/blog/list/${page}?lang=${lang}`;
     const res = await fetch(URL)

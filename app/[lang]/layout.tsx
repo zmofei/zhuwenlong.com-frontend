@@ -1,12 +1,9 @@
-import localFont from "next/font/local";
 import { use } from "react"
 import "../globals.css";
 import Nav from '@/components/Common/Nav'
 import { LanguageProvider } from "@/components/Context/LanguageContext";
 import CustomCursor from "@/components/util/Mouse";
 import type { Metadata, ResolvingMetadata } from 'next'
-import { title } from "process";
-
 
 export async function generateMetadata(params: any): Promise<Metadata> {
   const { lang } = await params.params

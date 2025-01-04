@@ -44,7 +44,6 @@ export function middleware(request: Request) {
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}` || pathname.startsWith('/api/')
     )
 
-    console.log('xxx', pathname)
 
     if (pathnameHasLocale) return
 
@@ -59,6 +58,6 @@ export function middleware(request: Request) {
 export const config = {
     matcher: [
         // 匹配所有路径，但排除以下路径：
-        '/((?!_next|favicon.ico|api/|.*\\.(?:png|jpg|jpeg|gif|webp|svg|css|js|woff|woff2|ttf|otf|eot|ico|map|txt)).*)',
+        '/((?!_next|favicon.ico|api/|.*\\.(?:png|jpg|jpeg|gif|webp|svg|css|js|woff|woff2|ttf|otf|eot|ico|map|txt|xml)).*)',
     ],
 }
