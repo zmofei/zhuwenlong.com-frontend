@@ -1,0 +1,56 @@
+# ------------------------------------
+#   官方手册: https://manual.serverless-devs.com/user-guide/aliyun/#fc3
+#   常见小贴士: https://manual.serverless-devs.com/user-guide/tips/
+#   有问题快来钉钉群问一下吧：33947367
+# ------------------------------------
+edition: 3.0.0
+name: no
+access: "hk"
+
+vars:
+  region: "eu-central-1"
+
+resources:
+  web:
+    component: fc3
+    actions:
+      pre-${regex('deploy|local')}:
+        - run: npm install --force
+        - run: rm -rf .next
+        - run: NODE_ENV=production npm run build
+        - run: cp -r public .next/standalone/
+        - run: cp -r .next/static .next/standalone/.next/
+    props:
+      region: ${vars.region}
+      functionName: "mofei-life-web"
+      runtime: custom.debian10
+      description: "mofei-life-web"
+      timeout: 60
+      memorySize: 1024
+      cpu: 1
+      diskSize: 512
+      instanceConcurrency: 100
+      layers:
+        - acs:fc:${vars.region}:official:layers/Nodejs20/versions/1
+      environmentVariables:
+        PATH: >-
+          /opt/nodejs20/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin
+      code: ./.next/standalone
+      customRuntimeConfig:
+        command:
+          - node
+          - ./server.js
+        port: 3000
+
+      triggers:
+        - triggerName: httpTrigger # 触发器名称
+          triggerType: http # 触发器类型
+          # qualifier: LATEST # 触发服务的版本
+          triggerConfig:
+            authType: anonymous # 鉴权类型，可选值：anonymous、function
+            #       disableURLInternet: false # 是否禁用公网访问 URL
+            methods: # HTTP 触发器支持的访问方法，可选值：GET、POST、PUT、DELETE、HEAD
+              - GET
+              - POST
+              - PUT
+              - DELETE
