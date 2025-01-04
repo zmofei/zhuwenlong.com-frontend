@@ -1,20 +1,16 @@
 import { NextResponse } from "next/server";
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
+import type { NextRequest } from 'next/server'
+
 
 let locales = ['en', 'zh'];
 
 // Get the preferred locale, similar to the above or using a library
-interface Request {
-    headers: Headers;
-    nextUrl: {
-        pathname: string;
-    };
-}
 
-function getLocale(request: Request): string {
+function getLocale(request: NextRequest): string {
     const referer = request.headers.get('referer');
-    
+
     let languages = ['en']
     // Extract language from Referer URL (if available)
     if (referer) {
@@ -29,6 +25,13 @@ function getLocale(request: Request): string {
         if (refererLocale) {
             languages = [refererLocale];
         }
+    } else if (request.headers.has('cookie')) {
+        // get language from cookie
+        let lang = request.cookies.get('lang');
+        if (lang && lang.value && locales.includes(lang.value)) {
+            languages = [lang.value]
+        }
+
     } else {
         let headers = { 'accept-language': 'en-US,en;q=0.5' };
         languages = new Negotiator({ headers }).languages();
@@ -37,13 +40,12 @@ function getLocale(request: Request): string {
     return match(languages, locales, defaultLocale); // -> 'en-US'
 }
 
-export function middleware(request: Request) {
+export function middleware(request: NextRequest) {
     // Check if there is any supported locale in the pathname
     const { pathname } = request.nextUrl
     const pathnameHasLocale = locales.some(
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}` || pathname.startsWith('/api/')
     )
-
 
     if (pathnameHasLocale) return
 
