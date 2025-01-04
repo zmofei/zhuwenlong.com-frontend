@@ -35,7 +35,7 @@ export default function Comments(params: any) {
 
     const { lang, message_id, message_page = 1, singlePageMode = false } = params
     const messageArea = useRef<HTMLDivElement>(null);
-    const baseURL = '/message/'
+    const baseURL = `/${lang}/message/`
 
     const [blogList, setBlogList] = useState([])
     const [totalPages, setTotalPages] = useState(1)

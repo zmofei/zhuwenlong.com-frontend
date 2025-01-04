@@ -22,7 +22,6 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    console.log("lang", lang);
 
     const [_page, setPage] = useState(currentPage);
 

@@ -91,13 +91,13 @@ function Nav({ lang }: { lang: string }) {
                 md:text-4xl md:pt-24 md:pr-10
                 ">
                     <li className="py-3 md:py-4" style={{ "transformOrigin": "top right" }}>
-                        <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: 3 }} href="/">{lang == 'zh' ? '首页' : 'Home'}</motion.a>
+                        <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: 3 }} href={`/${lang}`}>{lang == 'zh' ? '首页' : 'Home'}</motion.a>
                     </li>
                     <li className="py-3 md:py-4" style={{ "transformOrigin": "top right" }}>
-                        <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: -3 }} href="/blog">{lang == 'zh' ? '博客' : 'Blog'}</motion.a>
+                        <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: -3 }} href={`/${lang}/blog`}>{lang == 'zh' ? '博客' : 'Blog'}</motion.a>
                     </li>
                     <li className="py-3 md:py-4" style={{ "transformOrigin": "top right" }}>
-                        <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: 3 }} href="/message">{lang == 'zh' ? '留言' : 'Message'}</motion.a>
+                        <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: 3 }} href={`/${lang}/message`}>{lang == 'zh' ? '留言' : 'Message'}</motion.a>
                     </li>
                     <li className="py-3 md:py-4" style={{ "transformOrigin": "top right" }}>
                         <motion.a className="inline-block" whileHover={{ scale: 1.2, rotate: -3 }} onClick={() => {

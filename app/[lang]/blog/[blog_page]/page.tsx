@@ -48,7 +48,7 @@ export default function Home({ params }: { params: any }) {
 
   const messageArea = useRef<HTMLDivElement>(null)
 
-  const baseURL = '/blog/'
+  const baseURL = `/${lang}/blog/`
 
   useEffect(() => {
     setIsLoading(true)
@@ -66,7 +66,7 @@ export default function Home({ params }: { params: any }) {
       <div className=' container max-w-[2000px] m-auto'>
         <BlogBannerTitle lang={lang} />
       </div >
-      <div ref={messageArea} className='relative -top-20 invisible'></div>
+      <div ref={messageArea} className='relative -top-24 invisible'></div>
       <div
         className='grid  text-black bg-none mt-10 gap-x-6 container max-w-[2000px] m-auto min-h-lvh
         grid-cols-1 px-5 gap-y-10
@@ -144,7 +144,7 @@ export default function Home({ params }: { params: any }) {
 
         {blogList.map((blog: any, index: number) => {
           return (
-            <Link href={`/blog/article/${blog._id}`} target='_blank' className='relative'>
+            <Link href={`/${lang}/blog/article/${blog._id}`} target='_blank' className='relative'>
               <div
                 key={index}
               >
@@ -173,6 +173,7 @@ export default function Home({ params }: { params: any }) {
                     duration: 0.2,
                     delay: 0.5 + index * 0.1, // 延迟时间稍微不同
                   }}
+                  title={blog.introduction}
                 >
                   {blog.introduction}
                 </motion.div>
