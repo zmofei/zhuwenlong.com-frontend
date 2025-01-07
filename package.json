@@ -25,6 +25,7 @@
     "next": "15.1.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "rss": "^1.2.2",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },

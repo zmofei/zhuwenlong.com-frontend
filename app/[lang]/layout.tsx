@@ -26,6 +26,11 @@ export default function RootLayout(params: Readonly<{
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+
+        <link rel="alternate" type="application/rss+xml" title="Mofei's Blog RSS Feed" href="https://www.mofei.life/en/rss" />
+        <link rel="alternate" type="application/rss+xml" title="Mofei 的博客订阅" href="https://www.mofei.life/zh/rss" />
+        <link rel="alternate" type="application/rss+xml" title="Mofei Blog's Comments RSS Feed" href="https://www.mofei.life/en/rss_comments" />
+
       </head>
       <body
         className={`antialiased`}

@@ -208,15 +208,10 @@ export default function Home({ params }: { params: Promise<{ lang: string }> }) 
                 setMapInteracting(!mapShow)
               }} />
             </motion.div >
-
-
-
           </div>
         </div>
-
         <Foot />
       </div >
-
     </>
   );
 }
