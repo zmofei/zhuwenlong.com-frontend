@@ -12,7 +12,7 @@ export async function GET(request: Request,
 
     const feedOptions = {
         title: lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!',
-        description: "Mofei Zhu, a software engineer from China, sharing life and work experiences in Finland, exploring tech, family, and cultural adventures.",
+        description: `Mofei Zhu, a software engineer from China, sharing life and work experiences in Finland, exploring tech, family, and cultural adventures. ${lang == 'zh' ? "feedId:99544572437916672+userId:73749889001453568" : "feedId:99543735457776640+userId:73749889001453568"}  `,
         feed_url: `https://www.mofei.life/${lang}/rss`,
         site_url: `https://www.mofei.life/${lang}/`,
         image_url: 'https://www.mofei.life/img/mofei-logo_500_500.svg',
@@ -36,6 +36,12 @@ export async function GET(request: Request,
         })
     });
 
+    // Response.headers.append("content-type", "text/xml");
 
-    return Response.json(feed)
+    return new Response(feed.xml({ indent: true }),
+        {
+            headers: {
+                'Content-Type': 'text/xml',
+            },
+        })
 }

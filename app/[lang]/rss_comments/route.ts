@@ -29,7 +29,7 @@ export async function GET(request: Request,
         console.log(blog)
         feed.item({
             title: `${blog.name}'s comment`,
-            description: `<![CDATA[${blog.content}]]>`,
+            description: `${blog.content}`,
             url: blog.blogId === '000000000000000000000000' ? `https://www.mofei.life/${lang}/message` : `https://www.mofei.life/${lang}/blog/article/${blog.blogId}`,
             guid: blog.id,
             author: `${blog.name} (${blog.blog})`,
@@ -37,5 +37,11 @@ export async function GET(request: Request,
         })
     });
 
-    return Response.json(feed)
+
+    return new Response(feed.xml({ indent: true }),
+        {
+            headers: {
+                'Content-Type': 'text/xml',
+            },
+        })
 }
