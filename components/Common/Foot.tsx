@@ -1,11 +1,10 @@
+"use client"
 import React from "react";
 import { motion } from "motion/react";
 
 import Link from "next/link";
 
 const Foot: React.FC = () => {
-
-
     return (
         <div className="w-full bg-red-500 snap-start overflow-hidden " >
             <div className="container mx-auto flex leading-loose justify-between
