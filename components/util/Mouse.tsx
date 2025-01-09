@@ -98,7 +98,7 @@ const CustomCursor = () => {
                 className={`
                     hidden md:block
                     opacity-0
-                    fixed top-0 left-0 w-[20px] h-[20px] bg-white rounded-full pointer-events-none z-[100] 
+                    fixed top-0 left-0 w-[20px] h-[20px] bg-white rounded-full pointer-events-none z-[10000] 
                     scale-100 mix-blend-difference transition-opacity duration-1000`}
             />
 

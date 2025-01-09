@@ -19,67 +19,6 @@ const BlogCommentPrompts = [
 
 
 
-/**
- * 将 HTML 字符串解析成 React 元素，并将 `<img>` 替换为自定义的 `<IMAGE>` 组件
- * @param {string} htmlString - 要转换的 HTML 字符串
- * @param {function} ImageComponent - 用于替换 <img> 标签的自定义 React 组件
- * @returns {React.ReactNode} - 转换后的 React 元素
- */
-function parseHtmlToReact(htmlString: string) {
-    // 使用 DOMParser 将 HTML 字符串解析为 DOM
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, "text/html");
-
-    // 递归处理 DOM 节点
-    const convertNodeToReact = (node: Node): React.ReactNode => {
-        // 如果是文本节点，直接返回文本
-        if (node.nodeType === Node.TEXT_NODE) {
-            return node.textContent;
-        }
-
-        // 如果是元素节点
-        if (node.nodeType === Node.ELEMENT_NODE) {
-            const { tagName, attributes, childNodes } = node as Element;
-
-            // 获取属性
-            const props: { [key: string]: string } = {};
-            for (let i = 0; i < attributes.length; i++) {
-                const { name, value } = attributes[i];
-                // React 中的 `class` 属性要转换为 `className`
-                props[name === "class" ? "className" : name] = value;
-            }
-
-            // // 如果是 <img> 标签，替换为自定义组件
-            // if (tagName.toLowerCase() === "img") {
-            //     return (
-            //         <ImageComponent
-            //             {...props}
-            //             key={props.src || Math.random()} // 使用 `src` 作为 key，或者一个随机值
-            //         />
-            //     );
-            // }
-
-            // 对于其他元素，递归处理子节点
-            const children = Array.from(childNodes).map((childNode) =>
-                convertNodeToReact(childNode)
-            );
-
-            // 返回普通 React 元素
-            return React.createElement(tagName.toLowerCase(), { ...props, key: Math.random() }, ...children);
-        }
-
-        // 对于其他类型的节点（如注释节点），直接忽略
-        return null;
-    };
-
-    // 获取 <body> 的子节点（跳过 <html> 和 <head> 部分）
-    const bodyChildNodes = doc.body.childNodes;
-
-    // 将每个子节点转换为 React 元素
-    return Array.from(bodyChildNodes).map((node) => convertNodeToReact(node));
-}
-
-
 export default function PageContent({ params }: { params: { content: any, lang: 'zh' | 'en', blog_id: string } }) {
     const { content: blog, lang, blog_id } = params
 
@@ -89,6 +28,7 @@ export default function PageContent({ params }: { params: { content: any, lang: 
         <motion.div className='
                   max-w-7xl mx-auto shadow-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#a1c4fd] to-[#c2e9fb] 
                   text-3xl 
+                  pb-2
                   md:text-5xl 
                   mb-0 md:mb-8
                 '
@@ -99,12 +39,20 @@ export default function PageContent({ params }: { params: { content: any, lang: 
         </motion.div>
         <motion.div className='max-w-7xl mx-auto prose-stone prose-xl-invert overflow-y-auto break-words 
                   prose-base 
-                  md:prose-xl'
+                  md:prose-xl custom-paragraph'
             initial={{ opacity: 0, translateY: 20 }}
             animate={{ opacity: 1, translateY: 0 }}
         >
-            <HtmlToReact htmlString={blog.html} />
-            {/* dangerouslySetInnerHTML={{ __html: blog.html }} /> */}
+            {(() => {
+                try {
+                    // 使用 HtmlToReact 进行渲染
+                    return <HtmlToReact htmlString={blog.html} />;
+                } catch (error) {
+                    console.error("HtmlToReact failed:", error);
+                    // HtmlToReact 渲染失败时回退到 dangerouslySetInnerHTML
+                    return <div dangerouslySetInnerHTML={{ __html: blog.html }} />;
+                }
+            })()}
         </motion.div>
         {/* Comments */}
         <div className='max-w-7xl mx-auto 

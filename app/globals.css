@@ -79,7 +79,159 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+/* .custom-paragraph h1::after,
+.custom-paragraph h2::after,
+.custom-paragraph h3::after,
+.custom-paragraph h4::after,
+.custom-paragraph h5::after,
+.custom-paragraph h6::after {
+  content: '';
+  display: block;
+  width: 2px;
+  background-color: #ffffff;
+  position: absolute;
+  left: -1rem;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+
+} */
+
+.custom-paragraph h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph h6 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.custom-paragraph ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.custom-paragraph ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+.custom-paragraph code {
+  background-color: #2d2d2d;
+  color: #ffffff;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+}
+
+.custom-paragraph blockquote {
+  position: relative;
+  padding-left: 30px;
+}
+
+.custom-paragraph blockquote::before {
+  content: ' “ ';
+  color: #666;
+  font-weight: bold;
+  position: absolute;
+  font-size: 40;
+  transform: translateY(-50%);
+  margin-top: 20px;
+  top: 0;
+  left: 0;
+}
+
+/* 为整个代码块添加样式 */
+.custom-paragraph .code-block {
+  position: relative;
+  padding-left: 0rem;
+  /* 给行号留出空间 */
+  background-color: #2d2d2d;
+  /* 背景色 */
+  color: #ffffff;
+  /* 字体颜色 */
+  font-family: 'Fira Code', monospace;
+  /* 使用等宽字体 */
+  line-height: 1.5;
+  /* 行高 */
+  overflow: auto;
+  /* 滚动条 */
+}
+
+/* 每一行代码的行号样式 */
+.custom-paragraph .code-block div {
+  position: relative;
+  padding-left: 3.5rem;
+  /* 确保行号不覆盖代码 */
+}
+
+/* 使用伪类为每行代码添加行号 */
+.custom-paragraph .code-block div::before {
+  content: counter(line);
+  counter-increment: line;
+  position: absolute;
+  left: 0;
+  width: 2.5rem;
+  text-align: right;
+  color: #888;
+  /* 行号颜色 */
+  user-select: none;
+  /* 禁止选中行号 */
+}
+
+/* 在代码块开始时初始化行号计数器 */
+.custom-paragraph .code-block {
+  counter-reset: line;
+}
+
+.code-block-wrapper button {
+  display: none;
+}
+
+.code-block-wrapper:hover button {
+  display: block;
 }
