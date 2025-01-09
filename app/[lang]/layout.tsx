@@ -4,7 +4,6 @@ import Nav from '@/components/Common/Nav'
 import { LanguageProvider } from "@/components/Context/LanguageContext";
 import CustomCursor from "@/components/util/Mouse";
 import type { Metadata, ResolvingMetadata } from 'next'
-import Head from 'next/head';
 
 export async function generateMetadata(params: any): Promise<Metadata> {
   const { lang } = await params.params
@@ -32,9 +31,7 @@ export default function RootLayout(params: Readonly<{
         <link rel="alternate" type="application/rss+xml" title="Mofei 的博客订阅" href="https://www.mofei.life/zh/rss" />
         <link rel="alternate" type="application/rss+xml" title="Mofei Blog's Comments RSS Feed" href="https://www.mofei.life/en/rss_comments" />
 
-        <Head>
-          <title>{lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!'}</title>
-        </Head>
+    
 
       </head>
       <body

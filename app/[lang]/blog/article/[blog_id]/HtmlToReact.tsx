@@ -115,6 +115,19 @@ const HtmlToReact: React.FC<{ htmlString: string }> = ({ htmlString }) => {
                 );
             }
 
+            // 自定义处理 <img> 标签
+            if (tagName.toLowerCase() === "iframe") {
+                const { outerHTML } = node as HTMLElement;
+
+                return (
+                    <div
+                        key={Math.random()}
+                        dangerouslySetInnerHTML={{ __html: outerHTML }}
+                    />
+                );
+
+            }
+
             if (tagName.toLowerCase() === "video") {
                 // 强制添加 `controls` 属性
                 props.controls = "true";
@@ -149,10 +162,13 @@ const HtmlToReact: React.FC<{ htmlString: string }> = ({ htmlString }) => {
     const doc = parser.parseFromString(htmlString, "text/html");
     const bodyChildNodes = doc.body.childNodes;
 
-    parsedElements = Array.from(bodyChildNodes).map((node) =>
-        convertNodeToReact(node)
-    );
-
+    try {
+        parsedElements = Array.from(bodyChildNodes).map((node) =>
+            convertNodeToReact(node)
+        );
+    } catch (e) {
+        parsedElements = [<div key="error" dangerouslySetInnerHTML={{ __html: htmlString }} />];
+    }
 
     return <>
         <PhotoProvider>

@@ -1,6 +1,5 @@
 // "use client"
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Head from 'next/head';
 
 import { motion, } from "motion/react"
 // import { useEffect, useState, use } from 'react';
