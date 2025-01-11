@@ -104,6 +104,22 @@ body {
 
 } */
 
+.custom-paragraph a {
+  color: #ff6c65;
+  text-decoration: none;
+  background-image: linear-gradient(to right, #ff6c65, #ffbcb7);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: background-position 0.3s ease;
+  /* display: inline-block; */
+}
+
+.custom-paragraph a:hover {
+  background-position: right center;
+}
+
 .custom-paragraph h1 {
   font-size: 2.25rem;
   font-weight: 700;
