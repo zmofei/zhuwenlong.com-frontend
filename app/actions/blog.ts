@@ -19,7 +19,7 @@ export async function fetchBlogList(page = 1, lang = 'en') {
 }
 
 
-export async function fetchBlogContent(id = '', lang = 'en') {
+export async function fetchBlogContent(id = '', lang = 'en', API_URL = '/api') {
     const URL = `${API_URL}/blog/article/${id}?lang=${lang}`;
     const res = await fetch(URL)
     if (!res.ok) {

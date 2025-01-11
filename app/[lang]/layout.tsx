@@ -30,7 +30,6 @@ export default function RootLayout(params: Readonly<{
         <link rel="alternate" type="application/rss+xml" title="Mofei's Blog RSS Feed" href="https://www.mofei.life/en/rss" />
         <link rel="alternate" type="application/rss+xml" title="Mofei 的博客订阅" href="https://www.mofei.life/zh/rss" />
         <link rel="alternate" type="application/rss+xml" title="Mofei Blog's Comments RSS Feed" href="https://www.mofei.life/en/rss_comments" />
-
       </head>
       <body
         className={`antialiased`}

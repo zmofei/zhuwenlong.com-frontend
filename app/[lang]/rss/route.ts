@@ -28,11 +28,14 @@ export async function GET(request: Request,
     blogs.data.forEach((blog: any) => {
         feed.item({
             title: blog.title,
-            description: `<![CDATA[${blog.html}]]>`,
+            description: blog.html,
             url: `https://www.mofei.life/${lang}/blog/article/${blog._id}`,
             guid: blog.id,
             author: lang === 'zh' ? '朱文龙' : 'Mofei Zhu',
-            date: new Date(blog.pubtime).toUTCString()
+            date: new Date(blog.pubtime).toUTCString(),
+            enclosure: {
+                url: blog.cover,
+            },
         })
     });
 

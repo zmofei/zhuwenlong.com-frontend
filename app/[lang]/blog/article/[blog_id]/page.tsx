@@ -1,11 +1,14 @@
-"use client"
+// "use client"
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { motion, } from "motion/react"
-import { useEffect, useState, use } from 'react';
-import { fetchBlogContent } from '@/app/actions/blog'
+// import { useEffect, useState, use } from 'react';
+import { use } from 'react';
+import { fetchBlogContent } from '@/app/actions/blog-server'
 import Foot from '@/components/Common/Foot';
 import Comments from '@/components/Comments/Comments';
+import type { Metadata, ResolvingMetadata } from 'next'
+import PageContent from './page_content';
 
 
 const BlogCommentPrompts = [
@@ -22,177 +25,88 @@ const BlogCommentPrompts = [
 ];
 
 
-export default function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', blog_id: string }> }) {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const lang = (await params).lang
+  const blog_id = (await params).blog_id
 
-  const { lang, blog_id } = use(params)
+  const blog = await fetchBlogContent(blog_id, lang)
 
-  const [blogContent, setBlogContent] = useState<any>(null)
-
-  const [blogCommentPromptIndex, setBlogCommentPromptIndex] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const [jsonLdData, setJsonLdData] = useState<any>(null)
-
-  useEffect(() => {
-    setBlogCommentPromptIndex(Math.floor(Math.random() * BlogCommentPrompts.length))
-  }, [])
-
-  useEffect(() => {
-    setIsLoading(true)
-    fetchBlogContent(blog_id, lang).then((res) => {
-      setBlogContent(res)
-      setIsLoading(false)
-    })
-  }, [lang, blog_id])
-
-  useEffect(() => {
-    if (!blogContent) return
-    const _jsonLdData = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": `https://www.mofei.life/${lang}/blog/article/${blogContent._id}`
-      },
-      "headline": blogContent.title,
-      "description": blogContent.introduction,
-      "image": blogContent.cover,
-      "author": {
-        "@type": "Person",
-        "name": "Mofei Zhu",
-        "alternateName": "朱文龙",
-        "url": "https://www.mofei.life",
-        "description": "Mofei Zhu, a software engineer from China, sharing life and work experiences in Finland, exploring tech, family, and cultural adventures.",
-        "sameAs": [
-          "https://www.instagram.com/zhu_wenlong",
-          "https://github.com/zmofei"
-        ]
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "Mofei Zhu",
-        "alternateName": "朱文龙",
-        "url": "https://www.mofei.life",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://www.mofei.life/img/mofei-logo_500_500.svg"
-        }
-      },
-      "datePublished": blogContent.pubtime,
-      "dateModified": blogContent.pubtime,
-      "keywords": blogContent.keywords
-    };
-    console.log(_jsonLdData)
-    setJsonLdData(_jsonLdData)
-  }, [blogContent])
+  return {
+    title: `${blog.title} | ${lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!'}`,
+  }
+}
 
 
+export default async function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', blog_id: string }> }) {
+  const lang = (await params).lang
+  const blog_id = (await params).blog_id
 
-  return (
-    <>
-      {/* Add JSON-LD to your page */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
-      />
-      {/* ... */}
-      <title key="title">{blogContent?.title}</title>
 
-      <div className='min-h-screen
+  const blog = await fetchBlogContent(blog_id, lang)
+
+  const jsonLdData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.mofei.life/${lang}/blog/article/${blog._id}`
+    },
+    "headline": blog.title,
+    "description": blog.introduction,
+    "image": blog.cover,
+    "author": {
+      "@type": "Person",
+      "name": "Mofei Zhu",
+      "alternateName": "朱文龙",
+      "url": "https://www.mofei.life",
+      "description": "Mofei Zhu, a software engineer from China, sharing life and work experiences in Finland, exploring tech, family, and cultural adventures.",
+      "sameAs": [
+        "https://www.instagram.com/zhu_wenlong",
+        "https://github.com/zmofei"
+      ]
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Mofei Zhu",
+      "alternateName": "朱文龙",
+      "url": "https://www.mofei.life",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.mofei.life/img/mofei-logo_500_500.svg"
+      }
+    },
+    "datePublished": blog.pubtime,
+    "dateModified": blog.pubtime,
+    "keywords": blog.keywords
+  };
+
+
+  return <>
+    {/* structured data */}
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+    />
+
+    {/* Main html */}
+    <div className='min-h-screen
       mt-20 px-5 
       md:mt-32 md:px-10 
-      '>
-        {isLoading && (
-          <>
-            <motion.div
-              className='max-w-7xl mx-auto shadow-lg font-extrabold text-transparent 
-              text-3xl 
-              md:text-5xl 
-              h-10 md:h-20 bg-slate-700 
-              rounded-lg'
-              animate={{ opacity: 0.5 }}
-              initial={{ opacity: 0.3 }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-            />
-
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-10  rounded-lg'
-              animate={{ opacity: 0.5 }}
-              initial={{ opacity: 0.3 }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-            />
-
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg'
-              animate={{ opacity: 0.5 }}
-              initial={{ opacity: 0.3 }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-            />
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg'
-              animate={{ opacity: 0.5 }}
-              initial={{ opacity: 0.3 }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-            />
-            <motion.div className='max-w-7xl mx-auto overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg'
-              animate={{ opacity: 0.5 }}
-              initial={{ opacity: 0.3 }}
-              transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-            />
-            <div className='max-w-7xl mx-auto'>
-              <motion.div className='max-w-7xl overflow-y-auto h-6 md:h-8 bg-slate-700 mt-2  rounded-lg w-1/6 md:w-1/3 mb-10'
-                animate={{ opacity: 0.5 }}
-                initial={{ opacity: 0.3 }}
-                transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
-              />
-            </div>
-          </>
-
-        )}
-        {blogContent && (
-          <>
-            <motion.div className='
-              max-w-7xl mx-auto shadow-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#a1c4fd] to-[#c2e9fb] 
-              text-3xl 
-              md:text-5xl 
-            '
-              initial={{ translateY: 100, opacity: 0 }}
-              animate={{ translateY: 0, opacity: 1 }}
-            >
-              {blogContent.title}
-            </motion.div>
-            <motion.div className='max-w-7xl mx-auto prose-stone prose-xl-invert overflow-y-auto break-words 
-              prose-base 
-              md:prose-xl'
-              initial={{ opacity: 0, translateY: 20 }}
-              animate={{ opacity: 1, translateY: 0 }}
-            >
-              <div className='min-h-full'  // 使用 Tailwind Typography 插件美化内容
-                dangerouslySetInnerHTML={{ __html: blogContent.html }} />
-            </motion.div>
-            {/* Comments */}
-            <div className='max-w-7xl mx-auto 
+    '>
+      <PageContent params={{ content: blog, lang, blog_id }} />
+      {/* Comments */}
+      <div className='max-w-7xl mx-auto 
               mt-5 text-xl 
               md:mt-18 md:text-3xl
             '>
-              <motion.div>
-                <motion.h3
-                  className='font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#a1c4fd] to-[#c2e9fb] '
-                  animate={{ opacity: 1, translateY: 0 }}
-                  initial={{ opacity: 0, translateY: 20 }}
-                >{BlogCommentPrompts[blogCommentPromptIndex][lang]}</motion.h3>
-              </motion.div>
-              <Comments lang={lang} message_id={blog_id} singlePageMode={true} />
-            </div>
-          </>
-        )}
-
-
+        <Comments lang={lang} message_id={blog_id} singlePageMode={true} />
       </div>
+    </div >
 
+    {/* Foot */}
+    <div className='mt-10 md:mt-20'>
+      <Foot />
+    </div>
+  </>
 
-      <div className='
-        mt-10
-        md:mt-20
-      '>
-        <Foot />
-      </div>
-    </>
-  );
 }
