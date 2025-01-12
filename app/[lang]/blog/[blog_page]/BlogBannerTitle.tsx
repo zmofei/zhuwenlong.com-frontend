@@ -42,7 +42,7 @@ export default function BlogBannerTitle(params: { lang: 'zh' | 'en' }) {
         <>
             <div className=' container max-w-[2000px] m-auto overflow-x-hidden'>
                 <div className='overflow-hidden font-extrabold'>
-                    <motion.h1 className={`w-full font-extrabold  text-white leading-snug
+                    <motion.h2 className={`w-full font-extrabold  text-white leading-snug
                         ml-5 mt-20  ${(lang == 'zh' ? 'text-5xl' : 'text-4xl')}
                         lg:ml-10 lg:mt-32 ${(lang == 'zh' ? 'lg:text-8xl' : 'lg:text-7xl')}
                         2xl:ml-10 2xl:mt-32 2xl:leading-tight ${(lang == 'zh' ? '2xl:text-[9rem]' : '2xl:text-[8rem]')}`}
@@ -125,7 +125,7 @@ export default function BlogBannerTitle(params: { lang: 'zh' | 'en' }) {
                                 letterSpacing: "-0.05em",
                             }}>{TitleList[TitleIndex][lang]}</div>
                         </motion.div>
-                    </motion.h1>
+                    </motion.h2>
                     <div></div>
                 </div >
 

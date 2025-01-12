@@ -8,8 +8,9 @@ type PaginationProps = {
     currentPage: number;
     totalPages: number;
     baseURL: string;
+    anchor?: string;
     singlePageMode?: boolean; // 支持单页模式
-    onPageChange: (page: number) => void;
+    onPageChange?: (page: number) => void;
 };
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -18,6 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({
     totalPages,
     baseURL = "/",
     singlePageMode = false,
+    anchor,
     onPageChange,
 }) => {
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -26,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({
     const [_page, setPage] = useState(currentPage);
 
     const handlePageChange = (page: number) => {
-        onPageChange(page);
+        onPageChange && onPageChange(page);
         setPage(page);
     };
 
@@ -37,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({
         ">
             {/* Previous Button */}
             {_page > 1 && (
-                (singlePageMode || true) ? (
+                singlePageMode ? (
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -50,7 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         {lang == 'zh' ? '上一页' : 'Previous'}
                     </motion.button>
                 ) : (
-                    <Link href={`${baseURL}/${_page - 1}`}>
+                    <Link href={`${baseURL}/${_page - 1}${anchor ? `#${anchor}` : ''}`}>
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
@@ -69,7 +71,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <div className="hidden md:flex space-x-2">
                 <>
                     {pages.map((page) => (
-                        (singlePageMode || true)  ? (
+                        singlePageMode ? (
                             <motion.button
                                 key={`${page}_${_page}`}
                                 initial={{ opacity: 0, y: 10 }}
@@ -91,7 +93,7 @@ const Pagination: React.FC<PaginationProps> = ({
                                 {page}
                             </motion.button>
                         ) : (
-                            <Link href={`${baseURL}/${page}`} key={`${page}_${_page}`}>
+                            <Link href={`${baseURL}/${page}${anchor ? `#${anchor}` : ''}`} key={`${page}_${_page}`}>
                                 <motion.button
                                     initial={{ opacity: 0, y: 10 }}
                                     whileInView={{ opacity: 1, y: 0 }}
@@ -120,7 +122,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
             {/* Next Button */}
             {_page < totalPages && (
-                (singlePageMode || true)  ? (
+                singlePageMode ? (
                     <motion.button
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -133,7 +135,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         {lang == 'zh' ? '下一页' : 'Next'}
                     </motion.button>
                 ) : (
-                    <Link href={`${baseURL}/${_page + 1}`}>
+                    <Link href={`${baseURL}/${_page + 1}${anchor ? `#${anchor}` : ''}`}>
                         <motion.button
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}

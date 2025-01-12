@@ -42,7 +42,7 @@ export default function PageContent({ params }: { params: { content: any, lang: 
         </motion.div>
         {/* previous */}
 
-        {(blog.previous && blog.next) && <div
+        {(blog.previous || blog.next) && <div
             className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4  text-base md:text-lg custom-paragraph border-t border-b border-gray-800 py-4 leading-loose"
         >
             {blog.previous && (
