@@ -18,6 +18,13 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 
   return {
     title: `${blog.title} | ${lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!'}`,
+    alternates: {
+      canonical: `https://www.mofei.life/${lang}/blog/article/${blog_id}`,
+      languages: {
+        'en': `https://www.mofei.life/en/blog/article/${blog_id}`,
+        'zh': `https://www.mofei.life/zh/blog/article/${blog_id}`,
+      }
+    },
   }
 }
 

@@ -9,7 +9,16 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   const { lang } = await params.params
   return {
     title: lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!',
+    alternates: {
+      canonical: `https://www.mofei.life/${lang}`,
+      languages: {
+        'en': `https://www.mofei.life/en`,
+        'zh': `https://www.mofei.life/zh`,
+      }
+    },
   }
+
+
 }
 
 

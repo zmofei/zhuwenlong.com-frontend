@@ -52,7 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         {lang == 'zh' ? '上一页' : 'Previous'}
                     </motion.button>
                 ) : (
-                    <Link href={`${baseURL}/${_page - 1}${anchor ? `#${anchor}` : ''}`}>
+                    <Link href={`${baseURL}/${_page - 1}${anchor ? `#${anchor}` : ''}`} prefetch={true}>
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
@@ -93,7 +93,7 @@ const Pagination: React.FC<PaginationProps> = ({
                                 {page}
                             </motion.button>
                         ) : (
-                            <Link href={`${baseURL}/${page}${anchor ? `#${anchor}` : ''}`} key={`${page}_${_page}`}>
+                            <Link href={`${baseURL}/${page}${anchor ? `#${anchor}` : ''}`} key={`${page}_${_page}`} prefetch={true}>
                                 <motion.button
                                     initial={{ opacity: 0, y: 10 }}
                                     whileInView={{ opacity: 1, y: 0 }}
@@ -135,7 +135,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         {lang == 'zh' ? '下一页' : 'Next'}
                     </motion.button>
                 ) : (
-                    <Link href={`${baseURL}/${_page + 1}${anchor ? `#${anchor}` : ''}`}>
+                    <Link href={`${baseURL}/${_page + 1}${anchor ? `#${anchor}` : ''}`} prefetch={true}>
                         <motion.button
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
