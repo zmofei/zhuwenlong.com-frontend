@@ -16,7 +16,8 @@ export default function PageContent({ params }: { params: { content: any, lang: 
                   text-3xl 
                   pb-2
                   md:text-5xl 
-                  mb-0 md:mb-8
+                  mb-0 md:mb-3
+                  !leading-normal
                 '
             initial={{ translateY: 100, opacity: 0 }}
             animate={{ translateY: 0, opacity: 1 }}
@@ -40,6 +41,12 @@ export default function PageContent({ params }: { params: { content: any, lang: 
                 }
             })()}
         </motion.div>
+        <div className="text-center my-10">
+            <img src="/article/start.png" alt="" className="w-14 md:w-16 inline-block m-2  p-0 align-middle" />
+            <div>
+                <span className="inline-block text-xl align-middle">THE END</span>
+            </div>
+        </div>
         {/* previous */}
 
         {(blog.previous || blog.next) && <div

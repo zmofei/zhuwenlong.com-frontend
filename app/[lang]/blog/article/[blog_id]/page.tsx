@@ -85,8 +85,8 @@ export default async function Home({ params }: { params: Promise<{ lang: 'zh' | 
       md:mt-32 md:px-10 
     '>
       <PageContent params={{ content: blog, lang, blog_id }} />
-      {/* Recommend blogs */}
 
+      {/* Recommend blogs */}
       <Recommend links={blog.links} />
 
       {/* Comments */}

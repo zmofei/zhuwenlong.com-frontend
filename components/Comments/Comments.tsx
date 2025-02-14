@@ -67,7 +67,7 @@ export default function Comments(params: any) {
     useEffect(() => {
         setIsLoading(true)
         fetchMessageList(message_id, messagePage).then((res) => {
-            setBlogList(res.data)
+            setBlogList(res.list)
             const totalCount = res.count
             const pageSize = 10
             setTotalPages(Math.ceil(totalCount / pageSize))

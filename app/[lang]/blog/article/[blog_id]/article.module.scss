@@ -1,0 +1,45 @@
+/* 第一个 h2 标签 */
+.article {
+    max-width: 100%;
+    overflow: hidden;
+
+    h2:nth-of-type(1) {
+        background: url("/article/01.png") no-repeat;
+        background-size: 350px;
+        padding-top: 100px;
+        margin-top: 50px;
+        margin-bottom: 20px
+    }
+
+    h2:nth-of-type(2) {
+        background: url("/article/02.png") no-repeat;
+        background-size: 350px;
+        padding-top: 100px;
+        margin-top: 50px;
+        margin-bottom: 20px
+    }
+
+    h2:nth-of-type(3) {
+        background: url("/article/03.png") no-repeat;
+        background-size: 350px;
+        padding-top: 100px;
+        margin-top: 50px;
+        margin-bottom: 20px
+    }
+
+    h2:nth-of-type(4) {
+        background: url("/article/04.png") no-repeat;
+        background-size: 350px;
+        padding-top: 100px;
+        margin-top: 50px;
+        margin-bottom: 20px
+    }
+
+    h2:nth-of-type(5) {
+        background: url("/article/05.png") no-repeat;
+        background-size: 350px;
+        padding-top: 100px;
+        margin-top: 50px;
+        margin-bottom: 20px
+    }
+}

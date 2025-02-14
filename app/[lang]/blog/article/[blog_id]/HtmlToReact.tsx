@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import "react-photo-view/dist/react-photo-view.css";
+import CSS from "./article.module.scss";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Highlight } from "prism-react-renderer";
 
@@ -39,17 +40,23 @@ const HtmlToReact: React.FC<{ htmlString: string }> = ({ htmlString }) => {
     const tagHandlers: {
         [key: string]: (node: HTMLElement, props: any, children: React.ReactNode[]) => React.ReactNode;
     } = {
-        img: (node, props) => (
-            <PhotoView key={props.src} src={props.src}>
-                <img {...props} alt="" />
-            </PhotoView>
-        ),
+        img: (node, props) => {
+            console.log(props.src);
+            return (
+                <PhotoView key={props.src} src={props.src}>
+                    <img {...props} alt="" />
+                </PhotoView>
+            )
+        },
         iframe: (node) => (
             <div
                 key={Math.random()}
                 dangerouslySetInnerHTML={{ __html: node.outerHTML }}
             />
         ),
+        h2: (node) => {
+            return <h2 key={Math.random()} className="text-4xl font-bold">{node.textContent}</h2>
+        },
         pre: (node, props, children) => {
             const { childNodes } = node;
             let codeContent = "";
@@ -186,9 +193,14 @@ const HtmlToReact: React.FC<{ htmlString: string }> = ({ htmlString }) => {
             convertNodeToReact(node)
         );
         return (
-            <PhotoProvider>
-                {parsedElements}
-            </PhotoProvider>
+            <div className={CSS.article}>
+                {/* <div className="text-center">
+                    <img src="/article/start.png"  alt="" className="w-14 inline-block m-2 p-0" />
+                </div> */}
+                <PhotoProvider>
+                    {parsedElements}
+                </PhotoProvider>
+            </div>
         );
     } catch (error) {
         console.error("HtmlToReact failed:", error);

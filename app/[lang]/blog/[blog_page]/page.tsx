@@ -36,16 +36,9 @@ export default async function BlogPage({ params }: { params: any }) {
   const { lang, blog_page }: { lang: 'zh' | 'en', blog_page: number } = await (params)
 
   const blogInfo = (await fetchBlogList(blog_page, lang));
-  const blogList = blogInfo.data;
+  const blogList = blogInfo.list;
   const totalPages = Math.ceil(blogInfo.count / 12);
-  console.log(totalPages)
 
-  // return (<>1</>)
-
-
-  // const messageArea = useRef<HTMLDivElement>(null)
-
-  // const baseURL = `/${lang}/blog/`
 
 
   return (
