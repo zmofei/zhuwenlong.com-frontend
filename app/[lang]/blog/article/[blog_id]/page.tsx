@@ -1,7 +1,7 @@
 // "use client"
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { fetchBlogContent } from '@/app/actions/blog-server'
+import { fetchBlogContent, fetchBlogRecommend } from '@/app/actions/blog-server'
 import Foot from '@/components/Common/Foot';
 import Comments from '@/components/Comments/Comments';
 import Recommend from './recommends';
@@ -14,7 +14,9 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   const lang = (await params).lang
   const blog_id = (await params).blog_id
 
-  const blog = await fetchBlogContent(blog_id, lang)
+  const [blog] = await Promise.all([
+    fetchBlogContent(blog_id, lang),
+  ])
 
   return {
     title: `${blog.title} | ${lang === 'zh' ? '你好我是Mofei' : 'Hi! I am Mofei!'}`,
@@ -32,7 +34,10 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 export default async function Home({ params }: { params: Promise<{ lang: 'zh' | 'en', blog_id: string }> }) {
   const lang = (await params).lang
   const blog_id = (await params).blog_id
-  const blog = await fetchBlogContent(blog_id, lang)
+  const [blog, blogRecommend] = await Promise.all([
+    fetchBlogContent(blog_id, lang),
+    fetchBlogRecommend(blog_id, lang)
+  ])
 
 
   const jsonLdData = {
@@ -87,7 +92,7 @@ export default async function Home({ params }: { params: Promise<{ lang: 'zh' | 
       <PageContent params={{ content: blog, lang, blog_id }} />
 
       {/* Recommend blogs */}
-      <Recommend links={blog.links} />
+      <Recommend blogRecommend={blogRecommend} />
 
       {/* Comments */}
       <BlogComments lang={lang} message_id={blog_id} />
