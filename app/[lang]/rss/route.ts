@@ -5,7 +5,7 @@ export async function GET(request: Request,
 
     const lang = (await params).lang
 
-    const URL = `https://www.mofei.life/api/blog/list/1?lang=${lang}&pagesize=20&html=1`;
+    const URL = `https://api.mofei.life/api/blog/list/1?lang=${lang}&pagesize=20&withHTML=1`;
     const blogsRst = await fetch(URL)
     const blogs = await blogsRst.json()
 
@@ -25,7 +25,7 @@ export async function GET(request: Request,
 
     const feed = new RSS(feedOptions);
 
-    blogs.data.forEach((blog: any) => {
+    blogs.list.forEach((blog: any) => {
         feed.item({
             title: blog.title,
             description: blog.html,

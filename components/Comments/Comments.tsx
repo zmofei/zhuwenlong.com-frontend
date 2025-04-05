@@ -51,6 +51,7 @@ export default function Comments(params: any) {
     const [website, setWebsite] = useState('')
     const [freshId, setFreshId] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
+    const [isPosting, setIsPosting] = useState(false)
 
     useEffect(() => {
         const email = localStorage.getItem('email') || ''
@@ -118,6 +119,10 @@ export default function Comments(params: any) {
 
     const handleSubmit = () => {
         console.log('messageInput', messageInput)
+        if (isPosting) {
+            return
+        }
+        setIsPosting(true)
 
 
         postMessage(message_id, {
@@ -135,6 +140,8 @@ export default function Comments(params: any) {
                 setFreshId(freshId + 1)
                 setMessagePage(1)
             }
+            setIsPosting(false)
+            setMessageInput('')
         })
 
     }

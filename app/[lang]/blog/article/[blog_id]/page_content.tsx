@@ -47,20 +47,22 @@ export default function PageContent({ params }: { params: { content: any, lang: 
                 <span className="inline-block text-xl align-middle">THE END</span>
             </div>
         </div>
-        {/* previous */}
 
-        {(blog.previous || blog.next) && <div
+        {/* previousArticle */}
+        {(blog.previousArticle?._id || blog.nextArticle?._id) && <div
             className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 mt-4  text-base md:text-lg custom-paragraph border-t border-b border-gray-800 py-4 leading-loose"
         >
-            {blog.previous && (
-                <div className="text-left whitespace-nowrap text-ellipsis overflow-hidden" title={blog.previous.title}>
-                    <ChevronLeftIcon className="size-4 md:inline-block hidden" /> <span>{lang == 'zh' ? '上一篇：' : 'Previous: '}</span><Link href={`/${lang}/blog/article/${blog.previous._id}`}>{blog.previous?.title}</Link>
+            {blog.previousArticle?._id && (
+                <div className="text-left whitespace-nowrap text-ellipsis overflow-hidden" title={blog.previousArticle.title}>
+                    <ChevronLeftIcon className="size-4 md:inline-block hidden" /> <span>{lang == 'zh' ? '上一篇：' : 'Previous: '}</span>
+                    <Link href={`/${lang}/blog/article/${blog.previousArticle._id}`}>{blog.previousArticle?.title}</Link>
                 </div>
             )}
-            {/* next */}
-            {blog.next && (
-                <div className="text-left md:text-right   whitespace-nowrap text-ellipsis overflow-hidden relative pr-3" title={blog.next.title}>
-                    <span>{lang == 'zh' ? '下一篇：' : 'Next: '}</span><Link href={`/${lang}/blog/article/${blog.next._id}`}>{blog.next?.title}</Link> <ChevronRightIcon className="size-4 absolute right-0 top-1 mt-1  md:inline-block hidden" />
+            {/* nextArticle */}
+            {blog.nextArticle?._id && (
+                <div className="text-left md:text-right   whitespace-nowrap text-ellipsis overflow-hidden relative pr-3" title={blog.nextArticle.title}>
+                    <span>{lang == 'zh' ? '下一篇：' : 'Next: '}</span><Link href={`/${lang}/blog/article/${blog.nextArticle._id}`}>{blog.nextArticle?.title}</Link>
+                    <ChevronRightIcon className="size-4 absolute right-0 top-1 mt-1  md:inline-block hidden" />
                 </div>
             )}
         </div>}

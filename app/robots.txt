@@ -1,6 +1,5 @@
 User-Agent: *
 Sitemap: https://www.mofei.life/sitemap.xml
-Disallow: /blog/
 Disallow: /api/
 Disallow: /tag/
 Disallow: /*?p=
